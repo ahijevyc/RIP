@@ -1,2 +1,0 @@
-      dimension vc2d(1000,250), prs2d(1000,250)
-      common /vctran/ nscross,mkzhcross,ivcs,vc2d,prs2d
