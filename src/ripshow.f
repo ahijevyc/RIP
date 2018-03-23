@@ -5,7 +5,7 @@ c                                                                      c
 c   This program reads in a rip data file and prints out the contents  c
 c   of the header record.                                              c
 c
-      parameter (miymax=1500,mjxmax=3000,mkzhmax=100)
+      parameter (miymax=200,mjxmax=300,mkzhmax=55)
       dimension arr(miymax,mjxmax,mkzhmax),ii(5),jj(5),kk(5)
       character argum(16)*256,fname*256
 c

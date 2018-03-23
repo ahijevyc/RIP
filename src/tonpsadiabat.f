@@ -15,7 +15,7 @@ c     If it is, assume parcel is so dry that the given theta-e value can
 c     be interpretted as theta, and get temperature from the simple dry
 c     theta formula.
 c
-      if (prs.le.psadiprs(150)) then
+      if (prs.lt.psadiprs(150)) then
          tonpsadiabat=thte*(prs/1000.)**gamma
          return
       endif

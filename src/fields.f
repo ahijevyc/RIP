@@ -1,18 +1,106 @@
-c                                                                     c
+c       STEP analysis fields.f
+c	Added variations to the feld name for vertical 
+c	wind shear.
+c
+c	ushxMMMNNN and vshxMMMNNN
+c
+c	The 4th character indicates the vertical 
+c	coordinate system used in the 
+c	6-digit level specification MMMNNN.
+c	The character in the 'x' position   
+c	follows the naming convention of
+c	vcor, with an additional option 
+c	'a' representing height 
+c	above ground level (AGL). 
+c
+c	For the u-component of the vertical shear, 
+c	the first 3 characters of feld are 'ush'.
+c	Similarly, for the v-component of shear, 
+c	the first 3 characters of feld are 'vsh'.
+c
+c
+c	Examples:
+c	
+c	usha005030 = u-component of wind shear
+c			from 0.5 to 3 km AGL 
+c	ushz010060 = u-component of wind shear
+c			from 1 to 6 km MSL
+c       mshz010060 = magnitude of wind shear
+c                       from 1 to 6 km MSL
+c	vshp085070 = v-component of wind shear
+c			from 850 to 700mb
+c
+c	As seen in the examples, 
+c	heights (AGL and MSL) are specified
+c	in hectometers, pressures in kPa,  
+c	and sigma levels in index values.
+c
+c
+c
+c
+c
+c	Added to argument list for subroutine wshear.
+c
+c	cvcorunits	: CHARACTER*16
+c			string (16 char max) holding
+c			units of the
+c			vertical coordinate system used 
+c			in the wind shear
+c			layer specification.
+c
+c	Added variable cvcorunits to the character
+c	declaration section.
+c
+c	Changed the vertical coordinate argument to
+c	subroutine wshear from a 4-character
+c	to 1-character variable.
+c
+c 
+c	20011211
+c
+c	I allowed different vertical
+c	coordinates for the vertical wind shear calculation.
+c	Therefore I added another argument to the end of the
+c	argument list for subroutine wshear.
+c	This is a character indicating the
+c	vertical coordinate system used to request
+c	the wind shear layer.
+c
+c	Current choices:
+c		'a' = height (m AGL)
+c		'z' = geopotential height (m MSL)
+c		'p' = pressure (mb or hPa)
+c
+c	Changed z1 and z2 to vlev_bot vlev_top so they
+c	are more generic names (z usually implies
+c	geopotential height).
+c
+c
+c
+c	Added to large ELSE-IF block to accommodate
+c	requests for wind shear stuff.
+c	Allowed the bottom and top levels to be requested the
+c	same way as for thickness calculations.
+c
+c	One difference, however, is that the levels may be 
+c	requested in different units.
+c
+c
+c      
+c
 c*********************************************************************c
 c                                                                     c
       subroutine fields(cfeld,wk,indwk,icdwk,rlevl,rlavl,unwk,
      &   uuu,vvv,tmk,qvp,prs,ght,www,sfp,sfpsm,dmap,xmap,ter,
      &   cor,unorth,vnorth,rstmv,rrfst,pslab1,pslab2,
      &   incwk,ipl,iplstrt,idimn,rcrag,ismcp,
-     &   rcrbg,cptyp,mdate,rhour,ydist,
-     &   xdist,xseclen,nscrs,raddf,csave,lredo,ihrip,rhrip,rsepa,
+     &   rcrbg,cptyp,mdate,lverf,ydist,xdist,xseclen,
+     &   nscrs,raddf,csave,lredo,ihrip,rhrip,rsepa,
      &   chrip,vardesc,lgrad,llapl,lhadv,
      &   igdir,iqgsm,plchun,casename,iendc,engplttl,ctjfl,rtjst,
-     &   rtjen,cdiff,rdiff,iovly,ldfrl,xtime,tacch,ccalb,
+     &   rtjen,cdiff,rdiff,ldfrl,xtime,tacch,
      &   xtimeavl,cxtimeavl,ncxc,maxtavl,nxtavl,nxt,ldiffsuccess,
-     &   rip_root,maxslab,maxlev,maxpl,miy,mjx,mkzh,mabpl,morpl,
-     &   istopmiss,ixwin,iywin)
+     &   maxslab,maxlev,maxpl,miy,mjx,mkzh,mabpl,morpl)
 c
 c   Compute fields to plot. When adding a new field, the first call to
 c   getpt must be for the output field (pl2 or pl3), then call getpt
@@ -31,19 +119,17 @@ c
      &   idimn(maxpl),igdir(maxpl),rsepa(32,maxpl),
      &   rlevl(maxlev,maxpl),rlavl(maxlev,maxpl),rrfst(4,maxpl),
      &   raddf(maxpl),ismcp(maxpl),iqgsm(maxpl),
-     &   rtjst(maxpl),rtjen(maxpl),rdiff(maxpl),iovly(maxpl),
+     &   rtjst(maxpl),rtjen(maxpl),rdiff(maxpl),
      &   xtimeavl(maxtavl),xtimeavl_sv(maxtavl)
 c
       character cfeld(3,maxpl)*10,cptyp(maxpl)*2,
      &   csave(maxpl)*10,ctjfl(maxpl)*256,engplttl(maxpl)*36,
      &   cdiff(maxpl)*256,unwk(maxpl)*24,varname*10,
-     &   casename*256,cxtimeavl(maxtavl)*10,ccalb(maxpl)*256,
-     &   casename_sv*256,cxtimeavl_sv(maxtavl)*10,rip_root*256
-      logical lredo(maxpl),lgrad(maxpl),
+     &   casename*256,cxtimeavl(maxtavl)*10,
+     &   casename_sv*256,cxtimeavl_sv(maxtavl)*10,
+     &   cvcorunits*16
+      logical lverf(maxpl),lredo(maxpl),lgrad(maxpl),
      &   llapl(maxpl),lhadv(maxpl),ldfrl(maxpl),ldiffsuccess
-      dimension uscratch(1000),vscratch(1000)
-      dimension calb(1000)
-      dimension ixwin(2,maxpl),iywin(2,maxpl)
 c
 c   RIP header variables
 c
@@ -153,6 +239,8 @@ c
          call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,
      &      ncxc,cfeld(ifld,ipl),miy,mjx,mkzh,maxtavl,2,
      &      0,pl2,istat)
+        write(18)pl2
+      write(6,*)'In fields.f and writing ',cfeld(ifld,ipl)(1:4)  
       elseif (ndim.eq.3) then
          call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
          call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,
@@ -384,19 +472,11 @@ c                                                   ! hydroms., K (or deg C)
             enddo
             enddo
          else
-            istat = -1
-            if ( xtime .gt. 0.) then    ! Check if we have Q2
-              call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'Q2        ',miy,mjx,mkzh,maxtavl,2,0,
-     &        scr2a,istat)
-            endif
-            if ( istat .lt. 0 ) then
-              do j = 1, mjx-1
-              do i = 1, miy-1
-                 scr2a(i,j)=qvp(i,j,mkzh)
-              enddo
-              enddo
-            endif
+            do j = 1, mjx-1
+            do i = 1, miy-1
+               scr2a(i,j)=qvp(i,j,mkzh)
+            enddo
+            enddo
          endif
          call tdpcalc(scr2a,sfp,pl2,miy,mjx,1)
          unwk(ipl)='~S~o~N~C'
@@ -464,9 +544,6 @@ c                                                   ! hydroms., K (or deg C)
          call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
      &        'qra       ',miy,mjx,mkzh,maxtavl,3,1,pl3,
      &        istat)
-         if (iqgsm(ipl).ne.0)
-     &      call smoothrain(pl3,miy,mjx,mkzh,pslab1,pslab2,
-     &         mabpl,morpl,iqgsm(ipl))
          if (iice.eq.0.and.cfeld(ifld,ipl)(4:4).ne.'b') then
             do k=1,mkzh
             do j=1,mjx-1
@@ -561,9 +638,6 @@ c                                                   ! hydroms., K (or deg C)
          call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
      &        'qra       ',miy,mjx,mkzh,maxtavl,3,1,pl3,
      &        istat)
-         if (iqgsm(ipl).ne.0)
-     &      call smoothrain(pl3,miy,mjx,mkzh,pslab1,pslab2,
-     &         mabpl,morpl,iqgsm(ipl))
          if (iice.eq.1) then
             call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
             call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
@@ -627,225 +701,44 @@ c                                                   ! hydroms., K (or deg C)
          icdwk(ipl)=1
          engplttl(ipl)='Frozen precipitation fraction'
          unwk(ipl)='%'
-      elseif (cfeld(ifld,ipl)(1:8).eq.'pr_stand') then! prcp rate (stand), mm/h
-         wfac=1.
-         if (cfeld(ifld,ipl)(9:9).eq.'p') wfac=0.
+
+c
+c    compute max reflectivity in a column: GT, 31 Oct 2007
+c    using explicit REFL_10CM variable instead of external subroutine.
+c
+      elseif (cfeld(ifld,ipl)(1:4).eq.'dbzc') then
          call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
-                   call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
-                   call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
-                   call getpt(miy,mjx,mkzh,ifree,3,i_scr3c,wk,maxslab)
-            call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &           'qgr       ',miy,mjx,mkzh,maxtavl,3,1,
-     &           scr3a,istat)
-            call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &           'qra       ',miy,mjx,mkzh,maxtavl,3,1,
-     &           scr3b,istat) 
-            if (iqgsm(ipl).ne.0)
-     &         call smoothrain(scr3b,miy,mjx,mkzh,pslab1,pslab2,
-     &            mabpl,morpl,iqgsm(ipl))
-            call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &           'qsn       ',miy,mjx,mkzh,maxtavl,3,1,
-     &           scr3c,istat)      
-         do k=1,mkzh
-         do j=1,mjx-1
-         do i=1,miy-1
-            pl3(i,j,k)=(3.6*((prs(i,j,k)*100./
-c                      mm/h
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))*scr3a(i,j,k))*
-     &         (((100.*19.3*(((1.18452108874)/((prs(i,j,k)*100./
-c                      a_fall_g    rho_0                              
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))))**0.5)
-c                                                        exp for dens corr fac
-     &         *9.7309*(1./6.)*((((prs(i,j,k)*100./
-c          gamma(4+b_fall_g) 
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))*0.001*
-     &         scr3a(i,j,k))/(PI*400.*amax1(1.0E4,amin1(4.0E6,
-c                                rho_g          
-     &         (2.38*(PI*400/((prs(i,j,k)*100./(rgas*
-     &         virtual(tmk(i,j,k),qvp(i,j,k))))*
-     &         scr3a(i,j,k)))**0.92)))))**0.0925))
-c               3 lines above are N_0_g     b_fall_g*.25              
-     &         -(wfac*www(i,j,k)))/100.))+
-c
-     &         (3.6*((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))*scr3b(i,j,k))*
-     &         (((100.*842.*(((1.18452108874)/((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))))**0.5)
-     &         *17.8379*(1./6.)*((((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))*0.001*
-     &         scr3b(i,j,k))/(PI*1000.*(4.9E8*tanh((.0002-
-     &         (scr3b(i,j,k)*.001))/1.E-4)+5.1E8)))**0.20))
-     &         -(wfac*www(i,j,k)))/100.))+
-c
-     &         (3.6*((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))*scr3c(i,j,k))*
-     &         (((11.72*100.*(((1.18452108874)/((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))))**0.5)
-     &         *10.2754*(1./6.)*((((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))*.001*
-     &         scr3c(i,j,k))/(PI*100.*(amin1(2.0E8,2.0E6*exp(-0.12*
-     &         (tmk(i,j,k)-273.15))))))**0.1025))
-     &         -(wfac*www(i,j,k)))/100.))
-         enddo
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Precip rate (standard)'
-         unwk(ipl)='mm h~S~-1~N~'
-      elseif (cfeld(ifld,ipl)(1:8).eq.'pr_coldt') then! prcp rate (coldt), mm/h
-         wfac=1.
-         if (cfeld(ifld,ipl)(9:9).eq.'p') wfac=0.
-         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
-                   call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
-                   call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
-                   call getpt(miy,mjx,mkzh,ifree,3,i_scr3c,wk,maxslab)
-            call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &           'qgr       ',miy,mjx,mkzh,maxtavl,3,1,
-     &           scr3a,istat)
-            call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &           'qra       ',miy,mjx,mkzh,maxtavl,3,1,
-     &           scr3b,istat) 
-            if (iqgsm(ipl).ne.0)
-     &         call smoothrain(scr3b,miy,mjx,mkzh,pslab1,pslab2,
-     &            mabpl,morpl,iqgsm(ipl))
-            call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &           'qsn       ',miy,mjx,mkzh,maxtavl,3,1,
-     &           scr3c,istat)      
-         do k=1,mkzh
-         do j=1,mjx-1
-         do i=1,miy-1
-            pl3(i,j,k)=(3.6*((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))*scr3a(i,j,k))*
-     &         (((100.*19.3*(((1.13571616794)/((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))))**0.33333)
-     &         *9.7309*(1./6.)*((((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))*0.001*
-     &         scr3a(i,j,k))/(PI*400.*amax1(1.0E4,amin1(4.0E6,
-     &         (2.38*(PI*400/((prs(i,j,k)*100./(rgas*
-     &         virtual(tmk(i,j,k),qvp(i,j,k))))*
-     &         scr3a(i,j,k)))**0.92)))))**0.0925))
-     &         -(wfac*www(i,j,k)))/100.))+
-     &         (3.6*((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))*scr3b(i,j,k))*
-     &         (((100.*842.*(((1.20443751401)/((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))))**0.4)
-     &         *17.8379*(1./6.)*((((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))*0.001*
-     &         scr3b(i,j,k))/(PI*1000.*(4.9E8*tanh((.0002-
-     &         (scr3b(i,j,k)*.001))/1.E-4)+5.1E8)))**0.20))
-     &         -(wfac*www(i,j,k)))/100.))+
-     &         (3.6*((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))*scr3c(i,j,k))*
-     &         (((11.72*100.*(((1.13571616794)/((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))))**0.33333)
-     &         *2.7114*(1./1.8274)*((((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))*.001*
-     &         scr3c(i,j,k))/(0.01854*1.8274
-     &         *(amin1(2.0E8,2.0E6*exp(-0.12*
-     &         (tmk(i,j,k)-273.15))))))**(.41/2.9)))
-     &         -(wfac*www(i,j,k)))/100.))
-         enddo
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Precip rate (cold-type)'
-         unwk(ipl)='mm h~S~-1~N~'
-      elseif (cfeld(ifld,ipl)(1:8).eq.'pr_dendr') then! prcp rate (dendr), mm/h
-         wfac=1.
-         if (cfeld(ifld,ipl)(9:9).eq.'p') wfac=0.
-         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
-                   call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
-                   call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
-                   call getpt(miy,mjx,mkzh,ifree,3,i_scr3c,wk,maxslab)
-            call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &           'qgr       ',miy,mjx,mkzh,maxtavl,3,1,
-     &           scr3a,istat)
-            call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &           'qra       ',miy,mjx,mkzh,maxtavl,3,1,
-     &           scr3b,istat) 
-            if (iqgsm(ipl).ne.0)
-     &         call smoothrain(scr3b,miy,mjx,mkzh,pslab1,pslab2,
-     &            mabpl,morpl,iqgsm(ipl))
-            call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &           'qsn       ',miy,mjx,mkzh,maxtavl,3,1,
-     &           scr3c,istat)      
-         do k=1,mkzh
-         do j=1,mjx-1
-         do i=1,miy-1
-            pl3(i,j,k)=(3.6*((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))*scr3a(i,j,k))*
-     &         (((100.*19.3*(((1.13571616794)/((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))))**0.33333)
-     &         *9.7309*(1./6.)*((((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))*0.001*
-     &         scr3a(i,j,k))/(PI*400.*amax1(1.0E4,amin1(4.0E6,
-     &         (2.38*(PI*400/((prs(i,j,k)*100./(rgas*
-     &         virtual(tmk(i,j,k),qvp(i,j,k))))*
-     &         scr3a(i,j,k)))**0.92)))))**0.0925))
-     &         -(wfac*www(i,j,k)))/100.))+
-     &         (3.6*((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))*scr3b(i,j,k))*
-     &         (((100.*842.*(((1.20443751401)/((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))))**0.4)
-     &         *17.8379*(1./6.)*((((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))*0.001*
-     &         scr3b(i,j,k))/(PI*1000.*(4.9E8*tanh((.0002-
-     &         (scr3b(i,j,k)*.001))/1.E-4)+5.1E8)))**0.20))
-     &         -(wfac*www(i,j,k)))/100.))+
-     &         (3.6*((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))*scr3c(i,j,k))*
-     &         (((1.68*100.*(((1.13571616794)/((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))))**0.33333)
-     &         *3.0036*(1./2.3999)*((((prs(i,j,k)*100./
-     &         (rgas*virtual(tmk(i,j,k),qvp(i,j,k))))*.001*
-     &         scr3c(i,j,k))/(0.05239*2.3999
-     &         *(amin1(2.0E8,2.0E6*exp(-0.12*
-     &         (tmk(i,j,k)-273.15))))))**(.217/3.19)))
-     &         -(wfac*www(i,j,k)))/100.))
-         enddo
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Precip rate (dendrite)'
-         unwk(ipl)='mm h~S~-1~N~'
-c
-c KWM -- Max reflectivity from REFL_10CM field
-c
-      elseif (cfeld(ifld,ipl)(1:9).eq.'maxrefl10') then
-         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
          call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
      &        'REFL_10CM ',miy,mjx,mkzh,maxtavl,3,1,
-     &           scr3b,istat)
+     &        pl3,istat)
          refmax = -30.
-         refmin = 100.
+         refmin = 5.
          do j=1,mjx-1
          do i=1,miy-1
             pl2(i,j) = -30.
             do k=1,mkzh
-               pl2(i,j) = max(pl2(i,j),scr3b(i,j,k))
+               pl2(i,j) = max(pl2(i,j),pl3(i,j,k))
             enddo
             if (pl2(i,j).gt.refmax) refmax = pl2(i,j)
             if (pl2(i,j).lt.refmin) refmin = pl2(i,j)
          enddo
          enddo
+         print *,' column-max minref,maxref  = ', refmin,refmax
          idimn(ipl)=2
          indwk(ifld,ipl)=incwk
          icdwk(ipl)=1
-         engplttl(ipl)='maxdbz_refl_10cm'
-         unwk(ipl)='dBz'
+         engplttl(ipl)='Max Reflectivity'
+         unwk(ipl)='dBZ'
+
 c
 c    compute max reflectivity in a column: WW, April 29, 2005
 c
       elseif (cfeld(ifld,ipl)(1:6).eq.'maxdbz') then!max reflectivity, dBZ
          call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
+         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3c,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3d,wk,maxslab)
          call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
      &        'qra       ',miy,mjx,mkzh,maxtavl,3,1,scr3a,
      &        istat)
@@ -856,7 +749,6 @@ c
             call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
      &           'qgr       ',miy,mjx,mkzh,maxtavl,3,0,
      &           scr3c,istat)
-            if (istat.eq.-1) call fillarray(scr3c,miy*mjx*mkzh,0.)
          else
             do k=1,mkzh
             do j=1,mjx-1
@@ -879,62 +771,41 @@ c
          enddo
          enddo
          enddo
-         if (cfeld(ifld,ipl)(7:10).eq.'    ') then
-            in0r=0
-            in0s=0
-            in0g=0
-            iliqskin=0
-            engplttl(ipl)='Max Reflectivity'
-         else
-            read(cfeld(ifld,ipl)(7:7),'(i1)') in0r
-            read(cfeld(ifld,ipl)(8:8),'(i1)') in0s
-            read(cfeld(ifld,ipl)(9:9),'(i1)') in0g
-            read(cfeld(ifld,ipl)(10:10),'(i1)') iliqskin
-          engplttl(ipl)='Max Reflectivity ('//cfeld(ifld,ipl)(7:10)//')'
-         endif
-         call dbzcalc(qvp,scr3a,scr3b,scr3c,tmk,prs,scr3d,miy,mjx,mkzh,
-     &      in0r,in0s,in0g,iliqskin)
+         ivarint=1
+         if (cfeld(ifld,ipl)(7:7).eq.'c') ivarint=0
+C        call dbzcalc(qvp,scr3a,scr3b,scr3c,tmk,prs,pl3,miy,mjx,mkzh,
+C    &      ivarint)
+C..Altered by Greg Thompson (passing in density instead of computing internally).
+         call getpt(miy,mjx,mkzh,ifree,3,i_scr3d,wk,maxslab)
+         call getpt(miy,mjx,mkzh,ifree,3,i_scr3e,wk,maxslab)
+         do k = 1, mkzh 
+            do j = 1, mjx-1
+               do i = 1, miy-1
+                  scr3e(i,j,k) = prs(i,j,k)*100./
+     &                    (rgas*virtual(tmk(i,j,k),qvp(i,j,k)))
+               enddo
+            enddo
+         enddo
+         call dbzcalc(scr3a,scr3b,scr3c,tmk,scr3e,scr3d,miy,mjx,mkzh,
+     &      8.e6,2.e6,2.e6,ivarint)
          refmax = -30.
-         refmin = 100.
+         refmin = 5.
          do j=1,mjx-1
          do i=1,miy-1
             pl2(i,j) = -30.
             do k=1,mkzh
-               pl2(i,j) = max(pl2(i,j),scr3d(i,j,k))
+               pl3(i,j,k) = scr3d(i,j,k)
+               pl2(i,j) = max(pl2(i,j),pl3(i,j,k))
             enddo
             if (pl2(i,j).gt.refmax) refmax = pl2(i,j)
             if (pl2(i,j).lt.refmin) refmin = pl2(i,j)
          enddo
          enddo
+         print *,' column-max minref,maxref  = ', refmin,refmax
          idimn(ipl)=2
          indwk(ifld,ipl)=incwk
          icdwk(ipl)=1
-         unwk(ipl)='dBZ'
-c
-c    compute max ferrier reflectivity in a column
-c
-      elseif (cfeld(ifld,ipl)(1:6).eq.'maxdbf') then!max ferrier refl, dBZ
-         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
-         call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'dbz_fer   ',miy,mjx,mkzh,maxtavl,3,1,scr3a,
-     &        istat)
-         refmax = -30.
-         refmin = 100.
-         do j=1,mjx-1
-         do i=1,miy-1
-            pl2(i,j) = -30.
-            do k=1,mkzh
-               pl2(i,j) = max(pl2(i,j),scr3a(i,j,k))
-            enddo
-            if (pl2(i,j).gt.refmax) refmax = pl2(i,j)
-            if (pl2(i,j).lt.refmin) refmin = pl2(i,j)
-         enddo
-         enddo
-         idimn(ipl)=2
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Max Refl (Ferrier)'
+         engplttl(ipl)='Max Reflectivity'
          unwk(ipl)='dBZ'
       elseif (cfeld(ifld,ipl)(1:3).eq.'dbz') then   ! reflectivity, dBZ
          call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
@@ -951,7 +822,6 @@ c
             call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
      &           'qgr       ',miy,mjx,mkzh,maxtavl,3,0,
      &           scr3c,istat)
-            if (istat.eq.-1) call fillarray(scr3c,miy*mjx*mkzh,0.)
          else
             do k=1,mkzh
             do j=1,mjx-1
@@ -974,23 +844,39 @@ c
          enddo
          enddo
          enddo
-         if (cfeld(ifld,ipl)(4:7).eq.'    ') then
-            in0r=0
-            in0s=0
-            in0g=0
-            iliqskin=0
-            engplttl(ipl)='Reflectivity'
-         else
-            read(cfeld(ifld,ipl)(4:4),'(i1)') in0r
-            read(cfeld(ifld,ipl)(5:5),'(i1)') in0s
-            read(cfeld(ifld,ipl)(6:6),'(i1)') in0g
-            read(cfeld(ifld,ipl)(7:7),'(i1)') iliqskin
-          engplttl(ipl)='Reflectivity ('//cfeld(ifld,ipl)(4:7)//')'
-         endif
-         call dbzcalc(qvp,scr3a,scr3b,scr3c,tmk,prs,pl3,miy,mjx,mkzh,
-     &      in0r,in0s,in0g,iliqskin)
+         ivarint=1
+         if (cfeld(ifld,ipl)(4:4).eq.'c') ivarint=0
+C        call dbzcalc(qvp,scr3a,scr3b,scr3c,tmk,prs,pl3,miy,mjx,mkzh,
+C    &      ivarint)
+C..Altered by Greg Thompson (passing in density instead of computing internally).
+         call getpt(miy,mjx,mkzh,ifree,3,i_scr3d,wk,maxslab)
+         call getpt(miy,mjx,mkzh,ifree,3,i_scr3e,wk,maxslab)
+         do k = 1, mkzh 
+            do j = 1, mjx-1
+               do i = 1, miy-1
+                  scr3e(i,j,k) = prs(i,j,k)*100./
+     &                    (rgas*virtual(tmk(i,j,k),qvp(i,j,k)))
+               enddo
+            enddo
+         enddo
+         call dbzcalc(scr3a,scr3b,scr3c,tmk,scr3e,scr3d,miy,mjx,mkzh,
+     &      8.e6,2.e6,2.e6,ivarint)
+         refmax = -30.
+         refmin = 5.
+         do j=1,mjx-1
+         do i=1,miy-1
+            do k=1,mkzh
+               pl3(i,j,k) = -30.
+               pl3(i,j,k) = max(pl3(i,j,k),scr3d(i,j,k))
+               if (pl3(i,j,k).gt.refmax) refmax = pl3(i,j,k)
+               if (pl3(i,j,k).lt.refmin) refmin = pl3(i,j,k)
+            enddo
+         enddo
+         enddo
+         print *,' 3D minref,maxref  = ', refmin,refmax
          indwk(ifld,ipl)=incwk
          icdwk(ipl)=1
+         engplttl(ipl)='Reflectivity'
          unwk(ipl)='dBZ'
       elseif (cfeld(ifld,ipl)(1:5).eq.'pcpwv'.or.  ! precip'bl water (vapor), mm
      &        cfeld(ifld,ipl)(1:5).eq.'pcptw'.or. ! precip'bl water (vap+hydrometeors), mm
@@ -1319,525 +1205,6 @@ c
          icdwk(ipl)=1
          engplttl(ipl)='Potential temperature'
          unwk(ipl)='K'
-      elseif (cfeld(ifld,ipl)(1:8).eq.'refmos3 ') then ! obs 3D refl mosaic, dbz
-         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
-c
-c        ctjfl holds the file name of the 3D mosaic data
-c
-         nxmos=1201
-c         nymos=1001    ! tile 3
-         nymos=501     ! tile5
-         nzmos=21
-         call refmos3calc(ctjfl(ipl),pl3,ght,miy,mjx,mkzh,
-     &      nxmos,nymos,nzmos,1)
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Observed 3D reflectivity mosaic'
-         unwk(ipl)='dBZ'
-      elseif (cfeld(ifld,ipl)(1:10).eq.'refmos3mx ') then ! obs 3Dmx refl mosaic, dbz
-         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
-c
-c        ctjfl holds the file name of the 3D mosaic data
-c
-         nxmos=1201
-         nymos=1001
-c         nymos=501
-         nzmos=21
-         call refmos3calc(ctjfl(ipl),scr3a,ght,miy,mjx,mkzh,
-     &      nxmos,nymos,nzmos,2)
-         do j=1,mjx-1
-         do i=1,miy-1
-            pl2(i,j)=scr3a(i,j,1)
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Observed 3Dmx reflectivity mosaic'
-         unwk(ipl)='dBZ'
-         idimn(ipl)=2
-      elseif (cfeld(ifld,ipl)(1:7).eq.'refmos2') then ! obs 2D refl mosaic, dbz
-         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
-c
-c        ctjfl holds the file name of the 3D mosaic data
-c
-         nxmos=1201
-         nymos=1001
-         read(cfeld(ifld,ipl)(8:8),'(i1)') ichoice
-         call refmos2calc(ctjfl(ipl),pl2,miy,mjx,nxmos,nymos,ichoice)
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Observed 2D refl mosaic (ch  )'
-         write(engplttl(ipl)(29:29),'(i1)') ichoice
-         unwk(ipl)='dBZ'
-         idimn(ipl)=2
-      elseif (cfeld(ifld,ipl)(1:8).eq.'profuuu '.or.   ! profiler vel
-     &        cfeld(ifld,ipl)(1:8).eq.'profvvv ') then ! comps, m/s
-         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
-c
-c        ctjfl holds the file name of the profiler data
-c        pl3 will hold the u or v field
-c        rsepa(1,ipl) holds the assumed storm motion direction (deg. compass)
-c        rsepa(2,ipl) holds the assumed storm speed (m/s)
-c
-         cosa=xdist/xseclen
-         sina=ydist/xseclen
-         call profvelcalc(cfeld(ifld,ipl)(5:5),ctjfl(ipl),mdate,rhour,
-     &      xtime,cosa,sina,rsepa(1,ipl),rip_root,
-     &      unorth,vnorth,ght,pl3,miy,mjx,mkzh)
-c
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=0
-         if (cfeld(ifld,ipl)(5:5).eq.'u') then
-            engplttl(ipl)='Profiler wind (x-comp.)'
-         elseif (cfeld(ifld,ipl)(5:5).eq.'v') then
-            engplttl(ipl)='Profiler wind (y-comp.)'
-         endif
-         unwk(ipl)='m s~S~-1~N~'
-      elseif (cfeld(ifld,ipl)(1:7).eq.'tgradx ') then ! grad(T) (x-comp) K/100km
-         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,2,i_scr2a,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,2,i_scr2b,wk,maxslab)
-         call derivc(tmk,1,prs,xmap,dmap,qvp,tmk,
-     &      scr2a,scr2b,pl3,1,'x',miy,mjx,mkzh)
-         do j=1,mjx-1
-         do i=1,miy-1
-         do k=1,mkzh
-            pl3(i,j,k)=pl3(i,j,k)*1e5  ! convert from K/m to K/100km
-         enddo
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Temp. grad. (x-comp.)'
-         unwk(ipl)='K (100 km)~S~-1~N~'
-      elseif (cfeld(ifld,ipl)(1:7).eq.'tgrady ') then ! grad(T) (y-comp) K/100km
-         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,2,i_scr2a,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,2,i_scr2b,wk,maxslab)
-         call derivc(tmk,1,prs,xmap,dmap,qvp,tmk,
-     &      scr2a,scr2b,pl3,1,'y',miy,mjx,mkzh)
-         do j=1,mjx-1
-         do i=1,miy-1
-         do k=1,mkzh
-            pl3(i,j,k)=pl3(i,j,k)*1e5  ! convert from K/m to K/100km
-         enddo
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Temp. grad. (y-comp.)'
-         unwk(ipl)='K (100 km)~S~-1~N~'
-      elseif (cfeld(ifld,ipl)(1:7).eq.'tgradm ') then ! grad(T) (mag) K/100km
-         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,2,i_scr2a,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,2,i_scr2b,wk,maxslab)
-         call derivc(tmk,1,prs,xmap,dmap,qvp,tmk,
-     &      scr2a,scr2b,pl3,1,'x',miy,mjx,mkzh)
-         call derivc(tmk,1,prs,xmap,dmap,qvp,tmk,
-     &      scr2a,scr2b,scr3a,1,'y',miy,mjx,mkzh)
-         do j=1,mjx-1
-         do i=1,miy-1
-         do k=1,mkzh
-            pl3(i,j,k)=1e5*sqrt(pl3(i,j,k)*pl3(i,j,k)+
-     &         scr3a(i,j,k)*scr3a(i,j,k)) ! compute mag, conv from K/m to K/100km
-         enddo
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Temp. grad. (mag.)'
-         unwk(ipl)='K (100 km)~S~-1~N~'
-      elseif (cfeld(ifld,ipl)(1:5).eq.'tadv ') then ! temp adv, K/day
-         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,2,i_scr2a,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,2,i_scr2b,wk,maxslab)
-         call derivc(tmk,1,prs,xmap,dmap,qvp,tmk,
-     &      scr2a,scr2b,pl3,1,'x',miy,mjx,mkzh)
-         call derivc(tmk,1,prs,xmap,dmap,qvp,tmk,
-     &      scr2a,scr2b,scr3a,1,'y',miy,mjx,mkzh)
-         do j=1,mjx-1
-         do i=1,miy-1
-         do k=1,mkzh
-            ucross=.25*(uuu(i,j,k)+uuu(i+1,j,k)+uuu(i,j+1,k)+
-     &                       uuu(i+1,j+1,k))
-            vcross=.25*(vvv(i,j,k)+vvv(i+1,j,k)+vvv(i,j+1,k)+
-     &                       vvv(i+1,j+1,k))
-            pl3(i,j,k)=-(ucross*pl3(i,j,k)+vcross*scr3a(i,j,k))
-     &         *86400.   ! convert from K/s to K/day
-         enddo
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Temp. adv.'
-         unwk(ipl)='K day~S~-1~N~'
-      elseif (cfeld(ifld,ipl)(1:8).eq.'tgradrx ') then ! retrieved
-c                                                      ! grad(T) (x-comp) K/100km
-         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
-         do j=1,mjx-1
-         do i=1,miy-1
-            do k=1,mkzh
-               vscratch(k)=.25*(vvv(i,j,k)+vvv(i+1,j,k)+vvv(i,j+1,k)+
-     &                          vvv(i+1,j+1,k))
-            enddo
-            do k=1,mkzh
-               kp1=min(mkzh,k+1)
-               km1=max(1,k-1)
-               pl3(i,j,k)=-1.e5*cor(i,j)*prs(i,j,k)/rgas*
-     &            (vscratch(kp1)-vscratch(km1))/
-     &            (prs(i,j,kp1)-prs(i,j,km1))
-            enddo
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Retr. temp. grad. (x-comp.)'
-         unwk(ipl)='K (100 km)~S~-1~N~'
-      elseif (cfeld(ifld,ipl)(1:8).eq.'tgradry ') then ! retrieved
-c                                                      ! grad(T) (y-comp) K/100km
-         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
-         do j=1,mjx-1
-         do i=1,miy-1
-            do k=1,mkzh
-               uscratch(k)=.25*(uuu(i,j,k)+uuu(i+1,j,k)+uuu(i,j+1,k)+
-     &                          uuu(i+1,j+1,k))
-            enddo
-            do k=1,mkzh
-               kp1=min(mkzh,k+1)
-               km1=max(1,k-1)
-               pl3(i,j,k)= 1.e5*cor(i,j)*prs(i,j,k)/rgas*
-     &            (uscratch(kp1)-uscratch(km1))/
-     &            (prs(i,j,kp1)-prs(i,j,km1))
-            enddo
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Retr. temp. grad. (y-comp.)'
-         unwk(ipl)='K (100 km)~S~-1~N~'
-      elseif (cfeld(ifld,ipl)(1:8).eq.'tgradrm ') then ! retrieved
-c                                                      ! grad(T) (mag) K/100km
-         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
-         do j=1,mjx-1
-         do i=1,miy-1
-            do k=1,mkzh
-               uscratch(k)=.25*(uuu(i,j,k)+uuu(i+1,j,k)+uuu(i,j+1,k)+
-     &                          uuu(i+1,j+1,k))
-               vscratch(k)=.25*(vvv(i,j,k)+vvv(i+1,j,k)+vvv(i,j+1,k)+
-     &                          vvv(i+1,j+1,k))
-            enddo
-            do k=1,mkzh
-               kp1=min(mkzh,k+1)
-               km1=max(1,k-1)
-               dprs=prs(i,j,kp1)-prs(i,j,km1)
-               ushear=(uscratch(kp1)-uscratch(km1))/dprs
-               vshear=(vscratch(kp1)-vscratch(km1))/dprs
-               pl3(i,j,k)= 1.e5*cor(i,j)*prs(i,j,k)/rgas*
-     &            sqrt(ushear*ushear+vshear*vshear)
-            enddo
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Retr. temp. grad. (mag.)'
-         unwk(ipl)='K (100 km)~S~-1~N~'
-      elseif (cfeld(ifld,ipl)(1:6).eq.'tadvr ') then ! retrieved temp adv, K/day
-         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
-         do j=1,mjx-1
-         do i=1,miy-1
-            do k=1,mkzh
-               uscratch(k)=.25*(uuu(i,j,k)+uuu(i+1,j,k)+uuu(i,j+1,k)+
-     &                          uuu(i+1,j+1,k))
-               vscratch(k)=.25*(vvv(i,j,k)+vvv(i+1,j,k)+vvv(i,j+1,k)+
-     &                          vvv(i+1,j+1,k))
-            enddo
-            do k=1,mkzh
-               kp1=min(mkzh,k+1)
-               km1=max(1,k-1)
-               dprs=prs(i,j,kp1)-prs(i,j,km1)
-               ushear=(uscratch(kp1)-uscratch(km1))/dprs
-               vshear=(vscratch(kp1)-vscratch(km1))/dprs
-               pl3(i,j,k)= -86400.*cor(i,j)*prs(i,j,k)/rgas*
-     &            (uscratch(k)*(-vshear)+vscratch(k)*(ushear))
-c                (converted from K/s to K/day)
-            enddo
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Retr. temp. adv.'
-         unwk(ipl)='K day~S~-1~N~'
-      elseif (cfeld(ifld,ipl)(1:9).eq.'tgradrpx ') then ! retrieved (from prof)
-c                                                      ! grad(T) (x-comp) K/100km
-         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
-         call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'profvvv   ',miy,mjx,mkzh,maxtavl,3,1,
-     &           scr3a,istat)
-         do j=1,mjx-1
-         do i=1,miy-1
-            do k=1,mkzh
-               n=0
-               vscratch(k)=0.
-               if (scr3a(i,j,k).ne.rmsg) then
-                  vscratch(k)=vscratch(k)+scr3a(i,j,k)
-                  n=n+1
-               endif
-               if (scr3a(i+1,j,k).ne.rmsg) then
-                  vscratch(k)=vscratch(k)+scr3a(i+1,j,k)
-                  n=n+1
-               endif
-               if (scr3a(i,j+1,k).ne.rmsg) then
-                  vscratch(k)=vscratch(k)+scr3a(i,j+1,k)
-                  n=n+1
-               endif
-               if (scr3a(i+1,j+1,k).ne.rmsg) then
-                  vscratch(k)=vscratch(k)+scr3a(i+1,j+1,k)
-                  n=n+1
-               endif
-               if (n.gt.0) then
-                  vscratch(k)=vscratch(k)/n
-               else
-                  vscratch(k)=rmsg
-               endif
-            enddo
-            do k=1,mkzh
-               kp1=min(mkzh,k+1)
-               km1=max(1,k-1)
-               if (vscratch(kp1).ne.rmsg.and.vscratch(km1).ne.rmsg) then
-                  pl3(i,j,k)=-1.e5*cor(i,j)*prs(i,j,k)/rgas*
-     &               (vscratch(kp1)-vscratch(km1))/
-     &               (prs(i,j,kp1)-prs(i,j,km1))
-               else
-                  pl3(i,j,k)=rmsg
-               endif
-            enddo
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Prf-retr. temp. grad. (x-comp.)'
-         unwk(ipl)='K (100 km)~S~-1~N~'
-      elseif (cfeld(ifld,ipl)(1:9).eq.'tgradrpy ') then ! retrieved (from prof)
-c                                                      ! grad(T) (y-comp) K/100km
-         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
-         call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'profuuu   ',miy,mjx,mkzh,maxtavl,3,1,
-     &           scr3a,istat)
-         do j=1,mjx-1
-         do i=1,miy-1
-            do k=1,mkzh
-               n=0
-               uscratch(k)=0.
-               if (scr3a(i,j,k).ne.rmsg) then
-                  uscratch(k)=uscratch(k)+scr3a(i,j,k)
-                  n=n+1
-               endif
-               if (scr3a(i+1,j,k).ne.rmsg) then
-                  uscratch(k)=uscratch(k)+scr3a(i+1,j,k)
-                  n=n+1
-               endif
-               if (scr3a(i,j+1,k).ne.rmsg) then
-                  uscratch(k)=uscratch(k)+scr3a(i,j+1,k)
-                  n=n+1
-               endif
-               if (scr3a(i+1,j+1,k).ne.rmsg) then
-                  uscratch(k)=uscratch(k)+scr3a(i+1,j+1,k)
-                  n=n+1
-               endif
-               if (n.gt.0) then
-                  uscratch(k)=uscratch(k)/n
-               else
-                  uscratch(k)=rmsg
-               endif
-            enddo
-            do k=1,mkzh
-               kp1=min(mkzh,k+1)
-               km1=max(1,k-1)
-               if (uscratch(kp1).ne.rmsg.and.uscratch(km1).ne.rmsg) then
-                  pl3(i,j,k)= 1.e5*cor(i,j)*prs(i,j,k)/rgas*
-     &               (uscratch(kp1)-uscratch(km1))/
-     &               (prs(i,j,kp1)-prs(i,j,km1))
-               else
-                  pl3(i,j,k)=rmsg
-               endif
-            enddo
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Prf-retr. temp. grad. (y-comp.)'
-         unwk(ipl)='K (100 km)~S~-1~N~'
-      elseif (cfeld(ifld,ipl)(1:9).eq.'tgradrpm ') then ! retrieved (from prof)
-c                                                      ! grad(T) (mag) K/100km
-         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
-         call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'profuuu   ',miy,mjx,mkzh,maxtavl,3,1,
-     &           scr3a,istat)
-         call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'profvvv   ',miy,mjx,mkzh,maxtavl,3,1,
-     &           scr3b,istat)
-         do j=1,mjx-1
-         do i=1,miy-1
-            do k=1,mkzh
-               n=0
-               uscratch(k)=0.
-               if (scr3a(i,j,k).ne.rmsg) then
-                  uscratch(k)=uscratch(k)+scr3a(i,j,k)
-                  n=n+1
-               endif
-               if (scr3a(i+1,j,k).ne.rmsg) then
-                  uscratch(k)=uscratch(k)+scr3a(i+1,j,k)
-                  n=n+1
-               endif
-               if (scr3a(i,j+1,k).ne.rmsg) then
-                  uscratch(k)=uscratch(k)+scr3a(i,j+1,k)
-                  n=n+1
-               endif
-               if (scr3a(i+1,j+1,k).ne.rmsg) then
-                  uscratch(k)=uscratch(k)+scr3a(i+1,j+1,k)
-                  n=n+1
-               endif
-               if (n.gt.0) then
-                  uscratch(k)=uscratch(k)/n
-               else
-                  uscratch(k)=rmsg
-               endif
-               n=0
-               vscratch(k)=0.
-               if (scr3b(i,j,k).ne.rmsg) then
-                  vscratch(k)=vscratch(k)+scr3b(i,j,k)
-                  n=n+1
-               endif
-               if (scr3b(i+1,j,k).ne.rmsg) then
-                  vscratch(k)=vscratch(k)+scr3b(i+1,j,k)
-                  n=n+1
-               endif
-               if (scr3b(i,j+1,k).ne.rmsg) then
-                  vscratch(k)=vscratch(k)+scr3b(i,j+1,k)
-                  n=n+1
-               endif
-               if (scr3b(i+1,j+1,k).ne.rmsg) then
-                  vscratch(k)=vscratch(k)+scr3b(i+1,j+1,k)
-                  n=n+1
-               endif
-               if (n.gt.0) then
-                  vscratch(k)=vscratch(k)/n
-               else
-                  vscratch(k)=rmsg
-               endif
-            enddo
-            do k=1,mkzh
-               kp1=min(mkzh,k+1)
-               km1=max(1,k-1)
-               if (uscratch(kp1).ne.rmsg.and.uscratch(km1).ne.rmsg.and.
-     &             vscratch(kp1).ne.rmsg.and.vscratch(km1).ne.rmsg) then
-                  dprs=prs(i,j,kp1)-prs(i,j,km1)
-                  ushear=(uscratch(kp1)-uscratch(km1))/dprs
-                  vshear=(vscratch(kp1)-vscratch(km1))/dprs
-                  pl3(i,j,k)= 1.e5*cor(i,j)*prs(i,j,k)/rgas*
-     &               sqrt(ushear*ushear+vshear*vshear)
-               else
-                  pl3(i,j,k)=rmsg
-               endif
-            enddo
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Prf-retr. temp. grad. (mag.)'
-         unwk(ipl)='K (100 km)~S~-1~N~'
-      elseif (cfeld(ifld,ipl)(1:7).eq.'tadvrp ') then ! retrieved (from prof)
-c                                                       temp adv, K/day
-         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
-         call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'profuuu   ',miy,mjx,mkzh,maxtavl,3,1,
-     &           scr3a,istat)
-         call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'profvvv   ',miy,mjx,mkzh,maxtavl,3,1,
-     &           scr3b,istat)
-         do j=1,mjx-1
-         do i=1,miy-1
-            do k=1,mkzh
-               n=0
-               uscratch(k)=0.
-               if (scr3a(i,j,k).ne.rmsg) then
-                  uscratch(k)=uscratch(k)+scr3a(i,j,k)
-                  n=n+1
-               endif
-               if (scr3a(i+1,j,k).ne.rmsg) then
-                  uscratch(k)=uscratch(k)+scr3a(i+1,j,k)
-                  n=n+1
-               endif
-               if (scr3a(i,j+1,k).ne.rmsg) then
-                  uscratch(k)=uscratch(k)+scr3a(i,j+1,k)
-                  n=n+1
-               endif
-               if (scr3a(i+1,j+1,k).ne.rmsg) then
-                  uscratch(k)=uscratch(k)+scr3a(i+1,j+1,k)
-                  n=n+1
-               endif
-               if (n.gt.0) then
-                  uscratch(k)=uscratch(k)/n
-               else
-                  uscratch(k)=rmsg
-               endif
-               n=0
-               vscratch(k)=0.
-               if (scr3b(i,j,k).ne.rmsg) then
-                  vscratch(k)=vscratch(k)+scr3b(i,j,k)
-                  n=n+1
-               endif
-               if (scr3b(i+1,j,k).ne.rmsg) then
-                  vscratch(k)=vscratch(k)+scr3b(i+1,j,k)
-                  n=n+1
-               endif
-               if (scr3b(i,j+1,k).ne.rmsg) then
-                  vscratch(k)=vscratch(k)+scr3b(i,j+1,k)
-                  n=n+1
-               endif
-               if (scr3b(i+1,j+1,k).ne.rmsg) then
-                  vscratch(k)=vscratch(k)+scr3b(i+1,j+1,k)
-                  n=n+1
-               endif
-               if (n.gt.0) then
-                  vscratch(k)=vscratch(k)/n
-               else
-                  vscratch(k)=rmsg
-               endif
-            enddo
-            do k=1,mkzh
-               kp1=min(mkzh,k+1)
-               km1=max(1,k-1)
-               if (uscratch(kp1).ne.rmsg.and.uscratch(km1).ne.rmsg.and.
-     &             vscratch(kp1).ne.rmsg.and.vscratch(km1).ne.rmsg.and.
-     &             uscratch(k).ne.rmsg.and.vscratch(k).ne.rmsg) then
-                  dprs=prs(i,j,kp1)-prs(i,j,km1)
-                  ushear=(uscratch(kp1)-uscratch(km1))/dprs
-                  vshear=(vscratch(kp1)-vscratch(km1))/dprs
-                  pl3(i,j,k)= -86400.*cor(i,j)*prs(i,j,k)/rgas*
-     &               (uscratch(k)*(-vshear)+vscratch(k)*(ushear))
-c                   (converted from K/s to K/day)
-               else
-                  pl3(i,j,k)=rmsg
-               endif
-            enddo
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Prf-retr. temp. adv.'
-         unwk(ipl)='K day~S~-1~N~'
       elseif (cfeld(ifld,ipl)(1:4).eq.'eth ') then! eqv. pot. temp., K
          call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
          call eqthecalc(qvp,tmk,prs,pl3,miy,mjx,mkzh)
@@ -1855,14 +1222,11 @@ c                   (converted from K/s to K/day)
       elseif (cfeld(ifld,ipl)(1:4).eq.'rcum'.or.
      &        cfeld(ifld,ipl)(1:4).eq.'rexp'.or.
      &        cfeld(ifld,ipl)(1:4).eq.'rfra'.or.
-     &        cfeld(ifld,ipl)(1:4).eq.'stot'.or.
-     &        cfeld(ifld,ipl)(1:4).eq.'mtot'.or.
      &        cfeld(ifld,ipl)(1:4).eq.'rtot') then  ! rainfall, mm
          idimn(ipl)=2
          call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,2,i_scr2a,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,2,i_scr2b,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,2,i_scr2c,wk,maxslab)
          if (cfeld(ifld,ipl)(1:4).eq.'rcum') then
             icum=1
             iexp=0
@@ -1883,17 +1247,6 @@ c                   (converted from K/s to K/day)
             iexp=1
             engplttl(ipl)='Total precip.'
             iendeng=13
-! total snow and total mixed precip requires the WRF SR field (Snow Ratio)
-         elseif (cfeld(ifld,ipl)(1:4).eq.'stot') then
-            icum=1
-            iexp=1
-            engplttl(ipl)='Total snow precip.'
-            iendeng=18
-         elseif (cfeld(ifld,ipl)(1:4).eq.'mtot') then
-            icum=1
-            iexp=1
-            engplttl(ipl)='Total mixed precip.'
-            iendeng=19
          endif
          iendcf=4
          if (cfeld(ifld,ipl)(iendcf+1:iendcf+2).eq.'sh') then
@@ -1951,12 +1304,6 @@ c
      &           scr2a,istat)
             call addorfill(scr2a,pl2,miy,mjx,mkzh,2,1,1.,1.)
          endif
-         if (cfeld(ifld,ipl)(1:4).eq.'stot' .or. 
-     &       cfeld(ifld,ipl)(1:4).eq.'mtot') then
-            call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &           'SR        ',miy,mjx,mkzh,maxtavl,2,1,
-     &           scr2c,istat)
-         endif
 c
 c      Subtract previous rainfall if xtime_get is greater than ~.1 seconds
 c
@@ -1996,59 +1343,23 @@ c
      &              maxtavl,2,1,scr2a,istat)
                call addorfill(scr2a,pl2,miy,mjx,mkzh,2,1,-1.,1.)
             endif
-
-	   if (cfeld(ifld,ipl)(1:4).eq.'stot' .or.
-     &         cfeld(ifld,ipl)(1:4).eq.'mtot') then
-	      call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &             'SR        ',miy,mjx,mkzh,maxtavl,2,1,
-     &             scr2a,istat)
-	 ! simply average the SR over the period of interest - almost every approach
-	 ! is going to have problems. scr2c contains the final SR.
-               call addorfill(scr2a,scr2c,miy,mjx,mkzh,2,1,0.5,0.5)
-	   endif
          endif
  59      continue
-	 if (cfeld(ifld,ipl)(1:4).eq.'stot' .or.
-     &       cfeld(ifld,ipl)(1:4).eq.'mtot') then
-	   do j=1,mjx-1
-	   do i=1,miy-1
-	    if (cfeld(ifld,ipl)(1:4).eq.'stot' ) then
-	      if (scr2c(i,j) .le. 0.7 ) pl2(i,j) = 0.
-	    else if (cfeld(ifld,ipl)(1:4).eq.'mtot' ) then
-	      if (scr2c(i,j) .gt. 0.7 .or. 
-     &            scr2c(i,j) .lt. 0.3 ) pl2(i,j) = 0.
-	     endif
-	   enddo
-	   enddo
-	 endif
          indwk(ifld,ipl)=incwk
          icdwk(ipl)=1
          unwk(ipl)='mm'
-	 domtot = 0.
-         if (cfeld(ifld,ipl)(1:4).eq.'rfra') then
-           do j=1,mjx-1
-           do i=1,miy-1
+	 if (cfeld(ifld,ipl)(1:4).eq.'rfra') then
+	   do j=1,mjx-1
+	   do i=1,miy-1
              if (pl2(i,j).gt..0001e-3) then
-              pl2(i,j) = 100.*scr2b(i,j)/pl2(i,j)
-             else
-               pl2(i,j) = rmsg
-             endif
-           enddo
-           enddo
+	      pl2(i,j) = 100.*scr2b(i,j)/pl2(i,j)
+	     else
+	       pl2(i,j) = rmsg
+	     endif
+	   enddo
+	   enddo
            unwk(ipl)='%'
-	 else
-           do j=ixwin(1,ipl),ixwin(2,ipl)-1
-           do i=iywin(1,ipl),iywin(2,ipl)-1
-	     domtot = domtot + pl2(i,j)
-	   enddo
-	   enddo
-           if (ixwin(1,ipl) .ne. 1 .or. ixwin(2,ipl) .ne. mjx .or.
-     &         iywin(1,ipl) .ne. 1 .or. iywin(2,ipl) .ne. miy) then
-            write(6,*) 'area total ',cfeld(ifld,ipl)(1:4),' = ',domtot
-           else
-            write(6,*) 'domain total ',cfeld(ifld,ipl)(1:4),' = ',domtot
-           endif
-         endif
+	 endif
       elseif (cfeld(ifld,ipl)(1:4).eq.'ter ') then! terrain, m
          idimn(ipl)=2
          call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
@@ -2819,30 +2130,31 @@ c                                                      v_ageos., m/s
          idimn(ipl)=2
          call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
          if (cfeld(ifld,ipl)(1:6).eq.'slpbm '.or.
-     &       cfeld(ifld,ipl)(1:4).eq.'slp ') then   ! B&M SLP, hPa
-            call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
-            call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
-	    do k=1,mkzh
-	    do j=1,mjx-1
-	    do i=1,miy-1
-	       scr3a(i,j,k)=exp(-ght(i,j,k)/sclht)
-	       scr3b(i,j,k)=prs(i,j,k)
-	    enddo
-	    enddo
-	    enddo
-            call vinterp('z',0.,1,1,1,scr3a,tmk,qvp,
-     &         prs,ght,ter,sfp,sfpsm,.false.,0,'prs       ',
-     &         scr3b,pslab1,mabpl,morpl,mjx-1,miy-1,miy,mjx,mkzh)
-	    do j=1,mjx-1
-	    do i=1,miy-1
-	       pl2(i,j)=pslab1(j,i)
-	    enddo
-	    enddo
+     &           cfeld(ifld,ipl)(1:4).eq.'slp ') then   ! B&M SLP, hPa
+
+           call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
+           call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
+	   do k=1,mkzh
+	   do j=1,mjx-1
+	   do i=1,miy-1
+	      scr3a(i,j,k)=exp(-ght(i,j,k)/sclht)
+	      scr3b(i,j,k)=prs(i,j,k)
+	   enddo
+	   enddo
+	   enddo
+           call vinterp('z',0.,1,1,1,scr3a,tmk,qvp,
+     &        prs,ght,ter,sfp,sfpsm,.false.,0,'prs       ',
+     &        scr3b,pslab1,mabpl,morpl,mjx-1,miy-1,miy,mjx,mkzh)
+	   do j=1,mjx-1
+	   do i=1,miy-1
+	      pl2(i,j)=pslab1(j,i)
+	   enddo
+	   enddo
          elseif (cfeld(ifld,ipl)(1:6).eq.'slpgr ') then! GRAPH SLP, hPa
 c
 c         This is the version in Graph (added back to rip4 on 7/22/06 jfb)
 c
-            call seaprs(tmk,prs,ter,sfp,miy,mjx,mkzh,pl2,iup)
+           call seaprs(tmk,prs,ter,sfp,miy,mjx,mkzh,pl2,iup)
          endif
          indwk(ifld,ipl)=incwk
          icdwk(ipl)=1
@@ -2927,39 +2239,23 @@ c                                                   betw. prs levels, dam
             call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
      &           'qci       ',miy,mjx,mkzh,maxtavl,3,1,
      &           scr3b,istat)
+
+c...Added by Greg Thompson  30 Aug 2005
+c...Include snow variable since ice may sublimate leaving behind only snow
+            call getpt(miy,mjx,mkzh,ifree,3,i_scr3d,wk,maxslab)
+            call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
+     &           'qsn       ',miy,mjx,mkzh,maxtavl,3,1,
+     &           scr3d,istat)
+
          endif
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3c,wk,maxslab)
          call pfcalc(prs,sfp,scr3c,miy,mjx,mkzh)
-         call cttcalc(prs,scr3c,tmk,scr3a,scr3b,pl2,miy,mjx,mkzh)
+c-gt     call cttcalc(prs,scr3c,tmk,scr3a,scr3b,pl2,miy,mjx,mkzh)
+         call cttcalc(prs,scr3c,tmk,scr3a,scr3b,scr3d,pl2,miy,mjx,mkzh)
          indwk(ifld,ipl)=incwk
          icdwk(ipl)=1
          engplttl(ipl)='Cloud-top temperature'
          unwk(ipl)='~S~o~N~C'
-c      elseif (cfeld(ifld,ipl)(1:9).eq.'rad_elev ') then! radar elev. angle, deg.
-c         idimn(ipl)=2
-c         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
-c         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
-c         open (unit=iutrajin,file=ctjfl(ipl),form='unformatted',
-c     &      status='old')
-c         read (iutrajin,*)
-c         read (iutrajin,*)
-c         read (iutrajin,*) radar_lat
-c         read (iutrajin,*) radar_lon
-c         read (iutrajin,*) radar_elev
-c         close (iutrajin)
-cc
-cc      Constants
-cc
-c         rke = 4./3.  ! Four-thirds earth approximation
-c         r_earth = 6.37e6   ! radius of earth in meters
-c         r_eff = rke * r_earth
-c
-c
-c
-c         indwk(ifld,ipl)=incwk
-c         icdwk(ipl)=1
-c         engplttl(ipl)='Radar elevation angle'
-c         unwk(ipl)='degrees'
       elseif (cfeld(ifld,ipl)(1:5).eq.'cap3 '.or.   ! 3D CAPE, J/kg
      &        cfeld(ifld,ipl)(1:5).eq.'cin3 ') then ! 3D conv. inhib., J/kg
          call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
@@ -3345,15 +2641,15 @@ c
          if (iplevdata.le.3) then
            call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
      &        'tgk       ',miy,mjx,mkzh,maxtavl,2,0,pl2,istat)
-           if ( istat .lt. 0 ) then
+	   if ( istat .lt. 0 ) then
              call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
      &        'SKINTEMP  ',miy,mjx,mkzh,maxtavl,2,1,pl2,istat)
-           endif
-         else
+	   endif
+	 else
            call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
      &        'tgk       ',miy,mjx,mkzh,maxtavl,2,1,pl2,
      &        istat)
-         endif
+	 endif
          subtract=0.
          if (cfeld(ifld,ipl)(1:4).eq.'tgc ') then
             subtract=celkel
@@ -3370,59 +2666,6 @@ c
          indwk(ifld,ipl)=incwk
          icdwk(ipl)=1
          engplttl(ipl)='Ground/sea-surface temperature'
-      elseif (cfeld(ifld,ipl)(2:8).eq.'llmptf ') then
-c
-c      x or y value (on fine grid) based on conversion of lat/lon
-c      array to x/y using maptform
-c
-         idimn(ipl)=2
-         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,2,i_scr2a,wk,maxslab)
-         call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'xlat      ',miy,mjx,mkzh,maxtavl,2,1,pl2,
-     &        istat)
-         call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'xlon      ',miy,mjx,mkzh,maxtavl,2,1,scr2a,
-     &        istat)
-         do j=1,mjx-1
-         do i=1,miy-1
-            call maptform(riy,rjx,pl2(i,j),scr2a(i,j),-1)
-            rjxn=1.+(rjx-xjcorn)*refrat
-            riyn=1.+(riy-yicorn)*refrat
-            pl2(i,j)=rjxn
-            if (cfeld(ifld,ipl)(1:1).eq.'y') pl2(i,j)=riyn
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='xlat/xlon-to-x-value'
-         if (cfeld(ifld,ipl)(1:1).eq.'y') 
-     &      engplttl(ipl)='xlat/xlon-to-y-value'
-         unwk(ipl)='grid points'
-      elseif (cfeld(ifld,ipl)(1:10).eq.'ivalcross ') then ! "i" (dot grid) value of cross points
-         idimn(ipl)=2
-         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
-         do j=1,mjx-1
-         do i=1,miy-1
-            pl2(i,j)=float(i)+.5
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='"i" value of cross points'
-         unwk(ipl)='none'
-      elseif (cfeld(ifld,ipl)(1:10).eq.'jvalcross ') then ! "j" (dot grid) value of cross points
-         idimn(ipl)=2
-         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
-         do j=1,mjx-1
-         do i=1,miy-1
-            pl2(i,j)=float(j)+.5
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='"j" value of cross points'
-         unwk(ipl)='none'
       elseif (cfeld(ifld,ipl)(1:5).eq.'xlat ') then ! latitude, degrees
          idimn(ipl)=2
          call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
@@ -3443,56 +2686,6 @@ c
          icdwk(ipl)=1
          engplttl(ipl)='Longitude'
          unwk(ipl)='degrees'
-      elseif (cfeld(ifld,ipl)(1:9).eq.'xlatmptf '.or.
-     &        cfeld(ifld,ipl)(1:9).eq.'xlonmptf ') then
-c
-c      Maptform-calculated lat or lon, degrees
-c
-         idimn(ipl)=2
-         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
-         do j=1,mjx-1
-            rj1=xjcorn+(j-.5)/refrat
-         do i=1,miy-1
-            ri1=yicorn+(i-.5)/refrat
-            call maptform(ri1,rj1,rlat,rlon,1)
-            rl=rlat
-            if (cfeld(ifld,ipl)(1:9).eq.'xlonmptf ') rl=rlon
-            pl2(i,j)=rl
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Latitude (maptform)'
-         if (cfeld(ifld,ipl)(1:9).eq.'xlonmptf ')
-     &      engplttl(ipl)='Longitude (maptform)'
-         unwk(ipl)='degrees'
-      elseif (cfeld(ifld,ipl)(1:8).eq.'xlaterr '.or.
-     &        cfeld(ifld,ipl)(1:8).eq.'xlonerr ') then
-c
-c      Error in maptform-calculated lat or lon,
-c      compared to model output arrays
-c
-         idimn(ipl)=2
-         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
-         call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        cfeld(ifld,ipl)(1:4)//'      ',
-     &        miy,mjx,mkzh,maxtavl,2,1,pl2,istat)
-         do j=1,mjx-1
-            rj1=xjcorn+(j-.5)/refrat
-         do i=1,miy-1
-            ri1=yicorn+(i-.5)/refrat
-            call maptform(ri1,rj1,rlat,rlon,1)
-            rl=rlat
-            if (cfeld(ifld,ipl)(1:8).eq.'xlonerr ') rl=rlon
-            pl2(i,j)=pl2(i,j)-rl
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Latitude error'
-         if (cfeld(ifld,ipl)(1:8).eq.'xlonerr ')
-     &      engplttl(ipl)='Longitude error'
-         unwk(ipl)='degrees'
       elseif (cfeld(ifld,ipl)(1:5).eq.'xlus ') then ! land use category
          idimn(ipl)=2
          call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
@@ -3506,9 +2699,16 @@ c
       elseif (cfeld(ifld,ipl)(1:4).eq.'pvo ') then! pot. vorticity, PVU
          call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
+         print*, 'before thecalc t=',tmk(100,410,:)
          call thecalc(prs,tmk,qvp,scr3a,miy,mjx,mkzh)
+c         call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
+c         call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
+c     &        'qra       ',miy,mjx,mkzh,maxtavl,3,1,scr3b,
+c     &        istat)
          call pvocalc(xmap,uuu,vvv,cor,scr3a,prs,
-     &      pl3,miy,mjx,mkzh)
+     &      pl3,www,qvp,miy,mjx,mkzh,xtime)
+C         call pvocalc(xmap,uuu,vvv,cor,scr3a,prs,
+C     &      pl3,www,scr3b,miy,mjx,mkzh,xtime)
          indwk(ifld,ipl)=incwk
          icdwk(ipl)=1
          engplttl(ipl)='Potential vorticity'
@@ -3554,53 +2754,13 @@ c
          indwk(ifld,ipl)=incwk
          icdwk(ipl)=1
          unwk(ipl)='10~S~-5~N~ s~S~-1~N~'
-      elseif (cfeld(ifld,ipl)(1:3).eq.'dil') then ! comp of dilat axis, s^-1
-         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,2,i_scr2a,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,2,i_scr2b,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3c,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3d,wk,maxslab)
-c
-         call derivc(uuu,0,ght,xmap,dmap,qvp,tmk,
-     &      scr2a,scr2b,scr3a,1,'x',miy,mjx,mkzh)
-         call derivc(vvv,0,ght,xmap,dmap,qvp,tmk,
-     &      scr2a,scr2b,scr3b,1,'y',miy,mjx,mkzh)
-         call derivc(vvv,0,ght,xmap,dmap,qvp,tmk,
-     &      scr2a,scr2b,scr3c,1,'x',miy,mjx,mkzh)
-         call derivc(uuu,0,ght,xmap,dmap,qvp,tmk,
-     &      scr2a,scr2b,scr3d,1,'y',miy,mjx,mkzh)
-         do k=1,mkzh
-         do j=1,mjx-1
-         do i=1,miy-1
-            f1=scr3a(i,j,k)-scr3b(i,j,k)
-            f2=scr3c(i,j,k)+scr3d(i,j,k)
-            fff=sqrt(f1*f1+f2*f2)
-            psi=0.5*atan2(f2,f1)
-            if (cfeld(ifld,ipl)(4:4).eq.'x') then
-               pl3(i,j,k)=1.e5*fff*cos(psi)
-            elseif (cfeld(ifld,ipl)(4:4).eq.'y') then
-               pl3(i,j,k)=1.e5*fff*sin(psi)
-            endif
-         enddo
-         enddo
-         enddo
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         if (cfeld(ifld,ipl)(4:4).eq.'x') then
-            engplttl(ipl)='Dilatation axis (x-comp.)'
-         elseif (cfeld(ifld,ipl)(4:4).eq.'y') then
-            engplttl(ipl)='Dilatation axis (y-comp.)'
-         endif
-         unwk(ipl)='10~S~-5~N~ s~S~-1~N~'
       elseif (cfeld(ifld,ipl)(1:4).eq.'vox ') then ! x-comp. of vort., per s
          call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,2,i_scr2a,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,2,i_scr2b,wk,maxslab)
          call derivc(www,1,ght,xmap,dmap,qvp,tmk,
      &      scr2a,scr2b,pl3,1,'y',miy,mjx,mkzh)
-c        pl3 now holds (dw/dy)_z=const, in cm/s/m
+c        pl3 now holds (dw/dy)_z=const, in MKS units
          do k=1,mkzh
             kp1=min(k+1,mkzh)
             km1=max(k-1,1)
@@ -3611,15 +2771,13 @@ c        pl3 now holds (dw/dy)_z=const, in cm/s/m
      &                vvv(i,j,km1)-vvv(i+1,j,km1)-
      &                vvv(i,j+1,km1)-vvv(i+1,j+1,km1))/
      &             (ght(i,j,kp1)-ght(i,j,km1))
-            pl3(i,j,k)=(.01*pl3(i,j,k)-dvdz)*1.e5
-c           In the above, the .01 is to convert dw/dy from cm/s/m to /m, and
-c           the 1.e5 scales the result by the commonly used 10^5 factor.
+            pl3(i,j,k)=(pl3(i,j,k)-dvdz)*1.e5  ! scale by 1.e5
          enddo
          enddo
          enddo
          indwk(ifld,ipl)=incwk
          icdwk(ipl)=1
-         engplttl(ipl)='Vorticity (x-comp.)'
+         engplttl(ipl)='Vorticity, x-component'
          unwk(ipl)='10~S~-5~N~ s~S~-1~N~'
       elseif (cfeld(ifld,ipl)(1:4).eq.'voy ') then ! y-comp. of vort., per s
          call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
@@ -3627,7 +2785,7 @@ c           the 1.e5 scales the result by the commonly used 10^5 factor.
          call getpt(miy,mjx,mkzh,ifree,2,i_scr2b,wk,maxslab)
          call derivc(www,1,ght,xmap,dmap,qvp,tmk,
      &      scr2a,scr2b,pl3,1,'x',miy,mjx,mkzh)
-c        pl3 now holds (dw/dx)_z=const, in cm/s/m
+c        pl3 now holds (dw/dx)_z=const, in MKS units
          do k=1,mkzh
             kp1=min(k+1,mkzh)
             km1=max(k-1,1)
@@ -3638,15 +2796,13 @@ c        pl3 now holds (dw/dx)_z=const, in cm/s/m
      &                uuu(i,j,km1)-uuu(i+1,j,km1)-
      &                uuu(i,j+1,km1)-uuu(i+1,j+1,km1))/
      &             (ght(i,j,kp1)-ght(i,j,km1))
-            pl3(i,j,k)=(dudz-.01*pl3(i,j,k))*1.e5
-c           In the above, the .01 is to convert dw/dx from cm/s/m to /m, and
-c           the 1.e5 scales the result by the commonly used 10^5 factor.
+            pl3(i,j,k)=(dudz-pl3(i,j,k))*1.e5  ! scale by 1.e5
          enddo
          enddo
          enddo
          indwk(ifld,ipl)=incwk
          icdwk(ipl)=1
-         engplttl(ipl)='Vorticity, (y-comp.)'
+         engplttl(ipl)='Vorticity, y-component'
          unwk(ipl)='10~S~-5~N~ s~S~-1~N~'
       elseif (cfeld(ifld,ipl)(1:6).eq.'vor3d ') then ! mag of 3-D rel vort, per s
          call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
@@ -3681,7 +2837,7 @@ c           the 1.e5 scales the result by the commonly used 10^5 factor.
      &             (ght(i,j,kp1)-ght(i,j,km1))
             xvor=(scr3c(i,j,k)-dvdz)
             yvor=(dudz-scr3b(i,j,k))
-            pl3(i,j,k)=sqrt(vvor*vvor+xvor*xvor+yvor*yvor)*1.e5  ! scale by 1.e5
+            pl3(i,j,k)=(vvor+xvor+yvor)*1.e5  ! scale by 1.e5
          enddo
          enddo
          enddo
@@ -3945,14 +3101,9 @@ c
          do i=1,miy-1
             ip1=min(i+1,miy-1)
             im1=max(i-1,1)
-            dxtr=ds/xmap(i,j)
-            if (nproj.ne.4) then
-               dytr=ds/xmap(i,j)
-            else
-               dytr=ds
-            endif
-            dx=dxtr*(jp1-jm1)
-            dy=dytr*(ip1-im1)
+            dss=ds/xmap(i,j)
+            dy=dss*(ip1-im1)
+            dx=dss*(jp1-jm1)
             dterdx=(ter(i,jp1)-ter(i,jm1))/dx
             dterdy=(ter(ip1,j)-ter(im1,j))/dy
             scr2a(i,j)=-sina*dterdx+cosa*dterdy
@@ -4080,7 +3231,6 @@ c
      &           cfeld(ifld,ipl)(3:5).eq.'psi') then
             unwk(ipl)='m hPa s~S~-1~N~'
          endif
-         engplttl(ipl)=cfeld(ifld,ipl)
       elseif (cfeld(ifld,ipl)(1:5).eq.'bvfsq'.or.
      &        cfeld(ifld,ipl)(1:5).eq.'richn'.or.
      &        cfeld(ifld,ipl)(1:4).eq.'spsq') then
@@ -4094,10 +3244,8 @@ c
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
          call fillarray(scr3b,miy*mjx*mkzh,0.)
          call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'qcw       ',miy,mjx,mkzh,maxtavl,3,0,pl3,
-     &        istat)
-         if (istat.ne.-1) call addorfill(pl3,scr3b,miy,mjx,mkzh,
-     &      3,1,.001,1.)
+     &        'qcw       ',miy,mjx,mkzh,maxtavl,3,0,
+     &        scr3b,istat)
          call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
      &        'qra       ',miy,mjx,mkzh,maxtavl,3,0,pl3,
      &        istat)
@@ -4147,40 +3295,6 @@ c         endif
             engplttl(ipl)='Scorer parameter (squared)'
             unwk(ipl)='km~S~-2~N~'
          endif
-      elseif (cfeld(ifld,ipl)(1:3).eq.'rim') then
-c
-c      Various forms of Richardson number from MRF/HIRPBL schemes
-c
-         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
-         call fillarray(scr3a,miy*mjx*mkzh,0.)
-         call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'qcw       ',miy,mjx,mkzh,maxtavl,3,0,pl3,
-     &        istat)
-         if (istat.ne.-1) call addorfill(pl3,scr3a,miy,mjx,mkzh,
-     &      3,1,.001,1.)
-         if (iice.eq.1) then
-            call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &           'qci       ',miy,mjx,mkzh,maxtavl,3,0,
-     &           pl3,istat)
-            if (istat.ne.-1) call addorfill(pl3,scr3a,miy,mjx,mkzh,
-     &         3,1,.001,1.)
-         endif
-         if (cfeld(ifld,ipl)(4:4).eq.'d') then
-            im=1
-         elseif (cfeld(ifld,ipl)(4:4).eq.'m') then
-            im=2
-         elseif (cfeld(ifld,ipl)(4:4).eq.'b') then
-            im=3
-         endif
-         read(cfeld(ifld,ipl)(5:5),'(i1)') itype
-         call ricalc(itype,im,prs,ght,tmk,qvp,scr3a,
-     &      uuu,vvv,pl3,miy,mjx,mkzh)
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Richardson number, '
-     &      //cfeld(ifld,ipl)(4:4)//', '//cfeld(ifld,ipl)(5:5)
-         unwk(ipl)='none'
       elseif (cfeld(ifld,ipl)(1:4).eq.'rib ') then
 c
 c      Near-surface Richardson number (dim'less), used in HIRPBL scheme
@@ -4314,42 +3428,6 @@ c        print *, 'U10,V10,wsp ',scr2a(60,80),scr2b(60,80),pl2(60,80)
          icdwk(ipl)=0
          engplttl(ipl)='Surface wind speed'
          if (cfeld(ifld,ipl)(1:5).eq.'wspsf') then
-           unwk(ipl)='m s~S~-1~N~'
-         else
-           unwk(ipl)='kt'
-           call addorfill(pl2,pl2,miy,mjx,1,3,0,1.94,0.)
-         endif
-      elseif (cfeld(ifld,ipl)(1:6).eq.'wsptr ' .or.
-     &        cfeld(ifld,ipl)(1:7).eq.'wspktr '.or.     ! trop wind speed, m/s or kt
-     &        cfeld(ifld,ipl)(1:6).eq.'wspmw ' .or.     
-     &        cfeld(ifld,ipl)(1:7).eq.'wspkmw ' ) then ! max wind speed, m/s or kt
-         idimn(ipl)=2
-         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,2,i_scr2a,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,2,i_scr2b,wk,maxslab)
-         if ( index(cfeld(ifld,ipl)(1:7),'tr') .gt. 0 ) then
-           call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'UUT       ',miy,mjx,mkzh,maxtavl,2,0,
-     &        scr2a,istat2)
-           call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'VVT       ',miy,mjx,mkzh,maxtavl,2,0,
-     &        scr2b,istat2)
-           engplttl(ipl)='Tropopause wind speed'
-         else
-           call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'UUW       ',miy,mjx,mkzh,maxtavl,2,0,
-     &        scr2a,istat2)
-           call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'VVW       ',miy,mjx,mkzh,maxtavl,2,0,
-     &        scr2b,istat2)
-           engplttl(ipl)='Maximum wind speed'
-         endif
-         call wspcalc(scr2a,scr2b,0.,0.,rstmv(1,ipl),pl2,
-     &      miy,mjx,1)
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=0
-         if (cfeld(ifld,ipl)(1:5).eq.'wsptr' .or.
-     &       cfeld(ifld,ipl)(1:5).eq.'wspmw' ) then
            unwk(ipl)='m s~S~-1~N~'
          else
            unwk(ipl)='kt'
@@ -4585,6 +3663,265 @@ c        Bulk Richardson Number Shear (a la Stensrud et al. 1997), m**2/s**2
          indwk(ifld,ipl)=incwk
          icdwk(ipl)=0
          unwk(ipl)='m~S~2~N~ s~S~-2~N~'
+
+c
+c	The following are new fields added by Dave Ahijevych Dec 2001.
+c
+c	beta thresholding added Feb 2002.
+c
+
+      elseif (cfeld(ifld,ipl)(1:3).eq.'ush') then!  shear, m/s
+c	ushxMMMNNN: u-component of vertical wind shear, m/s. (2D)
+c	 
+c
+c	MMM and NNN are the lower and upper levels, respectively,
+c	expressed with leading zeros included,
+c	so that the total number of digits is always 6.
+c	Vertical coordinate system is indicated by the character
+c	in the 'x' position.
+c
+c	With height coordinates (both MSL and AGL)
+c	MMM and NNN are in hectometers (hm).
+c	With pressure coordinates, MMM and NNN are in
+c	kPa.	
+c	In sigma coordinates, MMM and NNN are merely
+c	indices.
+c	Right now, only sigma level indices may be used
+c	in ushsMMMNNN and usfsMMMNNN.
+c	In the future, I might add 'from the bottom'
+c	notation 'b' and allow the user to specify the 
+c	second from the bottom sigma level as 'b02'.
+c
+c
+
+         idimn(ipl)=2
+         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
+         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
+c
+c	Read the bottom and top of the layer for which
+c	to calculate the wind shear.
+c
+
+         read(cfeld(ifld,ipl)(5:10),'(2f3.0)') vlev_bot,vlev_top
+
+c
+c	Calculate the vertical wind shear between 
+c	vlev_bot and vlev_top,
+c	storing it in 2-dimensional variable pl2.
+c	Remember to convert vlev_bot, vlev_top
+c	to the units that wshear expects.
+c
+c	
+c
+c	Set the value for the string holding the 
+c	vertical coordinate units, cvcorunits,
+c	and create the string holding the plot title,
+c	engplttl(ipl).
+c
+c	Use '-comp.' in the English plot title string,
+c	engplttl(ipl).	Note the period.
+c	This character pattern, which indicates
+c	a "component" field, triggers 
+c	pltitle.f to change the plot labels. 
+c	This is desired when plotting dual-component
+c	fields such as wind barbs or vectors. 
+c
+
+         IF (cfeld(ifld,ipl)(4:4) .eq. 'a') THEN
+            engplttl(ipl)=cfeld(ifld,ipl)(5:7)//''//' to '//
+     &      cfeld(ifld,ipl)(8:10)//' hm AGL wind shr (u-comp.)'
+            cvcorunits = 'm AGL'
+c		hm to m
+            vlev_bot = vlev_bot * 100.
+            vlev_top = vlev_top * 100.
+         ELSE IF (cfeld(ifld,ipl)(4:4).eq.'z') THEN
+            engplttl(ipl)=cfeld(ifld,ipl)(5:7)//''//' to '//
+     &      cfeld(ifld,ipl)(8:10)//' hm MSL wind shr (u-comp.)'
+            cvcorunits = 'm'
+c		hm to m
+            vlev_bot = vlev_bot * 100.
+            vlev_top = vlev_top * 100.
+         ELSE IF (cfeld(ifld,ipl)(4:4).eq.'p') THEN
+            engplttl(ipl)=cfeld(ifld,ipl)(5:7)//'0'//' to '//
+     &      cfeld(ifld,ipl)(8:10)//'0 hPa wind shear (u-comp.)'
+            cvcorunits = 'hPa'
+c		kPa to hPa
+            vlev_bot = vlev_bot * 10.
+            vlev_top = vlev_top * 10.
+         ELSE IF (cfeld(ifld,ipl)(4:4).eq.'s') THEN
+c		Convert from sigma level indices to
+c		actual sigma values.
+            STOP
+         ELSE
+            WRITE(iup,*)"In subroutine field.f"
+            WRITE(iup,*)"Unrecognized vertical coordinate "//
+     +      "for u-comp. wind shear layer:"//cfeld(ifld,ipl)(4:4)
+            WRITE(iup,*)"Stopping."
+            STOP
+         ENDIF
+
+c
+c
+c	Subroutine wshear now calculates
+c	wind shear using one of several  
+c	vertical coordinate systems.
+c
+c	I appended arguments to the end of the
+c	argument list for subroutine wshear.
+c	One is a character indicating the
+c	vertical coordinate system used in the 
+c	wind shear layer specification.
+c	It uses the same naming convention as does vcor,
+c	with the additional option of 'a' for
+c	height above ground level.
+c
+c	Current choices:
+c		'a' = height (m AGL)
+c		'z' = geopotential height (m MSL)
+c		'p' = pressure (mb or hPa)
+c		's' = sigma-surface (index)  [ not anymore ]
+c
+c	Future choices:
+c		't' = potential temp surface (index)
+c
+c
+c	Another appended argument is a character string
+c	holding the units of the vertical coordinate
+c	system used for the wind shear layer specification:
+c	cvcorunits.
+c	Right now, this variable is only used to produce 
+c	nice-looking warning messages in wshear.
+c
+c
+c	Similar to the call to bshear, the first argument
+c	to wshear is an integer that specifies
+c	whether the u or v component of the wind shear
+c	is returned in pl2.
+c		1	=> u-comp.
+c		not 1	=> v-comp.
+c 
+
+
+         call wshear (1,
+     &                     uuu,vvv,ght,scr3a,ter,pl2,miy,mjx,mkzh,
+     &                     vlev_bot,vlev_top,
+     &                     cfeld(ifld,ipl)(4:4), cvcorunits )
+
+
+c
+c	According to Jim Bresch (MMM/NCAR)...
+c
+c	MM5 uses a staggered Arakawa-B grid.
+c	Winds are defined on the so-called
+c	"cross points" and the mass variables 
+c	on the "dot points".
+c	So, icdwk is the integer, cross-dot, work-array.
+c	As you concluded, icdwk = 0 for wind computations.
+c
+c	indwk is the index into the correct 
+c	position of the work array.
+c	Following the pattern should be all right.
+c
+
+         indwk(ifld,ipl)=incwk
+         icdwk(ipl)=0
+
+         unwk(ipl)='m s~S~-1~N~'
+
+      elseif (cfeld(ifld,ipl)(1:3).eq.'vsh') then!  shear, m/s
+         idimn(ipl)=2
+         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
+         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
+
+         read(cfeld(ifld,ipl)(5:10),'(2f3.0)') vlev_bot,vlev_top
+
+         IF (cfeld(ifld,ipl)(4:4) .eq. 'a') THEN
+            engplttl(ipl)=cfeld(ifld,ipl)(5:7)//''//' to '//
+     &      cfeld(ifld,ipl)(8:10)//' hm AGL wind shr (v-comp.)'
+            cvcorunits = 'm AGL'
+            vlev_bot = vlev_bot * 100.
+            vlev_top = vlev_top * 100.
+         ELSE IF (cfeld(ifld,ipl)(4:4).eq.'z') THEN
+            engplttl(ipl)=cfeld(ifld,ipl)(5:7)//''//' to '//
+     &      cfeld(ifld,ipl)(8:10)//' hm MSL wind shr (v-comp.)'
+            cvcorunits = 'm'
+            vlev_bot = vlev_bot * 100.
+            vlev_top = vlev_top * 100.
+         ELSE IF (cfeld(ifld,ipl)(4:4).eq.'p') THEN
+            engplttl(ipl)=cfeld(ifld,ipl)(5:7)//'0'//' to '//
+     &      cfeld(ifld,ipl)(8:10)//'0 hPa wind shear (v-comp.)'
+            cvcorunits = 'hPa'
+            vlev_bot = vlev_bot * 10.
+            vlev_top = vlev_top * 10.
+         ELSE
+            WRITE(iup,*)"In subroutine field.f"
+            WRITE(iup,*)"Unrecognized vertical coordinate "//
+     +      "for v-comp. wind shear layer:"//cfeld(ifld,ipl)(4:4)
+            WRITE(iup,*)"Stopping."
+            STOP
+         ENDIF
+
+
+
+         call wshear (2,
+     &                        uuu,vvv,ght,scr3a,ter,pl2,miy,mjx,mkzh,
+     &                        vlev_bot,vlev_top,
+     &                        cfeld(ifld,ipl)(4:4), cvcorunits )
+         indwk(ifld,ipl)=incwk
+         icdwk(ipl)=0
+
+         unwk(ipl)='m s~S~-1~N~'
+
+
+      elseif (cfeld(ifld,ipl)(1:3).eq.'msh') then!  magnitude shear, m/s
+         idimn(ipl)=2
+         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
+         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
+
+         read(cfeld(ifld,ipl)(5:10),'(2f3.0)') vlev_bot,vlev_top
+
+         IF (cfeld(ifld,ipl)(4:4) .eq. 'a') THEN
+            engplttl(ipl)=cfeld(ifld,ipl)(5:7)//''//' to '//
+     &      cfeld(ifld,ipl)(8:10)//' hm AGL wind shr (magnit.)'
+            cvcorunits = 'm AGL'
+            vlev_bot = vlev_bot * 100.
+            vlev_top = vlev_top * 100.
+         ELSE IF (cfeld(ifld,ipl)(4:4).eq.'z') THEN
+            engplttl(ipl)=cfeld(ifld,ipl)(5:7)//''//' to '//
+     &      cfeld(ifld,ipl)(8:10)//' hm MSL wind shr (magnit.)'
+            cvcorunits = 'm'
+            vlev_bot = vlev_bot * 100.
+            vlev_top = vlev_top * 100.
+         ELSE IF (cfeld(ifld,ipl)(4:4).eq.'p') THEN
+            engplttl(ipl)=cfeld(ifld,ipl)(5:7)//'0'//' to '//
+     &      cfeld(ifld,ipl)(8:10)//'0 hPa wind shear (magnit.)'
+            cvcorunits = 'hPa'
+            vlev_bot = vlev_bot * 10.
+            vlev_top = vlev_top * 10.
+         ELSE
+            WRITE(iup,*)"In subroutine field.f"
+            WRITE(iup,*)"Unrecognized vertical coordinate "//
+     +      "for v-comp. wind shear layer:"//cfeld(ifld,ipl)(4:4)
+            WRITE(iup,*)"Stopping."
+            STOP
+         ENDIF
+
+
+
+         call wshear (3,
+     &                        uuu,vvv,ght,scr3a,ter,pl2,miy,mjx,mkzh,
+     &                        vlev_bot,vlev_top,
+     &                        cfeld(ifld,ipl)(4:4), cvcorunits )
+         indwk(ifld,ipl)=incwk
+         icdwk(ipl)=0
+
+         unwk(ipl)='m s~S~-1~N~'
+
+
+c
+c	End of new fields added by Dave Ahijevych Dec 2001
+c
+
 c
 c   Following are new fields added by J.F. Bresch between Dec/97 and Mar/00
 c
@@ -4600,20 +3937,20 @@ c
             call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
      &           'tmk_sfan  ',miy,mjx,mkzh,maxtavl,2,0,
      &           pl2,istat)
-            if (istat .lt. 0) then
-               call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &              't2        ',miy,mjx,mkzh,maxtavl,2,1,
-     &              pl2,istat)    ! use t2 from metgrid
-            endif
+	    if (istat .lt. 0) then
+            call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
+     &           't2        ',miy,mjx,mkzh,maxtavl,2,1,
+     &           pl2,istat)    ! use t2 from metgrid
+	    endif
             if (cfeld(ifld,ipl)(1:4).eq.'thsf') then
                call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc, ! g/kg,
      &              'qvp_sfan  ',miy,mjx,mkzh,
      &              maxtavl,2,0,scr2a,istat) 
-               if (istat .lt. 0) then
-                 call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &               'q2        ',miy,mjx,mkzh,maxtavl,2,1,
-     &               scr2a,istat)    ! use q2 from metgrid
-               endif
+	       if (istat .lt. 0) then
+               call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
+     &             'q2        ',miy,mjx,mkzh,maxtavl,2,1,
+     &             scr2a,istat)    ! use q2 from metgrid
+	    endif
                do j=1,mjx-1
                do i=1,miy-1
                   scr2a(i,j)=scr2a(i,j)*.001 ! g/kg to kg/kg
@@ -4679,6 +4016,58 @@ c
             enddo
             engplttl(ipl)='Surface air potential temperature'
             unwk(ipl)='K'
+         endif
+         indwk(ifld,ipl)=incwk
+         icdwk(ipl)=1
+c
+c   Following is a new field added by WW in March 2004
+c
+      elseif (cfeld(ifld,ipl)(1:6).eq.'tdsff ' .or.    ! dewpoint, deg F
+     &        cfeld(ifld,ipl)(1:6).eq.'tdsfk ' .or.    ! surface dew point temp, K
+     &        cfeld(ifld,ipl)(1:6).eq.'tdsfc ' ) then  ! surface dew point temp, C
+         idimn(ipl)=2
+         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
+         call getpt(miy,mjx,1,ifree,2,i_scr2a,wk,maxslab)
+         call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
+     &        'Q2        ',miy,mjx,mkzh,maxtavl,2,0,
+     &        scr2a,istat)
+         print *, 'Did we find q2, istat = ', istat
+         if ( istat .gt. 0 .and. xtime .gt. 0.) then
+            call getpt(miy,mjx,1,ifree,2,i_scr2b,wk,maxslab)
+            do j=1,mjx-1
+            do i=1,miy-1
+               scr2b(i,j) = prs(i,j,mkzh)
+            end do
+            end do
+            call tdpcalc(scr2a,scr2b,pl2,miy,mjx,1)
+         else
+            call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
+            call tdpcalc(qvp,prs,pl3,miy,mjx,mkzh)
+            do j=1,mjx-1
+            do i=1,miy-1
+              pl2(i,j) = pl3(i,j,mkzh)
+            enddo
+            enddo
+         end if
+         if ( cfeld(ifld,ipl)(1:6).eq.'tdsfc ' ) then
+            engplttl(ipl)='Surface dewpoint temperature'
+            unwk(ipl)='~S~o~N~C'
+         else if ( cfeld(ifld,ipl)(1:6).eq.'tdsfk ' ) then
+            do j=1,mjx-1
+            do i=1,miy-1
+               pl2(i,j) = pl2(i,j) + 273.15
+            end do
+            end do
+            engplttl(ipl)='Surface dewpoint temperature'
+            unwk(ipl)='~S~o~N~K'
+         else if ( cfeld(ifld,ipl)(1:6).eq.'tdsff ' ) then
+            do j=1,mjx-1
+            do i=1,miy-1
+               pl2(i,j) = pl2(i,j) * 9./5. + 32.
+            end do
+            end do
+            engplttl(ipl)='Surface dewpoint temperature'
+            unwk(ipl)='~S~o~N~F'
          endif
          indwk(ifld,ipl)=incwk
          icdwk(ipl)=1
@@ -4882,34 +4271,6 @@ c
          engplttl(ipl)='Vorticity generation potential'
          unwk(ipl)='m s~S~-2~N~'
          idimn(ipl)=2
-      elseif (cfeld(ifld,ipl)(1:6).eq.'refalt') then! 10dBZ altitude
-         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
-         call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'REFL_10CM ',miy,mjx,mkzh,maxtavl,3,1,
-     &           scr3b,istat)
-         call reflalt (scr3b, prs, pl2, miy, mjx, mkzh)
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Ten-dBZ altitude'
-         unwk(ipl)='hPa'
-         idimn(ipl)=2
-      elseif (cfeld(ifld,ipl)(1:5).eq.'lifti') then! lifted index
-         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
-         call lifted_index (tmk,qvp,prs,pl2,miy,mjx,mkzh)
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Lifted index'
-         unwk(ipl)='~S~o~N~C'
-         idimn(ipl)=2
-      elseif (cfeld(ifld,ipl)(1:5).eq.'tropp') then! tropopause pressue
-         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
-         call trop (tmk,ght,prs,pl2,miy,mjx,mkzh)
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=1
-         engplttl(ipl)='Tropopause pressure'
-         unwk(ipl)='hPa'
-         idimn(ipl)=2
       elseif (cfeld(ifld,ipl)(1:4).eq.'srfl') then! storm-rel low-level inflow
          call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
          call srflo(uuu,vvv,ght,ter,0,pl2,miy,mjx,mkzh)
@@ -5019,29 +4380,63 @@ c        engplttl(ipl)='0-6 km shear (y-comp.)'
 c
 c   End of new fields added by J.F. Bresch between Dec '97 and Mar '00
 c
-c   20 April 2012: unity field for use with the addf option.
-      elseif (cfeld(ifld,ipl)(1:5).eq.'unity') then   ! constant value of 1 
-         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
-         do j=1,mjx
-         do i=1,miy
-            pl2(i,j)=1.
-         enddo
-         enddo
-         engplttl(ipl)='    '
+c
+C+---+-----------------------------------------------------------------+
+c
+c   Following are new fields added by G. Thompson (04 Nov 2003)
+c
+      elseif (cfeld(ifld,ipl)(1:5).eq.'ght1 ') then! geop. height, dm
+         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
+         call addorfill(ght,pl3,miy,mjx,mkzh,3,1,0.1,0.)
          indwk(ifld,ipl)=incwk
-         icdwk(ipl)=0
-         unwk(ipl)='  '
+         icdwk(ipl)=1
+         engplttl(ipl)='Geopotential height'
+         unwk(ipl)='dm'
+      elseif (cfeld(ifld,ipl)(1:6).eq.'thil ') then! ice-liquid theta, K
+         call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
+         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
+         call thecalc(prs,tmk,qvp,scr3a,miy,mjx,mkzh)
+         call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
+         call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
+     &        'qcw       ',miy,mjx,mkzh,maxtavl,3,1,
+     &        scr3b,istat)
+         call getpt(miy,mjx,mkzh,ifree,3,i_scr3c,wk,maxslab)
+         if (iice.eq.1) then
+            call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
+     &           'qci       ',miy,mjx,mkzh,maxtavl,3,1,
+     &           scr3c,istat)
+         else
+          do k = 1, mkzh
+           do j = 1, mjx-1
+            do i = 1, miy-1
+                 scr3c(i,j,k) = 0.
+              enddo
+             enddo
+            enddo
+         endif
+         do k = 1, mkzh
+            do j = 1, mjx-1
+               do i = 1, miy-1
+                  scr3b(i,j,k) = max(1.e-15, scr3b(i,j,k)*1.e-3)
+                  scr3c(i,j,k) = max(1.e-15, scr3c(i,j,k)*1.e-3)
+                  pl3(i,j,k)=scr3a(i,j,k) *
+     +                   (1. - (2.5e6*scr3b(i,j,k)+2.834e6*scr3c(i,j,k))
+     +                   /(Cp*max(tmk(i,j,k),253.)))
+               enddo
+            enddo
+         enddo
+         indwk(ifld,ipl)=incwk
+         icdwk(ipl)=1
+         engplttl(ipl)='Ice-liquid potential temperature'
+         unwk(ipl)='K'
+c
+c   End of new fields added by G. Thompson
+c
       else
-        if ( istopmiss .eq. 1 ) then
-          write(iup,*)'   Stopping in FIELDS: I don''t recognize',
+         write(iup,*)'   Stopping in FIELDS: I don''t recognize',
      &      ' this field:'
-          write(iup,*)'   <',cfeld(ifld,ipl),'>'
-          stop
-        else
-          write(iup,*)'   In FIELDS: I don''t recognize',
-     &      ' this field:'
-          write(iup,*)'   <',cfeld(ifld,ipl),'>','  continuing anyway'
-        endif
+         write(iup,*)'   <',cfeld(ifld,ipl),'>'
+         stop
       endif
 c
 c   End of big "if" block
@@ -5056,35 +4451,6 @@ c
          write(iup,*)'For ipl = ',ipl,'  idimn not 2 or 3.  idimn= ',
      &      idimn(ipl)
          stop
-      endif
-c
-c   Do calibration, if asked for
-c
-      if (ccalb(ipl)(1:5).ne.'junk ') then
-         open(unit=77,file=ccalb(ipl),form='formatted',status='old')
-         read(77,*)vvals
-         nvals=nint(vvals)
-         read(77,*)xx1,xx2
-         dxx=xx2-xx1
-         read(77,*)(calb(i),i=1,nvals)
-         close(77)
-         do j=1,mjx-icdwk(ipl)
-         do i=1,miy-icdwk(ipl)
-            if (idimn(ipl).eq.3) then
-               do k=1,mkzh
-                  findx = 1.+(pl3(i,j,k)-xx1)/dxx
-                  indx = max(1,min(nvals-1,nint(findx-0.5)))
-                  rem=findx-float(indx)
-                  pl3(i,j,k)=calb(indx)+rem*(calb(indx+1)-calb(indx))
-               enddo
-            else
-               findx = 1.+(pl2(i,j)-xx1)/dxx
-               indx = max(1,min(nvals-1,nint(findx-0.5)))
-               rem=findx-float(indx)
-               pl2(i,j)=calb(indx)+rem*(calb(indx+1)-calb(indx))
-            endif
-         enddo
-         enddo
       endif
 c
 c   Do horizontal gradient, if asked for, and if field is 3D
@@ -5123,15 +4489,8 @@ c
          endif
          if (igdir(ipl).ge.0.and.igdir(ipl).le.360) then ! gradient or
 c                                            2nd deriv. in specified dir
-c            cosa=cos(rpd*(90-igdir(ipl)))
-c            sina=sin(rpd*(90-igdir(ipl)))
-            print*,'Setting gdir to a compass direction has been'
-            print*,'disabled because it doesn''t work properly.'
-            print*,'The way the code is written, gdir between'
-            print*,'0 and 360 specifies a direction like compass'
-            print*,'direction, but relative to the y-axis of the grid'
-            print*,'rather than to north.'
-            stop
+            cosa=cos(rpd*(90-igdir(ipl)))
+            sina=sin(rpd*(90-igdir(ipl)))
          elseif (igdir(ipl).eq.361) then  ! mag. of grad., or total lapl.
             cosa=0.
             sina=0.
@@ -5186,20 +4545,13 @@ c
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
          call derivc(pl3,icdwk(ipl),ght,xmap,dmap,qvp,tmk,
-     &      scr2a,scr2b,scr3a,1,'x',miy,mjx,mkzh)
+     &      scr2a,scr2b,scr3a,icdwk(ipl),'x',miy,mjx,mkzh)
          call derivc(pl3,icdwk(ipl),ght,xmap,dmap,qvp,tmk,
-     &      scr2a,scr2b,scr3b,1,'y',miy,mjx,mkzh)
+     &      scr2a,scr2b,scr3b,icdwk(ipl),'y',miy,mjx,mkzh)
          if (igdir(ipl).ge.0.and.igdir(ipl).le.360) then ! adv. in 
 c                                                          specified dir.
-c            cosa=cos(rpd*(90-igdir(ipl)))
-c            sina=sin(rpd*(90-igdir(ipl)))
-            print*,'Setting gdir to a compass direction has been'
-            print*,'disabled because it doesn''t work properly.'
-            print*,'The way the code is written, gdir between'
-            print*,'0 and 360 specifies a direction like compass'
-            print*,'direction, but relative to the y-axis of the grid'
-            print*,'rather than to north.'
-            stop
+            cosa=cos(rpd*(90-igdir(ipl)))
+            sina=sin(rpd*(90-igdir(ipl)))
          elseif (igdir(ipl).eq.361) then  ! total adv.
             cosa=0.
             sina=0.
@@ -5392,7 +4744,6 @@ c
 c
 c      Put subtracted field in scr3a
 c
-         if (iovly(ipl) .eq. 0) then   ! difference field (default)
          do k=1,mkzh
          do j=1,mjx-icdwk(ipl)
          do i=1,miy-icdwk(ipl)
@@ -5400,15 +4751,6 @@ c
          enddo
          enddo
          enddo
-         else                          ! overlay field
-         do k=1,mkzh
-         do j=1,mjx-icdwk(ipl)
-         do i=1,miy-icdwk(ipl)
-            scr3a(i,j,k)=pl3(i,j,k)
-         enddo
-         enddo
-         enddo
-         endif
 c
 c      Adjust slab markers
 c
@@ -5428,19 +4770,11 @@ c
 c
 c      Put subtracted field in scr2a
 c
-         if (iovly(ipl) .eq. 0) then   ! difference field (default)
-           do j=1,mjx-icdwk(ipl)
-           do i=1,miy-icdwk(ipl)
-              scr2a(i,j)=scr2a(i,j)-pl2(i,j)
-           enddo
-           enddo
-         else                          ! overlay field
-           do j=1,mjx-icdwk(ipl)
-           do i=1,miy-icdwk(ipl)
-              scr2a(i,j)=pl2(i,j)
-           enddo
-           enddo
-         endif
+         do j=1,mjx-icdwk(ipl)
+         do i=1,miy-icdwk(ipl)
+            scr2a(i,j)=scr2a(i,j)-pl2(i,j)
+         enddo
+         enddo
 c
 c      Adjust slab markers
 c

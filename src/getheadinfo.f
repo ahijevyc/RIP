@@ -25,7 +25,6 @@ c
       nproj=ihrip(1)
       miycors=ihrip(2)
       mjxcors=ihrip(3)
-      icdch=ihrip(7)
 c      inhyd=ihrip(8)
       mdateb=ihrip(10)
       call mconvert(mdateb,mhourb,1,1940)
@@ -47,17 +46,6 @@ c
       dskm=rhrip(6)
       yicorn=rhrip(7)
       xjcorn=rhrip(8)
-      if (icdch.ge.2) then
-c
-c      For E-grid data, yicorn and xjcorn were set to the location
-c      of the lower-left H point in the E-grid domain, but we must
-c      shift it down and left by half a nest grid space to give the location
-c      of the lower-left dot point of the B-grid whose cross points
-c      overlap the E-grid points.
-c
-         yicorn=yicorn-.5*(dskm/dskmc)
-         xjcorn=xjcorn-.5*(dskm/dskmc)
-      endif
 c      refslp=rhrip(10)
 c      refslt=rhrip(11)
 c      reflaps=rhrip(12)

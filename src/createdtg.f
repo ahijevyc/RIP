@@ -107,45 +107,21 @@ c
       idsv=0
       if (iusdaylightrule.eq.0) goto 39
 c
-c   Which ccyy are we dealing with 
-c   Need this to adjust the daylight saving rule
-      md1=iyy*1000000+10102  ! 2 am LST, 1 Jan of current year
-      call mconvertccyy(md1,1940,iyear)
-
-      if ( iyear < 2007 ) then 
-         md1=iyy*1000000+40102  ! 2 am LST, 1 Apr of current year
-         call mconvert(md1,mh1,1,1940)
-         idow1=mod(mh1/24+1,7)+1
-         if (idow1.gt.1) then
-            mdadd=8-idow1
-            mh1=mh1+24*mdadd ! 2 am LST, first Sunday in April
-         endif
-         md2=iyy*1000000+103101  ! 1 am LST (2 am LDT), 31 Oct of current year
-         call mconvert(md2,mh2,1,1940)
-         idow2=mod(mh2/24+1,7)+1
-         if (idow2.gt.1) then
-            mdsub=idow2-1
-            mh2=mh2-24*mdsub ! 1 am LST (2 am LDT), last Sunday in October
-         endif
-      else
-c         md1=iyy*1000000+30102  ! 2 am LST, 1 Mar of current year
-         md1=iyy*1000000+30802  ! 2 am LST, 8 Mar of current year
-         call mconvert(md1,mh1,1,1940)
-         idow1=mod(mh1/24+1,7)+1
-         if (idow1.gt.1) then
-c            mdadd=15-idow1
-            mdadd=8-idow1
-            mh1=mh1+24*mdadd ! 2 am LST, second Sunday in March
-         endif
-         md2=iyy*1000000+110101  ! 1 am LST (2 am LDT), 1 Nov of current year
-         call mconvert(md2,mh2,1,1940)
-         idow2=mod(mh2/24+1,7)+1
-         if (idow2.gt.1) then
-            mdadd=8-idow2
-            mh2=mh2+24*mdadd ! 1 am LST (2 am LDT), first Sunday in November
-         endif
+      md1=iyy*1000000+40102  ! 2 am LST, 1 Apr of current year
+      call mconvert(md1,mh1,1,1940)
+      idow1=mod(mh1/24+1,7)+1
+      if (idow1.gt.1) then
+         mdadd=8-idow1
+         mh1=mh1+24*mdadd ! 2 am LST, first Sunday in April
       endif
- 
+c
+      md2=iyy*1000000+103101  ! 1 am LST (2 am LDT), 31 Oct of current year
+      call mconvert(md2,mh2,1,1940)
+      idow2=mod(mh2/24+1,7)+1
+      if (idow2.gt.1) then
+         mdsub=idow2-1
+         mh2=mh2-24*mdsub ! 1 am LST (2 am LDT), last Sunday in October
+      endif
 c
       if (mh.ge.mh1.and.mh.lt.mh2) then !daylight savings time
          idsv=1
@@ -173,12 +149,6 @@ c
          czone = 'CST'
       else if ( timezone .eq. -5. ) then
          czone = 'EST'
-      else if ( timezone .eq. -9. ) then   ! Alaska
-         czone = 'AKT'
-      else if ( timezone .eq. -10. ) then   ! Hawaii
-         czone = 'HST'
-      else if ( timezone .eq. 10. ) then    ! Guam
-         czone = 'ChT'
       else
          czone = 'LST'
       endif

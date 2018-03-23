@@ -133,7 +133,7 @@ c   Special things to be done for particular
 c      vertical coordinates
 c
       do ls=1,nscrs
-         if (cvcor.eq.'z'.or.cvcor.eq.'f') then ! convert to height (km)
+         if (cvcor.eq.'z') then ! convert to height (km)
             vcground(ls)=-.001*sclht*alog(vcground(ls))
          elseif (cvcor.eq.'l') then ! convert to log pressure
             vcground(ls)=alog(vcground(ls))
@@ -141,7 +141,7 @@ c
             vcground(ls)=(vcground(ls))**gamma
          endif
          do k=1,mkzh
-            if (cvcor.eq.'z'.or.cvcor.eq.'f') then ! convert to height (km)
+            if (cvcor.eq.'z') then ! convert to height (km)
                vc2d(ls,k)=-.001*sclht*alog(vc2d(ls,k))
 
             elseif (cvcor.eq.'l') then ! convert to log pressure

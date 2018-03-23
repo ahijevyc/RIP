@@ -4,13 +4,12 @@ c                                                                     c
       subroutine pltitle(ctitl,cfeld,cptyp,rlevl,rlavl,cvcor,
      &   rstmv,lgrad,llapl,lhadv,rcrag,rcrbg,rslcg,ismth,
      &   ismcp,toptextclg,ilev,ixavg,icomg,csout,idimn,raddf,
-     &   rtjst,rtjen,rtjti,titlstr,iovly,
+     &   rtjst,rtjen,rtjti,titlstr,
      &   cdiff,rdiff,ldfrl,xtime,itjns,rtim,ctim,lnttl,lnsmm,lnvlb,
-     &   ldiffsuccess,idescriptive,engplttl,maxlev,maxpl,mkzh,ipl,
-     &   noplots)
+     &   ldiffsuccess,idescriptive,engplttl,maxlev,maxpl,mkzh,ipl)
 c
       dimension rlevl(maxlev,maxpl),rlavl(maxlev,maxpl),
-     &   rcrag(2,maxpl),rcrbg(2,maxpl),ismth(maxpl),iovly(maxpl),
+     &   rcrag(2,maxpl),rcrbg(2,maxpl),ismth(maxpl),
      &   ixavg(maxpl),icomg(maxpl),rstmv(2,maxpl),idimn(maxpl),
      &   raddf(maxpl),ismcp(maxpl),rslcg(2,maxpl),rdiff(maxpl),
      &   rtjst(maxpl),rtjen(maxpl),rtjti(maxpl),itjns(maxpl)
@@ -30,11 +29,9 @@ c
 c
 c   Make set call, set color
 c
-      if (noplots.eq.0) then
-        call set(0.,1.,0.,1.,0.,1.,0.,1.,1)
-        call gsplci(icomg(ipl))
-        call gstxci(icomg(ipl))
-      endif
+      call set(0.,1.,0.,1.,0.,1.,0.,1.,1)
+      call gsplci(icomg(ipl))
+      call gstxci(icomg(ipl))
 c
       if (ctitl(ipl)(1:20).ne.'auto                ') then
          str=ctitl(ipl)
@@ -217,20 +214,12 @@ c
 c
       if (cptyp(ipl)(1:1).eq.'h'.and.
      &    rlevl(ilev,ipl).eq.rlavl(ilev,ipl)) then ! hor. plts, no avg.
-
-         if(field1(1:6).eq.'track ') then
-           write(str(1:20),'(a20)') 'Typhoon Track       '
-
-         else if (cvcor(ipl).eq.'s') then   ! k index
+         if (cvcor(ipl).eq.'s') then   ! k index
             write(str(39:57),'(a16,i3)')    '   at k-index = ',
      &                    nint(rlevl(ilev,ipl))
          elseif (cvcor(ipl).eq.'z') then    ! height (geop.)
             heit=rlevl(ilev,ipl)
             write(str(39:60),'(a14,f5.2,a3)') '  at height = ',
-     &                                   heit,' km'
-         elseif (cvcor(ipl).eq.'f') then    ! height (geop.) above frz. lev.
-            heit=rlevl(ilev,ipl)
-            write(str(39:60),'(a14,f5.2,a3)') '  at h(AFL) = ',
      &                                   heit,' km'
          elseif (cvcor(ipl).eq.'p'.or.
      &           cvcor(ipl).eq.'l'.or.
@@ -323,7 +312,7 @@ c     &        nint(rlevl(ilev,ipl)),' to ',nint(rlavl(ilev,ipl)),' K '
       if (lnvlb(ipl)) write(str(39:60),'(a21)') '                     '
       if (.not.lnttl(ipl)) then
          ploc=toptextclg-.5*chht
-         if (noplots.eq.0) call plchhq(.01,ploc,str,.011,0.,-1.)
+         call plchhq(.01,ploc,str,.011,0.,-1.)
          toptextclg=toptextclg-(chht+chgap)
       endif
 c
@@ -373,26 +362,14 @@ c
             enddo
  75         continue
             ilencdiff=min(iendcdiff-ibegcdiff+1,15)
-            if (iovly(ipl) .eq. 0) then
-              write(str(iendstr+1:),'(a17,a,a7,f6.2,a2)')
+            write(str(iendstr+1:),'(a17,a,a7,f6.2,a2)')
      &         '(diff. from case=',
      &         cdiff(ipl)(ibegcdiff:ibegcdiff+ilencdiff-1),
      &         ', time=',xtime_df,') '
-            else
-              write(str(iendstr+1:),'(a17,a,a7,f6.2,a2)')
-     &         '(      from case=',
-     &         cdiff(ipl)(ibegcdiff:ibegcdiff+ilencdiff-1),
-     &         ', time=',xtime_df,') '
-            endif
             iendstr=iendstr+32+iendcdiff
          else
-            if (iovly(ipl) .eq. 0) then
-              write(str(iendstr+1:),'(a17,f6.2,a2)')
+            write(str(iendstr+1:),'(a17,f6.2,a2)')
      &         '(diff. from time=',xtime_df,') '
-            else
-              write(str(iendstr+1:),'(a17,f6.2,a2)')
-     &         '(      from time=',xtime_df,') '
-            endif
             iendstr=iendstr+25
          endif
       endif
@@ -400,15 +377,13 @@ c
          write(iup,*)str(1:79)
          if (.not.lnttl(ipl)) then
             ploc=toptextclg-.5*chht
-            if (noplots.eq.0) call plchhq(.01,ploc,str,.011,0.,-1.)
+            call plchhq(.01,ploc,str,.011,0.,-1.)
             toptextclg=toptextclg-(chht+chgap)
          endif
       endif
 c
 c     call flush(iup)
-      if (noplots.eq.0) then
-        call gsplci(1)
-        call gstxci(1)
-      endif
+      call gsplci(1)
+      call gstxci(1)
       return
       end

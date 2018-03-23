@@ -4,13 +4,13 @@ c                                                                     c
       subroutine driver(miy,mjx,mkzh,mabpl,morpl,xtimeavl,
      &     cxtimeavl,ncxc,maxtavl,nxtavl,casename,iendc,
      &     title,rip_root,rootname,iendcr,ptimes,iptimes,
-     &     ptuse,maxptimes,ptimeunits,tacc,ntextq,ntextcd,ntextfn,
-     &     idotser,noplots,idotitle,timezone,iusdaylightrule,
+     &     ptuse,maxptimes,ptimeunits,tacc,ntextq,ntextcd,
+     &     idotser,idotitle,timezone,iusdaylightrule,
      &     inearesth,iinittime,ifcsttime,ivalidtime,fcoffset,
      &     titlecolor,idescriptive,icgmsplit,maxfld,
-     &     itrajcalc,rtim,ctim,dtfile,dttraj,
+     &     itrajcalc,iusectrv,rtim,ctim,dtfile,dttraj,
      &     vctraj,ihydrometeor,xjtraj,yitraj,zktraj,diag,
-     &     ntraj,imakev5d,inewdom,istopmiss,ncarg_type)
+     &     ntraj,imakev5d,inewdom)
 c
 c   This subroutine was formerly the main program of RIP.  It does
 c   most of the "work".
@@ -33,7 +33,7 @@ c      dataset.
 c   iendc is number of meaningful characters in the variable
 c      'casename.'
 c   title,rip_root,rootname,ptimes,iptimes,ptimeunits,tacc,ntextq,ntextcd,
-c      ntextfn,idotser,idotitle,timezone,iusdaylightrule,inearesth,
+c      idotser,idotitle,timezone,iusdaylightrule,inearesth,
 c      iinittime,ifcsttime,ivalidtime,fcoffset,titlecolor,idescriptive,
 c       and icgmsplit are namelist variables
 c      that used to be read in in subroutine driver, but are now
@@ -53,18 +53,63 @@ c   diag is an array to hold diagnostic quantities, in trajectory
 c      calculation mode
 c   ntraj is the number of trajectories specified in xjtraj,yitraj,
 c      zktraj, and diag
+c   iusectrv is a flag to use contrived fields.
 c   imakev5d is a flag that determines whether RIP is being run
 c      in "make vis5d data" mode
+c
+c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+c
+c   Note: if you don't have a Fortran 90 compiler, or your
+c   Fortran 77 compiler doesn't support adjustable dimensioning of
+c   local (non-argument) arrays, then you must do the following:
+c   comment out the above subroutine declaration, and uncomment
+c   the following one:
+c
+c      subroutine driver(miydumb,mjxdumb,mkzhdumb,
+c     &     mabpldumb,morpldumb,xtimeavl,
+c     &     cxtimeavl,ncxc,maxtavl,nxtavl,casename,iendc,
+c     &     title,rip_root,rootname,iendcr,ptimes,iptimes,
+c     &     ptuse,maxptimes,ptimeunits,tacc,ntextq,ntextcd,
+c     &     idotser,idotitle,timezone,iusdaylightrule,
+c     &     inearesth,iinittime,ifcsttime,ivalidtime,fcoffset,
+c     &     titlecolor,idescriptive,icgmsplit,maxflddumb,
+c     &     itrajcalcdumb,iusectrv,rtim,ctim,dtfile,dttraj,
+c     &     vctraj,ihydrometeor,xjtraj,yitraj,zktraj,diag,
+c     &     ntraj,imakev5d)
+c
+c   Then, uncomment the following include statement.
+c
+c       include 'parinc'
+c
+c   Also check rotuines qgomg.f, and saweli.f, for
+c   instructions on similar adjustments that need to be made for
+c   those routines.
+c
+c   Then, make a file called 'parinc' that has the following line,
+c   but without the comment character:
+c
+c       parameter(miy=91,mjx=101,mkzh=27,maxfld=10,itrajcalc=1)
+c       parameter (mabpl=700, morpl=350)
+c
+c   All of these parameters are described above.  Set them for your
+c   particular domain and RIP requirements.  Note that maxfld and
+c   itrajcalc must have the same values here as they do in the
+c   &userin namelist.
+c
+c   Finally, run make to create a new executable.
+c
+c   Once these changes are made, you only need to edit 'parinc'
+c   and run make to create an executable for a different size domain.
+c
+c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 c
       dimension xtimeavl(maxtavl)
       character cxtimeavl(maxtavl)*10,casename*256
       dimension ptimes(maxptimes),iptimes(maxptimes),ptuse(maxptimes)
       character title*80,rootname*256,titlecolor*40,rip_root*256,
-     &   ptimeunits*1, ncarg_type*10, ncargext*3
+     &   ptimeunits*1
       dimension xjtraj(ntraj),yitraj(ntraj),zktraj(ntraj),diag(ntraj)
       character vctraj*1
-      logical tjenflag   
-
 c
 c   RIP header variables
 c
@@ -79,24 +124,21 @@ c      and frames respectively (needed for dimensioning).
 c   maxbuf is the maximum number of gflash buffers that can be saved
 c   maxcosq is the max number of colors that can be defined for a
 c      color sequence
-c   maxcon is the maximum possible number of contour values that RIP
-c      will allow for a single contour plot.
 c   maxtserv, maxtsers, and maxtsert are the maximum number of
 c      time series variables, stations, and times, respectively.
 c   niam,ncs are dimensions for work arrays for NCAR Graphics AREAS
 c      routines
 c
       parameter (maxpl=1500, maxlev=50, maxfr=300)
-      parameter (maxbuf=220, maxcosq=30, maxcon=80)
-      parameter (maxtserv=10,maxtsers=30,maxtsert=150)
-      parameter (niam=10000000,ncs=1000000)
+      parameter (maxbuf=220, maxcosq=30)
+      parameter (maxtserv=10,maxtsers=30,maxtsert=19)
+      parameter (niam=50000000,ncs=50000000)
 c
 c Storm tracking variables
-c
       logical track_read
       parameter (max_storms = 5, max_parameters = 7)
       real storm_val(maxptimes,max_parameters,max_storms)
-      real rtynt(maxpl)
+      real tynt(maxpl)
       character storm(maxpl)*82
       real storm_cutoff1, storm_cutoff2, current_fchr
       integer times_through,icurrent_fchr,init_date,
@@ -124,7 +166,6 @@ c
      &   ipwhl(maxpl), ipwbr(maxpl), ifclb(maxpl), ifcnl(maxpl),
      &   ifczr(maxpl), ifchl(maxpl), ilclo(maxpl), ifclo(maxpl),
      &   rwdbr(maxpl), ismcp(maxpl), ismth(maxpl), rcint(maxpl),
-     &   rcval(maxcon,maxpl),incvl(maxpl),
      &   rcbeg(maxpl), idash(maxpl), icolr(maxpl), icoll(maxpl),
      &   ilcll(maxpl), ilchl(maxpl), rtslb(maxpl), rtshl(maxpl),
      &   imjsk(maxpl), icomg(maxpl), icosq(maxcosq,maxpl),
@@ -132,7 +173,7 @@ c
      &   rslcg(2,maxpl), ilinw(maxpl), rlevl(maxlev,maxpl),
      &   rlavl(maxlev,maxpl), rlevs(maxlev,maxpl), inlvs(maxpl),
      &   ioulw(maxpl), iouco(maxpl), imfco(6,maxpl), rsepa(32,maxpl),
-     &   idimn(maxpl), rvwin(2,maxpl), ixavg(maxpl), rcfad(3,maxpl),
+     &   idimn(maxpl), rvwin(2,maxpl), ixavg(maxpl),
      &   iintv(maxpl), rvcmx(maxpl), ivvnx(maxpl), rvvms(maxpl),
      &   incsq(maxpl), raxlg(maxpl), raxld(maxpl), raxlv(maxpl),
      &   raxtg(maxpl), raxtd(maxpl), raxtv(maxpl), raddf(maxpl),
@@ -140,7 +181,7 @@ c
      &   rtjsp(3,50,maxpl),itjns(maxpl),iqgsm(maxpl),
      &   itjid(30,maxpl),itjni(maxpl),rtjar(2,maxpl),rtjst(maxpl),
      &   rtjen(maxpl),rtjti(maxpl),rdiff(maxpl),irota(maxpl),
-     &   pavprof(1000),inmin(maxpl), iovly(maxpl)
+     &   pavprof(1000),inmin(maxpl)
 c
       dimension ixwingf(2,maxbuf), iywingf(2,maxbuf),
      &   yicorngf(maxbuf), xjcorngf(maxbuf), icolrgf(maxbuf),
@@ -154,30 +195,28 @@ c
      &   tserxj(maxtsers), mdatetser(maxtsert),
      &   rhourtser(maxtsert),irotagf(maxbuf)
 c
-      logical lnobr(maxpl),lnozr(maxpl),lnolb(maxpl),lpslb(maxpl),
-     &   lnmsg(maxpl),lmult(maxpl),lnttl(maxpl),
-     &   lchfl(maxpl),larng(maxpl),lhide(maxpl),lcord(maxpl),
+      logical lnobr(maxpl),lnozr(maxpl),lnolb(maxpl),
+     &   lnmsg(maxpl),lmult(maxpl),lnttl(maxpl),lverf(maxpl),
+     &   lchfl(maxpl),larng(maxpl),lhide(maxpl),
      &   lredo(maxpl),lgrad(maxpl),llapl(maxpl),lhadv(maxpl),
      &   lhodo(maxpl),lmand(maxpl),lnogd(maxpl),ldfrl(maxpl),
      &   lnsmm(maxpl),lnvlb(maxpl),lsndg(maxpl),lbogs(maxpl),
      &   lplrs(maxpl)
       logical lhodogf(maxbuf),lsndggf(maxbuf),lmandgf(maxbuf),lnogdvc,
-     &   ldiffsuccess,lstnloop
+     &   ldiffsuccess
       character cfeld(3,maxpl)*10,cptyp(maxpl)*2,ccmth(maxpl)*4,
      &   cvcor(maxpl)*1,cdum*80,alphabet*52,cfulb(maxpl)*5,
      &   csloc(2,maxpl)*20,ccrsa(2,maxpl)*20,ccrsb(2,maxpl)*20,
      &   csout(maxpl)*58,ctjfl(maxpl)*256,cdiff(maxpl)*256,
      &   csave(maxpl)*10,ctitl(maxpl)*82,engplttl(maxpl)*36,
-     &   conam(0:255)*40,cv5nm(maxpl)*8,ccalb(maxpl)*256,
+     &   conam(0:255)*40,cv5nm(maxpl)*8,
      &   titlestr*82,cgmname*80,vcncheck*1,cnohl(maxpl)*1,
      &   vc3dtyp*1,vc2dtyp*1,unwk(maxpl)*24,
      &   cmllmgf(maxbuf)*5,coutygf(maxbuf)*32,coudsgf(maxbuf)*5,
      &   cmllm(maxpl)*5,couty(maxpl)*32,couds(maxpl)*5,
      &   icaoid*4,locdesc*44,csids(40,maxpl)*20,minfo(5)*256,
      &   tserlocpoint(maxtsers)*58,
-     &   tserlocdesc(maxtsers)*44,tservname(maxtserv)*82,stnfile*20
-
-      integer is_geo_data
+     &   tserlocdesc(maxtsers)*44,tservname(maxtserv)*82
 c
       dimension nsids(maxpl)
 c
@@ -190,9 +229,7 @@ c
      &   ehdotsv(1+(miy-1)*itrajcalc,1+(mjx-1)*itrajcalc,   
      &         1+(mkzh-1)*itrajcalc)                     ! d(eh)/dt
 c
-      integer fcasthr, fchour(maxtsert), istnfilend
-      character(len=40), dimension(maxpl) :: lableft
-      character(len=40), dimension(maxpl) :: labright
+      integer fcasthr, fchour(maxtsert)
 c
 c   Array for call to GKS routine GSASF
 c
@@ -224,14 +261,14 @@ c
 c
 c   Map transform common block
 c
-      include "commptf"
+      common /mptf/ rpd_mptf,pi_mptf,dskmc_mptf,xlonc_mptf,rearth_mptf,
+     &   ciy_mptf,cjx_mptf,yc_mptf,ihm_mptf,c1_mptf,c2_mptf,cone_mptf,
+     &   conei_mptf,nproj_mptf
 c
 c   Stationlist common block
 c
-      common /sl/ igot_sl,ns_sl,icao_sl,iwmo_sl,slat_sl,slon_sl,loc_sl,
-     &            stelev_sl
-      dimension iwmo_sl(15000),slat_sl(15000),slon_sl(15000),
-     &   stelev_sl(15000)
+      common /sl/ igot_sl,ns_sl,icao_sl,iwmo_sl,slat_sl,slon_sl,loc_sl
+      dimension iwmo_sl(15000),slat_sl(15000),slon_sl(15000)
       character icao_sl(15000)*4,loc_sl(15000)*44
 c
 c some architectures (our SGI-64) don't initialize these properly, so do
@@ -264,7 +301,7 @@ c
 c MGD vars
       real fbmino,ftmaxo,flmino,frmaxo,vdif
 c
-      write(iup,*)'Welcome to your friendly RIP (V4.7) output file !'   ! January 2017
+      write(iup,*)'Welcome to your friendly RIP output file !'
 c     call flush(iup)
       igotit_sl=0
 c
@@ -288,30 +325,15 @@ c   Convert tacc from seconds to hours
 c
       tacch=tacc/3600.
 c
-      tjenflag = .false.   
 c   Constants for gks
 c
-      ier=6              ! error output
-      iucgm=3            ! fortran unit number for cgm file output
-      iwkidgf=9          ! workstation id for gflash utility
-      iugf=4             ! fortran unit number for gflash utility
-      iwtypegf=3         ! workstation type (3=gflash utility)
-      iwkidcgm=1         ! workstation id for cgm file output
-      ncargext = 'cgm'
-      if ( trim(ncarg_type) == 'pdf') then
-         iwkidcgm = 11
-         ncargext = 'pdf'
-      elseif ( trim(ncarg_type) == 'pdfL') then
-         iwkidcgm = 12
-         ncargext = 'pdf'
-      elseif ( trim(ncarg_type) == 'ps') then
-         iwkidcgm = 20
-         ncargext = 'ps'
-      elseif ( trim(ncarg_type) == 'x11') then
-         iwkidcgm = 8
-         ncargext = 'x11'
-      endif
-      iwtypecgm=iwkidcgm ! workstation type (1=cgm file output)
+      ier=6             ! error output
+      iwkidcgm=1        ! workstation id for cgm file output
+      iucgm=3           ! fortran unit number for cgm file output
+      iwtypecgm=1       ! workstation type (1=cgm file output)
+      iwkidgf=9         ! workstation id for gflash utility
+      iugf=4            ! fortran unit number for gflash utility
+      iwtypegf=3        ! workstation type (3=gflash utility)
       alphabet=
      &   'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 c
@@ -327,10 +349,7 @@ c       2: skewt background
 c       3: horizontal tick marks
 c       4: polar skewt background
 c
-c     flag to determine if the workstation is open or closed
-      jopwk = 0
-c
-c   Plot setup: The plots (except for axis labels and title) will
+c   Plot settup: The plots (except for axis labels and title) will
 c      be confined to a "usable rectangle" with left and right edges
 c      and top and bottom at flmin, frmax, ftmax, and fbmin respect-
 c      ively (in the fractional coordinate system).  The size of the
@@ -358,10 +377,7 @@ c      This is where one would stick in a special routine to define
 c      parameters of the new domain (not associated with any model
 c      input/output data) if one desired.
 c
-c         stop 'No new domain code included.'
-         call getheadinfo_newdom(nproj,miycors,mjxcors,mdateb,mhourb,
-     &      iice,iplevdata,true1,true2,xlatc,xlonc,dskmc,dskm,
-     &      yicorn,xjcorn,rhourb,dsc,ds,refrat,iunewdom,iup)
+         stop 'No new domain code included.'
       endif
 c
 c   Set values of rip file header variables
@@ -507,24 +523,27 @@ c
       call readspec      (nfr,numppf,nltf,intim,rtime,cfeld,icomg,
      &   cptyp,incon,icolr,icosq,rcosq,icoll,ilcll,ilchl,rtslb,rtshl,
      &   icong,iconl,icozr,ilwll,ilwng,ilwnl,ilwzr,idall,
-     &   idang,idanl,idazr,ilcnl,ilczr,iovly,
-     &   lableft, labright,
+     &   idang,idanl,idazr,ilcnl,ilczr,
      &   ilcbr,ipwlb,iorlb,ipwhl,ipwbr,ifclb,ifcnl,ifczr,ifchl,
-     &   ilclo,ifclo,ccmth,rwdbr,ihvbr,ccrsa,ccrsb,csloc,rsepa,rcfad,
+     &   ilclo,ifclo,ccmth,rwdbr,ihvbr,ccrsa,ccrsb,csloc,rsepa,
      &   imjsk,nptuse,ptuse,ixwin,iywin,lhide,csave,lredo,lnogd,
-     &   ilinw,lnobr,lnozr,cnohl,lnolb,lnmsg,lnttl,cvcor,inmin,
+     &   ilinw,lnobr,lnozr,cnohl,lnolb,lnmsg,lnttl,lverf,cvcor,inmin,
      &   rlevs,inlvs,rlevl,rlavl,rvwin,ixavg,idash,ismth,ismcp,iintv,
-     &   rvcmx,ivvnx,rvvms,rcint,rcval,incvl,
-     &   rcbeg,rcend,lmult,larng,lchfl,lhodo,
-     &   lmand,lsndg,cdiff,rdiff,ldfrl,lbogs,lcord,lpslb,
+     &   rvcmx,ivvnx,rvvms,rcint,rcbeg,rcend,lmult,larng,lchfl,lhodo,
+     &   lmand,lsndg,cdiff,rdiff,ldfrl,lbogs,
      &   raxlg,raxld,raxlv,raxtg,raxtd,raxtv,rstrm,rrfst,raddf,
-     &   cfulb,conam,incsq,cmllm,couty,iqgsm,
-     &   ctjfl,ctitl,cv5nm,rtjsp,itjns,itjid,itjni,ccalb,
+     &   cfulb,conam,incsq,cmllm,couty,iqgsm,iopenverf,
+     &   ctjfl,ctitl,cv5nm,rtjsp,itjns,itjid,itjni,
      &   rtjar,rtjst,rtjen,rtjti,lgrad,llapl,lhadv,igdir,
      &   couds,ioulw,iouco,imfco,fred,fgreen,fblue,nco,
-     &   csids,nsids,lnsmm,lnvlb,itrajcalc,imakev5d,maxcon,
-     &   maxcosq,maxfr,maxlev,maxpl,miy,mjx,mkzh,irota,rtynt,lplrs)
-
+     &   csids,nsids,lnsmm,lnvlb,itrajcalc,imakev5d,
+     &   maxcosq,maxfr,maxlev,maxpl,miy,mjx,mkzh,irota,tynt,lplrs)
+c
+c   Open the precip verification file if necessary
+c
+      if (iopenverf.gt.0)
+     &   open (unit=iuprcver,file=rootname(1:iendcr)//'.prcver',
+     &   form='formatted',status='unknown')
 c
 c   Set up time series stuff if needed.
 c
@@ -540,12 +559,6 @@ c
          do iline=1,5
             minfo(iline)=' '
          enddo
-      endif
-      is_geo_data = INDEX(minfo(1),'GRIDGEN')
-      if ( is_geo_data /= 0 ) then
-         iinittime=0
-         ifcsttime=0
-         ivalidtime=0
       endif
 c
 c   Set trivial values for some plotting quantities if
@@ -731,10 +744,6 @@ c         stop
          proj_args(2) = xlonc ! central lon
          proj_args(3) = dskm   ! row increment 
          proj_args(4) = dskm   ! col increment - row/col same for Mercator
-      elseif (nproj.eq.4) then ! stretch-rot-cyl-equid (SRCE)
-         write(iup,*)'Sorry, can''t do NMM''s SRCE'
-         write(iup,*)'projection for Vis5d data conversion.'
-         stop
       endif
 c
 c   Set level values
@@ -758,7 +767,7 @@ c
       iv5dcount=0
 c
       endif
-c
+
       track_read=.false.
       do i=1, maxpl
         if(cfeld(1,i)(1:6).eq.'track ') track_read=.true.
@@ -805,12 +814,6 @@ c  If u10 or v10 is unavailable fill the arrays with the lowest model level wind
 
       enddo
       endif
-c
-c      yicorcent=.5*(1.+miycors)
-c      xjcorcent=.5*(1.+mjxcors)
-c      call maptform(yicorcent,xjcorcent,xlatcorcent,xloncorcent,1)
-c      print*,'Center of coarse domain: x,y,lat,lon='
-c      print*,xjcorcent,yicorcent,xlatcorcent,xloncorcent
 c
 c   LOOP THROUGH TIME LEVELS.
 c
@@ -903,12 +906,7 @@ c      This is where one would stick in a special routine to define
 c      parameters of the new domain (not associated with any model
 c      input/output data) if one desired.
 c
-c         stop 'No new domain code included.'
-c
-c      (Not going to worry about this since my "newdom" will never move.)
-c
-         continue
-c
+         stop 'No new domain code included.'
       endif
 c
 c   Read the basic fields.
@@ -923,48 +921,13 @@ c      This is where one would stick in a special routine to define
 c      the 2D and 3D arrays for the new domain (not associated with any model
 c      input/output data) if one desired.
 c
-c         stop 'No new domain code included.'
-c
-         call getbasicvars_newdom(uuu,vvv,tmk,qvp,www,prs,ght,sfp,
-     &      sfpsm,ter,dmap,xmap,cor,miy,mjx,mkzh,yicorn,xjcorn,refrat,
-     &      iunewdom)
+         stop 'No new domain code included.'
       endif
 c         do k=1,mkzh
 c         do j=1,mjx
 c         do i=1,miy
 c            uuu(i,j,k)=-(j-mjx/2.)/float(mjx)*20.  ! Pure deformation field
 c            vvv(i,j,k)= (i-miy/2.)/float(mjx)*20.
-c         enddo
-c         enddo
-c         enddo
-c         do k=1,mkzh
-c         do j=1,mjx
-c            xx=float(j)
-c         do i=1,miy
-c            yy=float(i)
-c            uuu(i,j,k)= 10.*sin(.03*xx)*cos(.03*yy)
-c            vvv(i,j,k)=-10.*cos(.03*xx)*sin(.03*yy)
-c         enddo
-c         enddo
-c         enddo
-c         do k=1,mkzh
-c         do j=1,mjx
-c            jch=min(j,mjx-1)
-c         do i=1,miy
-c            ich=min(i,miy-1)
-c            if (ght(ich,jch,k).le.5000.) then
-c               uuu(i,j,k)=  1.e-5*(j-mjx/2)*ds
-c               vvv(i,j,k)= -1.e-5*(i-miy/2)*ds
-c            elseif (ght(ich,jch,k).le.10000.) then
-c               uuu(i,j,k)=  1.e-5*(i-miy/2)*ds
-c               vvv(i,j,k)=  1.e-5*(j-mjx/2)*ds
-c            elseif (ght(ich,jch,k).le.15000.) then
-c               uuu(i,j,k)= -1.e-5*(j-mjx/2)*ds
-c               vvv(i,j,k)=  1.e-5*(i-miy/2)*ds
-c            elseif (ght(ich,jch,k).le.20000.) then
-c               uuu(i,j,k)= -1.e-5*(i-miy/2)*ds
-c               vvv(i,j,k)= -1.e-5*(j-mjx/2)*ds
-c            endif
 c         enddo
 c         enddo
 c         enddo
@@ -1018,13 +981,8 @@ c
 c   Increment the time series time counter
 c
       if (idotser.eq.1) then
+         fchour(ntsert+1)=fcasthr
          ntsert=ntsert+1
-         if (ntsert .gt. maxtsert) then
-           write(iup,*) 'ntsert greater than ',maxtsert,' Modify driver.
-     &f and recompile or reduce the number of ptimes.'
-           stop '\tstopping in driver.f'
-         endif
-         fchour(ntsert)=fcasthr
          mdatetser(ntsert)=mdate
          rhourtser(ntsert)=rhour
          ntserv=0
@@ -1038,7 +996,6 @@ c   First make the cgm file name.
 c
       if (itrajcalc.eq.0.and.imakev5d.eq.0.and.nfr.gt.0) then
 c
-      if (noplots .eq. 0) then
       if (ipltime.eq.1) then
 c
 c      Open GKS
@@ -1059,14 +1016,17 @@ c      activate the metafile workstation
 c
          if (icgmsplit.eq.1) then
             cgmname=
-     &rootname(1:iendcr)//alphabet(ipltime:ipltime)//'.'//trim(ncargext)
+     &         rootname(1:iendcr)//'.cgm'//alphabet(ipltime:ipltime)
          else
-            cgmname=rootname(1:iendcr)//'.'//trim(ncargext)
+            cgmname=rootname(1:iendcr)//'.cgm'
          endif
+c
+c---print for cgm file location
+c
+         print *, "cgmname='",trim(cgmname),"'"
          call gesc (-1391,1,cgmname,1,1,cdum)
          call gopwk (iwkidcgm,iucgm,iwtypecgm)
          call gacwk (iwkidcgm)
-         jopwk = 1
 c
 c      Make sure all GKS aspect source flags are set to "individual", and
 c      area fill is solid.
@@ -1077,8 +1037,7 @@ c
 c      Assign the colors.
 c
          do ico=0,nco
-            call gscr (iwkidcgm,ico,fred(ico),fgreen(ico),fblue(ico))
-            !call gscr (1,ico,fred(ico),fgreen(ico),fblue(ico))
+            call gscr (1,ico,fred(ico),fgreen(ico),fblue(ico))
          enddo
 c         icomax=nco  ! Setting this here causes rip to run out of
 c                     ! available colors (max=255)
@@ -1088,10 +1047,9 @@ c
          call cpsetr('SPV',rmsg)
          ivcs=0            ! needed for vertical coord. trans. in x-secs.
 c
-        endif
+      endif
 c
       endif
-      endif   ! noplots
 c
 c   Reset the alternate vertical coordinate identifier, and identifiers
 c      of cross-section end points for alternate vertical coordinate
@@ -1169,11 +1127,10 @@ c
 c      Set text quality, font, function-code character,
 c      and color for frame title.
 c
-       if (noplots .eq. 0) then
-         call pcseti ('FN',ntextfn)
          call pcseti ('QU',ntextq)
          call pcseti ('CD',ntextcd)
          call pcsetc ('FC','~')
+c        call pcseti ('FN',4)
          do i=0,nco
             if (titlecolor.eq.conam(i)) then
                call gsplci(i)
@@ -1182,7 +1139,6 @@ c
             endif
          enddo
   620    continue
-       endif
 c
 c   Adjust mdateb, rhourb, and xtime based on user-specified
 c      forecast offset.
@@ -1200,7 +1156,6 @@ c
 c
 c      Make title at top of frame.
 c
-       if (noplots .eq. 0) then
          call frtitle(title,casename,iendc,rootname,
      &      mdatebfc,rhourbfc,xtimefc,timezone,iusdaylightrule,
      &      inearesth,idotitle,iinittime,ifcsttime,ivalidtime,
@@ -1219,7 +1174,7 @@ c
             iendm=lennonblank(minfo(iline))
             if (iendm.ne.0) then
                ypos=bottextfloor+.5*chsize
-               call plchhq (.04,ypos,minfo(iline)(1:iendm),
+               call plchhq (.1,ypos,minfo(iline)(1:iendm),
      &            chsize,0.,-1.)
                bottextfloor=bottextfloor+1.9*chsize
             endif
@@ -1227,10 +1182,7 @@ c
 c
          call gsplci(1)
          call gstxci(1)
-        endif    ! noplots
       endif
-
-      lstnloop = .false.
 c
 c---------------------------------------------------------------------c
       do 700 ipl=iplstrt,iplend     ! PLOT OVERLAY LOOP
@@ -1239,19 +1191,6 @@ c
 c      icomax=nco  ! resetting this here causes the problem with multiple
 c                  ! color-filled overlays in one frame
 c
-c Possible sounding station loop. For verification timeseries.
-      if (lbogs(ipl) .and. (csloc(1,ipl)(1:1).eq.'~')) then
-        lstnloop = .true.
-        istnfilend = index(csloc(1,ipl),' ') - 1
-        if (istnfilend .eq. -1) istnfilend = 20
-        read(csloc(1,ipl)(2:istnfilend),'(a)') stnfile
-        open(iutserstn,file=csloc(1,ipl)(2:istnfilend),form='formatted',
-     &       status='old')
-      endif
-  697 if (lstnloop) then
-        read(iutserstn,'(a20)',end=699,err=698) csloc(1,ipl)
-      end if
-
 c   Several things that need to be done only if ilev=1.
 c
       if (ilev.eq.1) then
@@ -1259,14 +1198,14 @@ c
 c   Interpret cross section location info.
 c
       call locinterp(ccrsa(1,ipl),rcrag(2,ipl),rcrag(1,ipl),
-     &   rlata,rlona,iwmo,icaoid,stelev,locdesc,rip_root)
+     &   rlata,rlona,iwmo,icaoid,locdesc,rip_root)
       call locinterp(ccrsb(1,ipl),rcrbg(2,ipl),rcrbg(1,ipl),
-     &   rlatb,rlonb,iwmo,icaoid,stelev,locdesc,rip_root)
+     &   rlatb,rlonb,iwmo,icaoid,locdesc,rip_root)
 c
 c   Interpret sounding location info.
 c
       call locinterp(csloc(1,ipl),rslcg(2,ipl),rslcg(1,ipl),
-     &   rlats,rlons,iwmo,icaoid,stelev,locdesc,rip_root)
+     &   rlats,rlons,iwmo,icaoid,locdesc,rip_root)
       if ((cptyp(ipl)(1:1).eq.'s'.and.cptyp(ipl)(2:2).ne.'b').or.
      &    (cptyp(ipl)(1:1).eq.'p') ) then
          csout(ipl)=' '
@@ -1343,14 +1282,13 @@ c
      &      uuu,vvv,tmk,qvp,prs,ght,www,sfp,sfpsm,dmap,xmap,ter,
      &      cor,unorth,vnorth,rstmv,rrfst,pslab1,pslab2,
      &      incwk,ipl,iplstrt,idimn,rcrag,ismcp,
-     &      rcrbg,cptyp,mdate,rhour,ydist,
-     &      xdist,xseclen,nscrs,raddf,csave,lredo,ihrip,rhrip,rsepa,
+     &      rcrbg,cptyp,mdate,lverf,ydist,xdist,xseclen,
+     &      nscrs,raddf,csave,lredo,ihrip,rhrip,rsepa,
      &      chrip,vardesc,lgrad,llapl,lhadv,
      &      igdir,iqgsm,plchun,casename,iendc,engplttl,ctjfl,rtjst,
-     &      rtjen,cdiff,rdiff,iovly,ldfrl,xtime,tacch,ccalb,
+     &      rtjen,cdiff,rdiff,ldfrl,xtime,tacch,
      &      xtimeavl,cxtimeavl,ncxc,maxtavl,nxtavl,nxt,ldiffsuccess,
-     &      rip_root,maxslab,maxlev,maxpl,miy,mjx,mkzh,mabpl,morpl,
-     &      istopmiss,ixwin,iywin)
+     &      maxslab,maxlev,maxpl,miy,mjx,mkzh,mabpl,morpl)
       endif
 c
       endif  ! end of stuff to do only if ilev=1
@@ -1371,8 +1309,7 @@ c
 c   We now have the desired array(s) in the wk array so we are
 c      ready so start the plotting. First, set text quality and font.
 c
-      if (itrajcalc.eq.0.and.imakev5d.eq.0.and.noplots.eq.0) then
-         call pcseti ('FN',ntextfn)
+      if (itrajcalc.eq.0.and.imakev5d.eq.0) then
          call pcseti ('QU',ntextq)
          call pcseti ('CD',ntextcd)
       endif
@@ -1394,10 +1331,6 @@ c
          read (iutrajin) rtim,ctim,dttraj,ntrajplt
          ntrajtimeplt=nint(abs(rtim-ctim)/dttraj*3600) + 1
       endif
-      if (rtjen(ipl) .eq. -1.) then    
-        tjenflag = .true.
-      endif
-      if ( tjenflag ) rtjen(ipl) = xtime    
 c
 c   Make title for individual plot underneath general title.
 c
@@ -1406,10 +1339,9 @@ c
          call pltitle(ctitl,cfeld,cptyp,rlevl,rlavl,cvcor,
      &      rstmv,lgrad,llapl,lhadv,rcrag,rcrbg,rslcg,ismth,
      &      ismcp,toptextclg,ilev,ixavg,icomg,csout,idimn,raddf,
-     &      rtjst,rtjen,rtjti,titlestr,iovly,
+     &      rtjst,rtjen,rtjti,titlestr,
      &      cdiff,rdiff,ldfrl,xtime,itjns,rtim,ctim,lnttl,lnsmm,lnvlb,
-     &      ldiffsuccess,idescriptive,engplttl,maxlev,maxpl,mkzh,ipl,
-     &      noplots)
+     &      ldiffsuccess,idescriptive,engplttl,maxlev,maxpl,mkzh,ipl)
       elseif (itrajcalc.eq.0.and.imakev5d.eq.0) then
          if (cfeld(1,ipl)(1:4).eq.'map ') then
             write(iup,*)'map background'
@@ -1429,43 +1361,42 @@ c
                endif
              enddo
   974        continue
-c            if (storm_val(1,1,k) .gt. 0.) then
-               if ( lprint .eq. 1 ) then
-                 write(6,975) 'lat','lon','y','x','t','   min SLP',
-     &                     '  max wind ','      xmax ','      ymax '
-  975            format(2(5x,a3,2x),3(5x,a1,4x),4a10)
-                 do i = 1, nxtavl
-                   if ( storm_val(i,1,k) .le. 0 .or. storm_val(i,2,k)
-     &                    .le. 0 ) then
-                     rlat = -1.
-                     rlon = -1.
-                   else
-                     write(csloc(1,ipl),'(f10.3)') storm_val(i,2,k)
-                     write(csloc(2,ipl),'(f10.3)') storm_val(i,1,k)
-                     call locinterp(csloc(1,ipl),gridx,gridy,
-     &                 rlat,rlon,iwmo,icaoid,stelev,locdesc,rip_root)
-                   endif
-                   write(6,976) rlat, rlon,
+c          if (storm_val(1,1,k) .gt. 0.) then
+           if ( lprint .eq. 1 ) then
+             write(6,975) 'lat','lon','y','x','t','   min SLP',
+     &                 '  max wind ','      xmax ','      ymax '
+  975 format(2(5x,a3,2x),3(5x,a1,4x),4a10)
+             do i = 1, nxtavl
+               if ( storm_val(i,1,k) .le. 0 .or. storm_val(i,2,k)
+     &                .le. 0 ) then
+                 rlat = -1.
+                 rlon = -1.
+               else
+                 write(csloc(1,ipl),'(f10.3)') storm_val(i,2,k)
+                 write(csloc(2,ipl),'(f10.3)') storm_val(i,1,k)
+                 call locinterp(csloc(1,ipl),gridx,gridy,
+     &              rlat,rlon,iwmo,icaoid,locdesc,rip_root)
+                endif
+                write(6,976) rlat, rlon,
      &                       (storm_val(i,j,k),j=1,7)
-                 enddo
-               endif
              enddo
-  976        format(9f10.3)
-             call do_track(storm_val,rcrag,rcrbg,nxtavl,storm,rtslb,
-     &         idash,ixwin,iywin,icolr,ipl,irota,ilinw,storm_cutoff1,
-     &         storm_cutoff2,init_date,cxtimeavl,maxpl,maxptimes,
-     &         maxtavl,rtynt)
-             call pcgeti('CC',old_color)
-             call pcseti('CC',icolr(ipl))
-             call pltitle(ctitl,cfeld,cptyp,rlevl,rlavl,cvcor,
-     &         rstmv,lgrad,llapl,lhadv,rcrag,rcrbg,rslcg,ismth,
-     &         ismcp,toptextclg,ilev,ixavg,icomg,csout,idimn,raddf,
-     &         rtjst,rtjen,rtjti,titlestr,iovly,cdiff,rdiff,
-     &         ldfrl,xtime,itjns,rtim,ctim,lnttl,lnsmm,lnvlb,
-     &         ldiffsuccess,idescriptive,engplttl,maxlev,maxpl,mkzh,ipl,
-     &         noplots)
+           endif
+           enddo
+  976 format(9f10.3)
+           call do_track(storm_val,rcrag,rcrbg,nxtavl,storm,rtslb,
+     &   idash,ixwin,iywin,icolr,ipl,irota,ilinw,storm_cutoff1,
+     &   storm_cutoff2,init_date,cxtimeavl,maxpl,maxptimes,maxtavl,tynt)
 
-             call pcseti('CC',old_color)
+         call pcgeti('CC',old_color)
+         call pcseti('CC',icolr(ipl))
+         call pltitle(ctitl,cfeld,cptyp,rlevl,rlavl,cvcor,
+     &      rstmv,lgrad,llapl,lhadv,rcrag,rcrbg,rslcg,ismth,
+     &      ismcp,toptextclg,ilev,ixavg,icomg,csout,idimn,raddf,
+     &      rtjst,rtjen,rtjti,titlestr,
+     &      cdiff,rdiff,ldfrl,xtime,itjns,rtim,ctim,lnttl,lnsmm,lnvlb,
+     &      ldiffsuccess,idescriptive,engplttl,maxlev,maxpl,mkzh,ipl)
+         call pcseti('CC',old_color)
+
          elseif (cfeld(1,ipl)(1:7).eq.'bullet ') then
             write(iup,*)'bullet'
          elseif (cfeld(1,ipl)(1:5).eq.'vbar ') then
@@ -1496,25 +1427,6 @@ c
             do i=1,miy-1
                vc3d(i,j,k)=exp(-ght(i,j,k)/sclht)
             enddo
-            enddo
-            enddo
-         elseif (vcncheck.eq.'f') then
-            do j=1,mjx-1
-            do i=1,miy-1
-               do k=2,mkzh
-                  if (tmk(i,j,k).ge.celkel.and.
-     &                tmk(i,j,k-1).le.celkel) then
-                     zfrz=ght(i,j,k-1)+(celkel-tmk(i,j,k-1))/
-     &                  (tmk(i,j,k)-tmk(i,j,k-1))*
-     &                  (ght(i,j,k)-ght(i,j,k-1))
-                     goto 777
-                  endif
-               enddo
-               zfrz=ght(i,j,mkzh)-(celkel-tmk(i,j,mkzh))/ussalr
- 777           continue
-               do k=1,mkzh
-                  vc3d(i,j,k)=exp(-(ght(i,j,k)-zfrz)/sclht)
-               enddo
             enddo
             enddo
          elseif (vcncheck.eq.'p') then
@@ -1568,11 +1480,6 @@ c
          vtickinc=.1
          defvv1=0.
          defvv2=15.
-         isense=1
-      elseif (cvcor(ipl).eq.'f') then ! these are in km
-         vtickinc=.1
-         defvv1=-2.
-         defvv2=13.
          isense=1
       elseif (cvcor(ipl).eq.'t') then ! these are in K
          vtickinc=1.
@@ -1702,7 +1609,7 @@ c
                else
                   vfall=0.0
                endif
-               ehdotsv(i,j,k) = ehdotsv(i,j,k) + vfall*ehsv(i,j,k)/sclht
+               ehdotsv(i,j,k) = ehdotsv(i,j,k) - vfall*ehsv(i,j,k)/sclht
             enddo
             enddo
             enddo
@@ -1847,7 +1754,7 @@ c
                else
                   vfall=0.0
                endif
-               scr3b(i,j,k) = scr3b(i,j,k) + vfall*ehsv(i,j,k)/sclht
+               scr3b(i,j,k) = scr3b(i,j,k) - vfall*ehsv(i,j,k)/sclht
             enddo
             enddo
             enddo
@@ -2095,7 +2002,6 @@ c assume that...
         endif
       endif
 c MGD end mod
-      if (noplots .eq. 0) then
       if (cptyp(ipl)(1:1).eq.'h') then           ! horizontal plot
          if (cfeld(1,ipl)(1:4).eq.'map ') then           ! map
             call hmapdraw(ngfbuf,ixwin,ixwingf,iywin,iywingf,
@@ -2122,7 +2028,7 @@ c MGD end mod
               csloc(1,ipl) = csids(nn,ipl)
               csloc(2,ipl) = 'missing             '
               call locinterp(csloc(1,ipl),gridx,gridy,
-     &          rlats,rlons,iwmo,icaoid,stelev,locdesc,rip_root)
+     &          rlats,rlons,iwmo,icaoid,locdesc,rip_root)
               rcrag(1,ipl) = gridy
               rcrag(2,ipl) = gridx
               call hsidsdraw(rtslb,ilinw,ixwin,iywin,icolr,rcrag,
@@ -2145,28 +2051,22 @@ c            Save plot title for time series information.
                endif
                if (ipltime.eq.1) tservname(ntserv)=titlestr
             endif
-            if (rcfad(1,ipl).ne.rmsg) then
-               ncfadbin=nint(rcfad(3,ipl))
-            else
-               ncfadbin=0
-            endif
             call hcondraw(xtime,ilinw,vc3d,tmk,qvp,
      &         prs,ght,ter,sfp,sfpsm,
-     &         ixwin,iywin,ismth,rcint,rcbeg,rcend,rcval,incvl,lmult,
-     &         larng,idash,rlevl,rlavl,cnohl,lnolb,lnobr,lnozr,incon,
+     &         ixwin,iywin,ismth,rcint,rcbeg,rcend,lmult,larng,
+     &         idash,rlevl,rlavl,cnohl,lnolb,lnobr,lnozr,incon,
      &         bottextfloor,cfeld,cvcor,wk(1,1,indwk(1,ipl)),
-     &         icdwk,unwk,ilev,lpslb,icolr,icoll,ilcll,ilchl,rtslb,
+     &         icdwk,unwk,ilev,icolr,icoll,ilcll,ilchl,rtslb,
      &         rtshl,imjsk,icomg,lnmsg,icong,iconl,icozr,idimn,
      &         lhide,lgrad,lhadv,ilwll,ilwng,ilwnl,ilwzr,idall,
-     &         idang,idanl,idazr,ilcnl,ilczr,lcord,
+     &         idang,idanl,idazr,ilcnl,ilczr,
      &         ilcbr,ipwlb,iorlb,ipwhl,ipwbr,ifclb,ifcnl,
-     &         ifczr,ifchl,ilclo,ifclo,ccmth,rwdbr,ihvbr,rcfad,ncfadbin,
+     &         ifczr,ifchl,ilclo,ifclo,ccmth,rwdbr,ihvbr,
      &         idotser,tseryi,tserxj,tserdat,ntsers,ntsert,ntserv,
      &         icosq,rcosq,incsq,fred,fgreen,fblue,nco,icomax,pslab1,
      &         pslabt,ipslab,iam,xcs,ycs,niam,ncs,idiffflag,
      &         maxtserv,maxtsers,maxtsert,maxcosq,mabpl,morpl,
-     &         maxlev,maxpl,maxcon,miy,mjx,mkzh,ipl,irota,iwkidcgm,
-     &         noplots)
+     &         maxlev,maxpl,miy,mjx,mkzh,ipl,irota)
          elseif (cptyp(ipl)(2:2).eq.'v') then  ! vectors of <f1,f2>
             call hvecdraw(ilinw,vc3d,tmk,qvp,
      &         prs,ght,ter,sfp,sfpsm,
@@ -2229,27 +2129,26 @@ c
          if (cfeld(1,ipl)(1:4).eq.'tic ') then           ! tic marks
             call vticdraw(ilinw,icolr,xseclen,raxtd,raxld,cvcor,
      &         rtslb,nscrs,raxlv,raxtv,lnogd,vcground,
-     &         rlata,rlona,rlatb,rlonb,lableft,labright,
+     &         rlata,rlona,rlatb,rlonb,
      &         vv1,vv2,set1,set2,vtickinc,mabpl,maxpl,ipl)
          elseif (cfeld(1,ipl)(1:5).eq.'vbar ') then      ! vertical bar
             call vbardraw(ilinw,idash,icolr,set1,set2,xdist,ydist,
      &         rcrag,rslcg,xseclen,rtslb,ctitl,igdir,maxpl,ipl)
          elseif (cptyp(ipl)(2:2).eq.'c') then    ! contours
             call vcondraw(ilinw,rcrag,rcrbg,ismth,rcint,rcbeg,rcend,
-     &         rcval,incvl,lmult,larng,idash,ixavg,
-     &         cnohl,lnolb,lnobr,lnozr,icomg,
+     &         lmult,larng,idash,ixavg,cnohl,lnolb,lnobr,lnozr,icomg,
      &         incon,bottextfloor,wk(1,1,indwk(1,ipl)),
      &         icdwk,unwk,icolr,icoll,ilcll,
      &         ilchl,rtslb,rtshl,imjsk,lnmsg,cfeld,
      &         icong,iconl,icozr,ilwll,ilwng,ilwnl,ilwzr,idall,
-     &         idang,idanl,idazr,ilcnl,ilczr,lcord,ihvbr,
+     &         idang,idanl,idazr,ilcnl,ilczr,ihvbr,
      &         ilcbr,ipwlb,iorlb,ipwhl,ipwbr,ifclb,ifcnl,
      &         ifczr,ifchl,ilclo,ifclo,ccmth,idimn,rwdbr,
      &         nscrs,set1,set2,xdist,ydist,xseclen,icosq,
      &         rcosq,incsq,fred,fgreen,fblue,nco,icomax,
      &         pslab1,pslabt,ipslab,iam,xcs,ycs,niam,ncs,
-     &         maxcosq,mabpl,morpl,maxpl,maxcon,
-     &         miy,mjx,mkzh,ipl,iwkidcgm)
+     &         maxcosq,mabpl,morpl,maxpl,
+     &         miy,mjx,mkzh,ipl)
          elseif (cptyp(ipl)(2:2).eq.'v') then
 c         Vectors of paral. comp. of <f1,f2,f3>
 c
@@ -2330,20 +2229,14 @@ c           Vectors showing horiz. wind, defined by <f1,f2>
          fbminsou=0.  ! get screwed up. 
          ftmaxsou=.9
          if (cfeld(1,ipl)(1:4).eq.'tic ') then   ! skewt grid
-            igray=igetcoind('light.gray',conam,nco,
-     &            'skew-t needs light.gray in color.tbl')
-            itcolr=igetcoind('wheat3',conam,nco,
-     &            'skew-t needs wheat3 in color.tbl')
-            imcolr=igetcoind('forest.green',conam,nco,
-     &            'skew-t needs forest.green in color.tbl')
+            igray=igetcoind('light.gray',conam,nco)
             if (lplrs(ipl)) then
                call sticdraw_polar(icolr,igray,ilinw,ngfbuf,icolrgf,
      &            ilinwgf,lhodo,lmand,lsndg,lhodogf,lmandgf,lsndggf,
      &            iwhatgf,maxbuf,flminsou,frmaxsou,fbminsou,ftmaxsou,
      &            maxpl,ipl)
             else
-               call sticdraw(icolr,igray,itcolr,imcolr,
-     &            ilinw,ngfbuf,icolrgf,ilinwgf,
+               call sticdraw(icolr,igray,ilinw,ngfbuf,icolrgf,ilinwgf,
      &            lhodo,lmand,lsndg,lhodogf,lmandgf,lsndggf,iwhatgf,
      &            maxbuf,flminsou,frmaxsou,fbminsou,ftmaxsou,maxpl,ipl)
             endif
@@ -2363,12 +2256,12 @@ c           Vectors showing horiz. wind, defined by <f1,f2>
      &         wk(1,1,indwk(1,ipl)),wk(1,1,indwk(2,ipl)),
      &         ipl,rslcgprv,unorth,vnorth,rvvms,pavprof,prssou,ipolar,
      &         cfulb,lhodo,ins,flminsou,frmaxsou,fbminsou,ftmaxsou,
-     &         icomax,maxpl,miy,mjx,mkzh,iwkidcgm)
+     &         icomax,maxpl,miy,mjx,mkzh)
             if (lbogs(ipl)) then
                call bogs(uuu,vvv,tmk,qvp,prs,ght,unorth,vnorth,ter,
-     &            casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,maxtavl,
-     &            vardesc,plchun,ihrip,rhrip,chrip,mdate,rhour,rlats,
-     &            rlons,rslcg,ipl,maxpl,miy,mjx,mkzh)
+     &              casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,maxtavl,
+     &              vardesc,plchun,ihrip,rhrip,chrip,
+     &            mdate,rhour,rlats,rlons,rslcg,ipl,maxpl,miy,mjx,mkzh)
             endif
 	    if (lsndg(ipl)) call sstats(ilinw,prs,rslcg,icolr,
      &         icdwk,uuu,vvv,tmk,qvp,
@@ -2383,43 +2276,8 @@ c           Vectors showing horiz. wind, defined by <f1,f2>
 	 if (rcend(ipl) .lt.  rmsg) prfmax = rcend(ipl)
          call profil (wk(1,1,indwk(1,ipl)),maxpl,ipl,prfmax,prfmin,
      &      vc3d,cvcor(ipl),rslcg,set1,set2,unwk,csout,icomg,ilinw,
-     &      ixwin,iywin,miy,mjx,mkzh)
+     &      miy,mjx,mkzh)
       endif
-      else  ! Only want to get time series data, no actual plotting
-        if (lbogs(ipl)) then
-           call bogs(uuu,vvv,tmk,qvp,prs,ght,unorth,vnorth,ter,
-     &             mdate,rlat,rlon,rslcg,ipl,maxpl,miy,mjx,mkzh)
-        endif
-        if (idotser.eq.1) then
-           ntserv=ntserv+1
-           if (ntserv .gt. maxtserv) then
-             write(iup,*) 'Number of time series variables exceeds'
-             write(iup,*) 'maxtserv. Increase maxtserv in driver.f'
-             write(iup,*) 'and recompile.'
-             stop
-           endif
-           if (ipltime.eq.1) tservname(ntserv)=titlestr
-        endif
-        call hcondraw(xtime,ilinw,vc3d,tmk,qvp,
-     &     prs,ght,ter,sfp,sfpsm,
-     &     ixwin,iywin,ismth,rcint,rcbeg,rcend,rcval,incvl,lmult,
-     &     larng,idash,rlevl,rlavl,cnohl,lnolb,lnobr,lnozr,incon,
-     &     bottextfloor,cfeld,cvcor,wk(1,1,indwk(1,ipl)),
-     &     icdwk,unwk,ilev,lpslb,icolr,icoll,ilcll,ilchl,rtslb,
-     &     rtshl,imjsk,icomg,lnmsg,icong,iconl,icozr,idimn,
-     &     lhide,lgrad,lhadv,ilwll,ilwng,ilwnl,ilwzr,idall,
-     &     idang,idanl,idazr,ilcnl,ilczr,lcord,
-     &     ilcbr,ipwlb,iorlb,ipwhl,ipwbr,ifclb,ifcnl,
-     &     ifczr,ifchl,ilclo,ifclo,ccmth,rwdbr,ihvbr,rcfad,ncfadbin,
-     &     idotser,tseryi,tserxj,tserdat,ntsers,ntsert,ntserv,
-     &     icosq,rcosq,incsq,fred,fgreen,fblue,nco,icomax,pslab1,
-     &     pslabt,ipslab,iam,xcs,ycs,niam,ncs,idiffflag,
-     &     maxtserv,maxtsers,maxtsert,maxcosq,mabpl,morpl,
-     &     maxlev,maxpl,maxcon,miy,mjx,mkzh,ipl,irota,iwkidcgm,
-     &     noplots)
-
-      endif   ! noplots
-
 c MGD begin mod
 c reset the window paramters if we have changed them
       if(irota(ipl) .eq. 90 .or. irota(ipl) .eq. -90) then
@@ -2430,22 +2288,9 @@ c reset the window paramters if we have changed them
       endif
 c MGD end mod
 c
-      if (lstnloop) then
-        if (noplots.eq.0) call frame
-        incwk=1
-        ifree=incwk
-        goto 697
-      endif
-      goto 700
-  698 write(iup,*) 'Error reading ',stnfile,' Closing file.'
-  699 close(iutserstn)
-      lstnloop = .false.
-      csloc(1,ipl)(1:istnfilend) = '~'//stnfile
-
   700 continue      ! End of plot loop
 c
-      if (itrajcalc.eq.0.and.imakev5d.eq.0.and.noplots.eq.0)
-     &  call frame
+      if (itrajcalc.eq.0.and.imakev5d.eq.0) call frame
 c
 c   If horizontal plots, check if all plots were 2D.  If so, then jump
 c   out of level loop after first iteration, just in case rip thinks it
@@ -2462,14 +2307,12 @@ c
   950 continue      ! End of frame loop
 c
       if (itrajcalc.eq.0.and.imakev5d.eq.0.and.nfr.gt.0.and.
-     &    noplots.eq.0 .and.
      &    (icgmsplit.eq.1.or.ipltime.eq.nptuse)) then
 c
 c      Deactivate and close the metafile workstation
 c
          call gdawk (iwkidcgm)
          call gclwk (iwkidcgm)
-         jopwk = 0
 c
       endif
 c
@@ -2505,16 +2348,10 @@ c
  1106 format('      mdate = ',i8.8,',',i2,', rhour = ',f7.4,
      &   '   value = ',e15.8)
 c
-      if (itrajcalc.eq.0.and.imakev5d.eq.0 .and.
-     &    noplots.eq.0) then
+      if (itrajcalc.eq.0.and.imakev5d.eq.0) then
 c
 c      Close the GFLASH workstation and close GKS
 c
-         if (jopwk .eq. 1) then  
-           call gdawk (iwkidcgm)
-           call gclwk (iwkidcgm)
-         endif
-
          call gclwk (iwkidgf)
          call gclks
       endif

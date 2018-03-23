@@ -65,7 +65,7 @@ c
       if (cvc.eq.'p'.and.nint(rlevel).eq.1001)
      &   dosfcprs=.true.
 c
-      if (cvc.eq.'z'.or.cvc.eq.'f') then
+      if (cvc.eq.'z') then
          vlev=exp(-rlevel*1000./sclht)
       else
          vlev=rlevel
@@ -158,7 +158,7 @@ c
          vclhsl=vc3d(ii,jj,mkzh)
          vctophsl=vc3d(ii,jj,1)
          ttlhsl=tmk(ii,jj,mkzh)
-         qvlhsl=max(qvp(ii,jj,mkzh),1.e-15)
+         qvlhsl=qvp(ii,jj,mkzh)
       endif
       diff=vctophsl-vclhsl
       isign=nint(diff/abs(diff))
@@ -260,7 +260,7 @@ c
          pbot=max(plhsl,psurf)
          zbot=min(zlhsl,zsurf)
          tbotextrap=tmk(ii,jj,kupper)*(pbot/prs(ii,jj,kupper))**expon
-         tvbotextrap=virtual(tbotextrap,max(qvp(ii,jj,mkzh),1.e-15))
+         tvbotextrap=virtual(tbotextrap,qvp(ii,jj,mkzh))
          if (cvc.eq.'p') then
             plev=vlev
             zlev=zbot+tvbotextrap/ussalr*(1.-(vlev/pbot)**expon)
@@ -287,7 +287,7 @@ c      Assume qv at the requested level is the same as at the lowest
 c      model level.
 c
          tlev=tlhsl+(zlhsl-zlev)*ussalr
-         qvlev= max(qvp(ii,jj,mkzh),1.e-15)
+         qvlev=qvp(ii,jj,mkzh)
          if (icase.eq.2) then
             pslab(j,i)=tlev
          elseif (icase.eq.3) then

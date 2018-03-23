@@ -7,7 +7,7 @@ c     This routine converts data that is on the B-grid mass grid (known
 c     in MM5 lingo as "cross points") to the B-grid velocity staggered
 c     grid (known in MM5 lingo as "dot points")
 c
-      dimension slab(maxiy,maxjx),bot(10000),rleft(10000)
+      dimension slab(maxiy,maxjx),bot(1000),rleft(1000)
 c
 c   Extrapolate out to top and bottom edges.
 c

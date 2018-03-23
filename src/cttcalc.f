@@ -19,6 +19,7 @@ c
 c
 c   Create cloud-top temperature.
 c
+      print *, "in subroutine cttcalc"
       do 190 j=1,mjx-1
       do 190 i=1,miy-1
          opdepthd=0.

@@ -8,6 +8,33 @@ c                                                                     c
      &   nscrs,nscd,xdist,ydist,xseclen,ptopse,pbotse,
      &   cfeld,mkp,miy,mjx,mkzh)
 c
+c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+c
+c   Note: if you don't have a Fortran 90 compiler, or your
+c   Fortran 77 compiler doesn't support adjustable dimensioning of
+c   local (non-argument) arrays, then you must do the following:
+c   comment out the above subroutine declaration, and uncomment
+c   the following one:
+c
+c      subroutine saweli(ght,tmk,qvp,prs,vge,vag,uuu,omg,bvfsqd,bvfsqm,
+c     &   rhi,imo,ilhs,rhithresh,imaxlit,imaxbig,
+c     &   errmin,alphor,ter,tergx,cor,xmap,rrfst,
+c     &   psixs,rcrag,rcrbg,ixaverage,smfac,smfstb,
+c     &   nscrs,nscddumb,xdist,ydist,xseclen,ptopse,pbotse,
+c     &   cfeld,mkpdumb,miydumb,mjxdumb,mkzhdumb)
+c
+c   Then, uncomment the following two statements.
+c
+c       include 'parinc'
+c       parameter (mkp=30,nscd=miy+mjx)
+c
+c   mkp is the number of pressure levels desired in the arrays
+c      for the Sawyer-Eliassen equation algorithm.
+c
+c   See subroutine 'driver' for further instructions.
+c
+c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+c
 c   Note: errmin of 5 means 5 hPa*m/s, or .01 m/s in a 500-hPa layer,
 c      or .01 dPa/s in a distance of 500 km.
 c
@@ -77,15 +104,6 @@ c
       character cfeld*10,fld*3,fldorig*3,frcterms*5
 c
       include 'comconst'
-c
-      if (nproj.eq.4) then
-         write(iup,*) 'Routine saweli will not work exactly right'
-         write(iup,*) 'for the NMM SRCE map projection because'
-         write(iup,*) 'it is not conformal and I was too lazy'
-         write(iup,*) 'to account for different map factors in the'
-         write(iup,*) 'x and y directions in this routine.'
-         write(iup,*) 'However, errors will be quite small.'
-      endif
 c
       dzpbl=1000.   ! Assume 1000-m-thick PBL.
       perpfac=.20  ! PBL-avg. comp. of actual wind perp. to geos. wind
@@ -438,21 +456,6 @@ c
          do k=1,mkp
             if (ipttp(ls,k).ge.1) then
                psi(ls,k)=vgese(ls,k)
-            else
-               psi(ls,k)=psi(ls,k-1)
-            endif
-         enddo
-         enddo
-      elseif (fld.eq.'fgg') then
-         do ls=2,nscrs-1
-            dy=-(ds*xseclen)/((nscrs-1.)*xmapxs(ls))
-            dyi=1./dy
-            p5dyi=.5*dyi
-         do k=1,mkp
-            if (ipttp(ls,k).eq.1.or.ipttp(ls,k).eq.2) then
-               psi(ls,k)=(vgese(ls+1,k)-vgese(ls-1,k))*p5dyi*
-     &            (thetase(ls+1,k)-thetase(ls-1,k))*p5dyi*
-     &            *1.e5*3600.   ! K per 100 km per hour
             else
                psi(ls,k)=psi(ls,k-1)
             endif
@@ -1049,23 +1052,6 @@ c
          enddo
          enddo
       elseif (fld.eq.'omb') then
-         do ls=2,nscrs-1
-            dy=-(ds*xseclen)/((nscrs-1.)*xmapxs(ls))
-            dyi=1./dy
-            p5dyi=.5*dyi
-         do k=1,mkp
-            if (ipttp(ls,k).eq.1.or.ipttp(ls,k).eq.2) then
-               thresh(ls,k)=1000.*(psi(ls+1,k)-psi(ls-1,k))*p5dyi
-            else
-               thresh(ls,k)=thresh(ls,k-1)
-            endif
-         enddo
-         enddo
-         do k=1,mkp
-            thresh(1,k)=thresh(2,k)
-            thresh(nscrs,k)=thresh(nscrs-1,k)
-         enddo
-      elseif (fld.eq.'fga') then
          do ls=2,nscrs-1
             dy=-(ds*xseclen)/((nscrs-1.)*xmapxs(ls))
             dyi=1./dy

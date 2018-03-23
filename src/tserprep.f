@@ -21,13 +21,6 @@ c
      &   status='old')
   300 read(iutserstn,'(a48)',end=350) string
       i=i+1
-      if (i .gt. maxtsers) then
-        write(iup,*) 'There are more than ',maxtsers,' stations in your
-     &tserstn.dat file.'
-        write(iup,*) 'Either reduce the number of stations or increase m
-     &axtsers in driver.f and recompile.'
-        stop '\tstopping in tserprep'
-      endif
       ipos=1
       nterm=0
    37 nterm=nterm+1
@@ -40,7 +33,7 @@ c
       if (string(ipos-1:ipos-1).eq.',') goto 37
       if (nterm.eq.1) tserlocsp(2)='missing             '
       call locinterp(tserlocsp,gridx,gridy,
-     &   rlat,rlon,iwmo,icaoid,stelev,locdesc,rip_root)
+     &   rlat,rlon,iwmo,icaoid,locdesc,rip_root)
       tserlocdesc(i)=locdesc
       tserlocpoint(i)=' '
       write(tserlocpoint(i),213)'x,y=      ,         lat,lon=',

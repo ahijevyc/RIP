@@ -4,23 +4,21 @@ c                                                                     c
       subroutine readspec(nfr,numppf,nltf,intim,rtime,cfeld,icomg,
      &   cptyp,incon,icolr,icosq,rcosq,icoll,ilcll,ilchl,rtslb,rtshl,
      &   icong,iconl,icozr,ilwll,ilwng,ilwnl,ilwzr,idall,
-     &   idang,idanl,idazr,ilcnl,ilczr,iovly,
-     &   lableft, labright,
+     &   idang,idanl,idazr,ilcnl,ilczr,
      &   ilcbr,ipwlb,iorlb,ipwhl,ipwbr,ifclb,ifcnl,ifczr,ifchl,
-     &   ilclo,ifclo,ccmth,rwdbr,ihvbr,ccrsa,ccrsb,csloc,rsepa,rcfad,
+     &   ilclo,ifclo,ccmth,rwdbr,ihvbr,ccrsa,ccrsb,csloc,rsepa,
      &   imjsk,nptuse,ptuse,ixwin,iywin,lhide,csave,lredo,lnogd,
-     &   ilinw,lnobr,lnozr,cnohl,lnolb,lnmsg,lnttl,cvcor,inmin,
+     &   ilinw,lnobr,lnozr,cnohl,lnolb,lnmsg,lnttl,lverf,cvcor,inmin,
      &   rlevs,inlvs,rlevl,rlavl,rvwin,ixavg,idash,ismth,ismcp,iintv,
-     &   rvcmx,ivvnx,rvvms,rcint,rcval,incvl,
-     &   rcbeg,rcend,lmult,larng,lchfl,lhodo,
-     &   lmand,lsndg,cdiff,rdiff,ldfrl,lbogs,lcord,lpslb,
+     &   rvcmx,ivvnx,rvvms,rcint,rcbeg,rcend,lmult,larng,lchfl,lhodo,
+     &   lmand,lsndg,cdiff,rdiff,ldfrl,lbogs,
      &   raxlg,raxld,raxlv,raxtg,raxtd,raxtv,rstrm,rrfst,raddf,
-     &   cfulb,conam,incsq,cmllm,couty,iqgsm,
-     &   ctjfl,ctitl,cv5nm,rtjsp,itjns,itjid,itjni,ccalb,
+     &   cfulb,conam,incsq,cmllm,couty,iqgsm,iopenverf,
+     &   ctjfl,ctitl,cv5nm,rtjsp,itjns,itjid,itjni,
      &   rtjar,rtjst,rtjen,rtjti,lgrad,llapl,lhadv,igdir,
      &   couds,ioulw,iouco,imfco,fred,fgreen,fblue,nco,
-     &   csids,nsids,lnsmm,lnvlb,itrajcalc,imakev5d,maxcon,
-     &   maxcosq,maxfr,maxlev,maxpl,miy,mjx,mkzh,irota,rtynt,lplrs)
+     &   csids,nsids,lnsmm,lnvlb,itrajcalc,imakev5d,
+     &   maxcosq,maxfr,maxlev,maxpl,miy,mjx,mkzh,irota,tynt,lplrs)
 c
 c   This subroutine reads information from the plot specification file
 c   and transfers that information to the plot specification arrays.
@@ -31,7 +29,6 @@ c
      &   icolr(maxpl),icoll(maxpl),ilcll(maxpl),ilchl(maxpl),
      &   rtslb(maxpl),rtshl(maxpl),imjsk(maxpl),icomg(maxpl),
      &   icosq(maxcosq,maxpl),rcosq(maxcosq,maxpl),rsepa(32,maxpl),
-     &   rcfad(3,maxpl),
      &   rlevs(maxlev,maxpl),inlvs(maxpl),rlevl(maxlev,maxpl),
      &   rlavl(maxlev,maxpl),rvwin(2,maxpl),ixavg(maxpl),idash(maxpl),
      &   ismth(maxpl),ismcp(maxpl),iintv(maxpl),
@@ -40,12 +37,11 @@ c
      &   ilwng(maxpl),ilwnl(maxpl),ilwzr(maxpl),idall(maxpl),
      &   idang(maxpl),idanl(maxpl),idazr(maxpl),
      &   ilcnl(maxpl),ilczr(maxpl),ilcbr(maxpl),ipwlb(maxpl),
-     &   iorlb(maxpl),rdiff(maxpl),iovly(maxpl),
+     &   iorlb(maxpl),rdiff(maxpl),
      &   ipwhl(maxpl),ipwbr(maxpl),ifclb(maxpl),ifcnl(maxpl),
      &   ifczr(maxpl),ifchl(maxpl),ihvbr(maxpl),
      &   ilclo(maxpl),ifclo(maxpl),rwdbr(maxpl),raddf(maxpl),
-     &   rvvms(maxpl),rcint(maxpl),rcval(maxcon,maxpl),incvl(maxpl),
-     &   rstrm(2,maxpl),rrfst(4,maxpl),
+     &   rvvms(maxpl),rcint(maxpl),rstrm(2,maxpl),rrfst(4,maxpl),
      &   rcbeg(maxpl),rcend(maxpl),iqgsm(maxpl),
      &   raxlg(maxpl),
      &   raxld(maxpl),raxlv(maxpl),raxtg(maxpl),
@@ -53,22 +49,21 @@ c
      &   rtjsp(3,50,maxpl),itjns(maxpl),
      &   itjid(30,maxpl),itjni(maxpl),rtjar(2,maxpl),rtjst(maxpl),
      &   rtjen(maxpl),rtjti(maxpl),
-     &   ioulw(maxpl),iouco(maxpl),imfco(6,maxpl),rtynt(maxpl),
-     &   fred(0:255),fgreen(0:255),fblue(0:255),irota(maxpl)
+     &   ioulw(maxpl),iouco(maxpl),imfco(6,maxpl),
+     &   fred(0:255),fgreen(0:255),fblue(0:255),irota(maxpl),tynt(maxpl)
       logical lnobr(maxpl),lnozr(maxpl),lnolb(maxpl),
      &   lchfl(maxpl),lmult(maxpl),larng(maxpl),lnmsg(maxpl),
-     &   lnttl(maxpl),lhide(maxpl),lnogd(maxpl),
+     &   lnttl(maxpl),lverf(maxpl),lhide(maxpl),lnogd(maxpl),
      &   lredo(maxpl),lgrad(maxpl),llapl(maxpl),lhadv(maxpl),
      &   lhodo(maxpl),lmand(maxpl),lnsmm(maxpl),ldfrl(maxpl),
-     &   lnvlb(maxpl),lsndg(maxpl),lbogs(maxpl),lcord(maxpl),
-     &   lplrs(maxpl),lpslb(maxpl)
+     &   lnvlb(maxpl),lsndg(maxpl),lbogs(maxpl),
+     &   lplrs(maxpl)
       character cfeld(3,maxpl)*10, cptyp(maxpl)*2, cvcor(maxpl)*1,
      &   conam(0:255)*40,cfulb(maxpl)*5,ccmth(maxpl)*4,csave(maxpl)*10,
      &   ctjfl(maxpl)*256,ctitl(maxpl)*82,cv5nm(maxpl)*8,
      &   csloc(2,maxpl)*20,ccrsa(2,maxpl)*20,ccrsb(2,maxpl)*20,
-     &   cmllm(maxpl)*5,couty(maxpl)*32,couds(maxpl)*5,ccalb(maxpl)*256,
+     &   cmllm(maxpl)*5,couty(maxpl)*32,couds(maxpl)*5,
      &   csids(40,maxpl)*20,cdiff(maxpl)*256,cnohl(maxpl)*1
-      character (len=40) :: lableft(maxpl), labright(maxpl)
       dimension nsids(maxpl)
 c
       dimension inlvl(5000)
@@ -105,12 +100,6 @@ c
          write(iup,*)'igotblack,igotwhite=',igotblack,igotwhite
       endif
 c
-      ifr=0      ! frame number
-      ipl=0      ! plot number
-      ipltf=0    ! number of plots in this frame
-      itimedef=0 ! time range not defined for 1st frame (use all times)
-      cvcorprev='?'
-c
 c   Find correct location in input file.
 c
  5    read(iuinput,'(a240)',end=500) stringt
@@ -124,6 +113,11 @@ c
 c
 c   Begin read loop.
 c
+      ifr=0      ! frame number
+      ipl=0      ! plot number
+      ipltf=0    ! number of plots in this frame
+      itimedef=0 ! time range not defined for 1st frame (use all times)
+      cvcorprev='?'
       lenstr=len(string)
       lenstrt=len(stringt)
 c
@@ -163,8 +157,6 @@ c
 c   Block to handle end-of-file for possibly included file
 c
   222 if(iuinput .gt. 25) then
-c       First, account for the special case of unit 83
-         if (iuinput .eq. 83 ) goto 500
          close(iuinput)
          iuinput = iuinput - 1
          goto 20
@@ -201,8 +193,7 @@ c
 c      Check if empty frame.
 c
          if (ipltf.eq.0) then
-            write(iup,*)'Empty frame - check specification file for synt
-     &ax errors >>>>>>>>>>>>>>>>.'
+            write(iup,*)'Empty frame - check specification file.'
             goto 15
          endif
 c
@@ -239,7 +230,7 @@ c
       if (ipl.eq.1) then
 c MGD
          irota(ipl)=0
-         rtynt(ipl) = 1.
+         tynt(ipl) = 1.
          ixwin(1,ipl)=1       ! left window limit (in x direction)
          ixwin(2,ipl)=mjx     ! right window limit (in x direction)
          iywin(1,ipl)=1       ! bottom window limit (in y direction)
@@ -256,7 +247,7 @@ c MGD
      &                        ! loc of cross-sec end pt. B (right)
          ccrsb(2,ipl)='10                  '
      &                        ! loc of cross-sec end pt. B (right)
-         cvcor(ipl)='s'       ! v. coor. (s,p,l,x,z,t,e,m,f or q)
+         cvcor(ipl)='s'       ! v. coor. (s,p,l,x,z,t,e, or q)
          inlvs(ipl)=1         ! number of level specifiers
          rlevs(1,ipl)=float(mkzh) ! level specifiers
          rvwin(1,ipl)=rmsg    ! lower window limit in vertical dir.
@@ -299,14 +290,14 @@ c                             !   0=hor; 1=ver
       lredo(ipl)=.false.      ! force calculation of the field
       lnogd(ipl)=.false.      ! show pseudo-ground sfc in x-secs (p-lev data)
       lnttl(ipl)=.false.      ! no plot title
+      lverf(ipl)=.false.      ! verify the field against observations
       lgrad(ipl)=.false.      ! calc. and plot hor. grad. of the field
       llapl(ipl)=.false.      ! calc. and plot hor. lapl. of the field
       lhadv(ipl)=.false.      ! calc. and plot hor. advec. of the field
       cmllm(ipl)='none '      ! l/l mask-out: 'none' 'land' or 'water'
       couty(ipl)='PS'         ! map outline set (for 'OU' in EZMAP), or
 c                             ! if not set to acceptable value for 'OU',
-c                             ! use hires map info from this file in
-c                             ! $rip_root/custom_maps directory
+c                             ! use hires map info from this file in rip_root
       couds(ipl)='dot  '      ! map outlines: dot or solid
       csave(ipl)='dontsave  ' ! name of file for saving field
       ioulw(ipl)=999999       ! outl wth or dot spc (999999 -> 1 or 12)
@@ -332,10 +323,7 @@ c                             ! $rip_root/custom_maps directory
       rcbeg(ipl)=-rmsg        ! starting contour
       rcend(ipl)=rmsg         ! ending contour
       lmult(ipl)=.false.      ! multiplicative contouring flag
-      rcval(1,ipl)=rmsg            ! specified contour values
-      incvl(ipl)=0            ! number of specified contour values
       larng(ipl)=.false.      ! auto colr range from min to max contour
-      lcord(ipl)=.false.      ! interp. cont. fill colors by contour ordenal
       lhodo(ipl)=.false.      ! plot a hodograph on a skewt
       lbogs(ipl)=.false.      ! print out bogus sndg in little-r format
       lmand(ipl)=.false.      ! plot lines at mandatory levels on sndg bkg
@@ -353,7 +341,6 @@ c                             ! $rip_root/custom_maps directory
       incsq(ipl)=0            ! number of ramp colors
       cdiff(ipl)='none'       ! data set to subtract (model run differencing)
       rdiff(ipl)=rmsg         ! data time to subtract (time differencing)
-      iovly(ipl)=0            ! plot overlay or difference field
       ldfrl(ipl)=.false.      ! rdiff is rel. to curr. time instead of absolute
       icozr(ipl)=999999       ! color for zero contour
       ilczr(ipl)=999999       ! label color for zero contour
@@ -399,11 +386,6 @@ c                             ! $rip_root/custom_maps directory
       rrfst(3,ipl)=50.0       ! ref. state [dT/d(ln p)] for pert plots
       rrfst(4,ipl)=0.1        ! ref. state strat. T (K) for pert plots
       raddf(ipl)=0.0          ! mult fctr for adding this field to next
-      rcfad(1,ipl)=rmsg       ! CFAD mid-point of lowest bin
-      rcfad(2,ipl)=rmsg       ! CFAD bin size
-      rcfad(3,ipl)=rmsg       ! CFAD number of bins
-      ccalb(ipl)='junk'       ! name calibration lookup table file
-      lpslb(ipl)=.false.      ! print horz. slab to text file from hcondraw
       rsepa(1,ipl)=200.       ! imaxlit parameter for Saw.-El.
       rsepa(2,ipl)=1.         ! errmin parameter for Saw.-El.
       rsepa(3,ipl)=1.6        ! alphor parameter for Saw.-El.
@@ -440,16 +422,14 @@ c                             ! $rip_root/custom_maps directory
                               ! that polar temperatures will fit on the
                               ! background.
       lplrs(ipl) = .false.    ! by default, skew-t does not have polar offset
-      lableft(ipl)  = 'default'
-      labright(ipl) = 'default'
 
 c
 c   Assign plot characteristics.
 c
       ipos=1
  30   c4=string(ipos:ipos+3)
+      iopenverf=0
 c
-c      print*,'ipl,c4=',ipl,c4
       if (c4.eq.'feld') then
          ipos=ipos+5
          call getchar(string,ipos,cfeld(1,ipl),0)
@@ -466,7 +446,7 @@ c MGD begin mod
 c MGD end mod
       elseif (c4.eq.'tynt') then
          ipos=ipos+5
-         call getrnum(string,ipos,mkzh,rtynt(ipl))
+         call getrnum(string,ipos,mkzh,tynt(ipl))
 c KWM begin mod
       elseif (c4.eq.'plrs') then
          ipos=ipos+5
@@ -567,12 +547,7 @@ c KWM end mod
          lnmsg(ipl)=.true.
       elseif (c4.eq.'nmin') then
          ipos=ipos+5
-         if (string(ipos-1:ipos-1).eq.';'.or.
-     &       string(ipos-1:ipos-1).eq.' ') then
-            inmin(ipl)=0
-         else
-            call getinum(string,ipos,inmin(ipl))
-         endif
+         call getinum(string,ipos,inmin(ipl))
       elseif (c4.eq.'nsmm') then
          ipos=ipos+5
          lnsmm(ipl)=.true.
@@ -591,6 +566,10 @@ c KWM end mod
       elseif (c4.eq.'nttl') then
          ipos=ipos+5
          lnttl(ipl)=.true.
+      elseif (c4.eq.'verf') then
+         ipos=ipos+5
+         lverf(ipl)=.true.
+         iopenverf=1
       elseif (c4.eq.'vcor') then
          ipos=ipos+5
          cvcor(ipl)=string(ipos:ipos)
@@ -601,28 +580,6 @@ c KWM end mod
    40    inlvs(ipl)=inlvs(ipl)+1
          call getrnum(string,ipos,mkzh,rlevs(inlvs(ipl),ipl))
          if (string(ipos-1:ipos-1).eq.',') goto 40
-      elseif (c4.eq.'cfad') then
-         ipos=ipos+5
-         ncfad=0
-  144    ncfad=ncfad+1
-         if (ncfad.gt.3) then
-            write(iup,*)'Max allowed values for cfad is 3.'
-            write(iup,*)'Stopping.'
-            stop
-         endif
-         if (string(ipos:ipos).eq.','.or.string(ipos:ipos).eq.';'.or.
-     &       string(ipos:ipos).eq.' ') then
-            ipos=ipos+1
-         else
-            call getrnum(string,ipos,mkzh,rcfad(ncfad,ipl))
-         endif
-         if (string(ipos-1:ipos-1).eq.',') goto 144
-      elseif (c4.eq.'pslb') then
-         ipos=ipos+5
-         lpslb(ipl)=.true.
-      elseif (c4.eq.'calb') then
-         ipos=ipos+5
-         call getchar(string,ipos,ccalb(ipl),0)
       elseif (c4.eq.'sepa') then
          ipos=ipos+5
          nsepa=0
@@ -687,7 +644,7 @@ c
       elseif (c4.eq.'ouco') then
          ipos=ipos+5
          call getchar(string,ipos,cospec,0)
-         iouco(ipl)=igetcoind(cospec,conam,nco,string)
+         iouco(ipl)=igetcoind(cospec,conam,nco)
       elseif (c4.eq.'mfco') then
          ipos=ipos+5
          nmfco=0
@@ -698,7 +655,7 @@ c
             stop
          endif
          call getchar(string,ipos,cospec,0)
-         imfco(nmfco,ipl)=igetcoind(cospec,conam,nco,string)
+         imfco(nmfco,ipl)=igetcoind(cospec,conam,nco)
          if (string(ipos-1:ipos-1).eq.',') goto 43
       elseif (c4.eq.'xavg') then
          ipos=ipos+5
@@ -736,21 +693,12 @@ c
       elseif (c4.eq.'cend') then
          ipos=ipos+5
          call getrnum(string,ipos,mkzh,rcend(ipl))
-      elseif (c4.eq.'cval') then
-         ipos=ipos+5
-         incvl(ipl)=0
- 47      incvl(ipl)=incvl(ipl)+1
-         call getrnum(string,ipos,mkzh,rcval(incvl(ipl),ipl))
-         if (string(ipos-1:ipos-1).eq.',') goto 47
       elseif (c4.eq.'mult') then
          ipos=ipos+5
          lmult(ipl)=.true.
       elseif (c4.eq.'arng') then
          ipos=ipos+5
          larng(ipl)=.true.
-      elseif (c4.eq.'cord') then
-         ipos=ipos+5
-         lcord(ipl)=.true.
       elseif (c4.eq.'hodo') then
          ipos=ipos+5
          lhodo(ipl)=.true.
@@ -801,16 +749,16 @@ c
       elseif (c4.eq.'colr') then
          ipos=ipos+5
          call getchar(string,ipos,cospec,0)
-         icolr(ipl)=igetcoind(cospec,conam,nco,string)
+         icolr(ipl)=igetcoind(cospec,conam,nco)
       elseif (c4.eq.'cosq') then
          ipos=ipos+5
          incsq(ipl)=0
    45    incsq(ipl)=incsq(ipl)+1
          call getrnum(string,ipos,mkzh,rcosq(incsq(ipl),ipl))
          call getchar(string,ipos,cospec,0)
-         icosq(incsq(ipl),ipl)=igetcoind(cospec,conam,nco,string)
+         icosq(incsq(ipl),ipl)=igetcoind(cospec,conam,nco)
          if (string(ipos-1:ipos-1).eq.',') goto 45
-      elseif (c4.eq.'diff' .or. c4.eq.'ovly') then
+      elseif (c4.eq.'diff') then
          ipos=ipos+5
  48      do i=ipos,lenstr
             if (string(i:i).eq.';'.or.string(i:i).eq.','.or.
@@ -828,23 +776,22 @@ c
             call getchar(string,ipos,cdiff(ipl),0)
          endif
          if (string(ipos-1:ipos-1).eq.',') goto 48
-         if (c4 .eq. 'ovly') iovly(ipl) = 1
       elseif (c4.eq.'coll') then
          ipos=ipos+5
          call getchar(string,ipos,cospec,0)
-         icoll(ipl)=igetcoind(cospec,conam,nco,string)
+         icoll(ipl)=igetcoind(cospec,conam,nco)
       elseif (c4.eq.'lcll') then
          ipos=ipos+5
          call getchar(string,ipos,cospec,0)
-         ilcll(ipl)=igetcoind(cospec,conam,nco,string)
+         ilcll(ipl)=igetcoind(cospec,conam,nco)
       elseif (c4.eq.'lchl') then
          ipos=ipos+5
          call getchar(string,ipos,cospec,0)
-         ilchl(ipl)=igetcoind(cospec,conam,nco,string)
+         ilchl(ipl)=igetcoind(cospec,conam,nco)
       elseif (c4.eq.'lclo') then
          ipos=ipos+5
          call getchar(string,ipos,cospec,0)
-         ilclo(ipl)=igetcoind(cospec,conam,nco,string)
+         ilclo(ipl)=igetcoind(cospec,conam,nco)
       elseif (c4.eq.'tslb') then
          ipos=ipos+5
          call getrnum(string,ipos,mkzh,rtslb(ipl))
@@ -854,15 +801,15 @@ c
       elseif (c4.eq.'cong') then
          ipos=ipos+5
          call getchar(string,ipos,cospec,0)
-         icong(ipl)=igetcoind(cospec,conam,nco,string)
+         icong(ipl)=igetcoind(cospec,conam,nco)
       elseif (c4.eq.'conl') then
          ipos=ipos+5
          call getchar(string,ipos,cospec,0)
-         iconl(ipl)=igetcoind(cospec,conam,nco,string)
+         iconl(ipl)=igetcoind(cospec,conam,nco)
       elseif (c4.eq.'cozr') then
          ipos=ipos+5
          call getchar(string,ipos,cospec,0)
-         icozr(ipl)=igetcoind(cospec,conam,nco,string)
+         icozr(ipl)=igetcoind(cospec,conam,nco)
       elseif (c4.eq.'lwll') then
          ipos=ipos+5
          call getinum(string,ipos,ilwll(ipl))
@@ -890,15 +837,15 @@ c
       elseif (c4.eq.'lcnl') then
          ipos=ipos+5
          call getchar(string,ipos,cospec,0)
-         ilcnl(ipl)=igetcoind(cospec,conam,nco,string)
+         ilcnl(ipl)=igetcoind(cospec,conam,nco)
       elseif (c4.eq.'lczr') then
          ipos=ipos+5
          call getchar(string,ipos,cospec,0)
-         ilczr(ipl)=igetcoind(cospec,conam,nco,string)
+         ilczr(ipl)=igetcoind(cospec,conam,nco)
       elseif (c4.eq.'lcbr') then
          ipos=ipos+5
          call getchar(string,ipos,cospec,0)
-         ilcbr(ipl)=igetcoind(cospec,conam,nco,string)
+         ilcbr(ipl)=igetcoind(cospec,conam,nco)
       elseif (c4.eq.'orlb') then
          ipos=ipos+5
          call getinum(string,ipos,iorlb(ipl))
@@ -914,29 +861,23 @@ c
       elseif (c4.eq.'fclb') then
          ipos=ipos+5
          call getchar(string,ipos,cospec,0)
-         ifclb(ipl)=igetcoind(cospec,conam,nco,string)
+         ifclb(ipl)=igetcoind(cospec,conam,nco)
       elseif (c4.eq.'fcnl') then
          ipos=ipos+5
          call getchar(string,ipos,cospec,0)
-         ifcnl(ipl)=igetcoind(cospec,conam,nco,string)
+         ifcnl(ipl)=igetcoind(cospec,conam,nco)
       elseif (c4.eq.'fczr') then
          ipos=ipos+5
          call getchar(string,ipos,cospec,0)
-         ifczr(ipl)=igetcoind(cospec,conam,nco,string)
+         ifczr(ipl)=igetcoind(cospec,conam,nco)
       elseif (c4.eq.'fchl') then
          ipos=ipos+5
          call getchar(string,ipos,cospec,0)
-         ifchl(ipl)=igetcoind(cospec,conam,nco,string)
+         ifchl(ipl)=igetcoind(cospec,conam,nco)
       elseif (c4.eq.'fclo') then
          ipos=ipos+5
          call getchar(string,ipos,cospec,0)
-         ifclo(ipl)=igetcoind(cospec,conam,nco,string)
-      elseif (string(ipos:ipos+6).eq."lableft") then
-         ipos = ipos + 8
-         call getchar(string,ipos,lableft(ipl),0)
-      elseif (string(ipos:ipos+7).eq."labright") then
-         ipos = ipos + 9
-         call getchar(string,ipos,labright(ipl),0)
+         ifclo(ipl)=igetcoind(cospec,conam,nco)
       elseif (c4.eq.'mjsk') then
          ipos=ipos+5
          call getinum(string,ipos,imjsk(ipl))
@@ -1034,9 +975,8 @@ c
            write(iup,*)'(i.e. ptyp=something) [except when doing a'
            write(iup,*)'trajectory calculation run (itrajcalc=1)'
            write(iup,*)'or a Vis5D data creation run (imakev5d=1)].'
-          write(iup,*)'You didn''t for plot spec. statement number ',ipl
+           write(iup,*)'You didn''t for plot spec. statment number ',ipl
            write(iup,*)'RIP will assume you want a hor. contour plot.'
-           write(iup,*) string
          endif
          cptyp(ipl)='hc'
       endif
@@ -1172,26 +1112,12 @@ c
          if (rlevs(ii,ipl).ge.0.) then
             ilev=ilev+1
             rlevl(ilev,ipl)=rlevs(ii,ipl)
-c
-c     Can't use negative values if vcor is T ('m') or z above frz lev
-c     ('f'), so the workaround is that if a user wants negatve levels,
-c     the code will interpret values over 100 as below zero--e.g., 125
-c     is taken as -25.
-c
-            if ((cvcor(ipl).eq.'m'.or.cvcor(ipl).eq.'f').and.
-     &         rlevl(ilev,ipl).ge.100.) then
-               rlevl(ilev,ipl)=-(rlevl(ilev,ipl)-100.)
-            endif
             rlavl(ilev,ipl)=rlevl(ilev,ipl)
          else
             ii=ii+1
             if (rlevs(ii,ipl).gt.0.) then
                rstart=rlevs(ii-2,ipl)
                rend=-rlevs(ii-1,ipl)
-               if (cvcor(ipl).eq.'m'.or.cvcor(ipl).eq.'f') then  ! negative thing
-                  if (rstart.ge.100.) rstart=-(rstart-100.)
-                  if (rend.ge.100.) rend=-(rend-100.)
-               endif
                rinc=rlevs(ii,ipl)
                rdist=rend-rstart
                isign=nint(rdist/abs(rdist))
@@ -1217,6 +1143,19 @@ c
          rlevl(1,ipl)=1.
          rlavl(1,ipl)=1.
          inlvl(ipl)=1
+      endif
+c
+c   Couldn't use negative temperatures (deg. C) if vcor is temperature ('m'),
+c   so code interprets temps over 100 C as below zero--e.g., 125 is really -25.
+c   Conversion to actual desired temperature occurs below.
+c
+      if (cvcor(ipl).eq.'m') then
+         do i=1,inlvl(ipl)
+            if (rlevl(i,ipl).ge.100.) then
+               rlevl(i,ipl)=-(rlevl(i,ipl)-100.)
+               rlavl(i,ipl)=rlevl(i,ipl)
+            endif
+         enddo
       endif
 c
       goto 15

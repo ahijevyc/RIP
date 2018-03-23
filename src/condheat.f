@@ -13,6 +13,14 @@ c
 c
       include 'comconst'
 c
+c
+c---turn on ice parameters
+c
+c      irhthtype=1
+c      ilrtype=1
+c
+c---end ice parameters
+c
       do k=1,mkzh
       do j=1,mjx-1
       do i=1,miy-1

@@ -12,11 +12,6 @@ c   converted to the appropriate format expected by this              c
 c   program, using the program RIPDP, which stands for RIP data       c
 c   preparation.                                                      c
 c                                                                     c
-c   RIP Version 4.6 released March 2010.                              c
-c   RIP Version 4.5 released March 2009.                              c
-c   RIP Version 4.4 released May 2008.                                c
-c   RIP Version 4.3 released June 2007.                               c
-c   RIP Version 4.2 released December 2006.                           c
 c   RIP Version 4.1 released Apr 2005.                                c
 c   RIP Version 4.0 released Apr 2003.                                c
 c   RIP Version 3 released Oct 2000.                                  c
@@ -38,6 +33,16 @@ c   Therefore, RIP may be compiled with f77 compilers that allow
 c   adjustable dimensioning of local (non-argument) arrays in
 c   subroutines, or with any f90 compiler.
 c
+c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+c
+c   Note: if you don't have a Fortran 90 compiler, or your
+c   Fortran 77 compiler doesn't support adjustable dimensioning of
+c   local (non-argument) arrays, then make the appropriate changes
+c   in subroutine driver (see the comments at the top of subroutine
+c   driver), and recompile the program.
+c
+c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+c
 c   The following parameters should not need to be changed for most
 c   applications:
 c
@@ -46,7 +51,7 @@ c         calculated in trajectory calculation mode
 c      maxtavl: the maximum number of available times that can be
 c         stored in the available times arrays (xtimeavl and cxtimeavl)
 c
-      parameter (maxtraj=7000,maxtavl=200)
+      parameter (maxtraj=2000,maxtavl=250)
 c
       dimension xtimeavl(maxtavl)
 c
@@ -58,13 +63,13 @@ c
       parameter (maxptimes=500)
       dimension ptimes(maxptimes),iptimes(maxptimes)
       character title*80,rootname*256,titlecolor*40,rip_root*256,
-     &   ptimeunits*1, ncarg_type*10
+     &   ptimeunits*1
       namelist/userin/ title,rip_root,rootname,flmin,frmax,fbmin,
      &   ftmax,ptimes,iptimes,ptimeunits,tacc,mdatebf,
-     &   ntextq,ntextcd,ntextfn,idotser,idotitle,timezone,
-     &   iusdaylightrule,inearesth,iinittime,ifcsttime,ivalidtime,
-     &   noplots,itrajcalc,fcoffset,titlecolor,idescriptive,
-     &   icgmsplit,maxfld,imakev5d,inewdom, istopmiss, ncarg_type
+     &   ntextq,ntextcd,idotser,idotitle,timezone,iusdaylightrule,
+     &   inearesth,iinittime,ifcsttime,ivalidtime,
+     &   itrajcalc,fcoffset,titlecolor,idescriptive,
+     &   icgmsplit,maxfld,iusectrv,imakev5d,inewdom
       dimension xjtraj(maxtraj),yitraj(maxtraj),zktraj(maxtraj),
      &   diag(maxtraj)
       character vctraj*1
@@ -134,17 +139,6 @@ c
          iendcr=iendcr-3
       endif
 c
-c  make sure ncarg_root is set
-c
-      rip_root = 'ncarg_root_should_be_set'
-      call getenv('NCARG_ROOT',rip_root)
-      if (rip_root(1:10).eq.'          ') then
-         write(iup,*)'The NCARG_ROOT environment variable does not seem 
-     &to be set'
-         stop 'ncarg_root'
-      endif
-
-c
 c   Define constants.  Many are taken from Bolton (1980, MWR 108,1046-1053). 
 c
       rgas=287.04  !J/K/kg
@@ -184,7 +178,7 @@ c
 c
 c   Define unit numbers
 c     (Note, unit numbers 25 through 30 are used for include files
-c      in the plot specification table.  See readspec.f.)
+c      in the plot specirication table.  See readspec.f.)
 c
       iuinput=7     ! input unit# for user input (namelists & plspecs)
       iustnlist=8   ! input unit# for the station list
@@ -195,6 +189,7 @@ c
       iutrajout=75  ! output unit# for trajc positns (traj calc mode)
       iudiagout=76  ! output unit# for trajc diagnstcs (traj calc mode)
       iuv5dout=79   ! output unit# for vis5d files (make vis5d mode)
+      iuprcver=95   ! output unit# for the precip verif. results
 c
 c   Open the print out file
 c
@@ -211,7 +206,6 @@ c
 c
       title='auto'
       rip_root='/dev/null'
-      ncarg_type='cgm'
       rootname=' '      ! no longer set in namelist
       mdatebf=99999999  ! no longer used
       flmin=.05
@@ -226,9 +220,7 @@ c
       tacc=1.
       ntextq=0
       ntextcd=0
-      ntextfn=0
       idotser=0
-      noplots=0
       idotitle=1
       timezone=-7.
       iusdaylightrule=1
@@ -240,16 +232,14 @@ c
       itrajcalc=0
       imakev5d=0
       inewdom=0
+      iusectrv=0
       fcoffset=0.
       titlecolor=' '
       icgmsplit=0
-      maxfld=10
-      istopmiss=1
+      maxfld=20
 c
       read (iuinput,userin)
       rootname=fname
-
-      if ( trim(ncarg_type) == 'x11') icgmsplit=0
 c
 c   RIP has a capability to define its own domain and gridded variables,
 c   in order to do specialized tasks completely independently of any model
@@ -368,13 +358,13 @@ c
       call driver(miy,mjx,mkzh,mabpl,morpl,xtimeavl,
      &     cxtimeavl,ncxc,maxtavl,nxtavl,casename,iendc,
      &     title,rip_root,rootname,iendcr,ptimes,iptimes,
-     &     ptuse,maxptimes,ptimeunits,tacc,ntextq,ntextcd,ntextfn,
-     &     idotser,noplots,idotitle,timezone,iusdaylightrule,
+     &     ptuse,maxptimes,ptimeunits,tacc,ntextq,ntextcd,
+     &     idotser,idotitle,timezone,iusdaylightrule,
      &     inearesth,iinittime,ifcsttime,ivalidtime,fcoffset,
      &     titlecolor,idescriptive,icgmsplit,maxfld,
-     &     itrajcalc,rtim,ctim,dtfile,dttraj,
+     &     itrajcalc,iusectrv,rtim,ctim,dtfile,dttraj,
      &     vctraj,ihydrometeor,xjtraj,yitraj,zktraj,diag,
-     &     ntraj,imakev5d,inewdom,istopmiss,ncarg_type)
+     &     ntraj,imakev5d,inewdom)
 c
       stop
       end

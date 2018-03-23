@@ -5,7 +5,7 @@ c                                                                     c
      &   work1,work2,ipl,rslcgprv,unorth,vnorth,rvvms,pavprof,prssou,
      &   ipolar,
      &   cfulb,lhodo,ins,flminsou,frmaxsou,fbminsou,ftmaxsou,icomax,
-     &   maxpl,miy,mjx,mkzh,iwkidcgm)
+     &   maxpl,miy,mjx,mkzh)
 c
       dimension prs(miy,mjx,mkzh),
      &   rslcg(2,maxpl),ilinw(maxpl),icolr(maxpl),
@@ -144,14 +144,14 @@ c
       dprs=0.
       do 75 k=mkzh-1,1,-1
          dprs=dprs+pavprof(k+1)-pavprof(k)
-         if (dprs.gt.dprsmin .and. prssou(k) .ge. toppress) then
+         if (dprs.gt.dprsmin) then
             yval=132.182-44.061*alog10(prssou(k))
             call barb(xm,yval,veleast(k),velnorth(k),.02,ins)
             dprs=0.
          endif
    75 continue
       if (lhodo(ipl)) call hodograph (veleast, velnorth, prssou, mkzh,
-     &   flminsou,frmaxsou,fbminsou,ftmaxsou,icomax,barbfac,iwkidcgm)
+     &   flminsou,frmaxsou,fbminsou,ftmaxsou,icomax,barbfac)
 c
       call set(0.,1.,0.,1.,0.,1.,0.,1.,1)
       chsize=.008

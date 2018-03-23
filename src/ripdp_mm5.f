@@ -30,6 +30,16 @@ c   Therefore, RIPDP may be compiled with f77 compilers that allow
 c   adjustable dimensioning of local (non-argument) arrays in
 c   subroutines, or with any f90 compiler.
 c
+c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+c
+c   Note: if you don't have a Fortran 90 compiler, or your
+c   Fortran 77 compiler doesn't support adjustable dimensioning of
+c   local (non-argument) arrays, then make the appropriate changes
+c   in subroutine process (see the comments at the top of subroutine
+c   process), and recompile the program.
+c
+c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+c
 c   Model output header variables.
 c
       integer   jyr(18),jmo(18),jdy(18),jhr(18)
@@ -302,7 +312,7 @@ c                                                                     c
 c
 c   This subroutine does most of the "work".
 c
-c   miy, and mjx are dot-point dimensions, in the y and x directions
+c   miy, and mjx are dot-point dimensions, in the x and y directions
 c      respectively, of the domain to be analyzed.
 c   mkzh is number of 1/2-sigma levels in the domain.
 c   dataform tells what format the model data is.
@@ -313,6 +323,29 @@ c   nsetsbeg is the element of argum that holds the first file name
 c      of the model dataset.
 c   mif, mrf, mlf, mifv1, mrfv1, mifc, and mrfc are the model system
 c      header variables
+c
+c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+c
+c   Note: if you don't have a Fortran 90 compiler, or your
+c   Fortran 77 compiler doesn't support adjustable dimensioning of
+c   local (non-argument) arrays, then you must do the following:
+c   comment out the above subroutine declaration, and uncomment
+c   the following one:
+c
+c      subroutine process(idumb1,idumb2,idumb3,
+c     &   dataform,iexpanded,argum,nnl,ncn,nsets,nsetsbeg,mif,mrf,mlf,
+c     &   mifv1,mrfv1,mifc,mrfc,
+c     &   bhi,bhr,bhic,bhrc)
+c
+c   Then, uncomment the following parameter statement and set the
+c   parameters to the appropriate values for your model domain.
+c
+c      parameter (miy=118,mjx=94,mkzh=27)
+c
+c   Then, recompile RIPDP to make an executable that is appropriate
+c   for your domain.
+c
+c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 c
       character dataform*8, argum(256)*256
 c
@@ -325,7 +358,7 @@ c
       parameter (ipvdim=0, nvq=1, nvtq=5, nvvq=1)
 c
 ccc      dimension ter(miy,mjx),ter_tsf(miy,mjx),xmap(miy,mjx),
-      real ter(miy,mjx),ter_pseudo(miy,mjx),xmap(miy,mjx),
+      dimension ter(miy,mjx),ter_pseudo(miy,mjx),xmap(miy,mjx),
      &   xlat(miy,mjx),xlon(miy,mjx),
      &   cor(miy,mjx),xlus(miy,mjx),sno(miy,mjx),pstx(miy,mjx),
      &   rtc(miy,mjx),rte(miy,mjx),pstd(miy,mjx),tgk(miy,mjx),
@@ -405,7 +438,7 @@ c
      &   iexpandedout,ipv,npvsets,iskpd1,iskppvd1,iobsprc,
      &   iobscnv,iftcnv
 c
-      print*,'Welcome to your friendly RIPDP (V4.6.5) output file !'    ! October 2013
+      print*,'Welcome to your friendly RIPDP output file !'
 c
 c   Define some constants
 c

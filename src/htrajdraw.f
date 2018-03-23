@@ -21,7 +21,7 @@ c
       logical lnolb(maxpl),lnmsg(maxpl)
       character cvcor(maxpl)*1,cfeld(3,maxpl)*10,cnohl(maxpl)*1
 c
-      parameter (maxtraj=7000,maxtrajtime=200)
+      parameter (maxtraj=200,maxtrajtime=2800)
 c
       dimension stortr(maxtrajtime,maxtraj,3),stormpx(maxtrajtime),
      &   stormpy(maxtrajtime),tmx(maxtrajtime),tmy(maxtrajtime),
@@ -36,7 +36,6 @@ c
 c
       include 'comconst'
 c
-c     write(0,*) 'begin htraj'
       if (ntraj.gt.maxtraj) then
          write(iup,*)'In htrajdraw, ntraj,maxtraj=',ntraj,maxtraj
          write(iup,*)'Increase maxtraj parameter to exceed ntraj.'
@@ -126,7 +125,6 @@ c   Note, at this point, stortr(n,m,1) is y-coordinate in coarse domain
 c   dot-point grid, stortr(n,m,2) is x-coordinate, and stortr(n,m,3) is
 c   exponential height [i.e., exp(-z/H), z in meters].
 c      
-c     write(0,*) 'ntraj = ',ntraj,' itm1 = ',itm1
       do itm=itm1,itm2,itmi
          read(iutrajin) (stortr(itm,itr,1),itr=1,ntraj),
      &       (stortr(itm,itr,2),itr=1,ntraj),
@@ -264,7 +262,7 @@ c
          do itm=iplbt,iplet
 c            write(iup,*)'ich,itr,itm=',ich,itr,itm
 c            write(iup,*)'stortr1,2,3=',stortr(itm,itr,1),
-c    &         stortr(itm,itr,2),stortr(itm,itr,3)
+c     &         stortr(itm,itr,2),stortr(itm,itr,3)
             if (stortr(itm,itr,1).ne.rmsg) then
                stortr(itm,itr,3)=finterp(eh,vc3d,1,miy,mjx,mkzh,
      &            stortr(itm,itr,1),stortr(itm,itr,2),
@@ -277,7 +275,7 @@ c    &         stortr(itm,itr,2),stortr(itm,itr,3)
      &               1.+refrat*(stortr(itm,itr,1)-yicorn)
                   stortr(itm,itr,2)=
      &               1.+refrat*(stortr(itm,itr,2)-xjcorn)
-                  if (cvcor(ipl).eq.'z'.or.cvcor(ipl).eq.'f') then ! z in km
+                  if (cvcor(ipl).eq.'z') then ! z in km
                      stortr(itm,itr,3)=
      &                  -.001*sclht*log(stortr(itm,itr,3)) 
                   endif
@@ -428,61 +426,12 @@ c
             call curved(tlx(ifirst),tly(ifirst),ilast-ifirst+1)
             call curved(trx(ifirst),try(ifirst),ilast-ifirst+1)
          elseif (cfeld(1,ipl).eq.'arrow     ') then
-c           call curved(tmx(ifirst),tmy(ifirst),ilast-ifirst+1)
-c            write(0,*) 'ifirst = ',ifirst,' ilast = ',ilast
-c            write(0,*) 'loop end = ',ilast-ifirst+1
-c            write(0,*) 'xtime = ',xtime,' inow = ',inow
-c            write(0,*) 'trbegtime = ',trbegtime,' dttraj = ',dttraj
-c            write(0,*) 'icolr(ipl) = ',icolr(ipl)
-             call frstd(tmx(ifirst),tmy(ifirst))
-             do n = ifirst, ilast
-	       call sflush
-	       if (icolr(ipl) .eq. 103) then   !if it is set wheat4, then color by time
-	       if (float(n) / float(ntrajtime) .lt. .2) then
-	         call gsplci(37)   ! tail of the back trajectory
-	         call gstxci(37)
-	       else if (float(n) / float(ntrajtime) .lt. .4) then
-	         call gsplci(24)
-	         call gstxci(24)
-	       else if (float(n) / float(ntrajtime) .lt. .6) then
-	         call gsplci(30)
-	         call gstxci(30)
-	       else if (float(n) / float(ntrajtime) .lt. .8) then
-	         call gsplci(13)
-	         call gstxci(13)
-	       else   ! head of the back trajectory
-	         call gsplci(1)
-	         call gstxci(1)
-	       endif
-	       endif
-               CALL VECTD (tmx(n),tmy(n))
-             enddo
-             CALL LASTD
-
+            call curved(tmx(ifirst),tmy(ifirst),ilast-ifirst+1)
          endif
 c
 c      Plot the arrow heads.
 c
          do itm=ifirst,ilast
-	     call sflush
-	     if (icolr(ipl) .eq. 103) then
-	     if (float(itm) / float(ntrajtime) .lt. .2) then
-	       call gsplci(37)   ! tail of the back trajectory
-	       call gstxci(37)
-	     else if (float(itm) / float(ntrajtime) .lt. .4) then
-	       call gsplci(24)
-	       call gstxci(24)
-	     else if (float(itm) / float(ntrajtime) .lt. .6) then
-	       call gsplci(30)
-	       call gstxci(30)
-	     else if (float(itm) / float(ntrajtime) .lt. .8) then
-	       call gsplci(13)
-	       call gstxci(13)
-	     else   ! head of the back trajectory
-	       call gsplci(1)
-	       call gstxci(1)
-	     endif
-	     endif
             if (itm.eq.inow) then
                call line(tmx(itm),tmy(itm),tlx(itm),tly(itm))
                call line(tmx(itm),tmy(itm),trx(itm),try(itm))
@@ -555,7 +504,7 @@ c
       if (cvcor(ipl).eq.'s') then   ! model vertical level index
          write(leglablow,'(f6.3)') vclow
          write(leglabhigh,'(f6.3)') vchigh
-      elseif (cvcor(ipl).eq.'z'.or.cvcor(ipl).eq.'f') then    ! height (geop.)
+      elseif (cvcor(ipl).eq.'z') then    ! height (geop.)
          write(leglablow,'(f5.2,a3)') vclow,' km'
          write(leglabhigh,'(f5.2,a3)') vchigh,' km'
       elseif (cvcor(ipl).eq.'p'.or.
@@ -793,7 +742,7 @@ c
       leglabhigh=' '
       if (cvcor(ipl).eq.'s') then   ! model vertical level index
          write(leglabhigh,'(f6.3)') avcnetmax
-      elseif (cvcor(ipl).eq.'z'.or.cvcor(ipl).eq.'f') then    ! height (geop.)
+      elseif (cvcor(ipl).eq.'z') then    ! height (geop.)
          write(leglabhigh,'(f5.2,a3)') avcnetmax,' km'
       elseif (cvcor(ipl).eq.'p'.or.
      &        cvcor(ipl).eq.'l'.or.

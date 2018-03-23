@@ -2,25 +2,23 @@ c                                                                     c
 c*********************************************************************c
 c                                                                     c
       subroutine vcondraw(ilinw,rcrag,rcrbg,ismth,rcint,rcbeg,rcend,
-     &         rcval,incvl,lmult,larng,idash,ixavg,
-     &         cnohl,lnolb,lnobr,lnozr,icomg,
+     &         lmult,larng,idash,ixavg,cnohl,lnolb,lnobr,lnozr,icomg,
      &         incon,bottextfloor,work,icdwk,unwk,icolr,icoll,ilcll,
      &         ilchl,rtslb,rtshl,imjsk,lnmsg,cfeld,
      &         icong,iconl,icozr,ilwll,ilwng,ilwnl,ilwzr,idall,
-     &         idang,idanl,idazr,ilcnl,ilczr,lcord,ihvbr,
+     &         idang,idanl,idazr,ilcnl,ilczr,ihvbr,
      &         ilcbr,ipwlb,iorlb,ipwhl,ipwbr,ifclb,ifcnl,
      &         ifczr,ifchl,ilclo,ifclo,ccmth,idimn,rwdbr,
      &         nscrs,set1,set2,xdist,ydist,xseclen,icosq,
      &         rcosq,incsq,fred,fgreen,fblue,nco,icomax,
      &         pslab1,pslabt,ipslab,iam,xcs,ycs,niam,ncs,
-     &         maxcosq,mabpl,morpl,maxpl,maxcon,
-     &         miy,mjx,mkzh,ipl,iwkidcgm)
+     &         maxcosq,mabpl,morpl,maxpl,
+     &         miy,mjx,mkzh,ipl)
 c
-      parameter (iwrklen=100000)
+      parameter (maxcon=80,iwrklen=100000)
 c
       dimension rcrag(2,maxpl),rcrbg(2,maxpl),ismth(maxpl),
      &   ilinw(maxpl),rcint(maxpl),rcbeg(maxpl),rcend(maxpl),
-     &   rcval(maxcon,maxpl),incvl(maxpl),
      &   incon(maxpl),idimn(maxpl),icomg(maxpl),
      &   idash(maxpl),ixavg(maxpl),icolr(maxpl),
      &   icoll(maxpl),ilcll(maxpl),ilchl(maxpl),
@@ -39,7 +37,7 @@ c
      &   pslab1(mabpl,morpl),pslabt(mabpl,morpl),ipslab(mabpl,morpl)
       dimension iam(niam),xcs(ncs),ycs(ncs)
       logical lmult(maxpl),larng(maxpl),lnolb(maxpl),
-     &   lnobr(maxpl),lnozr(maxpl),lnmsg(maxpl),lcord(maxpl)
+     &   lnobr(maxpl),lnozr(maxpl),lnmsg(maxpl)
       character unwk(maxpl)*24,ccmth(maxpl)*4,cfeld(3,maxpl)*10,
      &   cnohl(maxpl)*1
 c
@@ -164,8 +162,7 @@ c
 c   Determine number of contours and contour values.
 c
       call getconvals(rcbeg(ipl),rcend(ipl),rcint(ipl),
-     &   incon(ipl),lmult(ipl),rcval(1,ipl),incvl(ipl),
-     &   imjsk(ipl),pslab1,mabpl,nscrs,mkzh,rmsg,
+     &   incon(ipl),lmult(ipl),imjsk(ipl),pslab1,mabpl,nscrs,mkzh,rmsg,
      &   maxcon,valcon,majcon,cintuse,numcon,iup)
 c
       call cpseti('SET',0)   ! we'll use our own set call
@@ -265,19 +262,14 @@ c      Note, in the following code, if icosc<0, that means the user
 c      chose "transparent" as the color, which means the value of
 c      "red" should remain -1.
 c
-         if (.not.lcord(ipl)) then
-            if (i.eq.1) then
-               val=valmin
-            elseif (i.eq.numcon+1) then
-               val=valmax
-            else
-               val=.5*(valcon(i-1)+valcon(i))
-            endif
-            if (larng(ipl)) val=100.*(val-valmin)/(valmax-valmin)
+         if (i.eq.1) then
+            val=valmin
+         elseif (i.eq.numcon+1) then
+            val=valmax
          else
-            val=float(i)
-            if (larng(ipl)) val=1.+99.*(val-1.)/float(numcon)
+            val=.5*(valcon(i-1)+valcon(i))
          endif
+         if (larng(ipl)) val=100.*(val-valmin)/(valmax-valmin)
          if (val.le.rcosq(1,ipl)) then
             if (icosq(1,ipl).gt.0) then
                red=redcosq(1)
@@ -334,7 +326,7 @@ c
                write(iup,*) 'of colors defined in the color table.'
                stop
             endif
-            call gscr(iwkidcgm,icomax,red,green,blue)
+            call gscr(1,icomax,red,green,blue)
             fred(icomax)=red
             fgreen(icomax)=green
             fblue(icomax)=blue
@@ -457,8 +449,7 @@ c      Use getconvals to decide which contours (color transitions) should
 c      be labeled on the label bar.
 c
          call getconvals(rcbeg(ipl),rcend(ipl),rcint(ipl),
-     &      incon(ipl),lmult(ipl),rcval(1,ipl),incvl(ipl),
-     &      lstep-1,pslab1,mabpl,nscrs,mkzh,rmsg,
+     &      incon(ipl),lmult(ipl),lstep-1,pslab1,mabpl,nscrs,mkzh,rmsg,
      &      maxcon,valcon,lbbarcon,cintuse,numcon,iup)
 c
          nlbs=1

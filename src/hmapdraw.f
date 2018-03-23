@@ -86,12 +86,13 @@ c
       xurc=xjcorn+(ixwin(2,ipl)-1.)/refrat
       call maptform(yurc,xurc,rlaturc,rlonurc,1)
 c
-      if (((nproj.eq.0.or.nproj.eq.1.or.nproj.eq.3).and.
-     &    irota(ipl).ne.0).or.nproj.eq.4) then
+      if ((nproj.eq.0.or.nproj.eq.1.or.nproj.eq.3).and.
+     &    irota(ipl).ne.0) then
+         write(iup,*)'Cannot rotate the view for a LC or ME map.'
+         write(iup,*)'Map will not be drawn, but RIP will continue.'
 c
-c   Cannot rotate a ME, LC, or SRCE map, but need to make a special set call
-c   so that lat/lon labels can be drawn. (Hey, at least that's something!)
-c   Also, if map is SRCE, we need these set limits no matter what.
+c      Still need to make set call so that lat/lon labels can be drawn
+c      (Hey, at least that's something!)
 c
          xintervs=ixwin(2,ipl)-ixwin(1,ipl)
          yintervs=iywin(2,ipl)-iywin(1,ipl)
@@ -114,12 +115,8 @@ c
             fl=flmin+fextra
             fr=frmax-fextra
          endif
-         if (irota(ipl).ne.0) then
-            write(iup,*)'Cannot rotate view for LC, ME, or SRCE map.'
-            write(iup,*)'Map will not be drawn, but RIP will continue.'
-            call set(fl,fr,fb,ft,fl,fr,fb,ft,1)
-            goto 18
-         endif
+         call set(fl,fr,fb,ft,fl,fr,fb,ft,ll)
+         goto 18
       endif
 c
       plon=xlonc
@@ -139,10 +136,6 @@ c
          chproj='ME'
          plat=0.
          rota=0.
-      elseif (nproj.eq.4) then ! Stretched Rotated Cylindrical Equidistant
-         chproj='CE'
-         plat=xlatc
-         rota=0.
       endif
 c
 c   Start ezmap.
@@ -151,18 +144,6 @@ c
       call maproj (chproj,plat,plon,rota)
       call mapset ('CO',rlatllc,rlonllc,rlaturc,rlonurc)
       call mapint
-c
-      if (nproj.eq.4) then
-c
-c     Here's where the "stretched" part of the stretched rotated
-c     cylindrical equidistant (SRCE) map projection is accomplished.  It
-c     cannot be handled by EZMAP's standard functionality, but it can be
-c     accomplished with a new set call here, as discussed in the
-c     description of routine MAPPOS in the NCAR Graphics documentation.
-c
-         call getset(fl_wrong,fr_wrong,fb_wrong,ft_wrong,ul,ur,ub,ut,ll)
-         call set(fl,fr,fb,ft,ul,ur,ub,ut,ll)
-      endif
 c
 c   Various initial stuff
 c

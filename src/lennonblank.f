@@ -8,12 +8,8 @@ c
       integer i
       character st*(*)
       i = len(st)
-      do while (i .ge. 1)
-        if (st(i:i) .eq. ' ') then
-          i = i - 1
-        else
-          exit
-        endif
+      do while (i .ge. 1 .and. st(i:i) .eq. ' ')
+        i = i - 1
       enddo
       lennonblank = i
       return

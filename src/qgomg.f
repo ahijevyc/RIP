@@ -7,6 +7,28 @@ c                                                                     c
      &   vardesc,plchun,casename,iendc,cxtimeavl,xtimeavl,
      &   nxt,ncxc,maxtavl,miy,mjx,mkzh)
 c
+c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+c
+c   Note: if you don't have a Fortran 90 compiler, or your
+c   Fortran 77 compiler doesn't support adjustable dimensioning of
+c   local (non-argument) arrays, then you must do the following:
+c   comment out the above subroutine declaration, and uncomment
+c   the following one:
+c
+c      subroutine qgomg(prs,omg,tmk,qvp,ght,bvfsqd,bvfsqm,
+c     &   rhi,cor,xmap,ter,numpas,ivar,ivar2,iqvecforc,
+c     &   itopobc,iekmnbc,imo,rhithresh,ihrip,rhrip,chrip,
+c     &   vardesc,plchun,casename,iendc,cxtimeavl,xtimeavl,
+c     &   nxt,ncxc,maxtavl,miydumb,mjxdumb,mkzhdumb)
+c
+c   Then, uncomment the following include statement.
+c
+c       include 'parinc'
+c
+c   See subroutine 'driver' for further instructions.
+c
+c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+c
       parameter (errmin=.0005)   ! .0005 hPa/s. or .5 microbar/s
 c      parameter (errmin=.000001)   ! .000001 hPa/s. or .001 microbar/s
       parameter (itmax=100, alpha=1.8, mkp=30)
@@ -37,15 +59,6 @@ c
      &   rhiqg(miy,mjx,mkp),terqg(miy,mjx),work(miy,mjx)
 c
       include 'comconst'
-c
-      if (nproj.eq.4) then
-         write(iup,*) 'Routine qgomg will not work exactly right'
-         write(iup,*) 'for the NMM SRCE map projection because'
-         write(iup,*) 'it is not conformal and I was too lazy'
-         write(iup,*) 'to account for different map factors in the'
-         write(iup,*) 'x and y directions in this routine.'
-         write(iup,*) 'However, errors will be quite small.'
-      endif
 c
       dzpbl=1000.   ! Assume 1000-m-thick PBL.
       perpfac=.20  ! PBL-avg. comp. of actual wind perp. to geos. wind

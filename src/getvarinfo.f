@@ -28,13 +28,7 @@ c
       read (25)
      &   vardesc,plchun,ihrip,rhrip,chrip
       ndim=ihrip(6)
-c
-c     We don't care here whether data is B-grid or E-grid.  Routine
-c     getvar will transfer E-grid data to a collocated B-grid.  All that
-c     matters here is that icd indicate whether the data is (or will
-c     eventually be) on dot (=0) or cross points (=1) in the B-grid.
-c
-      icd=mod(ihrip(7),2)
+      icd=ihrip(7)
       close (25)
       istat=1
       return

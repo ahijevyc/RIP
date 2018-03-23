@@ -36,70 +36,21 @@ c
          write(iup,*)ndim,' with data of dimension ',ndimch
          stop
       endif
+      read (25) arr
+      close (25)
+      istat=1
 c
-c   Check for B-grid/E-grid data
+c   Make sure rmsg values are EXACTLY rmsg.
+c   (This is necessary for the Cray, if data file was IEEE)
 c
-      icdch=ihrip(7)
-      nlevs=1+(ndim-2)*(mkzh-1)
-      if (icdch.le.1) then  ! B-grid data
-         read (25) arr
-         close (25)
-         istat=1
-c
-c      Make sure rmsg values are EXACTLY rmsg.
-c      (This is necessary for the Cray, if data file was IEEE)
-c
-         do k=1,nlevs
-         do j=1,mjx-icdch
-         do i=1,miy-icdch
-            if (abs((arr(i,j,k)-rmsg)/rmsg).lt.1e-6) arr(i,j,k)=rmsg
-         enddo
-         enddo
-         enddo
-      else    ! E-grid data
-c
-c     In the parlance of ripdp_wrfnmm.f, the grid in RIP is a B-grid of
-c     dimensions miyeb,mjxeb (i.e., miy,mjx in this routine are equal to
-c     miyeb,mjxeb).  However, the data is stored in compact E-grid data
-c     arrays of dimension miyec,mjxec.  See ripdp_wrfnmm.f comments for
-c     explanation.
-c
-         miyeb=miy
-         mjxeb=mjx
-         miyef=miyeb-1
-         mjxef=mjxeb-1
-         miyec=miyef
-         mjxec=(mjxef+1)/2
-         read (25) (((arr(i,j,k),i=1,miyec),j=1,mjxec),k=1,nlevs)
-         close (25)
-         istat=1
-c
-c      Make sure rmsg values are EXACTLY rmsg.
-c      (This is necessary for the Cray, if data file was IEEE)
-c
-         do k=1,nlevs
-         do j=1,mjxec
-         do i=1,miyec
-            if (abs((arr(i,j,k)-rmsg)/rmsg).lt.1e-6) arr(i,j,k)=rmsg
-         enddo
-         enddo
-         enddo
-c
-c      Spread/interpolate the data to the full E-grid (both H and V points)
-c
-         call egridfill(arr,icdch,miyef,mjxef,miy,mjx,nlevs)
-c
-c      If E-grid data was at V points, transfer to the B-grid
-c      "dot" points.
-c
-         if (icdch.eq.2) then
-            do k=1,nlevs
-               call xtodot(arr(1,1,k),miy,mjx)
-            enddo
-         endif
-c
-      endif
-c
+      icd=ihrip(6)
+      do k=1,1+(ndim-2)*(mkzh-1)
+      do j=1,mjx-icd
+      do i=1,miy-icd
+         if (abs((arr(i,j,k)-rmsg)/rmsg).lt.1e-6) arr(i,j,k)=rmsg
+      enddo
+      enddo
+      enddo
       return
  30   istat=-1
       if (iabort.eq.1) then

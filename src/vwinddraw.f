@@ -54,6 +54,9 @@ c
 c
 c   Interpolate gridded data to x-section.
 c
+      cfac=(ft-fb)*xseclen*ds/((fr-fl)*(vv2-vv1))
+      if (cvcor(ipl).eq.'z') cfac=cfac*.00001
+      if (cvcor(ipl).eq.'p') cfac=cfac*.001
       caxgn=1.+(rcrag(2,ipl)-xjcorn)*refrat
       caygn=1.+(rcrag(1,ipl)-yicorn)*refrat
       cbxgn=1.+(rcrbg(2,ipl)-xjcorn)*refrat

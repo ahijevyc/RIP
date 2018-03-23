@@ -1,8 +1,8 @@
 c                                                                     c
 c*********************************************************************c
 c                                                                     c
-      function igetcoind(cospec,conam,nco,string)
-      character cospec*(*), conam(0:nco)*(*), string*(*)
+      function igetcoind(cospec,conam,nco)
+      character cospec*(*), conam(0:nco)*(*)
 c
       include 'comconst'
 c
@@ -18,7 +18,6 @@ c
       do 80 i=0,nco
          write(iup,*)'     ',i,' is [',conam(i),']'
    80 continue
-         write(iup,*)' Offending string is ',string
       stop
   100 igetcoind=i
       return

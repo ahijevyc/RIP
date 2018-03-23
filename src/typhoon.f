@@ -62,7 +62,7 @@ c routine to compute typhoon locations
       parameter (sealpmin = 1004.)
       real vor(miy,mjx), slp(miy,mjx)
       integer ltyph(max_storms)
-      logical debug, ltcdat
+      logical debug
       character line*80, tname*8, strng(2)*20
 c
       include 'comconst'
@@ -75,8 +75,8 @@ c
       expon=rgas*ussalr/grav
       exponi=1./expon
 
-c typhoons must be separated by 850 km or 8 grid spaces
-      sepmin = max(8.*dskm,  850.)    
+c typhoons must be separated by 650 km or 8 grid spaces
+      sepmin = max(8.*dskm, 650.)    
 c     sepmin = max(8.*dskm, 450.)     ! wei uses 450
 c set the vorticity threshold based on the grid spacing
       vorlimit = max(min(1000.*(1./dskm),120.),10.)
@@ -92,8 +92,6 @@ c initialize the array at the first time
 	enddo
 	enddo
 	enddo
-        inquire (FILE='tcdat', EXIST=ltcdat)
-        if (ltcdat) then
 c   read the tcbogus file to find the location of the typhoon at initial time
         open(47,file='tcdat',form='formatted',status='unknown')
         read(47,'(i8)',err=601,end=602) mdate
@@ -102,8 +100,6 @@ c   read the tcbogus file to find the location of the typhoon at initial time
           read(47,'(a)') line
           read (line,'(a8,1x,f4.1,3x,f5.1,3x,f4.1,3x,f5.1,3x,i4,4x,i3,
      &       4x,i2)') tname, xlatc, ylonc, xlat6, ylon6, ip, irad, isp
-          if (line(15:15) .eq. 'S' ) xlatc = -1. * xlatc
-          if (line(23:23) .eq. 'W' ) ylonc = -1. * ylonc
           write(6,*) 'name = ',tname
           write(6,*) 'xlat6 = ',xlat6,' ylon6 = ',ylon6
           write(6,*) 'xlatc = ',xlatc,' ylonc = ',ylonc
@@ -114,7 +110,7 @@ c   read the tcbogus file to find the location of the typhoon at initial time
 	  write(6,*) 'strng(1) = ',strng(1)
 	  write(6,*) 'strng(2) = ',strng(2)
           call locinterp(strng,gridx,gridy,
-     &              rlat,rlon,iwmo,icaoid,stelv,tnames(id),' ')
+     &              rlat,rlon,iwmo,icaoid,tnames(id),' ')
 
 	  rjx = 1. + (gridx - xjcorn) * refrat
 	  riy = 1. + (gridy - yicorn) * refrat
@@ -133,7 +129,6 @@ c   read the tcbogus file to find the location of the typhoon at initial time
         enddo
   601  continue
   602  continue
-      endif
       endif
 c if there's ever been a typhoon reported, track it
       do l = 1, max_storms
@@ -402,7 +397,7 @@ c           endif
 c wei: use a different radius to find max sfc wind (~160 km)
           if (dskm.lt.15.) irad = max (3, min(nint (200./dskm),13))
           if (dskm.lt. 5.) irad = max (3, min(nint (200./dskm),40))
-c         if(itime.eq.1) print *, 'irad for max wind speed is ',irad
+          if(itime.eq.1) print *, 'irad for max wind speed is ',irad
           imin = max(2,iy-irad)
           imax = min(miy-1,iy+irad)
           jmin = max(2,jx-irad)
@@ -494,9 +489,9 @@ c             y = iy2-.5
             endif
 c wei: compute the distance of max sfc wind to storm center
 c           disw = sqrt( (float(iy4)-y)**2 + (float(jx4)-x)**2 )*dskm
-            if(debug) then
-             write(6,*)' itime = ',itime,' tloc y = ',tloc(itime,1,nty)
-            endif
+	    if(debug) then
+	    write(6,*)' itime = ',itime,' tloc y = ',tloc(itime,1,nty)
+	    endif
 	    if (itime .ne. 1 .or. tloc(itime,1,nty) .lt. 0.) then
 c  the first time's location may have been read in from an observation file
               tloc(itime,1,nty) = y
@@ -545,40 +540,6 @@ c now clean up any transient depressions
 	    endif
 	  endif
 	enddo     ! end short nty loop
-	  !  check to see if typhoons have merged   9/26/08
-	do nty = 1, max_storms
-	  do 179 nty2 = nty+1, max_storms
-	    if (nty .ne. nty2 .and. tloc(itime,1,nty) .ne. -1 .and. 
-     &                              tloc(itime,1,nty2) .ne. -1 ) then
-              di = abs(tloc(itime,1,nty) - tloc(itime,1,nty2)) * dskm
-              dj = abs(tloc(itime,2,nty) - tloc(itime,2,nty2)) * dskm
-              dis = sqrt (dj**2 + di**2)
-c             write(6,*) 'nty = ',nty,' nty2 = ',nty2,' dis = ',dis
-	      if ( dis .lt. sepmin/3.) then
-	        do j = 1, max_parameters
-		  tloc(itime,j,nty2) = -1          ! remove the duplicate
-		enddo
-	        if (tloc(itime-1,4,nty2) .ne. -1 .and. 
-     &              tloc(itime-1,4,nty2) .gt. 1004.) then ! if a depression existed at the previous time
-	          if (tloc(itime-2,1,nty2) .eq. -1) then  ! but none existed at the time before that, it's transient
-                    do j = 1,max_parameters
-                      tloc(itime-1,j,nty2) = -1          ! remove the transient
-		    enddo
-                    if (debug) then
- 	              write(6,*) 'removed transient vortex, nty2 = ',
-     &                  nty2,' itime = ',itime
-                    endif
-                    isthere = 0              ! if the removal means no typhoon at all, reset ltyph
-                    do i = 1, itime
-                      if (tloc(i,1,nty2) .ne. -1) isthere = 1
-                    enddo
-                    if (isthere .eq. 0) ltyph(nty2) = 0
-                  endif
-                endif
-	      endif
-	    endif
-  179     continue  ! end nty2 loop
-	enddo     ! end nty loop for distance check
       endif
       return
       end
@@ -621,8 +582,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       subroutine do_track(storm_val,rcrag,rcrbg,nxtavl,storm,rtslb,
      &   idash, ixwin,iywin,icolr,ipl,irota,ilinw,storm_cutoff1,
-     &   storm_cutoff2,init_date,cxtimeavl,maxpl,maxptimes,maxtavl,
-     &   rtynt)
+     &   storm_cutoff2,init_date,cxtimeavl,maxpl,maxptimes,maxtavl,tynt)
 
       ! Constants
       parameter (MAX_STORMS = 5)      ! The 3rd dimension of storm_val()
@@ -644,7 +604,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       real rcrag(2,maxpl),    ! Used for calling hlinedraw and hbulldraw
      &  rcrbg(2,maxpl),       ! Used for calling hlinedraw and hbulldraw
      &  rtslb(maxpl),         ! Text size for labels
-     &  rtynt(maxpl)          ! Typhoon symbol interval, hours
+     &  tynt(maxpl)           ! Typhoon symbol interval, hours
       integer nxtavl,         ! Actual number of values in cxtimeavl
      &  ipl,                  ! Current plot index
      &  init_date             ! Forecast initialization date
@@ -751,14 +711,14 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       ! set up a value for typhoon symbol interval (if not defined by user, set 
       !   interval to be the time between model output times)
-      if(rtynt(ipl).lt..5) then
+      if(tynt(ipl).lt..5) then
         if(nxtavl.gt.1) then
           read(cxtimeavl(2),'(f6.1)') current_fchr
-          rtynt(ipl) = current_fchr
+          tynt(ipl) = current_fchr
           read(cxtimeavl(1),'(f6.1)') current_fchr
-          rtynt(ipl) = nint(rtynt(ipl)) - nint(current_fchr)
+          tynt(ipl) = nint(tynt(ipl)) - nint(current_fchr)
         else
-          rtynt(ipl) = 1.
+          tynt(ipl) = 1.
         endif
       endif
       read(cxtimeavl(2),'(f6.1)') current_fchr
@@ -771,9 +731,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      &    ' time exists'
         out_interval = 1.
       endif
-      if(rtynt(ipl)/out_interval .ne.
-     &   nint(rtynt(ipl)/out_interval)) then 
-        write(6,*) 'Warning: rtynt is not a multiple of ',
+      if(tynt(ipl)/out_interval .ne.
+     &   nint(tynt(ipl)/out_interval)) then 
+        write(6,*) 'Warning: tynt is not a multiple of ',
      &              'model output interval'
       endif
 
@@ -799,8 +759,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
             rcrag(2,ipl)=(storm_val(iii,2,kk)-1.)/refrat+xjcorn
 
             read(cxtimeavl(iii),'(f6.1)') current_fchr
-            if(nint(current_fchr)/rtynt(ipl).eq.
-     &         nint(nint(current_fchr)/rtynt(ipl))) then 
+            if(nint(current_fchr)/tynt(ipl).eq.
+     &         nint(nint(current_fchr)/tynt(ipl))) then 
 
             if(storm_val(iii,5,kk).lt.storm_cutoff1) then 
             ! storm(ipl)(1:1)=char(109) 
@@ -845,8 +805,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
           do iii=1, nxtavl 
 
             read(cxtimeavl(iii),'(f6.1)') current_fchr
-            if(nint(current_fchr)/rtynt(ipl).eq.
-     &         nint(nint(current_fchr)/rtynt(ipl))) then  
+            if(nint(current_fchr)/tynt(ipl).eq.
+     &         nint(nint(current_fchr)/tynt(ipl))) then  
 
               if(storm_val(iii,1,kk).ge.0 .and. 
      &          storm_val(iii,2,kk).ge.0) then 

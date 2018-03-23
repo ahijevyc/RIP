@@ -19,12 +19,17 @@ c   are put in the k=mkzh-1 and k=mkzh-2 slabs of the cin array.
 c
       dimension prs(miy,mjx,mkzh),tmk(miy,mjx,mkzh),qvp(miy,mjx,mkzh),
      &   ght(miy,mjx,mkzh),ter(miy,mjx),cape(miy,mjx,mkzh),
-     &   cin(miy,mjx,mkzh),prsf(miy,mjx,mkzh)
+     &   cin(miy,mjx,mkzh),prsf(miy,mjx,mkzh),
+     &   zpar(miy,mjx),bmin(miy,mjx),zbmin(miy,mjx),
+     &   tve(miy,mjx),tlift(miy,mjx),tlc(miy,mjx),bmax(miy,mjx)
+      integer kbmin(miy,mjx),kpar_orig(miy,mjx), idebug, jdebug, ilfc
 c
       dimension buoy(150),zrel(150),benaccum(150)
 c
       include 'comconst'
 c
+      idebug = 300 
+      jdebug = 1020
       do j=1,mjx-1
       do i=1,miy-1
          cape(i,j,1)=0.
@@ -47,14 +52,24 @@ c
                tlcl=tlclc1/(log(t**tlclc2/e)-tlclc3)+tlclc4
                eth=t*(1000./p)**(gamma*(1.+gammamd*q))*
      &            exp((thtecon1/tlcl-thtecon2)*q*(1.+thtecon3*q))
+               if ((i.eq.idebug).and.(j.eq.jdebug)) 
+     &           write(iup,'(A,I4,A,I4,A,I3,A,F9.4,
+     &           F9.4,F9.6,A,F9.3,A,
+     &           F9.3,A,F9.4)')
+     &           '(',i,',',j,',',k,')  eth,t,q=',eth,
+     &           t, q, '  z=', ght(i,j,k), ' zagl=', 
+     &           ght(i,j,k)-ter(i,j),' p=', p
                if (eth.gt.ethmax) then
                   klev=k
                   ethmax=eth
+                  tlc(i,j)=tlcl
                endif
             endif
          enddo
          kpar1=klev
          kpar2=klev
+         kpar_orig(i,j)=klev
+         zpar(i,j)=ght(i,j,klev)!-ter(i,j)
 c
 c      Establish average properties of that parcel
 c         (over depth of approximately davg meters)
@@ -119,6 +134,9 @@ c   and at all points where buoyancy is zero.
 c
       kk=0 ! for arrays that go bottom to top
       ilcl=0
+      ilfc=0          ! LFC flag
+      bmin(i,j)=100.  ! initialize with high value
+      bmax(i,j)=-100. ! must initialize with low value
       if (ghtpari.ge.zlcl) then
 c
 c      initial parcel already saturated or supersaturated.
@@ -161,12 +179,27 @@ c
          endif
          buoy(kk)=grav*(tvlift-tvenv)/tvenv  ! buoyancy
          zrel(kk)=ghtlift-ghtpari
+         if ((i.eq.idebug).and.(j.eq.jdebug)) THEN
+            write(iup,'(A,I4,A,I4,A,I3,A,F9.4,
+     &      A,F9.4,A,F8.4,A,F11.6,A,I2,A,F12.7,A,I1)')
+     &      '(',i,',',j,',',k,') p=', prs(i,j,k), 
+     &      ' tvlift-tvenv =',tvlift,'-',tvenv,' =',tvlift-tvenv,
+     &      ' kk=', kk, ' buoy(kk)=', buoy(kk), ' ilfc=', ilfc 
+         endif 
+         if (tvlift-tvenv.lt.bmin(i,j) .and. ilfc.eq.0) then
+            bmin(i,j)=tvlift-tvenv
+            zbmin(i,j)=ght(i,j,k)-ter(i,j)
+            tlift(i,j)=tvlift
+            kbmin(i,j)=k
+         endif
+         if (tvlift-tvenv.gt.bmax(i,j)) bmax(i,j)=tvlift-tvenv
          if (kk.gt.1) then
          if (buoy(kk)*buoy(kk-1).lt.0.0) then
 c
 c         Parcel ascent curve crosses sounding curve, so create a new level
 c         in the bottom-up array at the crossing.
 c
+            if (buoy(kk) .gt. 0) ilfc=1 ! make sure we are crossing from neg to pos buoyancy for LFC
             kk=kk+1
             buoy(kk)=buoy(kk-1)
             zrel(kk)=zrel(kk-1)
@@ -270,10 +303,28 @@ c
          cin(i,j,mkzh)=cin(i,j,kpar1)
          cin(i,j,mkzh-1)=zrel(klcl)+ghtpari-ter(i,j)   ! meters AGL
          cin(i,j,mkzh-2)=zrel(klfc)+ghtpari-ter(i,j)   ! meters AGL
+         cin(i,j,mkzh-3)=kbmin(i,j) ! model level of min buoyancy
+         cin(i,j,mkzh-4)=bmin(i,j)  ! min buoyancy
+         cin(i,j,mkzh-5)=zbmin(i,j) ! height of min buoyancy
+         cin(i,j,mkzh-6)=tlc(i,j)   ! LCL temperature
+         cin(i,j,mkzh-7)=tlift(i,j) ! virtual temperature of lifted parcel
+         cin(i,j,mkzh-8)=zpar(i,j)
+         cin(i,j,mkzh-9)=kpar_orig(i,j)
+         cin(i,j,mkzh-10)=bmax(i,j)
       endif
 c
       enddo
       enddo
+      write(16)kbmin
+      write(16)bmin
+      write(16)zbmin
+      write(16)tlc
+      write(16)tlift
+      write(17)zpar
+      write(17)kpar_orig
+      write(17)ter
+      close(16)
+      close(17)
 c
       return
       end

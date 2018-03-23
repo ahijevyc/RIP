@@ -32,15 +32,7 @@ c
       call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
      &     'sfp       ',miy,mjx,mkzh,maxtavl,2,1,sfp,istat)
       call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &     'dmap      ',miy,mjx,mkzh,maxtavl,2,0,dmap,istat)
-      if (istat.eq.-1) then
-         do j=1,mjx-1
-         do i=1,miy-1
-            dmap(i,j)=xmap(i,j)
-         enddo
-         enddo
-         call xtodot(dmap,miy,mjx)
-      endif
+     &     'dmap      ',miy,mjx,mkzh,maxtavl,2,1,dmap,istat)
       call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
      &     'xmap      ',miy,mjx,mkzh,maxtavl,2,1,xmap,istat)
       call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,

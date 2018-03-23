@@ -30,7 +30,7 @@ c         value of -2 means labels are drawn only on bottom and left;
 c         any other value means labels are drawn on all 4 sides.
 c      rtslb: text size (in fractional coordinates) of labels.
 c
-      parameter (nres=200)
+      parameter (nres=50)
 c   
       dimension iywin(2),ixwin(2),xx(nres),yy(nres),
      &   rlatbot(nres),rlattop(nres),rlatleft(nres),rlatright(nres),

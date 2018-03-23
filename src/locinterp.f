@@ -2,17 +2,15 @@ c                                                                     c
 c*********************************************************************c
 c                                                                     c
       subroutine locinterp(string,gridx,gridy,rlat,rlon,iwmo,icaoid,
-     &   stelev,locdesc,rip_root)
+     &   locdesc,rip_root)
 c
       character string(2)*20,icaoid*4,fnm*256,rip_root*256
      & ,icaoid2*4,locdesc*44
 c
 c   Stationlist common block
 c
-      common /sl/ igot_sl,ns_sl,icao_sl,iwmo_sl,slat_sl,slon_sl,loc_sl,
-     &            stelev_sl
-      dimension iwmo_sl(15000),slat_sl(15000),slon_sl(15000),
-     &   stelev_sl(15000)
+      common /sl/ igot_sl,ns_sl,icao_sl,iwmo_sl,slat_sl,slon_sl,loc_sl
+      dimension iwmo_sl(15000),slat_sl(15000),slon_sl(15000)
       character icao_sl(15000)*4,loc_sl(15000)*44
 c
       logical numeric
@@ -36,7 +34,7 @@ c
             i=0
   200       i=i+1
             read(iustnlist,206,end=205) iwmo_sl(i),icao_sl(i),loc_sl(i),
-     &         ilatd,ilatm,ilats,ilond,ilonm,ilons,stelev_sl(i)
+     &         ilatd,ilatm,ilats,ilond,ilonm,ilons
             slat_sl(i)=sign(abs(float(ilatd))+.016667*float(ilatm)+
      &         .000278*float(ilats),float(ilatd))
             slon_sl(i)=sign(abs(float(ilond))+.016667*float(ilonm)+
@@ -45,8 +43,7 @@ c
  205        ns_sl=i-1
             igot_sl=1
             close (iustnlist)
- 206        format(i5,1x,a4,1x,a44,i3,1x,i2,1x,i2,1x,i4,1x,i2,1x,i2,
-     &             1x,f4.0)
+ 206        format(i5,1x,a4,1x,a44,i3,1x,i2,1x,i2,1x,i4,1x,i2,1x,i2)
          endif
          if (numeric(string(1)(1:5))) then ! WMO
             read(string(1)(1:7),'(i5)') iwmo
@@ -56,13 +53,12 @@ c
                   icaoid=icao_sl(i)
                   rlat = slat_sl(i)
                   rlon = slon_sl(i)
-                  stelev = stelev_sl(i)
                   locdesc=loc_sl(i)
                   goto 210
                endif
             enddo
             write(iup,*)'Couldn''t find station with WMO # =',iwmo
-            stop 'locinterp'
+            stop
   210       continue
          else ! ICAO
             read(string(1)(1:4),'(a4)') icaoid
@@ -78,13 +74,12 @@ c  assume that if it's a 3-character id, it's a U.S. station
                   iwmo=iwmo_sl(i)
                   rlat = slat_sl(i)
                   rlon = slon_sl(i)
-                  stelev = stelev_sl(i)
                   locdesc=loc_sl(i)
                   goto 212
                endif
             enddo
             write(iup,*)'Couldn''t find station with ICAO ID = ',icaoid
-            stop 'locinterp'
+            stop
  212        continue
          endif
       else ! Either x/y or lat/lon specification.

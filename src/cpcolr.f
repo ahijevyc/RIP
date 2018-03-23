@@ -34,11 +34,10 @@ c
 c      Note that if icoindcp(ifll) is negative, that means this
 c      polygon should remain transparent (i.e. not filled).
 c
-         if ( ifll .ge. 1 .and. ifll .le. nconarea ) then
-           if ( icoindcp(ifll) .ge. 0 ) then
-             call gsfaci(icoindcp(ifll))
-             call gfa (ncra-1,xcra,ycra)
-           endif
+         if (ifll.ge.1.and.ifll.le.nconarea.and.
+     &       icoindcp(ifll).ge.0) then
+            call gsfaci(icoindcp(ifll))
+            call gfa (ncra-1,xcra,ycra)
          endif
       endif
 c

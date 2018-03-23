@@ -9,5 +9,5 @@
      &   rktpmps,true1,true2,abscoefi,nproj,sclht,rmsg,
      &   psadiprs,psadithte,psaditmk,ilandset,iplevdata
       common /unitnum/ iuinput,iustnlist,iutserstn,
-     &   iutserdat,iunewdom,iutrajout,iudiagout,
+     &   iutserdat,iunewdom,iuprcver,iutrajout,iudiagout,
      &   iutrajin,iup,iupt

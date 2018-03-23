@@ -22,19 +22,6 @@ c
 c
       miy=ihrip(4)
       mjx=ihrip(5)
-      icd=ihrip(7)
-      if (icd.ge.2) then
-c
-c     This is E-grid data.  The dimensions are for the compact E-grid
-c     data arrays.  Change the dimensions to be the number of dot points
-c     in a B-grid whose cross points are coincident with the E-grid H
-c     and V points.  In the parlance of ripdp_wrfnmm.f, the values read
-c     in here are miyec,mjxec, but we want to convert them to miyeb,
-c     mjxeb.
-c
-         miy=miy+1
-         mjx=2*mjx
-      endif
       mkzh=ihrip(9)
       mmax=max(miy,mjx)
       mabpl=max(mmax,min(2*mmax-1,401))

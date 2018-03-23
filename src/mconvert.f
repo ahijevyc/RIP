@@ -80,28 +80,3 @@ c
 c
       return
       end
-c                                                                     c
-c*********************************************************************c
-c                                                                     c
-      subroutine mconvertccyy(mdate,nsplityear,iyear)
-c
-c   mdate: an 8-digit integer specification for a date,
-c      given as yymmddhh
-c   mhour: an integer specificying the number of hours since
-c      00 UTC 1 January 1 AD.
-c
-c   How do we know what century mdate refers to?  You
-c   provide a year, called "nsplityear", denoted "aabb".  If mdate
-c   is denoted "yymmddhh", then if yy >or= bb, the century is
-c   assumed to be aa.  Otherwise it is assumed to be the century
-c   after aa, or aa+1.
-c
-      integer yy,aa,bb
-c
-      yy=mdate/1000000
-      bb=mod(nsplityear,100)
-      aa=nsplityear-bb
-      iyear=aa+yy
-      if (yy.lt.bb) iyear=iyear+100
-
-      end

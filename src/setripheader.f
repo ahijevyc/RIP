@@ -19,7 +19,7 @@ c
          chrip(i+32)=' '
       enddo
       chrip(1)=
-     &'map projection (0: none/ideal, 1: LC, 2: PS, 3: ME, 4: SRCE)'
+     &'map projection (1: Lam. Conf., 2: Pol. Ster., 3: Mercator)'
       ihrip(1)=nproj
       chrip(2)=
      &'number of dot points in the y-direction (coarse domain)'

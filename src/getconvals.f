@@ -1,7 +1,7 @@
 c                                                                     c
 c*********************************************************************c
 c                                                                     c
-      subroutine getconvals(cbeg,cend,cint,ncon,mult,cval,ncvl,mjsk,
+      subroutine getconvals(cbeg,cend,cint,ncon,mult,mjsk,
      &   pslab,mabpl,njx,niy,rmsg,maxcon,valcon,majcon,
      &   cintuse,numcon,iup)
 c
@@ -23,55 +23,11 @@ c   the same sign (otherwise cend will be changed to a value
 c   that is of the same sign as cbeg), and all contour values
 c   will also be the same sign.
 c
-c   cval is an array holding user-specified contour values.  ncvl is
-c   the number of intended values in cval.  If ncvl>0, it is assumed
-c   that the user wants to use their own specified values for the
-c   contours, and this overrides any information supplied in cint,
-c   cbeg, cend, and mult.
-c
 c   mjsk is the number of minor (unlabeled) contours desired
 c   between major (labeled) contours.
 c
       dimension pslab(mabpl,niy),valcon(maxcon),majcon(maxcon)
-      dimension cval(maxcon)
       logical mult, choosecb, chooseci
-c
-c   First deal with the case where the user has specified the
-c   desired contour values with cval.
-c
-      if (ncvl.gt.0) then
-         imaj=-999
-         do i=1,ncvl
-            valcon(i)=cval(i)
-            if (valcon(i).eq.0.0) then
-               imaj=i
-            endif
-         enddo
-         numcon=ncvl
-         if (imaj.eq.-999) then
-            imaj=min((mjsk+3)/2,numcon)
-         endif
-         imajrel=mod(imaj,mjsk+1)-(mjsk+1)
-         do i=1,numcon
-            if (valcon(i).eq.0.0) then    ! zero contour
-               majcon(i)=0
-            elseif (mod(i-imajrel,mjsk+1).eq.0) then
-               if (valcon(i).gt.0) then ! positive major (labeled) contour
-                  majcon(i)=2
-               else                     ! negative major (labeled) contour
-                  majcon(i)=-2
-               endif
-            else
-               if (valcon(i).gt.0) then   ! positive unlabeled contour
-                  majcon(i)=1
-               else                       ! negative unlabeled contour
-                  majcon(i)=-1
-               endif
-            endif
-         enddo
-         cintuse=0.0
-         return
-      endif
 c
 c   First get max and min in field.
 c

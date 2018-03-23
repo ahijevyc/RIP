@@ -1,6 +1,6 @@
       program tabdiag
 c
-      parameter (maxtraj=7000,maxtrajtime=200,maxvar=20)
+      parameter (maxtraj=2000,maxtrajtime=200,maxvar=20)
 c
       dimension diag(maxtrajtime,maxtraj,maxvar),time(maxtrajtime)
       character colhead*128,fmt*128,sepline*128
@@ -89,8 +89,8 @@ c
       do itr=1,ntraj
          write(11,*) 'Trajectory # ',itr,':'
          write(11,*)
-         write(11,'(a)') colhead(1:iendcolh)
-	 write(11,'(a)') sepline(1:iendcolh)
+         write(11,*) colhead(1:iendcolh)
+         write(11,*) sepline(1:iendcolh)
          do idtm=1,ndtm
             write(11,fmt) time(idtm),(diag(idtm,itr,ivar),ivar=1,nvar)
          enddo

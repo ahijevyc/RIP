@@ -97,7 +97,7 @@ c
 40    continue
       if (string(i:i) .eq. ' ') then
          i = i + 1
-         if (i.le.len(string)) goto 40
+         goto 40
       endif
       if (blue)  goto 70
       if (green) goto 60
@@ -105,7 +105,6 @@ c
 c
 c    Red component
 c
-      if (i.gt.(len(string)-3)) i = len(string)-3
       read (string(i:i+3),120) fred(ico)
       red = .true.
       i = i + 4
@@ -114,7 +113,6 @@ c
 c    Green component
 c
 50    continue
-      if (i.gt.(len(string)-3)) i = len(string)-3
       read (string(i:i+3),120) fgreen(ico)
       green = .true.
       i = i + 4
@@ -123,7 +121,6 @@ c
 c    Blue component
 c
 60    continue
-      if (i.gt.(len(string)-3)) i = len(string)-3
       read (string(i:i+3),120) fblue(ico)
       blue = .true.
       i = i + 4

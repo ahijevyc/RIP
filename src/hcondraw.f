@@ -2,31 +2,29 @@ c                                                                     c
 c*********************************************************************c
 c                                                                     c
       subroutine hcondraw(xtime,ilinw,vc3d,tmk,qvp,
-     &         prs,ght,ter,sfp,sfpsm,ixwin,iywin,
-     &         ismth,rcint,rcbeg,rcend,rcval,incvl,lmult,larng,
+     &         prs,ght,ter,sfp,sfpsm,
+     &         ixwin,iywin,ismth,rcint,rcbeg,rcend,lmult,larng,
      &         idash,rlevl,rlavl,cnohl,lnolb,lnobr,lnozr,incon,
-     &         bottextfloor,cfeld,cvcor,work,icdwk,unwk,ilev,lpslb,
+     &         bottextfloor,cfeld,cvcor,work,icdwk,unwk,ilev,
      &         icolr,icoll,ilcll,ilchl,rtslb,rtshl,imjsk,icomg,
      &         lnmsg,icong,iconl,icozr,idimn,lhide,lgrad,lhadv,
      &         ilwll,ilwng,ilwnl,ilwzr,idall,
-     &         idang,idanl,idazr,ilcnl,ilczr,lcord,
+     &         idang,idanl,idazr,ilcnl,ilczr,
      &         ilcbr,ipwlb,iorlb,ipwhl,ipwbr,ifclb,ifcnl,
-     &         ifczr,ifchl,ilclo,ifclo,ccmth,rwdbr,ihvbr,rcfad,ncfadbin,
+     &         ifczr,ifchl,ilclo,ifclo,ccmth,rwdbr,ihvbr,
      &         idotser,tseryi,tserxj,tserdat,ntsers,ntsert,ntserv,
      &         icosq,rcosq,incsq,fred,fgreen,fblue,nco,icomax,pslab1,
      &         pslabt,ipslab,iam,xcs,ycs,niam,ncs,idiffflag,
      &         maxtserv,maxtsers,maxtsert,maxcosq,mabpl,morpl,
-     &         maxlev,maxpl,maxcon,miy,mjx,mkzh,ipl,irota,iwkidcgm,
-     &         noplots)
+     &         maxlev,maxpl,miy,mjx,mkzh,ipl,irota)
 c
-      parameter (iwrklen=100000)
+      parameter (maxcon=80,iwrklen=1000000)
 c
       dimension vc3d(miy,mjx,mkzh),tmk(miy,mjx,mkzh),
      &   qvp(miy,mjx,mkzh),ght(miy,mjx,mkzh),prs(miy,mjx,mkzh),
      &   ter(miy,mjx),sfp(miy,mjx),sfpsm(miy,mjx),ixwin(2,maxpl),
      &   iywin(2,maxpl),ismth(maxpl),
      &   rcint(maxpl),rcbeg(maxpl),rcend(maxpl),
-     &   rcval(maxcon,maxpl),incvl(maxpl),
      &   idash(maxpl),rlevl(maxlev,maxpl),incsq(maxpl),
      &   rlavl(maxlev,maxpl),ilinw(maxpl),incon(maxpl),icomg(maxpl),
      &   icolr(maxpl),icoll(maxpl),ilcll(maxpl),ilchl(maxpl),
@@ -40,16 +38,15 @@ c
      &   ipwhl(maxpl),ipwbr(maxpl),ifclb(maxpl),ifcnl(maxpl),
      &   ifczr(maxpl),ifchl(maxpl),
      &   ilclo(maxpl),ifclo(maxpl),rwdbr(maxpl),ihvbr(maxpl),
-     &   rcfad(3,maxpl),work(miy,mjx,mkzh),icdwk(maxpl),
+     &   work(miy,mjx,mkzh),icdwk(maxpl),
      &   tserdat(maxtsert,maxtserv,maxtsers),tseryi(maxtsers),
      &   tserxj(maxtsers),fred(0:255),fgreen(0:255),fblue(0:255),
      &   pslab1(mabpl,morpl),pslabt(mabpl,morpl),ipslab(mabpl,morpl),
      &   irota(maxpl)
-      dimension ncfadcount(ncfadbin)
       dimension iam(niam),xcs(ncs),ycs(ncs)
-      logical lnolb(maxpl),lnobr(maxpl),lnozr(maxpl),lpslb(maxpl),
+      logical lnolb(maxpl),lnobr(maxpl),lnozr(maxpl),
      &   lmult(maxpl),larng(maxpl),lnmsg(maxpl),lhide(maxpl),
-     &   lgrad(maxpl),lhadv(maxpl),lcord(maxpl),lhidel
+     &   lgrad(maxpl),lhadv(maxpl),lhidel
       character cfeld(3,maxpl)*10,cvcor(maxpl)*1,ccmth(maxpl)*4,
      &   unwk(maxpl)*24,cnohl(maxpl)*1
 c
@@ -74,6 +71,12 @@ c
       dimension mconcp(1000),icoindcp(1000)
       common /cpack/ mconcp,icoindcp,nconarea,icpfchl,icpfclo,
      &   icpfclb,icpfcnl,icpfczr
+c
+c----arrays for precip frequency thresholds
+c
+      integer ir1h04(1000,750),ir1h40(1000,750),ir1h400(1000,750)
+c
+
 c
 c   Make proper set call, as well as number of values to
 c      plot in each direction
@@ -114,7 +117,6 @@ c
          niy=int(ut)
          njx=int(ur)
       endif
-      if (noplots.eq.0) then
 c
 c   Transpose ul,ur,ub,ut if view is rotated +/- 90 degrees.
 c   niy, njx, and pslab arrays will not be adjusted for rotation
@@ -129,7 +131,6 @@ c
          ut=usv
       endif
       call set(fl,fr,fb,ft,ul,ur,ub,ut,1)
-      endif    ! noplots
 c
 c   Put appropriate data into horizontal slab.
 c
@@ -193,37 +194,97 @@ c      print*,'pslab1(90,86)=',pslab1(90,86)
 c
 c   Smooth field if called for.
 c
-      if (noplots .eq. 0) 
-     &   call smooth(pslab1,pslabt,ismth(ipl),mabpl,njx,niy)
+      call smooth(pslab1,pslabt,ismth(ipl),mabpl,njx,niy)
 c
-c   Print slab to file if asked for, in column-major order
+c      open (unit=50,file='dx15win_freq_23z_8day.dat',status='new')
+c      open (unit=50,file='dx15_win_terrain.dat',status='new')
+c      open (unit=50,file='dx3_terrain.dat',status='new')
+c       open (unit=51,file='czil09_jul05_west.dat',status='new')
+c       open (unit=52,file='czil09_jul05_east.dat',status='new')
+c      open (unit=51,file='czil001_jul05_LH_w.dat',status='new')
+c      open (unit=52,file='czil001_jul05_LH_e.dat',status='new')
+cc       open (unit=51,file='ST4_jul05_west.dat',status='new')
+cc       open (unit=52,file='ST4_jul05_east.dat',status='new')
+c       wtot1=0.
+c       wtot2=0.
+c       do i=70,270
+c         do j=75,225
+c           wtot1=wtot1+pslab1(i,j)
+c         end do
+c       end do
+c       do i=395,620
+c         do j=300,500
+c           wtot2=wtot2+pslab1(i,j)
+c         end do
+c       end do
+c       wtot1=wtot1/45426.
+c       wtot2=wtot2/45426.
+c       write (51,997) xtime,wtot1
+c       write (52,997) xtime,wtot2
+c 997   format (1x,f5.1,1x,f9.3)
 c
-      if (lpslb(ipl)) then
-         write(59)((pslab1(j,i),i=1,niy),j=1,njx)
-      endif
+ccc Start Code for Rainfall Frequency 
 c
-c   Do CFAD counting and print out
+c      if (xtime.eq.191.0) then
+c        do i=70,270
+c          do j=75,225
+c            ir1h04(i,j)=0
+c            ir1h40(i,j)=0
+c            ir1h400(i,j)=0
+c          end do
+c        end do
+c      end if
+c      do i=70,270
+c       do j=75,225
+c         if (pslab1(i,j).ge.0.1) ir1h04(i,j)=ir1h04(i,j)+1
+c         if (pslab1(i,j).ge.1.0) ir1h40(i,j)=ir1h40(i,j)+1
+c         if (pslab1(i,j).ge.10.0) ir1h400(i,j)=ir1h400(i,j)+1
+ccccc         if (pslab1(i,j).ge.0.4) ir1h04(i,j)=ir1h04(i,j)+1
+ccccc         if (pslab1(i,j).ge.4.0) ir1h40(i,j)=ir1h40(i,j)+1
+ccccc         if (pslab1(i,j).ge.40.0) ir1h400(i,j)=ir1h400(i,j)+1
+ccccc          ir1h04(i,j)=pslab1(i,j)
+ccccc          write(50,99) i,j,pslab1(i,j)
+c       end do
+c      end do
+c      if (xtime.eq.359.0) then
+c        do i=70,270
+c        do j=75,225
+c        write (50,99) i,j,float(ir1h04(i,j)),
+c&                     float(ir1h40(i,j)),float(ir1h400(i,j))
+c        end do
+c        end do
+c      end if
+c 99   format (1x,i4,1x,i4,3(1x,f4.1))
+cccc 99   format (1x,i3,1x,i3,1x,f8.3)
+cccc
 c
-      if (ncfadbin.gt.0) then
-         do ib=1,ncfadbin
-            ncfadcount(ib)=0
-         enddo
-         do j=1,njx
-         do i=1,niy
-            if (pslab1(j,i).ne.rmsg) then
-               ibin=nint((pslab1(j,i)-rcfad(1,ipl))/rcfad(2,ipl))+1
-               if (ibin.ge.1.and.ibin.le.ncfadbin) then
-                  ncfadcount(ibin)=ncfadcount(ibin)+1
-               endif
-            endif
-         enddo
-         enddo
-         do ib=1,ncfadbin
-            write(58,*)rlevl(ilev,ipl),
-     &                 rcfad(1,ipl)+(ib-1)*rcfad(2,ipl),
-     &                 ncfadcount(ib)
-         enddo
-      endif
+c---write out terrain and locations
+c
+c      do i=70,270
+c        do j=75,225
+c          write (50,99) i,j,pslab1(i,j)
+c         end do
+c       end do
+c 99    format (1x,i4,1x,i4,1x,f8.3)
+c
+c---calculate field average in subdomain
+c
+c      write (6,*) njx,niy
+c      open(unit=50,file='arlene_flds2_ts_long.dat',status='new')
+c      ib=737
+c      ie=931
+c      jb=33
+c      je=227
+cc
+c      wtot=0.
+c      do i=ib,ie
+c        do j=jb,je
+c          wtot=wtot+pslab1(i,j)
+c        end do
+c      end do
+c      wtot=wtot/38025.
+c      write (50,999) xtime,wtot
+c 999  format (1x,f5.1,1x,f8.3)
 c
 c   Calculate time series data if called for.
 c
@@ -277,33 +338,31 @@ c         pcentral=pslab1(nint(spx(ispg)),nint(spy(ispg)))
 c         write(iup,*) 'time,pcentral,pouter,pdiff=',
 c     &      spt(ispg),pcentral,pouter,pcentral-pouter
 c      endif
-c     if (rwdbr(ipl).ge.100.) then  ! one-time code - ignore this stuff
-c        gradient=rcosq(1,ipl)  !  in hPa/km
-c        direction=rcosq(2,ipl)  ! degrees
-c        valinterior=rcosq(3,ipl)
-c        xinterior=41.
-c        yinterior=47.
-cc mod this too...
-c        do j=1,mjx
-c        do i=1,miy
-c           gval=valinterior+gradient*dskm*(
-c    &         (j-xinterior)*cos(rpd*direction)+
-c    &         (i-yinterior)*sin(rpd*direction))
-c           if (rwdbr(ipl).eq.100.) then
-c              pslab1(j,i)=gval
-c           else
-c              pslab1(j,i)=pslab1(j,i)+gval
-c           endif
-c        enddo
-c        enddo
-c     endif
+      if (rwdbr(ipl).ge.100.) then  ! one-time code - ignore this stuff
+         gradient=rcosq(1,ipl)  !  in hPa/km
+         direction=rcosq(2,ipl)  ! degrees
+         valinterior=rcosq(3,ipl)
+         xinterior=41.
+         yinterior=47.
+c mod this too...
+         do j=1,mjx
+         do i=1,miy
+            gval=valinterior+gradient*dskm*(
+     &         (j-xinterior)*cos(rpd*direction)+
+     &         (i-yinterior)*sin(rpd*direction))
+            if (rwdbr(ipl).eq.100.) then
+               pslab1(j,i)=gval
+            else
+               pslab1(j,i)=pslab1(j,i)+gval
+            endif
+         enddo
+         enddo
+      endif
 c
 c   Determine number of contours and contour values.
 c
-      if (noplots.eq.0) then
       call getconvals(rcbeg(ipl),rcend(ipl),rcint(ipl),
-     &   incon(ipl),lmult(ipl),rcval(1,ipl),incvl(ipl),
-     &   imjsk(ipl),pslab1,mabpl,njx,niy,rmsg,
+     &   incon(ipl),lmult(ipl),imjsk(ipl),pslab1,mabpl,njx,niy,rmsg,
      &   maxcon,valcon,majcon,cintuse,numcon,iup)
 c
       call cpseti('SET',0)   ! we'll use our own set call
@@ -401,19 +460,14 @@ c      Note, in the following code, if icosc<0, that means the user
 c      chose "transparent" as the color, which means the value of
 c      "red" should remain -1.
 c
-         if (.not.lcord(ipl)) then
-            if (i.eq.1) then
-               val=valmin
-            elseif (i.eq.numcon+1) then
-               val=valmax
-            else
-               val=.5*(valcon(i-1)+valcon(i))
-            endif
-            if (larng(ipl)) val=100.*(val-valmin)/(valmax-valmin)
+         if (i.eq.1) then
+            val=valmin
+         elseif (i.eq.numcon+1) then
+            val=valmax
          else
-            val=float(i)
-            if (larng(ipl)) val=1.+99.*(val-1.)/float(numcon)
+            val=.5*(valcon(i-1)+valcon(i))
          endif
+         if (larng(ipl)) val=100.*(val-valmin)/(valmax-valmin)
          if (val.le.rcosq(1,ipl)) then
             if (icosq(1,ipl).gt.0) then
                red=redcosq(1)
@@ -470,7 +524,7 @@ c
                write(iup,*) 'of colors defined in the color table.'
                stop
             endif
-            call gscr(iwkidcgm,icomax,red,green,blue)
+            call gscr(1,icomax,red,green,blue)
             fred(icomax)=red
             fgreen(icomax)=green
             fblue(icomax)=blue
@@ -601,8 +655,7 @@ c      Use getconvals to decide which contours (color transitions) should
 c      be labeled on the label bar.
 c
          call getconvals(rcbeg(ipl),rcend(ipl),rcint(ipl),
-     &      incon(ipl),lmult(ipl),rcval(1,ipl),incvl(ipl),
-     &      lstep-1,pslab1,mabpl,njx,niy,rmsg,
+     &      incon(ipl),lmult(ipl),lstep-1,pslab1,mabpl,njx,niy,rmsg,
      &      maxcon,valcon,lbbarcon,cintuse,numcon,iup)
 c
          nlbs=1
@@ -894,7 +947,6 @@ c
       endif
 c
       endif
-      endif  ! noplots
 c
       return
       end

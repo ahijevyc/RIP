@@ -18,7 +18,7 @@ c
       nslab=1+(ndim-2)*(mkzh-1)
 c     write(6,*) 'nslab = ',nslab
       ifreenew=ifree+nslab
-c     write(6,*) 'ifreenew = ',ifreenew
+c     write(6,*) 'ifreenew = ',ifreenew,' ifree = ',ifree,maxslab
       if (ifreenew.gt.maxslab) then
          write(iup,*)'The program is trying to allocate more work'
          write(iup,*)'space than is available.  Try increasing maxfld'
