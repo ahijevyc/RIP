@@ -3,8 +3,10 @@ configure.rip*
 rip
 ripcomp
 ripcut
+ripdp
 ripdp_mm5
 ripdp_mpas
+ripdp_wrf
 ripdp_wrfarw
 ripdp_wrfnmm
 ripinterp

@@ -1,0 +1,104 @@
+ &userin
+ rip_root='/pecan/ahijevyc/RIP4'
+ idotitle=1,titlecolor='def.foreground',
+ ptimes=0,-15,1
+ ptimeunits='h',tacc=120,timezone=-7,iusdaylightrule=1,
+ iinittime=1,ivalidtime=1,inearesth=0,
+ flmin=.09, frmax=.92, fbmin=.10, ftmax=.85,
+ ntextq=0,ntextcd=0,fcoffset=0.0,
+ idescriptive=1,icgmsplit=0,maxfld=10,itrajcalc=0,imakev5d=0
+ &end
+ &trajcalc
+ rtim=15,ctim=6,dtfile=3600.,dttraj=600.,vctraj='s',
+ xjtraj=95,90,85,80,75,70,65,80.6,80.6,80.6,80.6,80.6,80.6,
+ yitraj=50,55,60,65,70,75,80,77,77,77,77,77,77,
+ zktraj=.9,.9,.9,.9,.9,.9,.9,.99,.9,.8,.7,.6,.5,
+ ihydrometeor=0
+ &end
+-------------------------------------------------------------------------------
+                                 COLOR TABLE
+COLOR                | RED  | GREEN | BLUE | NUMBER
+-------------------------------------------------------------------------------
+def.background       | 1.00 | 1.00  | 1.00 |  0       (DEFAULT BACKGROUND)
+def.foreground       | 0.00 | 0.00  | 0.00 |  1       (DEFAULT FOREGROUND)
+light.gray           | 0.75 | 0.75  | 0.75 |  2
+med.gray             | 0.50 | 0.50  | 0.50 |  3
+dark.gray            | 0.25 | 0.25  | 0.25 |  4
+red                  | 1.00 | 0.00  | 0.00 |  5
+orange               | 1.00 | 0.50  | 0.00 |  6
+yellow               | 1.00 | 1.00  | 0.00 |  7
+green                | 0.00 | 1.00  | 0.00 |  8
+blue                 | 0.00 | 0.00  | 1.00 |  9
+violet               | 0.50 | 0.00  | 0.50 | 10
+light.red            | 1.00 | 0.50  | 0.50 | 11
+light.orange         | 1.00 | 0.75  | 0.50 | 12
+light.yellow         | 1.00 | 1.00  | 0.50 | 13
+light.green          | 0.50 | 1.00  | 0.50 | 14
+light.blue           | 0.50 | 0.50  | 1.00 | 15
+light.violet         | 0.75 | 0.50  | 0.75 | 16
+dark.red             | 0.50 | 0.00  | 0.00 | 17
+brown                | 0.50 | 0.25  | 0.00 | 18
+dark.yellow          | 0.50 | 0.50  | 0.00 | 19
+dark.green           | 0.00 | 0.75  | 0.00 | 20
+dark.blue            | 0.00 | 0.00  | 0.50 | 21
+dark.violet          | 0.25 | 0.00  | 0.25 | 22
+very.dark.blue       | 0.00 | 0.00  | 0.30 | 23
+black                | 0.00 | 0.00  | 0.00 | 24
+white                | 1.00 | 1.00  | 1.00 | 25
+tan                  | 0.80 | 0.40  | 0.00 | 26
+-------------------------------------------------------------------------------
+===========================================================================
+----------------------    Plot Specification Table    ---------------------
+===========================================================================
+feld=mcap;ptyp=hc;cint=10000.;cbeg=10000.;nohl;nolb;nmsg;>
+titl=Maximum_Negative_Buoyancy_For_Most_Unstable_Parcel
+#feld=HFX;ptyp=hc;cint=10000.;cbeg=10000.;nohl;nolb;nmsg;>
+#titl=
+#feld=LH;ptyp=hc;cint=10000.;cbeg=10000.;nohl;nolb;nmsg;>
+#titl=
+#feld=PBLH;ptyp=hc;cint=10000.;cbeg=10000.;nohl;nolb;nmsg;>
+#titl=
+feld=pvo;ptyp=hc;nohl;linw=2;cmth=fill;cbeg=-8;cend=0.5;levs=12;>
+cint=0.5;cosq=-8,blue,-2,light.blue,-1,med.gray,0,white,0.5,white;>
+titl=
+feld=the;ptyp=hc;nohl;linw=1;cbeg=280;cend=330;linw=2;>
+cint=2;levs=50;vcor=s;colr=tan;smth=504;titl=
+feld=uuu,vvv; ptyp=hv; vcmx=-10.; intv=40; linw=3; colr=black; vcor=s;>
+levs=50;titl=
+#feld=maxdbz; ptyp=hc; cbeg=30;cend=130;cint=100; colr=red;linw=4;nolb;>
+#nohl;smth=502;titl=
+feld=map; ptyp=hb;  linw=1.5; ouds=solid; linw=1.5
+feld=tic; ptyp=hb; axlg=100; axtg=10
+===========================================================================
+feld=pvo;ptyp=hc;nohl;linw=2;cmth=fill;cbeg=-6;cend=12.5;levs=8;>
+cint=0.5;cosq=-6,blue,-0.5,white,0,white,0.5,white,2,green,>
+3,dark.green,4,yellow,5.5,orange,>
+7,red,8.5,brown,10,tan,12.5,light.gray;>
+titl=Maximum_Positive_Buoyancy_For_Most_Unstable_Parcel
+feld=the;ptyp=hc;nohl;linw=1;cbeg=280;cend=330;linw=2;>
+cint=2;levs=50;vcor=s;colr=dark.gray;smth=504;titl=
+feld=uuu,vvv; ptyp=hv; vcmx=-10.; intv=40; linw=3; colr=black; vcor=s;>
+levs=50; nohl;titl=
+feld=map; ptyp=hb;  linw=1.5; ouds=solid; linw=1.5
+feld=tic; ptyp=hb; axlg=100; axtg=10
+===========================================================================
+feld=pvo;ptyp=hc;nohl;linw=2;cmth=fill;cbeg=100;cend=3100;levs=18;>
+cint=100;cosq=100,white,300,light.gray,700,med.gray,1500,>
+light.blue,3100,blue;titl=Origination_Height_of_Most_Unstable_Parcel
+feld=the;ptyp=hc;nohl;linw=1;cbeg=280;cend=330;linw=2;>
+cint=2;levs=50;vcor=s;colr=dark.gray;smth=504
+feld=uuu,vvv; ptyp=hv; vcmx=-10.; intv=40; linw=3; colr=black; vcor=s;>
+levs=50; nohl;titl=
+feld=map; ptyp=hb;  linw=1.5; ouds=solid; linw=1.5
+feld=tic; ptyp=hb; axlg=100; axtg=10
+===========================================================================
+feld=pvo;ptyp=hc;nohl;linw=2;cmth=fill;cbeg=100;cend=7200;levs=7;>
+cint=200;cosq=100,white,300,light.gray,700,med.gray,3000,>
+light.blue,5000,blue,7200,light.green;titl=Height_of_bmin
+feld=the;ptyp=hc;nohl;linw=1;cbeg=280;cend=330;linw=2;>
+cint=2;levs=50;vcor=s;colr=dark.gray;smth=504
+feld=uuu,vvv; ptyp=hv; vcmx=-10.; intv=40; linw=3; colr=black; vcor=s;>
+levs=50; nohl;titl=
+feld=map; ptyp=hb;  linw=1.5; ouds=solid; linw=1.5
+feld=tic; ptyp=hb; axlg=100; axtg=10
+===========================================================================
