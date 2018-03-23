@@ -7,10 +7,14 @@
 
 $sw_perl_path = perl ;
 $sw_netcdf_path = "" ;
+$sw_netcdff_lib = "";
+$sw_ncarg_lib = "";
 $sw_ldflags=""; 
 $sw_compileflags=""; 
 $sw_os = "ARCH" ;           # ARCH will match any
 $sw_mach = "ARCH" ;         # ARCH will match any
+$sw_ncarg_version="6"; 
+$sw_compiler="unknown"; 
 
 while ( substr( $ARGV[0], 0, 1 ) eq "-" )
  {
@@ -22,6 +26,10 @@ while ( substr( $ARGV[0], 0, 1 ) eq "-" )
   {
     $sw_netcdf_path = substr( $ARGV[0], 8 ) ;
   }
+  if ( substr( $ARGV[0], 1, 8 ) eq "netcdff=" )
+  {
+    $sw_netcdff_lib = substr( $ARGV[0], 9 ) ;
+  }
   if ( substr( $ARGV[0], 1, 3 ) eq "os=" )
   {
     $sw_os = substr( $ARGV[0], 4 ) ;
@@ -29,6 +37,14 @@ while ( substr( $ARGV[0], 0, 1 ) eq "-" )
   if ( substr( $ARGV[0], 1, 5 ) eq "mach=" )
   {
     $sw_mach = substr( $ARGV[0], 6 ) ;
+  }
+  if ( substr( $ARGV[0], 1, 5 ) eq "vrsn=" )
+  {
+    $sw_ncarg_version = substr( $ARGV[0], 6 ) ;
+  }
+  if ( substr( $ARGV[0], 1, 6 ) eq "cmplr=" )
+  {
+    $sw_compiler = substr( $ARGV[0], 7 ) ;
   }
   if ( substr( $ARGV[0], 1, 8 ) eq "ldflags=" )
   {
@@ -45,6 +61,22 @@ while ( substr( $ARGV[0], 0, 1 ) eq "-" )
   shift @ARGV ;
  }
 
+# The required ncarg libraries vary according to version number
+printf " sw_ncarg_version = %s \n",$sw_ncarg_version;
+if ( $sw_ncarg_version == 6 ) {
+  $sw_ncarg_lib = "-lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender";
+}
+elsif ( $sw_ncarg_version == 5 ) {
+  $sw_ncarg_lib = "-lXpm";
+}
+# If we can guess the ncarg compiler, add the libraries to the list
+  if ( $sw_compiler == "gfortran" ) {
+    $sw_ncarg_lib = $sw_ncarg_lib . " -lgfortran -lgcc" ;
+  }
+  elsif ( $sw_compiler == "pgf90" ) {
+    $sw_ncarg_lib = $sw_ncarg_lib . " -lpgftnrtl -lpgc" ;
+  }
+printf " library = %s \n",$sw_ncarg_lib;
 
 # parse the configure.rip file
 
@@ -151,6 +183,8 @@ my @preamble;
 # apply substitutions to the preamble...
 while ( <ARCH_PREAMBLE> )
   {
+  $_ =~ s:CONFIGURE_NETCDFF_LIB:$sw_netcdff_lib:g;
+  $_ =~ s:CONFIGURE_NCARG_LIB:$sw_ncarg_lib:g;
   @preamble = ( @preamble, $_ ) ;
   }
 close ARCH_PREAMBLE ;
@@ -163,7 +197,7 @@ while ( <ARCH_POSTAMBLE> ) { print CONFIGURE_WRF } ;
 close ARCH_POSTAMBLE ;
 close CONFIGURE_WRF ;
 
-printf "Configuration successful. To build the RIP4, type: compile \n" ;
+printf "Configuration successful. To build RIP4, type: compile \n" ;
 printf "------------------------------------------------------------------------\n" ;
 
 
