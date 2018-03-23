@@ -62,7 +62,7 @@ c
                endif
             enddo
             write(iup,*)'Couldn''t find station with WMO # =',iwmo
-            stop
+            stop 'locinterp'
   210       continue
          else ! ICAO
             read(string(1)(1:4),'(a4)') icaoid
@@ -84,7 +84,7 @@ c  assume that if it's a 3-character id, it's a U.S. station
                endif
             enddo
             write(iup,*)'Couldn''t find station with ICAO ID = ',icaoid
-            stop
+            stop 'locinterp'
  212        continue
          endif
       else ! Either x/y or lat/lon specification.

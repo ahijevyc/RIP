@@ -2,49 +2,83 @@ c                                                                     c
 c*********************************************************************c
 c                                                                     c
       subroutine profil (wk,maxpl,ipl,pmax,pmin,vc3d,vcor,rslcg,
-     &   set1,set2,unwk,csout,icomg,ilinw,miy,mjx,mkzh)
+     &   set1,set2,unwk,csout,icomg,ilinw,ixwin,iywin,miy,mjx,mkzh)
 c
       dimension wk(miy,mjx,mkzh),vc3d(miy,mjx,mkzh),rslcg(2,maxpl),
-     &   th(mkzh),p2(mkzh),icomg(maxpl),ilinw(maxpl)
+     &   th(mkzh),p2(mkzh),icomg(maxpl),ilinw(maxpl),
+     &   ixwin(2,maxpl),iywin(2,maxpl)
       character title*(80),labl*(80),csout(maxpl)*58,unwk(maxpl)*24,
      &   axtit*(80),vcor*1
 c
       include 'comconst'
 c
-      sxgn=1.+(rslcg(2,ipl)-xjcorn)*refrat
-      sygn=1.+(rslcg(1,ipl)-yicorn)*refrat
-      i = nint(sygn)
-      j = nint(sxgn)
-      write(csout(ipl)(5:10),'(f6.2)') sxgn
-      write(csout(ipl)(12:17),'(f6.2)') sygn
-      write(labl,987) csout(ipl)
-  987 format ('Profile at ',a58)
+c  if user has asked for a window, average over that window
+      if (ixwin(2,ipl) .ne. mjx .or. iywin(2,ipl) .ne. miy) then
+        ib = iywin(1,ipl)
+        ie = iywin(2,ipl)
+        jb = ixwin(1,ipl)
+        je = ixwin(2,ipl)
+c       write(0,*) 'area'
+c       write(0,*) 'ib = ',ib,' ie = ',ie
+c       write(0,*) 'jb = ',jb,' je = ',je
+        write(csout(ipl),'(a4,i4,a1,i4)') 
+     &     'x=',ixwin(1,ipl),',',ixwin(2,ipl)
+        write(csout(ipl)(14:27),'(a4,i4,a1,i4)') 
+     &     'y=',iywin(1,ipl),',',iywin(2,ipl)
+        write(labl,988) csout(ipl)
+  988   format ('Average profile over ',a58)
+      else
+c  a single point
+        sxgn=1.+(rslcg(2,ipl)-xjcorn)*refrat
+        sygn=1.+(rslcg(1,ipl)-yicorn)*refrat
+        ib = nint(sygn)
+        jb = nint(sxgn)
+        ie = ib
+        je = jb
+c       write(0,*) 'single point'
+c       write(0,*) 'ib = ',ib,' ie = ',ie
+c       write(0,*) 'jb = ',jb,' je = ',je
+        write(csout(ipl)(5:10),'(f6.2)') sxgn
+        write(csout(ipl)(12:17),'(f6.2)') sygn
+        write(labl,987) csout(ipl)
+  987   format ('Profile at ',a58)
+      endif
       title = '   '
 c
-c   If pmax and pmin haven't been set yet, do it now
-c
-      pmaxch=-99999.
-      pminch= 99999.
       do  k = mkzh, 1, -1
-         pmaxch = amax1(wk(i,j,k),pmaxch)
-         pminch = amin1(wk(i,j,k),pminch)
+	 p2(k) = 0.   ! initialize to zero
+	 th(k) = 0.
       enddo
-      if (pmax .eq. -99999.) pmax=pmaxch
-      if (pmin .eq. 99999.) pmin=pminch
+      n = 0
+      do j = jb, je
+      do i = ib, ie
       k1 = 1
       do k = mkzh, 1, -1
          if (vcor.eq.'z'.or.vcor.eq.'f') then
-            p2(k1) = -.001*sclht*alog(vc3d(i,j,k))
+            p2(k1) = -.001*sclht*alog(vc3d(i,j,k)) + p2(k1)
          else if (vcor.eq.'l') then
-            p2(k1) = alog(vc3d(i,j,k))
+            p2(k1) = p2(k1) + alog(vc3d(i,j,k))
          else if (vcor.eq.'x') then
-            p2(k1) = (vc3d(i,j,k))**gamma
+            p2(k1) = p2(k1) + (vc3d(i,j,k))**gamma
          else
-            p2(k1) = vc3d(i,j,k)
+            p2(k1) = p2(k1) + vc3d(i,j,k)
          endif
-         th(k1) = wk(i,j,k)
+         th(k1) = th(k1) + wk(i,j,k)
          k1 = k1 + 1
       enddo
+	 n = n + 1
+      enddo
+      enddo
+      pmaxch=-99999.
+      pminch= 99999.
+      do k = 1, mkzh
+        p2(k) = p2(k) / n
+        th(k) = th(k) / n
+        pmaxch = amax1(th(k),pmaxch)
+        pminch = amin1(th(k),pminch)
+      enddo
+      if (pmax .eq. -99999.) pmax=pmaxch
+      if (pmin .eq. 99999.) pmin=pminch
       ymax = amax1(set1,set2)
       ymin = amin1(set1,set2)
 c

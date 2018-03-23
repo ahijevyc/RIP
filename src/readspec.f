@@ -5,6 +5,7 @@ c                                                                     c
      &   cptyp,incon,icolr,icosq,rcosq,icoll,ilcll,ilchl,rtslb,rtshl,
      &   icong,iconl,icozr,ilwll,ilwng,ilwnl,ilwzr,idall,
      &   idang,idanl,idazr,ilcnl,ilczr,iovly,
+     &   lableft, labright,
      &   ilcbr,ipwlb,iorlb,ipwhl,ipwbr,ifclb,ifcnl,ifczr,ifchl,
      &   ilclo,ifclo,ccmth,rwdbr,ihvbr,ccrsa,ccrsb,csloc,rsepa,rcfad,
      &   imjsk,nptuse,ptuse,ixwin,iywin,lhide,csave,lredo,lnogd,
@@ -67,6 +68,7 @@ c
      &   csloc(2,maxpl)*20,ccrsa(2,maxpl)*20,ccrsb(2,maxpl)*20,
      &   cmllm(maxpl)*5,couty(maxpl)*32,couds(maxpl)*5,ccalb(maxpl)*256,
      &   csids(40,maxpl)*20,cdiff(maxpl)*256,cnohl(maxpl)*1
+      character (len=40) :: lableft(maxpl), labright(maxpl)
       dimension nsids(maxpl)
 c
       dimension inlvl(5000)
@@ -103,6 +105,12 @@ c
          write(iup,*)'igotblack,igotwhite=',igotblack,igotwhite
       endif
 c
+      ifr=0      ! frame number
+      ipl=0      ! plot number
+      ipltf=0    ! number of plots in this frame
+      itimedef=0 ! time range not defined for 1st frame (use all times)
+      cvcorprev='?'
+c
 c   Find correct location in input file.
 c
  5    read(iuinput,'(a240)',end=500) stringt
@@ -116,11 +124,6 @@ c
 c
 c   Begin read loop.
 c
-      ifr=0      ! frame number
-      ipl=0      ! plot number
-      ipltf=0    ! number of plots in this frame
-      itimedef=0 ! time range not defined for 1st frame (use all times)
-      cvcorprev='?'
       lenstr=len(string)
       lenstrt=len(stringt)
 c
@@ -437,6 +440,8 @@ c                             ! $rip_root/custom_maps directory
                               ! that polar temperatures will fit on the
                               ! background.
       lplrs(ipl) = .false.    ! by default, skew-t does not have polar offset
+      lableft(ipl)  = 'default'
+      labright(ipl) = 'default'
 
 c
 c   Assign plot characteristics.
@@ -926,6 +931,12 @@ c
          ipos=ipos+5
          call getchar(string,ipos,cospec,0)
          ifclo(ipl)=igetcoind(cospec,conam,nco,string)
+      elseif (string(ipos:ipos+6).eq."lableft") then
+         ipos = ipos + 8
+         call getchar(string,ipos,lableft(ipl),0)
+      elseif (string(ipos:ipos+7).eq."labright") then
+         ipos = ipos + 9
+         call getchar(string,ipos,labright(ipl),0)
       elseif (c4.eq.'mjsk') then
          ipos=ipos+5
          call getinum(string,ipos,imjsk(ipl))

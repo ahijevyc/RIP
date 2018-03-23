@@ -44,6 +44,8 @@ c
       wdlv=float(ilinw(ipl))
       inita=iintv(ipl)
       initb=inita
+c  make the arrow size a function of the number of x gridpoints
+      arowl = mjx / 50.
 c
 c   Make proper set call, as well as number of values to
 c      plot in each direction

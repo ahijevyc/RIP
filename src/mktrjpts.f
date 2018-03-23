@@ -33,6 +33,11 @@ c
       enddo
  41   continue
 c
+      write(6,*) 'Rectangular grid of trajectories defined as follows:'
+      write(6,*) 'xcorn = ',xcorn,' ycorn = ',ycorn
+      write(6,*) 'xpx = ',xpx,' ypx = ',ypx
+      write(6,*) 'gsp = ',gsp,' nx = ',nx,' ny = ',ny
+
       dx=xpx-xcorn
       dy=ypx-ycorn
       hypot=sqrt(dx*dx+dy*dy)
@@ -49,6 +54,12 @@ c
          zktraj(ip)=zlev(1)
          do iz=2,nzlev
             ipa=(iz-1)*np+ip
+	    if (ipa .gt. maxtraj) then
+	      write(6,*) 'Number of trajectories exceeds maxtraj'
+	      write(6,*) 'Estimated number of trajectories = ',np*nzlev
+	      stop 'mktrjpts'
+	    endif
+c           write(0,*) 'ipa = ',ipa,' maxtraj = ',maxtraj
             xjtraj(ipa)=xjtraj(ip)
             yitraj(ipa)=yitraj(ip)
             zktraj(ipa)=zlev(iz)
