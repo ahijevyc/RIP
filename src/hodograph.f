@@ -87,10 +87,16 @@ c blank out the hodo...
 C
 C  Draw 18 and 28 m/s anulus around 9 km AGL wind
 C
-      z_1k = std_atmos(pres(nlevels)*100.)
+c  find some important wind levels for plotting.
+c  change end point from 9km to 10km
+      z_0 = std_atmos(pres(nlevels)*100.)
+      k1k = -99
+      k3k = -99
       DO K=NLEVELS,1,-1
          z_k = std_atmos(pres(k)*100.)
-         if (z_k.gt.z_1k+9000.) goto 35
+	 if (z_k .gt. z_0+1000. .and. k1k .lt. 0) k1k = k
+	 if (z_k .gt. z_0+3000. .and. k3k .lt. 0) k3k = k
+         if (z_k .gt. z_0+10000.) goto 35
       ENDDO
  35   continue
       k_9km = k+1
@@ -140,7 +146,11 @@ C
       CALL GSPLCI(1)
       xoff=0.
       yoff=0.
-      CALL PLCHMQ(XOFF,YOFF,'+',20.,0.,0.)
+c     CALL PLCHMQ(XOFF,YOFF,'+',20.,0.,0.)
+      call gsplci(3)
+      call line (-XMAXSPD,0.,XMAXSPD,0.)
+      call line (0.,-XMAXSPD,0.,XMAXSPD)
+      call gsplci(1)
       DO N=1,3
          X1 = FLOAT(IRING(N))
          Y1 = 0.
@@ -168,16 +178,22 @@ C
         uu(nn) = uw(n)
         vv(nn) = vw(n)
         if (nn .eq. k_9km) nlevelscurve = min(n+1,nlevels)
+        if (nn .eq. k1k) n1k = min(n,nlevels)
+        if (nn .eq. k3k) n3k = min(n,nlevels)
       enddo
       CALL GSLWSC(2.)
 c     CALL CURVE(UW,VW,NLevels)
       call frstpt (uu(1),vv(1))
-      xlw = 1.
+      xlw = 1.5
+      CALL GSLWSC(xlw)
+      call gsplci(13)  !red
       do nn = 2, nlevelscurve
-        CALL GSLWSC(xlw)
+c       CALL GSLWSC(xlw)
+        if ( nn .eq. n1k ) call gsplci(38)
+        if ( nn .eq. n3k ) call gsplci(1)
 	call vector(uu(nn),vv(nn))
 	CALL PLOTIF (0.,0.,2)
-	xlw = xlw+.1
+c       xlw = xlw+.1
       enddo
 c     CALL CURVE(Uu,Vv,nlevelscurve)
       CALL GSLWSC(1.)
