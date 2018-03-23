@@ -1,4 +1,4 @@
-! Ahijevych added bmin for Kate Fossel and Glen Romine to use in WRF ensemble 2015.
+! Ahijevych added bmin for Kate Fossell and Glen Romine to use in WRF ensemble 2015.
 
       SUBROUTINE CALCAPE(ITYPE,DPBND,P1D,T1D,Q1D,L1D,CAPE,    &  
                          CINS,PPARC,ZEQL,THUND,BMIN,PBMIN)
