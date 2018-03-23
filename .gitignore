@@ -1,5 +1,4 @@
 *.o
-configure.rip*
 rip
 ripcomp
 ripcut
