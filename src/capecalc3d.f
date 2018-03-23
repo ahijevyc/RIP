@@ -43,7 +43,7 @@ c
       real, intent(out) :: cape, cin, bmin3
       integer, intent(in) :: miy, mjx, mkzh, i3dflag
 
-      real, bmin_max, zpar_orig, bmin, zbmin, bmax, tv_bmin, tlc, 
+      real bmin_max, zpar_orig, bmin, zbmin, bmax, tv_bmin, tlc, 
      &   zpar_orig_bmin_max, zbmin_max, tv_bmin_max, tlc_bmin_max
       dimension prs(miy,mjx,mkzh),tmk(miy,mjx,mkzh),qvp(miy,mjx,mkzh),
      &   ght(miy,mjx,mkzh),ter(miy,mjx),cape(miy,mjx,mkzh),
@@ -53,8 +53,8 @@ c
      &   tv_bmin(miy,mjx),tlc(miy,mjx),bmax(miy,mjx),
      &   zpar_orig_bmin_max(miy,mjx), zbmin_max(miy,mjx), 
      &   tv_bmin_max(miy,mjx), tlc_bmin_max(miy,mjx)
-      real, theta(miy,mjx,mkzh)
-      real, t_tlift(mkzh),p_tlift(mkzh),q_tlift(mkzh)
+      real theta(miy,mjx,mkzh)
+      real t_tlift(mkzh),p_tlift(mkzh),q_tlift(mkzh)
       integer kbmin(miy,mjx),kpar_orig(miy,mjx), idebug, jdebug, ilfc
       integer kbmin_max(miy,mjx), kpar_orig_bmin_max(miy,mjx)
       integer i,j,k,kpar1,kpar2,klev,kpar,kk,first_klev_abv_3000m
