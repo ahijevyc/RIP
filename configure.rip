@@ -11,18 +11,9 @@
 # then rerun configure.
 #
 
-.SUFFIXES: _dave .f_dave .F90 .f90 .F .f .c .o
+.SUFFIXES: .F90 .f90 .F .f .c .o
 
 SHELL          	= /bin/sh
-
-# For all files modified by Dave Ahijevych ending with .f_dave, replace the original .f files with Dave's version.
-.f_dave.f:
-	$(RM) $@
-	/bin/cp $< $@
-
-_dave:
-	$(RM) $@
-	/bin/cp $< $@
 
 # Listing of options that are usually independent of machine type.
 # When necessary, these are over-ridden by each architecture.
@@ -33,23 +24,24 @@ PERL		= perl
 
 RANLIB		= echo
 
-NETCDFLIB	= -L${NETCDF}/lib -lnetcdf
+NETCDFLIB	= -L${NETCDF}/lib -lnetcdf  
 
 NETCDFINC	= -I${NETCDF}/include
 
-NCARGLIBS	= -L${NCARG_ROOT}/lib -lncarg -lcgm -lncarg_gks -lncarg_c -lX11 -lm
+NCARGLIBS	= -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc
 
 
 
 #### Architecture specific settings ####
 
-# Settings for Darwin - with g95 compiler
+# Settings for Darwin - with gfortran compiler
 #
-FC      	= g95
-FFLAGS  	= -I. 
-CCFLAGS 	= -I. -DLITTLE -DUNDERSCORE -c
-LDFLAGS 	= 
-LOCAL_LIBS 	= -L/usr/X11R6/lib
+FC              = gfortran
+CC              = gcc
+FFLAGS          = -I. -fcray-pointer -fconvert=big-endian -frecord-marker=4
+CCFLAGS         = -I. -DLITTLE -DUNDERSCORE -c
+LDFLAGS         = 
+LOCAL_LIBS      = -L/usr/X11R6/lib -lX11 -L/usr/local/gfortran -lgfortran -lgcc
 
 ###########################################################
 #
