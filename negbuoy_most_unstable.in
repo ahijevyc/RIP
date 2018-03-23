@@ -1,0 +1,115 @@
+ &userin
+ rip_root='/pecan/ahijevyc/RIP4_dave/'
+ idotitle=1,titlecolor='def.foreground',
+ ptimes=7,-7,1
+ ptimeunits='h',tacc=120,timezone=-7,iusdaylightrule=1,
+ iinittime=1,ivalidtime=1,inearesth=0,
+ flmin=.09, frmax=.92, fbmin=.10, ftmax=.85,
+ ntextq=0,ntextcd=0,fcoffset=0.0,
+ idescriptive=1,icgmsplit=0,maxfld=22,itrajcalc=0,imakev5d=0
+ &end
+-------------------------------------------------------------------------------
+                                 COLOR TABLE
+COLOR                | RED  | GREEN | BLUE | NUMBER
+-------------------------------------------------------------------------------
+def.background       | 1.00 | 1.00  | 1.00 |  0       (DEFAULT BACKGROUND)
+def.foreground       | 0.00 | 0.00  | 0.00 |  1       (DEFAULT FOREGROUND)
+light.gray           | 0.75 | 0.75  | 0.75 |  2
+med.gray             | 0.50 | 0.50  | 0.50 |  3
+dark.gray            | 0.25 | 0.25  | 0.25 |  4
+red                  | 1.00 | 0.00  | 0.00 |  5
+orange               | 1.00 | 0.50  | 0.00 |  6
+yellow               | 1.00 | 1.00  | 0.00 |  7
+green                | 0.00 | 1.00  | 0.00 |  8
+blue                 | 0.00 | 0.00  | 1.00 |  9
+violet               | 0.50 | 0.00  | 0.50 | 10
+light.red            | 1.00 | 0.50  | 0.50 | 11
+light.orange         | 1.00 | 0.75  | 0.50 | 12
+light.yellow         | 1.00 | 1.00  | 0.50 | 13
+light.green          | 0.50 | 1.00  | 0.50 | 14
+light.blue           | 0.50 | 0.50  | 1.00 | 15
+light.violet         | 0.75 | 0.50  | 0.75 | 16
+dark.red             | 0.50 | 0.00  | 0.00 | 17
+brown                | 0.50 | 0.25  | 0.00 | 18
+dark.yellow          | 0.50 | 0.50  | 0.00 | 19
+dark.green           | 0.00 | 0.75  | 0.00 | 20
+dark.blue            | 0.00 | 0.00  | 0.50 | 21
+dark.violet          | 0.25 | 0.00  | 0.25 | 22
+very.dark.blue       | 0.00 | 0.00  | 0.30 | 23
+black                | 0.00 | 0.00  | 0.00 | 24
+white                | 1.00 | 1.00  | 1.00 | 25
+tan                  | 0.80 | 0.40  | 0.00 | 26
+-------------------------------------------------------------------------------
+===========================================================================
+----------------------    Plot Specification Table    ---------------------
+#===========================================================================
+#feld=tic; ptyp=sb; sloc=56,14; sndg
+#feld=tmc; ptyp=sc; colr=red; linw=3
+#feld=tvc; ptyp=sc; colr=orange; linw=2; dash=11
+#feld=tvcl03; ptyp=sc; colr=brown; linw=4; dash=21
+#feld=tdp; ptyp=sc; colr=dark.green; linw=3
+#===========================================================================
+feld=tic; ptyp=sb; sloc=56,14; sndg
+feld=tmc; ptyp=sc; colr=red; linw=3
+feld=tvc; ptyp=sc; colr=orange; linw=2; dash=11
+feld=tvcl03; ptyp=sc; colr=brown; linw=4; dash=21
+feld=tdp; ptyp=sc; colr=dark.green; linw=3
+===========================================================================
+feld=bmin;ptyp=hc;nohl;linw=2;cmth=fill;cbeg=-8;cend=0.5;>
+cint=0.5;cosq=-8,blue,-2,light.blue,-1,med.gray,0,white,0.5,white;redo
+feld=map; ptyp=hb;  linw=1.5; ouds=solid; linw=1.5
+feld=tic; ptyp=hb; axlg=100; axtg=10
+feld=bullet; ptyp=hb; crsa=56,30; colr=yellow
+===========================================================================
+#feld=bmin3;ptyp=hc;nohl;vcor=s; levs=50-48,1;linw=2;cmth=fill;cbeg=-8;cend=0.5;>
+#cint=0.5;cosq=-8,blue,-2,light.blue,-1,med.gray,0,white,0.5,white;redo
+#feld=map; ptyp=hb;  linw=1.5; ouds=solid; linw=1.5
+#feld=tic; ptyp=hb; axlg=100; axtg=10
+#feld=bullet; ptyp=hb; crsa=56,14; colr=yellow
+#===========================================================================
+feld=bmax;ptyp=hc;nohl;linw=2;cmth=fill;cbeg=-6;cend=12.5;>
+cint=0.5;cosq=-6,blue,-0.5,white,0,white,0.5,white,2,green,>
+3,dark.green,4,yellow,5.5,orange,>
+7,red,8.5,brown,10,tan,12.5,light.gray
+#feld=the;ptyp=hc;nohl;linw=1;cbeg=280;cend=330;linw=2;>
+#cint=2;levs=50;vcor=s;colr=dark.gray;smth=504;titl=
+#feld=uuu,vvv; ptyp=hv; vcmx=-10.; intv=40; linw=3; colr=black; vcor=s;>
+#levs=50; nohl;titl=
+#feld=maxdbz; ptyp=hc; cbeg=30;cend=130;cint=100;linw=4;nolb;>
+#nohl;smth=502;xwin=245,700;ywin=250,660;colr=very.dark.blue;titl=
+feld=map; ptyp=hb;  linw=1.5; ouds=solid; linw=1.5
+feld=tic; ptyp=hb; axlg=100; axtg=10
+feld=bullet; ptyp=hb; crsa=56,14; colr=yellow
+===========================================================================
+feld=kpar;ptyp=hc;nohl;linw=2;cmth=fill;cbeg=30;cend=50;>
+cint=1;cosq=30,blue,35,light.blue,40,med.gray,45,white,49,white,50,yellow
+feld=map; ptyp=hb;  linw=1.5; ouds=solid; linw=1.5
+feld=tic; ptyp=hb; axlg=100; axtg=10
+feld=bullet; ptyp=hb; crsa=56,14; colr=yellow
+===========================================================================
+feld=zpar;ptyp=hc;nohl;linw=2;cmth=fill;cbeg=100;cend=3100;>
+cint=100;cosq=100,white,300,light.gray,700,med.gray,1500,>
+light.blue,3100,blue
+feld=map; ptyp=hb;  linw=1.5; ouds=solid; linw=1.5
+feld=tic; ptyp=hb; axlg=100; axtg=10
+feld=bullet; ptyp=hb; crsa=56,14; colr=yellow
+===========================================================================
+feld=zbmin;ptyp=hc;nohl;linw=2;cmth=fill;cbeg=100;cend=7200;>
+cint=500;cosq=100,white,300,light.gray,700,med.gray,3000,>
+light.blue,5000,blue,7200,light.green
+feld=map; ptyp=hb;  linw=1.5; ouds=solid; linw=1.5
+feld=tic; ptyp=hb; axlg=100; axtg=10
+feld=bullet; ptyp=hb; crsa=56,14; colr=yellow
+==========================================================================
+feld=kbmin;ptyp=hc;nohl;linw=2;cmth=fill;cbeg=20;cend=50;>
+cint=2;cosq=20,blue,25,light.blue,35,med.gray,45,white,49,white,50,tan
+feld=map; ptyp=hb;  linw=1.5; ouds=solid; linw=1.5
+feld=tic; ptyp=hb; axlg=100; axtg=10
+feld=bullet; ptyp=hb; crsa=56,14; colr=yellow
+===========================================================================
+feld=lfc;ptyp=hc;nohl;linw=2;cmth=fill;cbeg=0;cend=7500;>
+cint=700;cosq=0,red,2700,white,7500,blue
+feld=map; ptyp=hb;  linw=1.5; ouds=solid; linw=1.5
+feld=tic; ptyp=hb; axlg=100; axtg=10
+feld=bullet; ptyp=hb; crsa=56,14; colr=yellow
+===========================================================================

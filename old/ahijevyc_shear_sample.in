@@ -1,0 +1,109 @@
+ &userin
+ idotitle=1,titlecolor='def.foreground',
+ ptimes=0,
+ ptimeunits='h',tacc=120,timezone=-7,iusdaylightrule=1,
+ iinittime=1,ivalidtime=1,inearesth=0,
+ flmin=.09, frmax=.92, fbmin=.10, ftmax=.85,
+ ntextq=0,ntextcd=0,fcoffset=0.0,
+ idescriptive=1,icgmsplit=0,maxfld=10,itrajcalc=0,imakev5d=0
+ &end
+ &trajcalc
+ rtim=15,ctim=6,dtfile=3600.,dttraj=600.,vctraj='s',
+ xjtraj=95,90,85,80,75,70,65,80.6,80.6,80.6,80.6,80.6,80.6,
+ yitraj=50,55,60,65,70,75,80,77,77,77,77,77,77,
+ zktraj=.9,.9,.9,.9,.9,.9,.9,.99,.9,.8,.7,.6,.5,
+ ihydrometeor=0
+ &end
+===========================================================================
+----------------------    Plot Specification Table    ---------------------
+#===========================================================================
+#feld=xlus; ptyp=hh; chfl; cosq=1,dark.gray,2,light.yellow,3,light.green,>
+#   4,yellow,5,yellow,6,light.green,7,light.yellow,8,light.green,9,light.green,>
+#   10,light.yellow,11,green,12,dark.green,13,green,14,dark.green,15,green,>
+#   16,light.blue,17,green,18,green,19,light.gray,20,light.gray,21,dark.green,>
+#   22,light.gray,23,light.gray,24,white
+#feld=map; ptyp=hb
+#feld=tic; ptyp=hb
+#time=0
+#===========================================================================
+#feld=ter; ptyp=hc; cint=100; colr=red
+#feld=map; ptyp=hb
+#feld=tic; ptyp=hb
+#time=0
+#===========================================================================
+#feld=ter; ptyp=hc; cint=50; cmth=fill; cosq=-1e-5,light.blue,1e-5,white,>
+#   3000,brown
+#feld=map; ptyp=hb
+#feld=tic; ptyp=hb
+#time=0
+#===========================================================================
+#feld=tmc; ptyp=hc; vcor=s; levs=b1; cint=2; cmth=fill;>
+#   cosq=-32,light.violet,-24,violet,-16,blue,-8,green,0,yellow,8,red,>
+#   16,orange,24,brown,32,light.gray
+#feld=slp; ptyp=hc; cint=2; linw=2
+#feld=uuu,vvv; ptyp=hv; vcmx=-1; colr=white; intv=5
+#feld=map; ptyp=hb
+#feld=tic; ptyp=hb
+#===========================================================================
+#feld=tmc; ptyp=hc; vcor=p; levs=850,700; cint=2; cmth=fill;>
+#   cosq=-32,light.violet,-24,violet,-16,blue,-8,green,0,yellow,8,red,>
+#   16,orange,24,brown,32,light.gray
+#feld=ght; ptyp=hc; vcor=p; levs=850,700
+feld=uuu,vvv; ptyp=hv; vcor=p; levs=500; vcmx=10.; colr=red; intv=5
+feld=uuu,vvv; ptyp=hv; vcor=p; levs=700; vcmx=10.; colr=green; intv=5
+feld=map; ptyp=hb
+feld=tic; ptyp=hb
+===========================================================================
+# 700 to 500 mb pressure thickness
+feld=thck070050; ptyp=hc
+# 700 to 500 mb vertical wind shear vectors
+feld=ushp070050,vshp070050; ptyp=hv; vcmx=10.; intv=5
+feld=map; ptyp=hb
+feld=tic; ptyp=hb
+===========================================================================
+# horizonal wind vectors on sigma level index 15
+feld=uuu,vvv; ptyp=hv; vcor=s; levs=15; vcmx=10.; colr=red; intv=5
+feld=uuu,vvv; ptyp=hv; vcor=s; levs=23; vcmx=10.; colr=green; intv=5
+feld=map; ptyp=hb
+feld=tic; ptyp=hb
+===========================================================================
+# vertical wind shear from sigma level index 23 to 15
+feld=ushs023015,vshs023015; ptyp=hv; vcmx=10.; intv=5
+feld=map; ptyp=hb
+feld=tic; ptyp=hb
+===========================================================================
+#feld=tmc; ptyp=hc; vcor=z; levs=0.5,3.0; cint=2; cmth=fill;>
+#   cosq=-32,light.violet,-24,violet,-16,blue,-8,green,0,yellow,8,red,>
+#   16,orange,24,brown,32,light.gray
+# Remember vcor=z means to use height vertical coordinates
+# This is NOT above ground level (AGL).
+feld=uuu,vvv; ptyp=hv; vcor=z; levs=3.0; vcmx=10.; colr=red; intv=5
+feld=uuu,vvv; ptyp=hv; vcor=z; levs=0.5; vcmx=10.; colr=green; intv=5
+feld=map; ptyp=hb
+feld=tic; ptyp=hb
+===========================================================================
+# vcmx	: Maximum vector value (use wind barbs if vcmx < 0) 
+#feld=thck100050; ptyp=hc; vcor=p 
+# The ushz and vshz fields expect the top and bottom 
+# levels to be given in hectometers (hm).
+# e.g. ushz005030 is the u-component of the vertical wind shear
+# from 5 hm (0.5 km) to 30 hm (3.0 km). 
+feld=ushz005030,vshz005030; ptyp=hv; vcmx=10.; intv=5
+feld=map; ptyp=hb
+feld=tic; ptyp=hb
+===========================================================================
+# pvo	: Potential vorticity (hydrostatic form), PVU. (3D) 
+# vc	: vertical (cross section) contour plot
+# crsa	: Left cross section end point location 
+# crsb	: Right cross section end point location 
+#feld=pvo; ptyp=vc; crsa=10,30; crsb=30,10; vcor=p; vwin=1050,200; cint=.25;>
+#   cmth=fill; cosq=0,white,4,dark.gray; cbeg=0; cend=5
+#feld=the; ptyp=vc; cint=2; colr=red
+#feld=uuu,vvv,omg; ptyp=vv
+#feld=tic; ptyp=vb
+#===========================================================================
+#feld=tic; ptyp=sb; sloc=DEN; hodo; sndg
+#feld=tmc; ptyp=sc; colr=red
+#feld=tdp; ptyp=sc; colr=blue
+#feld=uuu,vvv; ptyp=sv; colr=dark.green; hodo; sndg
+#===========================================================================

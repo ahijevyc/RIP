@@ -37,23 +37,27 @@ LN	= ln -s
 CC 	= cc
 MAKE 	= make -i -f Makefile
 RM_LIST_OBJ	= *.o
-RM_LIST_EXE	= rip ripcomp ripdp_mm5 ripdp_wrfnmm ripdp_wrfarw ripdp_mpas ripcut ripinterp ripshow showtraj tabdiag upscale
+RM_LIST_EXE	= rip ripcomp ripdp_mm5 ripdp_wrfnmm ripdp_wrfarw ripcut ripinterp ripshow showtraj tabdiag upscale
 #
 
 default:
 	@echo " "
 	@echo "Type one of the following:"
 	@echo "	make dec 		to run on DEC_ALPHA"
-	@echo "	make linux_pgi		to run on LINUX with PGI compiler"
-	@echo "	make linux_gnu		to run on LINUX with gfortran compiler"
-	@echo "	make linux_intel	to run on LINUX with INTEL compiler"
-	@echo "	make linux_uw		to run on LINUX (at U.Wash.) with PGI compiler"
+	@echo "	make linux		to run on LINUX with PGI compiler"
+	@echo "	make linuxuw		to run on LINUX (at U.Wash.) with PGI compiler"
+	@echo "	make intel		to run on LINUX with INTEL compiler"
 	@echo "	make mac_xlf		to run on MAC_OS_X with Xlf Compiler"
 	@echo "	make mac		to run on MAC_OS_X with Absoft Compiler"
+	@echo "	make sun		to run on SUN"
+	@echo "	make sun2		to run on SUN if make sun didn't work"
+	@echo "	make sun90		to run on SUN using F90"
 	@echo "	make sgi		to run on SGI"
 	@echo "	make sgi64		to run on 64-bit SGI"
 	@echo "	make ibm		to run on IBM SP2"
 	@echo "	make cray		to run on NCAR's Cray"
+	@echo "	make vpp300		to run on Fujitsu VPP 300"
+	@echo "	make vpp5000		to run on Fujitsu VPP 5000"
 	@echo "	make clean		to remove object files"
 	@echo "	make clobber		to remove object files and executables"
 	@echo " "
@@ -82,12 +86,12 @@ dec:
 	"NETCDFLIB = /usr/local/netcdf/lib" \
 	"NETCDFINC = /usr/local/netcdf/include" \
 	"LIBS    = -L$(NCARG_ROOT)/lib -L$(NETCDFLIB) -I$(NETCDFINC) -lncarg -lncarg_gks -lncarg_c -lX11 -lm" )
-	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_mpas . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
+	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
 
 #   Linux
-#      Assume PGI
+#      Assume PGI is installed in /usr/pgi
 
-linux_pgi:
+linux:
 	(cd src/ ; $(MAKE) all \
 	"CF      = pgf90" \
 	"FFLAGS  = -byteswapio " \
@@ -96,43 +100,12 @@ linux_pgi:
 	"CCFLAGS = -DLITTLE -DUNDERSCORE -c" \
         "LDFLAGS = " \
 	"LOCAL_LIBS = " \
-	"NETCDFLIB = /usr/local/netcdf/lib" \
-	"NETCDFINC = /usr/local/netcdf/include" \
+	"NETCDFLIB = /usr/local/netcdf-pgi64/lib" \
+	"NETCDFINC = /usr/local/netcdf-pgi32/include" \
 	"LIBS    = -L$(NCARG_ROOT)/lib -lncarg -lcgm -lncarg_gks -lncarg_c -L/usr/X11R6/lib -lX11 -L$(PGI)/linux86/lib -lpgftnrtl -lpgc -L/usr/lib -lf2c" )
-	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_mpas . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
+	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
 
-#   Linux
-#      Assume GNU
-
-linux_gnu:
-	(cd src/ ; $(MAKE) all \
-	"CF      = gfortran" \
-	"FFLAGS  = -fconvert=big-endian -fcray-pointer " \
-	"FFLAGS2 = -fconvert=big-endian -fcray-pointer " \
-	"FFLAGS3 = -fconvert=big-endian -fcray-pointer " \
-	"CCFLAGS = -DLITTLE -DUNDERSCORE -c" \
-        "LDFLAGS = " \
-	"LOCAL_LIBS = " \
-	"NETCDFLIB = $(NETCDF)/lib" \
-	"NETCDFINC = $(NETCDF)/include" \
-	"LIBS    = -L$(NCARG_ROOT)/lib -L/usr/lib64 -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpng -lz -lpthread -lbz2 -lXrender" )
-	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_mpas . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
-
-linux_intel:
-	(cd src/ ; $(MAKE) all \
-	"CF      = ifort" \
-	"FFLAGS  = -I. -convert big_endian" \
-	"FFLAGS2 = -I. -convert big_endian" \
-	"FFLAGS3 = -I. -convert big_endian" \
-	"CCFLAGS = -I. -DLITTLE -DUNDERSCORE -c" \
-        "LDFLAGS = " \
-	"LOCAL_LIBS = " \
-	"NETCDFLIB = $(NETCDF)/lib/" \
-	"NETCDFINC = $(NETCDF)/include/" \
-	"LIBS    = -L$(NCARG_ROOT)/lib -lncarg -lcgm -lncarg_gks -lncarg_c -L/usr/X11R6/lib -lX11 -L/usr/lib/gcc/i686-redhat-linux -lf2c" )
-	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_mpas . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
-
-linux_uw:
+linuxuw:
 	(cd src/ ; $(MAKE) all \
 	"CF      = pgf90" \
 	"FFLAGS  = -byteswapio " \
@@ -144,7 +117,21 @@ linux_uw:
 	"NETCDFLIB = /usr/lib" \
 	"NETCDFINC = /usr/include" \
 	"LIBS    = -L$(NCARG_ROOT)/lib -L$(NETCDFLIB) -I$(NETCDFINC) -lncarg -lcgm -lncarg_gks -lncarg_c -L/usr/X11R6/lib -lX11 -L$(PGI)/linux86/lib -lpgftnrtl -lpgc -L/usr/lib -lf2c -lnetcdf" )
-	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_mpas . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
+	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
+
+intel:
+	(cd src/ ; $(MAKE) all \
+	"CF      = ifort" \
+	"FFLAGS  = -I. -convert big_endian" \
+	"FFLAGS2 = -I. -convert big_endian" \
+	"FFLAGS3 = -I. -convert big_endian" \
+	"CCFLAGS = -I. -DLITTLE -DUNDERSCORE -c" \
+        "LDFLAGS = " \
+	"LOCAL_LIBS = " \
+	"NETCDFLIB = /usr/local/netcdf-intel/lib" \
+	"NETCDFINC = /usr/local/netcdf-intel/include" \
+	"LIBS    = -L$(NCARG_ROOT)/lib -lncarg -lcgm -lncarg_gks -lncarg_c -L/usr/X11R6/lib -lX11 -L/usr/lib/gcc-lib/i386-redhat-linux/3.2.3 -L/usr/lib -lf2c" )
+	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
 
 mac_xlf:
 	(cd src/ ; $(MAKE) all \
@@ -158,7 +145,7 @@ mac_xlf:
 	"NETCDFLIB = /usr/local/netcdf-xlf/lib" \
 	"NETCDFINC = /usr/local/netcdf-xlf/include" \
 	"LIBS    = -L$(NCARG_ROOT)/lib -lncarg -lcgm -lncarg_gks -lncarg_c -L/usr/X11R6/lib -lX11 -lm -L/usr/local/lib -L/opt/ibmcmp/xlf/8.1/lib/ -lxlf90 -lg2c" )
-	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_mpas . ; $(LN) src/ripdp_wrfnmm . ;$(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
+	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_wrfnmm . ;$(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
 
 mac:
 	(cd src/ ; $(MAKE) all \
@@ -172,7 +159,50 @@ mac:
 	"NETCDFLIB = /usr/local/netcdf/lib" \
 	"NETCDFINC = /usr/local/netcdf/include" \
 	"LIBS    = -L$(NCARG_ROOT)/lib -lncarg -lcgm -lncarg_gks -lncarg_c -L/usr/X11R6/lib -lX11" )
-	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_mpas . ; $(LN) src/ripdp_wrfnmm . ;$(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
+	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_wrfnmm . ;$(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
+
+sun:
+	(cd src/ ; $(MAKE) all \
+	"CF      = f77" \
+	"FFLAGS  = -fast -xarch=v8plus -xvector=yes -xprefetch=yes" \
+	"FFLAGS2 = " \
+	"FFLAGS3 = -fast -xarch=v8plus -xvector=yes -xprefetch=yes" \
+	"CCFLAGS = -DUNDERSCORE -c" \
+        "LDFLAGS = -fast -xarch=v8plus -xvector=yes -xprefetch=yes" \
+	"LOCAL_LIBS = " \
+	"NETCDFLIB = /usr/local/netcdf/lib" \
+	"NETCDFINC = /usr/local/netcdf/include" \
+	"LIBS    = -L$(NCARG_ROOT)/lib -R$(NCARG_ROOT)/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lm -lM77 -lF77 -lsunmath" )
+#	"LIBS    = -L$(NCARG_ROOT)/lib -R$(NCARG_ROOT)/lib -lncarg -lncarg_gks -lncarg_c -lncarg_loc -lX11 -lm -lM77 -lF77 -lsunmath" )
+	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
+
+sun2:
+	(cd src/ ; $(MAKE) all \
+	"CF      = f77" \
+	"FFLAGS  = -fast -xarch=v8plus -xvector=yes -xprefetch=yes" \
+	"FFLAGS2 = " \
+	"FFLAGS3 = -fast -xarch=v8plus -xvector=yes -xprefetch=yes" \
+	"CCFLAGS = -DUNDERSCORE -c" \
+        "LDFLAGS = -fast -xarch=v8plus -xvector=yes -xprefetch=yes" \
+	"LOCAL_LIBS = " \
+	"NETCDFLIB = /usr/local/netcdf/lib" \
+	"NETCDFINC = /usr/local/netcdf/include" \
+	"LIBS    = -L$(NCARG_ROOT)/lib -L/usr/openwin/lib -L/usr/dt/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lm -lM77 -lF77 -lsunmath" )
+	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
+
+sun90:
+	(cd src/ ; $(MAKE) all \
+	"CF      = f90" \
+	"FFLAGS  = " \
+	"FFLAGS2 = " \
+	"FFLAGS3 = " \
+	"CCFLAGS = -DUNDERSCORE -c" \
+        "LDFLAGS = " \
+	"LOCAL_LIBS = " \
+	"NETCDFLIB = /usr/local/netcdf/lib" \
+	"NETCDFINC = /usr/local/netcdf/include" \
+	"LIBS    = -L$(NCARG_ROOT)/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lm -lsocket -lM77 -lF77" )
+	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
 
 sgi:
 	(cd src/ ; $(MAKE) all \
@@ -186,7 +216,7 @@ sgi:
 	"NETCDFLIB = /usr/local/netcdf/lib" \
 	"NETCDFINC = /usr/local/netcdf/include" \
 	"LIBS    = -L$(NCARG_ROOT)/lib -lncarg -lncarg_gks -lncarg_c -lX11" )
-	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_mpas . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
+	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
 
 sgi64:
 	(cd src/ ; $(MAKE) all \
@@ -200,7 +230,7 @@ sgi64:
 	"NETCDFLIB = /usr/local/netcdf/lib" \
 	"NETCDFINC = /usr/local/netcdf/include" \
 	"LIBS    = -L$(NCARG_ROOT)/lib -lncarg -lncarg_gks -lncarg_c -lX11" )
-	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_mpas . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
+	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
 
 ibm:
 	(cd src/ ; $(MAKE) all \
@@ -214,7 +244,7 @@ ibm:
 	"NETCDFLIB = /usr/local/netcdf/lib" \
 	"NETCDFINC = /usr/local/netcdf/include" \
 	"LIBS    = -L$(NCARG_LIB) -lncarg -lncarg_gks -lncarg_c -lX11 -lm" )
-	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_mpas . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
+	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
 
 cray:
 	(cd src/ ; $(MAKE) all \
@@ -228,4 +258,38 @@ cray:
 	"NETCDFLIB = /usr/local/netcdf/lib" \
 	"NETCDFINC = /usr/local/netcdf/include" \
 	"LIBS    = " )
-	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_mpas . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
+	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
+
+vpp300:
+	(cd src/ ; $(MAKE) all \
+	"CF      = frt" \
+	"FFLAGS  = -sc -Kfreealloc -Karraystack3 -X9 -Sw -Wv,-Of,-te,-ilfunc,-noalias,-m3,-P255 -Oe,-Kfast" \
+	"FFLAGS2 = " \
+	"FFLAGS3 = -sc -Kfreealloc -Karraystack3 -X9 -Sw -Wv,-Of,-te,-ilfunc,-noalias,-m3,-P255 -Oe,-Kfast" \
+	"CCFLAGS = -DUNDERSCORE" \
+        "LDFLAGS = -J" \
+	"LOCAL_LIBS = " \
+	"NETCDFLIB = /usr/local/netcdf/lib" \
+	"NETCDFINC = /usr/local/netcdf/include" \
+	"LIBS    = -L/usr/X11R6/lib -Wl,-dy /usr/X11R6/lib/libX11.so.6 -lsocket -lnsl -L$(NCARG_ROOT)/lib -lncarg -lncarg_gks -lncarg_c -lm /nwp/nwptest/lib/libnwp.a /package/dms/librdms.a /package/dms/libgdbm.a" )
+	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
+
+vpp5000:
+	(cd src/ ; $(MAKE) all \
+	"CF      = frt" \
+	"FFLAGS  = -sc -Kfreealloc -Karraystack3 -X9 -Sw -Wv,-Of,-te,-ilfunc,-noalias,-m3,-P255 -Oe -KA32" \
+	"FFLAGS2 = -KA32" \
+	"FFLAGS3 = -sc -Kfreealloc -Karraystack3 -X9 -Sw -Wv,-Of,-te,-ilfunc,-noalias,-m3,-P255 -Oe -KA32" \
+	"CCFLAGS = -KA32 -DUNDERSCORE" \
+        "LDFLAGS = -J -KA32" \
+	"LOCAL_LIBS = " \
+	"NETCDFLIB = /usr/local/netcdf/lib" \
+	"NETCDFINC = /usr/local/netcdf/include" \
+	"LIBS    = -L/usr/lib32EX -Wl,-dy -lX11 -lSM -lICE -lgen -ldl -lsocket -lw -lnsl -L$(NCARG_ROOT)/lib -lncarg -lncarg_gks -lncarg_c -lm" )
+	( $(RM) $(RM_LIST_EXE) ; $(LN) src/rip . ; $(LN) src/ripdp_mm5 . ; $(LN) src/ripdp_wrfarw . ; $(LN) src/ripdp_wrfnmm . ; $(LN) src/ripcomp . ; $(LN) src/ripcut . ; $(LN) src/ripinterp . ; $(LN) src/ripshow . ; $(LN) src/showtraj . ; $(LN) src/tabdiag . ; $(LN) src/upscale . )
+
+clean:
+	$(RM) $(RM_LIST_EXE) ; cd src/ ; $(RM) $(RM_LIST_EXE)
+
+clobber:
+	$(RM) $(RM_LIST_EXE) ; cd src/ ; $(RM) $(RM_LIST_EXE) $(RM_LIST_OBJ)

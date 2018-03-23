@@ -33,9 +33,6 @@ if      ( ${#argv} == 0 ) then
      if ( -e src/ripdp_wrfarw ) then
              ln -sf src/ripdp_wrfarw .
      endif
-     if ( -e src/ripdp_mpas ) then
-             ln -sf src/ripdp_mpas .
-     endif
      if ( -e src/ripdp_wrfnmm ) then
              ln -sf src/ripdp_wrfnmm .
      endif

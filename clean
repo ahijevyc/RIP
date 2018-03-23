@@ -10,7 +10,7 @@ endif
 
 set nonomatch
 
-set EXES = ( rip ripcomp ripcut ripdp_mm5 ripdp_wrfarw ripdp_mpas ripdp_wrfnmm ripinterp ripshow showtraj tabdiag upscale )
+set EXES = ( rip ripcomp ripcut ripdp_mm5 ripdp_wrfarw ripdp_wrfnmm ripinterp ripshow showtraj tabdiag upscale )
 
 echo "Remove executables"
 foreach ex  ( $EXES )
@@ -22,7 +22,7 @@ end
 ( cd src ; make -i DEV_TOP="${DEV_TOP}" clean )
 
 if ( "$1" == '-a' ) then
-	if ( ( -e configure.rip ) && ( $TOUCH != TOUCH ) ) then
+	if ( -e configure.rip ) then
 		/bin/cp configure.rip configure.rip.backup
 		/bin/rm -f configure.rip
 	endif

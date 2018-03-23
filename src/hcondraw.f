@@ -16,8 +16,7 @@ c                                                                     c
      &         icosq,rcosq,incsq,fred,fgreen,fblue,nco,icomax,pslab1,
      &         pslabt,ipslab,iam,xcs,ycs,niam,ncs,idiffflag,
      &         maxtserv,maxtsers,maxtsert,maxcosq,mabpl,morpl,
-     &         maxlev,maxpl,maxcon,miy,mjx,mkzh,ipl,irota,iwkidcgm,
-     &         noplots)
+     &         maxlev,maxpl,maxcon,miy,mjx,mkzh,ipl,irota,iwkidcgm)
 c
       parameter (iwrklen=100000)
 c
@@ -114,7 +113,6 @@ c
          niy=int(ut)
          njx=int(ur)
       endif
-      if (noplots.eq.0) then
 c
 c   Transpose ul,ur,ub,ut if view is rotated +/- 90 degrees.
 c   niy, njx, and pslab arrays will not be adjusted for rotation
@@ -129,7 +127,6 @@ c
          ut=usv
       endif
       call set(fl,fr,fb,ft,ul,ur,ub,ut,1)
-      endif    ! noplots
 c
 c   Put appropriate data into horizontal slab.
 c
@@ -193,8 +190,7 @@ c      print*,'pslab1(90,86)=',pslab1(90,86)
 c
 c   Smooth field if called for.
 c
-      if (noplots .eq. 0) 
-     &   call smooth(pslab1,pslabt,ismth(ipl),mabpl,njx,niy)
+      call smooth(pslab1,pslabt,ismth(ipl),mabpl,njx,niy)
 c
 c   Print slab to file if asked for, in column-major order
 c
@@ -224,6 +220,10 @@ c
      &                 ncfadcount(ib)
          enddo
       endif
+c
+c---write out x-averaged fields bmin3, cap3, ghtagl for sector of domain 
+c
+            
 c
 c   Calculate time series data if called for.
 c
@@ -277,30 +277,29 @@ c         pcentral=pslab1(nint(spx(ispg)),nint(spy(ispg)))
 c         write(iup,*) 'time,pcentral,pouter,pdiff=',
 c     &      spt(ispg),pcentral,pouter,pcentral-pouter
 c      endif
-c     if (rwdbr(ipl).ge.100.) then  ! one-time code - ignore this stuff
-c        gradient=rcosq(1,ipl)  !  in hPa/km
-c        direction=rcosq(2,ipl)  ! degrees
-c        valinterior=rcosq(3,ipl)
-c        xinterior=41.
-c        yinterior=47.
-cc mod this too...
-c        do j=1,mjx
-c        do i=1,miy
-c           gval=valinterior+gradient*dskm*(
-c    &         (j-xinterior)*cos(rpd*direction)+
-c    &         (i-yinterior)*sin(rpd*direction))
-c           if (rwdbr(ipl).eq.100.) then
-c              pslab1(j,i)=gval
-c           else
-c              pslab1(j,i)=pslab1(j,i)+gval
-c           endif
-c        enddo
-c        enddo
-c     endif
+      if (rwdbr(ipl).ge.100.) then  ! one-time code - ignore this stuff
+         gradient=rcosq(1,ipl)  !  in hPa/km
+         direction=rcosq(2,ipl)  ! degrees
+         valinterior=rcosq(3,ipl)
+         xinterior=41.
+         yinterior=47.
+c mod this too...
+         do j=1,mjx
+         do i=1,miy
+            gval=valinterior+gradient*dskm*(
+     &         (j-xinterior)*cos(rpd*direction)+
+     &         (i-yinterior)*sin(rpd*direction))
+            if (rwdbr(ipl).eq.100.) then
+               pslab1(j,i)=gval
+            else
+               pslab1(j,i)=pslab1(j,i)+gval
+            endif
+         enddo
+         enddo
+      endif
 c
 c   Determine number of contours and contour values.
 c
-      if (noplots.eq.0) then
       call getconvals(rcbeg(ipl),rcend(ipl),rcint(ipl),
      &   incon(ipl),lmult(ipl),rcval(1,ipl),incvl(ipl),
      &   imjsk(ipl),pslab1,mabpl,njx,niy,rmsg,
@@ -894,7 +893,6 @@ c
       endif
 c
       endif
-      endif  ! noplots
 c
       return
       end

@@ -3,7 +3,7 @@ c*********************************************************************c
 c                                                                     c
       subroutine vticdraw(ilinw,icolr,xseclen,raxtd,raxld,cvcor,
      &         rtslb,nscrs,raxlv,raxtv,lnogd,vcground,
-     &         rlata,rlona,rlatb,rlonb,lableft,labright,
+     &         rlata,rlona,rlatb,rlonb,
      &         vv1,vv2,set1,set2,vtickinc,mabpl,maxpl,ipl)
 c
       dimension ilinw(maxpl),icolr(maxpl),raxtd(maxpl),raxld(maxpl),
@@ -15,8 +15,6 @@ c
       dimension arrl(1000),rect(4),fillx(1000),filly(1000),
      &   fillsc1(1010),fillsc2(1020)
       character axlab*5,axtit*32, left*2, right*2
-      character(len=40), dimension(maxpl) :: lableft
-      character(len=40), dimension(maxpl) :: labright
 c
       include 'comconst'
 c
@@ -113,22 +111,8 @@ c
 	right = '  '
       endif
       call setusv('LW',1000)
-c Add directional labels or user-supplied labels to the bottom of the cross-section.
-c The label's edges can be adjusted by changing the final argument to the plchhq call.
-c By default, the directions are centered, while the user-supplied labels are left-justified
-c (left label) or right-justified (right label). Centering them might be OK if they're short.
-      if (lableft(ipl).eq. 'default') then
-         call plchhq(fl,fb-ydist2,left,1.2*rtslb(ipl),0.,-1.)
-      else
-         call plchhq(fl,fb-ydist2,trim(lableft(ipl)),
-     &               1.2*rtslb(ipl),0.,-1.)
-      endif
-      if (labright(ipl).eq. 'default') then
-         call plchhq(fr,fb-ydist2,right,1.2*rtslb(ipl),0.,0.)
-      else
-         call plchhq(fr,fb-ydist2,trim(labright(ipl)),
-     &               1.2*rtslb(ipl),0.,1.)
-      endif
+      call plchhq(.12,fb-ydist2,left,1.2*rtslb(ipl),0.,0.)
+      call plchhq(.9,fb-ydist2,right,1.2*rtslb(ipl),0.,0.)
       call setusv('LW',lwidth)
       ntick=int(rntickinc)+1
       gint=(fr-fl)/rntickinc

@@ -1,0 +1,2298 @@
+      Location         3LC        Lat    Lon   El(m) WMO#
+===================== ===== === ====== ======= ===== =====
+ADAK NS./MITCHE AK US   ADK  1   51.88 -176.65     6 70454                    
+AMBLER          AK US   Z60  1   67.10 -157.85    88 70171                    
+ANCHORAGE INTL  AK US   ANC  1*  61.17 -150.02    40 70273                    
+BARROW          AK US   BRW  1*  71.30 -156.78     4 70026                    
+CAPE LISBURNE   AK US  PALU  1   68.88 -166.12     4 70104                    
+COLD BAY        AK US   CDB  1*  55.20 -162.72    31 70316                    
+DILLINGHAM (AMO AK US   DLG  1   59.05 -158.52    29 70321                    
+FAIRBANKS INTL  AK US   FAI  1*  64.82 -147.87   138 70261                    
+GALBRAITH LAKE  AK US   GBH  1   68.48 -149.48   814 70063                    
+JUNEAU          AK US   JNU  1   58.37 -134.58     7 70381                    
+KODIAK          AK US   ADQ  1*  57.75 -152.50    34 70350                    
+MCGRATH         AK US   MCG  1*  62.97 -155.62   103 70231                    
+MEKORYUK        AK US   MYU  1   60.37 -166.27    15 00000                    
+NOME            AK US   OME  1*  64.50 -165.43     7 70200                    
+SHEMYA          AK US   SYA  1   52.72 -174.10    31 70414                    
+SHEMYA AFB      AK US  PASY  1   52.72  174.12    30 70414                    
+ST PAUL ISLAND  AK US   SNP  1*  57.15 -170.22     9 70308                    
+MOBILE          AL US   MOB *1   30.68  -88.25    67 72223                    
+LITTLE ROCK     AR US   LIT *1   34.73  -92.23    78 72340                    
+PHOENIX/SKY HAR AZ US   PHX *1   33.43 -112.02   337 72278                    
+BAKERSFIELD     CA US   BFL  1   35.43 -119.05   150 72384                    
+SACRAMENTO/EXEC CA US   SAC *1   38.52 -121.50     8 72483                    
+SAN DIEGO/LINDB CA US   SAN *1   32.73 -117.17     9 72290                    
+DENVER Intl     CO US   DEN *1*  39.87 -104.67  1656 72565                    
+DENVER/STAPLETO CO US   DNR *1*  39.80 -104.89  1608 72469
+GRAND JUNCTION  CO US   GJT *1*  39.12 -108.53  1475 72476                    
+JACKSONVILLE IN FL US   JAX *1   30.50  -81.70     9 72206                    
+MIAMI INTL      FL US   MIA *1   25.82  -80.28     4 72202                    
+TAMPA INTL      FL US   TPA *1*  27.97  -82.53     3 72211                    
+ATLANTA/HARTSFI GA US   ATL *1   33.65  -84.42   315 72219                    
+HILO/LYMAN      HI US   ITO  1*  19.72 -155.07    11 91285                    
+HONOLULU INTL   HI US   HNL  1   21.35 -157.93     5 91182                    
+DES MOINES      IA US   DSM *1   41.53  -93.65   294 72546                    
+BOISE           ID US   BOI *1*  43.57 -116.22   874 72681                    
+CHICAGO/OHARE   IL US   ORD *1   41.98  -87.90   205 72530                    
+DODGE CITY      KS US   DDC *1*  37.77  -99.97   790 72451                    
+COVINGTON       KY US   CVG *1   39.05  -84.67   267 72421                    
+LAKE CHARLES    LA US   LCH *1*  30.12  -93.22    10 72240                    
+CHATHAM         MA US   CHH  1*  41.66  -69.96    16 74494                    
+CARIBOU         ME US   CAR  1*  46.87  -68.02   190 72712                    
+PORTLAND INTL   ME US   PWM *1*  43.65  -70.32    19 72606                    
+SAULT STE MARIE MI US   SSM *1*  46.47  -84.37   221 72734                    
+SAULT STE MARIE MI US   Y62  1   46.47  -84.37   221 00000                    
+INTL FALLS      MN US   INL *1*  48.57  -93.38   361 72747                    
+MINNEAPOLIS-ST  MN US   MSP *1   44.88  -93.22   255 72658                    
+KANSAS CITY INT MO US   MCI *1   39.32  -94.72   312 72446                    
+ST LOUIS/LAMBER MO US   STL *1   38.75  -90.37   172 72434                    
+JACKSON         MS US   JAN *1*  32.32  -90.08   101 72235                    
+BILLINGS        MT US   BIL *1   45.80 -108.53  1088 72677                    
+GLASGOW         MT US   GGW *1*  48.22 -106.62   700 72768                    
+HELENA          MT US   HLN *1   46.60 -112.00  1188 72772                    
+CAPE HATTERAS   NC US   HAT *1*  35.27  -75.55     3 72304                    
+GREENSBORO      NC US   GSO *1*  36.08  -79.95   270 72317                    
+BISMARCK        ND US   BIS *1*  46.77 -100.75   506 72764                    
+NORTH PLATTE    NE US   LBF *1*  41.13 -100.68   849 72562                    
+ALBUQUERQUE     NM US   ABQ *1*  35.05 -106.60  1613 72365                    
+ELY             NV US   ELY *1*  39.28 -114.85  1909 72486                    
+LAS VEGAS       NV US   LAS *1*  36.08 -115.17   664 72386                    
+BUFFALO         NY US   BUF *1*  42.93  -78.73   215 72528                    
+NEW YORK/JFK    NY US   JFK *1   40.65  -73.78     7 74486                    
+OKLAHOMA CITY/W OK US   OKC *1*  35.40  -97.60   397 72353                    
+MEDFORD         OR US   MFR *1*  42.37 -122.87   405 72597                    
+PORTLAND INTL   OR US   PDX *1   45.60 -122.60    12 72698                    
+PITTSBURGH      PA US   PIT *1*  40.50  -80.22   373 72520                    
+CHARLESTON      SC US   CHS *1*  32.90  -80.03    14 72208                    
+HURON           SD US   HON *1*  44.38  -98.22   393 72654                    
+NASHVILLE       TN US   BNA *1*  36.12  -86.68   180 72327                    
+AMARILLO        TX US   AMA *1*  35.23 -101.70  1099 72363                    
+BROWNSVILLE     TX US   BRO *1*  25.90  -97.43     6 72250                    
+DALLAS/FT WORTH TX US   DFW *1   32.90  -97.03   182 72259                    
+EL PASO         TX US   ELP *1*  31.80 -106.40  1194 72270                    
+MIDLAND         TX US   MAF *1*  31.95 -102.18   872 72265                    
+SAN ANTONIO INT TX US   SAT *1   29.53  -98.47   242 72253                    
+SALT LAKE CITY  UT US   SLC *1*  40.78 -111.97  1288 72572                    
+WASHINGTON/DULL VA US   IAD *1*  38.95  -77.45    98 72403                    
+SEATTLE-TACOMA  WA US   SEA *1   47.45 -122.30   137 72793                    
+SPOKANE INTL    WA US   GEG *1*  47.63 -117.53   721 72785                    
+GREEN BAY       WI US   GRB *1*  44.48  -88.13   214 72645                    
+CASPER          WY US   CPR *1   42.92 -106.47  1612 72569                    
+ANIAK (AMOS)    AK US   ANI  2   61.58 -159.53    26 70232                    
+BETTLES         AK US   BTT  2   66.92 -151.52   196 70174                    
+CANTWELL        AK US   Z68  2   63.38 -148.95   668 00000                    
+DEADHORSE       AK US   SCC  2   70.20 -148.47    17 70063                    
+DUTCH HARBOR    AK US   DUT  2   53.88 -166.53     4 70489                    
+FORT YUKON (AMO AK US   FYU  2   66.57 -145.27   431 70194                    
+GAMBELL         AK US   GAM  2   63.77 -171.73     8 70204                    
+HOMER           AK US   HOM  2   59.63 -151.50    22 70341                    
+KOTZEBUE        AK US   OTZ  2*  66.87 -162.63     5 70133                    
+MIDDLETON ISLAN AK US   MDO  2   59.43 -146.33    14 70343                    
+PORT HEIDEN (AM AK US   PTH  2   56.95 -158.62    29 70333                    
+SITKA           AK US   SIT  2   57.07 -135.35    20 70371                    
+UNALAKLEET (AMO AK US   UNK  2   63.88 -160.80     6 70207                    
+YAKUTAT         AK US   YAK  2*  59.52 -139.67     9 70361                    
+BIRMINGHAM      AL US   BHM *2   33.57  -86.75   192 72228                    
+TUCSON          AZ US   TUS *2*  32.12 -110.93   779 72274                    
+WINSLOW         AZ US   INW  2*  35.02 -110.73  1488 72374                    
+ARCATA          CA US   ACV *2   40.98 -124.10    66 00000                    
+BLYTHE          CA US   BLH  2   33.62 -114.72   121 00000                    
+FRESNO          CA US   FAT *2   36.77 -119.72   100 72389                    
+LOS ANGELES INT CA US   LAX *2   33.93 -118.40    32 72295                    
+SAN FRANCISCO   CA US   SFO *2   37.62 -122.38     5 72494                    
+PUEBLO          CO US   PUB  2   38.28 -104.52  1439 72464                    
+FORT MYERS      FL US   FMY *2   26.58  -81.87     4 00000                    
+KEY WEST        FL US   EYW *2*  24.55  -81.75     6 72201                    
+ORLANDO JETPORT FL US   MCO *2   28.43  -81.32    32 72205                    
+TALLAHASSEE     FL US   TLH *2   30.38  -84.37    21 72214                    
+KAHULUI ARPT    HI US   OGG  2   20.90 -156.43    20 91190                    
+LIHUE-ON-KAUAI  HI US   LIH  2*  21.98 -159.35    45 91165                    
+POCATELLO       ID US   PIH *2   42.92 -112.60  1365 72578                    
+PEORIA          IL US   PIA *2*  40.67  -89.68   202 72532                    
+EVANSVILLE      IN US   EVV *2   38.05  -87.53   118 72432                    
+FORT WAYNE      IN US   FWA *2   41.00  -85.20   252 72533                    
+INDIANAPOLIS    IN US   IND *2   39.73  -86.27   246 72438                    
+CONCORDIA       KS US   CNK *2   39.55  -97.65   452 72458                    
+GOODLAND        KS US   GLD *2   39.37 -101.70  1124 72465                    
+WICHITA         KS US   ICT *2   37.65  -97.43   408 72450                    
+NEW ORLEANS/MOI LA US   MSY *2   29.98  -90.25     9 72231                    
+SHREVEPORT      LA US   SHV *2   32.47  -93.82    79 72248                    
+BOSTON/LOGAN    MA US   BOS *2   42.37  -71.03     9 72509                    
+BANGOR          ME US   BGR *2   44.80  -68.82    62 72607                    
+ALPENA          MI US   APN *2   45.07  -83.57   211 72639                    
+FLINT/BISHOP    MI US   FNT *2*  42.97  -83.75   233 72637                    
+MARQUETTE       MI US   MQT  2   46.53  -87.55   434 72743                    
+MUSKEGON        MI US   MKG *2*  43.17  -86.25   193 72636                    
+DULUTH          MN US   DLH *2   46.83  -92.18   432 72745                    
+CAPE GIRARDEAU  MO US   CGI  2   37.23  -89.58   104 00000                    
+SPRINGFIELD     MO US   SGF *2   37.23  -93.38   387 72440                    
+HAVRE (AMOS)    MT US   HVR *2   48.55 -109.77   792 72777                    
+MISSOULA        MT US   MSO *2   46.92 -114.08   972 72773                    
+WILMINGTON      NC US   ILM *2   34.27  -77.92     9 00000                    
+FARGO           ND US   FAR *2   46.90  -96.80   274 72753                    
+WILLISTON       ND US   ISN *2   48.18 -103.63   581 72767                    
+GRAND ISLAND    NE US   GRI *2   40.97  -98.32   566 72552                    
+OMAHA/EPPLEY    NE US   OMA *2   41.30  -95.90   299 72550                    
+FARMINGTON      NM US   FMN  2   36.75 -108.23  1677 00000                    
+TRUTH OR CONSEQ NM US   TCS  2   33.23 -107.27  1481 72271                    
+TUCUMCARI       NM US   TCC  2   35.18 -103.60  1238 00000                    
+RENO            NV US   RNO *2   39.50 -119.78  1341 72488                    
+TONOPAH         NV US   TPH  2   38.07 -117.08  1654 72485                    
+WINNEMUCCA      NV US   WMC *2*  40.90 -117.80  1322 72583                    
+ALBANY          NY US   ALB *2*  42.75  -73.80    89 72518                    
+SYRACUSE        NY US   SYR *2   43.12  -76.12   124 72519                    
+CLEVELAND/HOPKI OH US   CLE *2   41.42  -81.87   245 72524                    
+COLUMBUS        OH US   CMH *2   40.00  -82.88   254 72428                    
+TULSA           OK US   TUL *2   36.20  -95.90   206 72356                    
+BURNS (AMOS)    OR US   BNO  2   43.60 -118.95  1263 72683                    
+EUGENE          OR US   EUG *2   44.12 -123.22   114 72693                    
+PHILADELPHIA IN PA US   PHL *2   39.88  -75.25     9 72408                    
+WILLIAMSPORT    PA US   IPT *2   41.25  -76.92   160 72514                    
+COLUMBIA        SC US   CAE *2   33.95  -81.12    69 72310                    
+PIERRE          SD US   PIR *2   44.38 -100.28   531 00000                    
+RAPID CITY      SD US   RAP *2*  44.05 -103.07   966 72662                    
+KNOXVILLE       TN US   TYS *2   35.82  -83.98   299 72326                    
+MEMPHIS INTL    TN US   MEM *2   35.05  -90.00    87 72334                    
+ABILENE         TX US   ABI *2   32.42  -99.68   546 72266                    
+CORPUS CHRISTI  TX US   CRP *2   27.77  -97.50    13 72251                    
+DEL RIO (AUTOB) TX US   DRT  5*  29.37 -100.92   313 72261                    
+HOUSTON INTCNTL TX US   IAH *2   29.97  -95.35    33 72243                    
+LUBBOCK         TX US   LBB *2   33.65 -101.82   988 72267                    
+MARFA (AMOS)    TX US   MRF  2   30.37 -104.02  1481 72264                    
+CEDAR CITY      UT US   CDC *2   37.70 -113.10  1714 00000                    
+RICHMOND        VA US   RIC *2   37.50  -77.33    54 72401                    
+BURLINGTON      VT US   BTV *2   44.47  -73.15   104 72617                    
+YAKIMA          WA US   YKM *2   46.57 -120.53   325 72781                    
+MADISON         WI US   MSN *2   43.13  -89.33   264 72641                    
+CHARLESTON      WV US   CRW *2   38.37  -81.60   299 72414                    
+CHEYENNE        WY US   CYS *2   41.15 -104.82  1872 72564                    
+LANDER          WY US   LND *2*  42.82 -108.73  1694 72576                    
+SHERIDAN        WY US   SHR *2   44.77 -106.97  1209 72666                    
+BARTER ISLAND   AK US   BTI  3   70.13 -143.63    15 70086                    
+BETHEL AIRPORT  AK US   BET  3*  60.78 -161.80    46 70219                    
+BIG DELTA       AK US   BIG  3   64.00 -145.73   388 70267                    
+BIG RIVER LAKES AK US   5BI  3   60.82 -152.30    12 00000                    
+CAPE NEWENHAM   AK US  PAEH  3   58.65 -162.07   165 70305                    
+CAPE ROMANZOFF  AK US  PACZ  3   61.78 -166.03   139 70212                    
+CHANDALAR LAKE  AK US   WCR  3   67.50 -148.48   585 00000                    
+CIRCLE CITY     AK US   CRC  3   65.83 -144.07   182 00000                    
+EAGLE AIRPORT   AK US   EAA  3   64.77 -141.15   268 00000                    
+ELFIN COVE      AK US   ELV  3   58.20 -136.35     0 00000                    
+GALENA          AK US  PAGA  3   64.73 -156.93    46 70222                    
+GULKANA         AK US   GKN  3   62.15 -145.45   481 70271                    
+KETCHIKAN INTL  AK US   KTN  3   55.35 -131.70    29 70395                    
+KING SALMON     AK US   AKN  3*  58.68 -156.65    15 70326                    
+LONELY (DEW)    AK US   LNI  3   70.92 -153.23    12 70045                    
+MINCHUMINA      AK US   MHM  3   63.90 -152.27   214 70246                    
+NEW ANDREAFSKI  AK US   KSM  3   62.07 -163.30    92 00000                    
+NIKOLSKI        AK US   IKO  3   52.95 -168.85    21 70482                    
+NORTHWAY        AK US   ORT  3   62.97 -141.93   525 70291                    
+PETERSBURG      AK US   PSG  3   56.82 -132.97     0 70386                    
+POINT LAY (DEW) AK US   PIZ  3   69.82 -162.92     6 70121                    
+PORT ALEXANDER  AK US   Z76  3   56.25 -134.65     1 00000                    
+PORT ALSWORTH   AK US   Z30  3   60.20 -154.30    81 00000                    
+PUNTILLA        AK US   PTI  3   62.10 -152.75   560 70249                    
+SAND POINT      AK US   SDP  3   55.33 -160.50     7 00000                    
+SEWARD          AK US   5WD  3   60.12 -149.45    18 70277                    
+SHISHMAREF      AK US   SHH  3   66.27 -166.03     2 00000                    
+SITKINAK        AK US   SKJ  3   56.88 -154.20    28 70357                    
+SKAGWAY         AK US   SGY  3   59.47 -135.30     5 70362                    
+SPARREVOHN AFS  AK US  PASV  3   61.10 -155.58   480 70235                    
+TALKEETNA       AK US   TKA  3   62.30 -150.10   109 70251                    
+TANANA          AK US   TAL  3   65.17 -152.10    67 70178                    
+UMIAT           AK US   UMT  3   69.37 -152.13    85 70162                    
+VALDEZ AIRPORT  AK US   VDZ  3   61.13 -146.25    37 00000                    
+DOTHAN          AL US   DHN  3   31.32  -85.45   122 00000                    
+HUNTSVILLE      AL US   HSV *3   34.65  -86.77   196 72323                    
+MONTGOMERY      AL US   MGM *3   32.30  -86.40    62 72226                    
+EL DORADO       AR US   ELD  3   33.22  -92.80    87 00000                    
+FORT SMITH      AR US   FSM *3   35.33  -94.37   141 72344                    
+HARRISON        AR US   HRO  3   36.27  -93.15   422 00000                    
+JONESBORO       AR US   JBR  3   35.83  -90.65    84 00000                    
+TEXARKANA       AR US   TXK  3   33.45  -94.00   122 00000                    
+DOUGLAS         AZ US   DUG  3   31.45 -109.60  1267 00000                    
+GILA BEND       AZ US   GBN  3*  32.88 -112.72   262 74724                    
+GRAND CANYON    AZ US   GCN  3   35.95 -112.15  2125 72378                    
+PAGE (AMOS)     AZ US   PGA  3   36.93 -111.45  1304 72371                    
+PRESCOTT        AZ US   PRC  3   34.65 -112.43  1540 00000                    
+SAFFORD AWRS    AZ US   E74  3   32.82 -109.68   900 00000                    
+SHOW LOW        AZ US   SOW  3   34.27 -110.00  2016 00000                    
+YUMA MCAS       AZ US   NYL  3   32.65 -114.62    65 69960                    
+BISHOP          CA US   BIH  3   37.37 -118.37  1263 72480                    
+CARLSBAD        CA US   CRQ  3   33.13 -117.28   100 00000                    
+CHICO           CA US   CIC  3   39.78 -121.85    72 00000                    
+CHINA LAKE      CA US   NID  3   35.68 -117.68   696 74612                    
+DAGGETT         CA US   DAG  3   34.87 -116.78   588 00000                    
+IMPERIAL        CA US   IPL  3   32.83 -115.57    17 00000                    
+MODESTO         CA US   MOD  3   37.63 -120.95    32 00000                    
+MOUNT SHASTA    CA US   MHS  3   41.32 -122.32  1080 72595                    
+NEEDLES         CA US   EED  3   34.77 -114.62   302 72380                    
+PASO ROBLES     CA US   PRB  3   35.67 -120.63   249 00000                    
+REDDING         CA US   RDD  3   40.50 -122.30   153 00000                    
+SALINAS         CA US   SNS  3   36.67 -121.60    23 00000                    
+SAN NICOLAS ISL CA US   NSI  3*  33.25 -119.45   154 72291                    
+SANDBURG        CA US   SDB  3*  34.75 -118.73  1379 72383                    
+SANTA BARBARA   CA US   SBA  3   34.43 -119.83     6 00000                    
+SANTA MARIA     CA US   SMX  3   34.90 -120.45    73 72394                    
+SUSANVILLE      CA US   SVE  3   40.38 -120.57  1264 72584                    
+THERMAL         CA US   TRM  3   33.63 -116.17    34 00000                    
+UKIAH           CA US   UKI  3   39.13 -123.20   189 00000                    
+AKRON           CO US   AKO  3   40.17 -103.22  1431 00000                    
+ALAMOSA         CO US   ALS  3   37.45 -105.87  2299 72462                    
+ASPEN           CO US   ASE  3   39.22 -106.87  2565 00000                    
+COLORADO SPRING CO US   COS *3   38.82 -104.72  1881 72466                    
+FORT COLLINS    CO US   FCL  3   40.58 -105.08  1525 00000                    
+HAYDEN          CO US   HDN  3   40.50 -107.25  2012 00000                    
+LAMAR           CO US   4LJ  3   38.12 -102.60  1103 72463                    
+LIMON           CO US   LIC  3   39.18 -103.70  1695 00000                    
+MONTROSE        CO US   MTJ  3   38.50 -107.88  1755 00000                    
+SALIDA          CO US   S29  3   38.53 -106.05  2282 00000                    
+TRINIDAD        CO US   TAD  3   37.25 -104.33  1752 00000                    
+HARTFORD/BRADLE CT US   BDL *3   41.93  -72.68    55 72508                    
+DOVER AFB       DE US   DOV  3   39.13  -75.47     9 00000                    
+CRESTVIEW       FL US   CEW  3   30.78  -86.52    56 00000                    
+DAYTONA BEACH   FL US   DAB *3   29.18  -81.05    12 00000                    
+GAINESVILLE     FL US   GNV  3   29.68  -82.27    50 00000                    
+PANAMA CITY     FL US   PFN  3   30.20  -85.68     6 00000                    
+VERO BEACH      FL US   VRB  3   27.65  -80.42     7 00000                    
+WEST PALM BEACH FL US   PBI *3*  26.68  -80.12     6 72203                    
+ALBANY          GA US   ABY  3   31.53  -84.18    59 72216                    
+ALMA            GA US   AMG  3   31.53  -82.52    63 00000                    
+ATHENS          GA US   AHN *3*  33.95  -83.32   247 72311                    
+AUGUSTA         GA US   AGS *3   33.37  -81.97    45 72218                    
+MACON           GA US   MCN *3   32.70  -83.65   110 72217                    
+SAVANNAH        GA US   SAV *3   32.13  -81.20    15 72207                    
+VALDOSTA        GA US   VLD  3   30.78  -83.28    68 00000                    
+KE-AHOLE/KONA   HI US   KOA  3   19.75 -156.05    13 00000                    
+MOLOKAI (AMOS)  HI US   MKK  3   21.15 -157.10   137 91186                    
+CEDAR RAPIDS    IA US   CID  3   41.88  -91.70   265 72545                    
+DUBUQUE         IA US   DBQ  3   42.40  -90.70   329 72547                    
+LAMONI          IA US   3OI  3   40.62  -93.93   342 00000                    
+MASON CITY      IA US   MCW *3   43.15  -93.33   370 00000                    
+OTTUMWA         IA US   OTM  3   41.10  -92.45   258 00000                    
+SIOUX CITY      IA US   SUX *3   42.40  -96.38   336 72557                    
+SPENCER         IA US   3SE  3   43.17  -95.15   408 72650                    
+WATERLOO        IA US   ALO *3   42.55  -92.40   268 72548                    
+ELK CITY (RAMOS ID US   P69  3   45.82 -115.43  1249 00000                    
+HAILEY/SUN VALL ID US   SUN  3   43.50 -114.30  1620 00000                    
+LEWISTON (AMOS) ID US   LWS  3   46.38 -117.02   438 72783                    
+MALAD CITY      ID US   MLD  3   42.17 -112.32  1373 00000                    
+MCCALL          ID US   MYL  3   44.88 -116.10  1531 00000                    
+MULLAN (AWRS)   ID US   S06  3   47.47 -115.80  1011 00000                    
+SALMON          ID US   27U  3   45.18 -113.90  1224 00000                    
+TWIN FALLS      ID US   TWF  3   42.48 -114.48  1265 00000                    
+CARBONDALE      IL US   MDH  3   37.78  -89.25   124 00000                    
+CHAMPAIGN       IL US   CMI  3   40.03  -88.28   230 00000                    
+MOLINE          IL US   MLI *3   41.45  -90.52   181 72544                    
+QUINCY          IL US   UIN  3   39.93  -91.20   234 00000                    
+ROCKFORD        IL US   RFD *3   42.20  -89.10   226 72543                    
+SPRINGFIELD     IL US   SPI *3   39.85  -89.67   187 72439                    
+LAFAYETTE       IN US   LAF  3   40.42  -86.93   184 00000                    
+MUNCIE          IN US   MIE  3   40.23  -85.38   286 00000                    
+SOUTH BEND      IN US   SBN *3   41.70  -86.32   236 72535                    
+TERRE HAUTE     IN US   HUF  3   39.45  -87.30   181 72437                    
+CHANUTE         KS US   CNU  3   37.67  -95.48   304 00000                    
+ELKHART (AMOS)  KS US   1K5  3   37.00 -101.88  1102 72460                    
+GARDEN CITY     KS US   GCK  3   37.93 -100.72   882 00000                    
+HILL CITY       KS US   HLC  3   39.38  -99.83   677 00000                    
+RUSSELL         KS US   RSL *3   38.87  -98.82   568 00000                    
+SALINA          KS US   SLN  3   38.80  -97.65   387 00000                    
+TOPEKA/BILARD   KS US   TOP *3*  39.07  -95.62   270 72456                    
+BOWLING GREEN   KY US   BWG  3   36.97  -86.43   164 00000                    
+LEXINGTON       KY US   LEX *3   38.03  -84.60   301 72422                    
+LONDON          KY US   LOZ  3   37.08  -84.07   369 72329                    
+LOUISVILLE/STAN KY US   SDF *3   38.18  -85.73   149 72423                    
+PADUCAH         KY US   PAH  3*  37.07  -88.77   125 72435                    
+PIKEVILLE (RAMO KY US   5I3  3   37.48  -82.52   209 72413                    
+ALEXANDRIA      LA US   ESF  3   31.38  -92.30    33 00000                    
+BATON ROUGE     LA US   BTR *3   30.53  -91.15    21 00000                    
+FORT POLK       LA US   POE  3   31.05  -93.20   100 72239                    
+GRAND ISLE      LA US   AXO  3   29.18  -90.07    72 00000                    
+INTRACOASTAL CI LA US   7R4  3   29.73  -92.12     5 00000                    
+MONROE          LA US   MLU  3   32.52  -92.05    24 00000                    
+NANTUCKET       MA US   ACK  3   41.25  -70.07     4 72506                    
+BALTIMORE/WASH  MD US   BWI *3   39.18  -76.67    47 72406                    
+GREENVILLE (AMO ME US   3B1  3   45.45  -69.55   427 00000                    
+DETROIT/WAYNE   MI US   DTW *3   42.23  -83.33   202 72537                    
+ESCANABA        MI US   ESC  3   45.73  -87.08   185 72648                    
+HOUGHTON        MI US   CMX  3   47.17  -88.50   329 72744                    
+LANSING         MI US   LAN *3   42.77  -84.60   266 72539                    
+TRAVERSE CITY   MI US   TVC *3   44.73  -85.58   190 00000                    
+ALEXANDRIA      MN US   AXN  3   45.87  -95.38   434 00000                    
+BEMIDJI         MN US   BJI  3   47.50  -94.93   420 72755                    
+BRAINERD        MN US   BRD  3   46.40  -94.13   374 00000                    
+FAIRMONT        MN US   FRM  3   43.65  -94.42   354 00000                    
+REDWOOD FALLS   MN US   RWF  3   44.55  -95.08   311 00000                    
+ROCHESTER       MN US   RST *3   43.92  -92.50   402 72644                    
+ST CLOUD        MN US   STC  3*  45.55  -94.07   312 72655                    
+WARROAD (AMOS)  MN US   D45  3   48.93  -95.35   328 72756                    
+COLUMBIA        MO US   COU *3   38.82  -92.22   274 72445                    
+JOPLIN          MO US   JLN  3   37.17  -94.50   299 00000                    
+KIRKSVILLE      MO US   IRK  3   40.10  -92.55   294 00000                    
+POPLAR BLUFF    MO US   P02  3   36.77  -90.47   146 72330                    
+VICHY           MO US   VIH  3   38.13  -91.77   350 00000                    
+WHITEMAN AFB    MO US   SZL  3   38.73  -93.55   265 00000                    
+GREENVILLE      MS US   GLH  3   33.48  -90.98    40 00000                    
+GREENWOOD       MS US   GWO  3   33.50  -90.08    47 00000                    
+GULFPORT        MS US   GPT  3   30.40  -89.07     9 00000                    
+MCCOMB          MS US   MCB  3   31.18  -90.47   126 00000                    
+MERIDIAN/KEY    MS US   MEI *3   32.33  -88.75    94 72234                    
+TUPELO          MS US   TUP  3   34.27  -88.77   110 00000                    
+BOZEMAN         MT US   BZN  3   45.78 -111.15  1360 00000                    
+BROADUS         MT US   4BQ  3   45.43 -105.40   922 72667                    
+CUT BANK        MT US   CTB  3   48.60 -112.37  1174 00000                    
+GREAT FALLS     MT US   GTF *3*  47.48 -111.37  1115 72775                    
+KALISPELL       MT US   FCA *3   48.30 -114.27   906 72779                    
+LEWISTON        MT US   LWT  3   47.05 -109.45  1279 00000                    
+MILES CITY      MT US   MLS  3   46.43 -105.87   801 74230                    
+WEST YELLOWSTON MT US   WEY  3   44.65 -111.10  2031 72676                    
+ASHEVILLE       NC US   AVL *3   35.43  -82.55   661 72315                    
+CHARLOTTE       NC US   CLT *3   35.22  -80.93   234 72314                    
+FAYETTEVILLE    NC US   FAY  3   35.00  -78.88    57 00000                    
+NEW BERN        NC US   EWN  3   35.08  -77.05     6 00000                    
+RALEIGH-DURHAM  NC US   RDU *3   35.87  -78.78   134 72306                    
+ROCKY MOUNT     NC US   RWI  3   35.85  -77.88    48 00000                    
+DEVILS LAKE MUN ND US   DVL  3   48.12  -98.90   443 72757                    
+DICKINSON       ND US   DIK  3   46.78 -102.80   789 00000                    
+GRAND FORKS     ND US   GFK  3   47.95  -97.18   257 00000                    
+JAMESTOWN       ND US   JMS  3   46.92  -98.68   457 00000                    
+MINOT           ND US   MOT *3   48.27 -101.28   523 00000                    
+BROKEN BOW      NE US   BBW  3   41.43  -99.65   771 00000                    
+CHADRON         NE US   CDR  3   42.83 -103.08  1004 00000                    
+FALLS CITY      NE US   FNB  3   40.07  -95.58   300 00000                    
+IMPERIAL        NE US   IML  3   40.53 -101.63  1000 00000                    
+LINCOLN         NE US   LNK  3   40.85  -96.75   362 72551                    
+MULLEN          NE US   MHN  3   42.05 -101.05   994 00000                    
+NORFOLK         NE US   OFK  3   41.98  -97.43   473 72556                    
+SCOTTSBLUFF     NE US   BFF *3   41.87 -103.60  1206 72566                    
+VALENTINE (AMOS NE US   VTN  3   42.87 -100.55   792 72567                    
+CONCORD         NH US   CON *3   43.20  -71.50   105 72605                    
+LEBANON         NH US   LEB  3   43.63  -72.32   177 72611                    
+ATLANTIC CITY   NJ US   ACY *3*  39.45  -74.57    20 72407                    
+CANNON AFB      NM US   CVS  3   34.38 -103.32  1309 00000                    
+CARLSBAD        NM US   CNM  3   32.33 -104.27  1004 00000                    
+CLAYTON         NM US   CAO  3   36.45 -103.15  1515 72360                    
+DEMING          NM US   DMN  3   32.25 -107.70  1315 00000                    
+GALLUP          NM US   GUP  3   35.52 -108.78  1972 00000                    
+HOBBS           NM US   HOB  3   32.68 -103.20  1115 00000                    
+HOLLOMAN AFB    NM US   HMN  3*  32.85 -106.10  1248 74732                    
+ROSWELL         NM US   ROW  3   33.30 -104.53  1118 72268                    
+SANTA FE        NM US   SAF  3   35.62 -106.08  1934 00000                    
+AUSTIN          NV US   AUI  3   39.83 -117.13  2014 00000                    
+CALIENTE (AMOS) NV US   P38  3   37.62 -114.52  1335 72487                    
+ELKO            NV US   EKO *3   40.83 -115.78  1565 72582                    
+HAWTHORNE       NV US   HTH  3   38.55 -118.63  1285 00000                    
+MERCURY/DESERT  NV US   DRA  3*  36.62 -116.02  1009 72387                    
+YUCCA FLAT      NV US   UCC  3   37.58 -116.08  1196 72385                    
+BINGHAMTON      NY US   BGM *3   42.22  -75.98   497 72515                    
+MASSENA         NY US   MSS *3   44.93  -74.85    65 00000                    
+POUGHKEEPSIE    NY US   POU  3   41.63  -73.88    50 00000                    
+ROCHESTER       NY US   ROC *3   43.12  -77.67   169 72529                    
+UTICA           NY US   UCA  3   43.15  -75.38   226 00000                    
+WATERTOWN       NY US   ART  3   44.00  -76.02    99 00000                    
+AKRON-CANTON    OH US   CAK *3   40.92  -81.43   377 72521                    
+DAYTON          OH US   DAY *3*  39.90  -84.20   306 72429                    
+TOLEDO          OH US   TOL *3   41.60  -83.80   211 72536                    
+ZANESVILLE      OH US   ZZV  3   39.95  -81.90   274 00000                    
+ARDMORE         OK US   ADM  3   34.30  -97.02   232 00000                    
+GAGE            OK US   GAG  3   36.30  -99.77   678 00000                    
+HOBART          OK US   HBR  3   35.00  -99.05   477 00000                    
+MCALESTER       OK US   MLC  3   34.88  -95.78   235 00000                    
+PONCA CITY      OK US   PNC  3   36.73  -97.10   307 00000                    
+ASTORIA         OR US   AST *3   46.15 -123.88     7 72791                    
+BAKER           OR US   BKE  3   44.83 -117.82  1027 00000                    
+BROOKINGS       OR US   4BK  3   42.05 -124.28    24 72598                    
+LAKEVIEW        OR US   4LW  3   42.18 -120.35  1455 72589                    
+LAKEVIEW        OR US   LKV  3   42.17 -120.40  1441 00000                    
+NORTH BEND      OR US   OTH *3   43.42 -124.25     4 72691                    
+PENDLETON (AMOS OR US   PDT *3   45.68 -118.85   456 72688                    
+REDMOND         OR US   RDM *3   44.27 -121.15   938 00000                    
+ROME (AMOS)     OR US   P88  3   42.90 -117.65  1162 00000                    
+SALEM           OR US   SLE *3*  44.92 -123.00    61 72694                    
+THE DALLES      OR US   DLS  3   45.62 -121.15    64 00000                    
+ALLENTOWN-BETHL PA US   ABE *3   40.65  -75.43   117 72517                    
+BRADFORD        PA US   BFD *3   41.80  -78.63   653 00000                    
+ERIE            PA US   ERI *3   42.08  -80.18   225 72526                    
+JOHNSTOWN       PA US   JST  3   40.32  -78.83   696 00000                    
+MIDDLETOWN      PA US   MDT  3   40.20  -76.77    94 00000                    
+STATE COLLEGE   PA US   UNV  3   40.85  -77.83   389 00000                    
+WILKESBARRE/SCR PA US   AVP *3   41.33  -75.73   289 72513                    
+PROVIDENCE      RI US   PVD *3   41.73  -71.43    19 72507                    
+ANDERSON        SC US   AND  3   34.50  -82.72   238 00000                    
+FLORENCE        SC US   FLO  3   34.18  -79.72    45 00000                    
+ABERDEEN        SD US   ABR *3   45.45  -98.43   396 72659                    
+LEMMON          SD US   Y22  3   45.93 -102.17   791 72669                    
+MOBRIDGE        SD US   Y26  3   45.53 -100.43   508 72668                    
+SIOUX FALLS     SD US   FSD *3   43.58  -96.73   435 72651                    
+BRISTOL         TN US   TRI *3   36.48  -82.40   463 00000                    
+CHATTANOOGA     TN US   CHA *3   35.03  -85.20   210 72324                    
+CROSSVILLE      TN US   CSV  3   35.95  -85.08   573 00000                    
+DYERSBURG       TN US   DYR  3   36.02  -89.40   103 00000                    
+AUSTIN          TX US   AUS *3   30.30  -97.70   189 72254                    
+BEAUMONT/PORT A TX US   BPT  3   29.95  -94.02     7 72241                    
+BROWNWOOD       TX US   BWD  3   31.80  -98.95   422 00000                    
+CHILDRESS       TX US   CDS  3   34.43 -100.28   595 00000                    
+COLLEGE STATION TX US   CLL  3   30.58  -96.37    97 00000                    
+COTULLA (AMOS)  TX US   COT  3   28.45  -99.22   144 00000                    
+GUADALUPE PASS  TX US   GDP  3   31.83 -104.80  1662 72262                    
+JUNCTION (AMOS) TX US   JCT  3   30.50  -99.77   522 74740                    
+LAREDO INTL     TX US   LRD  3   27.53  -99.47   156 72252                    
+LONGVIEW/GREGG  TX US   GGG  3*  32.38  -94.72   111 72247                    
+LUFKIN          TX US   LFK *3   31.23  -94.75    88 00000                    
+SAN ANGELO/MATH TX US   SJT *3   31.37 -100.50   582 72263                    
+SANDERSON (RAMO TX US   P07  3   30.17 -102.42   865 74730                    
+TEMPLE          TX US   TPL  3   31.15  -97.42   208 00000                    
+VICTORIA        TX US   VCT *3*  28.85  -96.92    36 72255                    
+WACO            TX US   ACT *3   31.62  -97.22   155 72256                    
+WICHITA FALLS   TX US   SPS *3   33.98  -98.50   309 72351                    
+BLANDING        UT US   4BL  3   37.62 -109.47  1840 72472                    
+DELTA           UT US   U24  3   39.33 -112.58  1414 72479                    
+HANKSVILLE      UT US   4HV  3   38.37 -110.72  1314 72473                    
+PRICE           UT US   PUC  3   39.62 -110.75  1799 72470                    
+ST. GEORGE      UT US   SGU  3   37.10 -113.60   886 00000                    
+VERNAL          UT US   VEL  3   40.45 -109.52  1603 00000                    
+WENDOVER (AUTOB UT US   ENV  3   40.73 -114.03  1292 72581                    
+CHARLOTTESVILLE VA US   CHO  3   38.13  -78.45   195 00000                    
+DANVILLE        VA US   DAN  3   36.57  -79.33   177 00000                    
+NORFOLK         VA US   ORF *3   36.90  -76.20     9 72308                    
+ROANOKE         VA US   ROA *3   37.32  -79.97   358 72411                    
+WALLOPS ISLAND  VA US   WAL  3*  37.93  -75.47    15 72402                    
+BELLINGHAM      WA US   BLI  3   48.80 -122.53    48 00000                    
+HOQUIAM         WA US   HQM  3   46.97 -123.97     4 00000                    
+OMAK            WA US   4OM  3   48.42 -119.53   382 72789                    
+QUILLAYUTE      WA US   UIL *3*  47.95 -124.55    62 72797                    
+TOLEDO          WA US   TDO  3   46.48 -122.80   113 00000                    
+WENATCHEE       WA US   EAT  3   47.40 -120.20   379 00000                    
+EAU CLAIRE      WI US   EAU *3   44.87  -91.48   276 00000                    
+LA CROSSE       WI US   LSE  3   43.87  -91.25   202 72643                    
+MILWAUKEE/MITCH WI US   MKE *3   42.95  -87.90   211 72640                    
+MOSINEE         WI US   CWA  3   44.78  -89.67   388 00000                    
+RHINELANDER     WI US   RHI  3   45.63  -89.45   490 00000                    
+BECKLEY         WV US   BKW *3   37.78  -81.12   766 72412                    
+ELKINS          WV US   EKN  3   38.88  -79.85   609 72417                    
+HUNTINGTON      WV US   HTS *3*  38.37  -82.55   255 72425                    
+MARTINSBURG     WV US   MRB  3   39.40  -77.98   169 00000                    
+MORGANTOWN      WV US   MGW  3   39.65  -79.92   380 00000                    
+BIG PINEY (AMOS WY US   BPI  3   42.57 -110.10  2124 72671                    
+CODY (AMOS)     WY US   COD  3   44.52 -109.02  1553 72670                    
+GILLETTE (AMOS) WY US   GCC  3   44.35 -105.53  1230 72665                    
+JACKSON         WY US   JAC  3   43.60 -110.73  1964 00000                    
+RAWLINS         WY US   RWL  3   41.80 -107.20  2068 00000                    
+ROCK SPRINGS    WY US   RKS *3   41.60 -109.07  2056 00000                    
+ANNETTE ISLAND  AK US   ANN  4*  55.03 -131.57    34 70398                    
+CORDOVA/MILE 13 AK US   CDV  4   60.50 -145.50    13 70296                    
+ILIAMNA         AK US   ILI  4   59.75 -154.92    49 70340                    
+KENAI           AK US   ENA  4   60.57 -151.25    29 70259                    
+NENANA (AMOS)   AK US   ENN  4   64.55 -149.08   110 70260                    
+SKWENTNA        AK US   SKW  4   61.97 -151.20    45 70255                    
+SLANA/DUFFYS TA AK US   5SZ  4   62.73 -143.92   738 00000                    
+TAHNETA PASS    AK US   5GN  4   61.90 -147.30   902 00000                    
+ANNISTON        AL US   ANB  4   33.58  -85.85   185 00000                    
+CENTREVILLE     AL US   CKL  4*  32.90  -87.25   140 72229                    
+MUSCLE SHOALS   AL US   MSL  4   34.75  -87.62   168 00000                    
+TUSCALOOSA      AL US   TCL  4   33.23  -87.62    51 00000                    
+BLYTHEVILLE     AR US   BYH  4   35.97  -89.95    78 00000                    
+FAYETTEVILLE    AR US   FYV  4   36.00  -94.17   381 00000                    
+HOT SPRINGS     AR US   HOT  4   34.48  -93.10   169 00000                    
+PINE BLUFF      AR US   PBF  4   34.17  -91.93    65 00000                    
+FLAGSTAFF (AMOS AZ US   FLG *4   35.13 -111.67  2137 72375                    
+FORT HUACHUCA   AZ US   FHU  4   31.60 -110.35  1438 72273                    
+KINGMAN (AMOS)  AZ US   IGM  4   35.27 -113.95  1033 72370                    
+PAYSON          AZ US   0E4  4   34.23 -111.33  1498 00000                    
+BURBANK         CA US   BUR  4   34.20 -118.37   236 72288                    
+CAMPO           CA US   CZZ  4   32.62 -116.47   802 00000                    
+LAKE TAHOE      CA US   TVL  4   38.90 -120.00  1912 00000                    
+MARYSVILLE      CA US   MYV  4   39.10 -121.57    19 00000                    
+ONTARIO INTL    CA US   ONT  4   34.05 -117.62   293 00000                    
+PALMDALE        CA US   PMD  4   34.63 -118.08   774 72382                    
+RIVERSIDE       CA US   RAL  4   33.95 -117.45   248 00000                    
+SAN JOSE        CA US   SJC  4   37.37 -121.92    17 74505                    
+SANTA ROSA      CA US   STS  4   38.52 -122.82    45 00000                    
+VANDENBERG AFB  CA US   VBG  4*  34.73 -120.58   112 72393                    
+VISALIA         CA US   VIS  4   36.32 -119.40    89 00000                    
+CORTEZ          CO US   CEZ  4   37.30 -108.63  1803 00000                    
+DURANGO         CO US   DRO  4   37.15 -107.75  2037 00000                    
+EAGLE           CO US   EGE  4   39.65 -106.92  1985 00000                    
+FORT CARSON     CO US   FCS  4*  38.68 -104.77  1790 72468                    
+GUNNISON        CO US   GUC  4   38.55 -106.92  2337 00000                    
+LA JUNTA        CO US   LHX  4   38.05 -103.52  1285 00000                    
+LEADVILLE       CO US   LXV  4   39.25 -106.30  3096 72467                    
+RIFLE (AUT)     CO US   1V1  4   39.53 -107.80  1646 00000                    
+WINTER PARK     CO US   C96  4   40.00 -105.87  2567 00000                    
+BRIDGEPORT      CT US   BDR  4   41.17  -73.13     5 72504                    
+APALACHICOLA    FL US   AQQ  4*  29.73  -85.03     6 72220                    
+AVON PARK       FL US   AGR  4   27.65  -81.33    20 74796                    
+CROSS CITY (AMO FL US   CTY  4   29.62  -83.10    13 72212                    
+LAKELAND        FL US   LAL  4   28.03  -81.95    72 00000                    
+MELBOURNE       FL US   MLB  4   28.10  -80.63    10 72204                    
+PENSACOLA       FL US   PNS *4   30.47  -87.20    36 72222                    
+SARASOTA        FL US   SRQ  4   27.40  -82.55     7 00000                    
+BRUNSWICK       GA US   SSI  4   31.15  -81.38     6 00000                    
+COLUMBUS        GA US   CSG  4   32.52  -84.93   121 00000                    
+ROBINS AFB      GA US   WRB  4   32.63  -83.60    90 00000                    
+ROME            GA US   RMG  4   34.35  -85.17   196 72320                    
+WAYCROSS        GA US   AYS  4*  31.25  -82.40    46 72213                    
+BARKING SANDS   HI US   BKH  4   22.07 -159.78     4 91162                    
+LANAI-ON-LANAI  HI US   LNY  4   20.80 -156.95   399 00000                    
+BURLINGTON      IA US   BRL  4   40.78  -91.12   212 00000                    
+FORT DODGE      IA US   FOD  4   42.55  -94.18   355 72549                    
+BURLEY          ID US   BYI  4   42.53 -113.77  1265 00000                    
+IDAHO FALLS     ID US   IDA  4   43.52 -112.07  1445 00000                    
+BLOOMINGTON     IL US   BMI  4   40.48  -88.93   267 00000                    
+DANVILLE        IL US   DNV  4   40.20  -87.60   212 00000                    
+DECATUR         IL US   DEC  4   39.83  -88.87   207 00000                    
+MARSEILLES (AMO IL US   MMO  4   41.37  -88.68   225 74460                    
+BLOOMINGTON     IN US   BMG  4   39.13  -86.62   258 00000                    
+COLUMBUS        IN US   BAK  4   39.27  -85.90   200 72436                    
+GRISSOM AFB     IN US   GUS  4   40.65  -86.15   248 00000                    
+EMPORIA         KS US   EMP  4   38.33  -96.20   367 00000                    
+HUTCHINSON      KS US   HUT  4   38.07  -97.87   470 00000                    
+MANHATTAN       KS US   MHK  4   39.15  -96.67   322 00000                    
+MEDICINE LODGE  KS US   P28  4   37.30  -98.58   468 72452                    
+FORT CAMPBELL   KY US   HOP  4   36.67  -87.50   174 74671                    
+OWENSBORO       KY US   OWB  4   37.75  -87.17   124 00000                    
+HOUMA           LA US   HUM  4   29.57  -90.65     3 00000                    
+LAFAYETTE       LA US   LFT  4   30.20  -92.00    13 00000                    
+MARTHAS VINYARD MA US   MVY  4   41.40  -70.62    21 00000                    
+NEW BEDFORD     MA US   EWB  4   41.68  -70.97    24 00000                    
+WORCESTER       MA US   ORH  4   42.27  -71.87   308 00000                    
+PATUXENT RIVER  MD US   NHK  4   38.28  -76.40    12 72404                    
+AUGUSTA         ME US   AUG  4   44.32  -69.80   109 00000                    
+BAR HARBOR      ME US   BHB  4   44.45  -68.37    26 00000                    
+BRUNSWICK       ME US   NHZ  4   43.88  -69.93    23 74392                    
+HOULTON         ME US   HUL  4   46.13  -67.78   150 00000                    
+BATTLE CREEK    MI US   BTL  4   42.30  -85.23   287 00000                    
+BENTON HARBOR   MI US   BEH  4   42.13  -86.43   196 00000                    
+COPPER HARBOR   MI US   P59  4   47.47  -87.85   186 00000                    
+GRAND RAPIDS    MI US   GRR *4   42.88  -85.52   245 72635                    
+HOUGHTON LAKE   MI US   HTL  4   44.37  -84.68   351 72638                    
+IRON MOUNTAIN   MI US   IMT  4   45.82  -88.12   358 00000                    
+IRONWOOD        MI US   IWD  4   46.53  -90.13   380 00000                    
+JACKSON         MI US   JXN  4   42.27  -84.47   305 00000                    
+MANISTEE        MI US   MBL  4   44.27  -86.25   189 00000                    
+MENOMINEE       MI US   MNM  4   45.12  -87.63   189 00000                    
+PELLSTON        MI US   PLN  4   45.57  -84.80   220 00000                    
+SAGINAW         MI US   MBS  4   43.53  -84.08   204 00000                    
+WURTSMITH AFB   MI US   OSC  4   44.45  -83.40   193 00000                    
+ELY             MN US   ELO  4   47.90  -91.82   444 00000                    
+GRAND RAPIDS    MN US   GPZ  4   47.21  -93.51   404 00000                    
+HIBBING         MN US   HIB  4   47.38  -92.85   412 00000                    
+MANKATO         MN US   MKT  4   44.22  -93.92   311 00000                    
+THIEF RIVER FAL MN US   TVF  4   48.07  -96.18   340 00000                    
+WORTHINGTON     MN US   OTG  4   43.65  -95.58   480 00000                    
+FORT LEONARD WO MO US   TBN  4   37.75  -92.13   357 00000                    
+SPICKARD (AMOS) MO US   P35  4   40.25  -93.72   270 72540                    
+ST JOSEPH       MO US   STJ  4   39.77  -94.92   249 72449                    
+COLUMBUS AFB    MS US   CBM  4   33.65  -88.45    67 00000                    
+NATCHEZ         MS US   HEZ  4   31.62  -91.25    83 00000                    
+BUTTE           MT US   BTM  4   45.95 -112.50  1693 72679                    
+DILLON          MT US   DLN  4   45.25 -112.55  1597 00000                    
+DRUMMOND        MT US   3DU  4   46.67 -113.15  1202 00000                    
+HARLOWTON       MT US   3HT  4   46.43 -109.83  1268 00000                    
+JORDAN (RAMOS)  MT US   JDN  4   47.33 -106.93   809 00000                    
+LIVINGSTON      MT US   LVM  4   45.70 -110.43  1419 00000                    
+ELIZABETH CITY  NC US   ECG  4   36.27  -76.18     4 00000                    
+HICKORY         NC US   HKY  4   35.75  -81.38   362 00000                    
+KINSTON-STALLIN NC US   ISO  4   35.32  -77.63    29 00000                    
+NEW RIVER MCAS  NC US   NCA  4   34.70  -77.43     8 00000                    
+LIDGERWOOD      ND US   P67  4   46.10  -97.15   351 00000                    
+ROSEGLEN (AMOS) ND US   P24  4   47.75 -101.83   624 72765                    
+AINSWORTH       NE US   ANW  4   42.58  -99.98   789 00000                    
+ALLIANCE        NE US   AIA  4   42.05 -102.80  1198 00000                    
+BEATRICE        NE US   BIE  4   40.32  -96.75   402 00000                    
+COLUMBUS        NE US   OLU  4   41.45  -97.35   440 00000                    
+COZAD           NE US   CZD  4   40.87 -100.00   600 00000                    
+HASTINGS        NE US   HSI  4   40.60  -98.43   596 00000                    
+KEARNEY         NE US   EAR  4   40.73  -99.00   649 00000                    
+MCCOOK          NE US   MCK  4   40.22 -100.58   786 00000                    
+ONEILL          NE US   ONL  4   42.47  -98.68   619 00000                    
+ORD/SHARP       NE US   ODX  4   41.62  -98.95   629 00000                    
+SIDNEY          NE US   SNY  4   41.10 -102.98  1312 72561                    
+MANCHESTER      NH US   MHT  4   42.93  -71.43    71 00000                    
+MOUNT WASHINGTO NH US   MWN  4   44.27  -71.30  1910 72613                    
+NASHUA          NH US   ASH  4   42.78  -71.52    61 74394                    
+LAKEHURST NAS   NJ US   NEL  4   40.03  -74.35    31 72409                    
+MILLVILLE       NJ US   MIV  4   39.37  -75.07    27 00000                    
+NEWARK INTL     NJ US   EWR *4   40.70  -74.17     9 72502                    
+LAS VEGAS/MUNI  NM US   LVS  4   35.65 -105.15  2093 00000                    
+LOS ALAMOS      NM US   LAM  4   35.88 -106.28  2179 00000                    
+RUIDOSO         NM US   RUI  4   33.35 -105.67  2106 00000                    
+SOCORRO         NM US   ONM  4   34.07 -106.90  1462 72362                    
+WHITE SANDS     NM US   2C2  4   32.63 -106.40  1204 74734                    
+BATTLE MOUNTAIN NV US   BAM  4   40.62 -116.87  1381 00000                    
+FALLON NAS      NV US   NFL  4   39.42 -118.70  1199 00000                    
+LOVELOCK        NV US   LOL  4   40.10 -118.92  1190 72580                    
+WILDHORSE       NV US   AWH  4   41.33 -116.25  1689 00000                    
+GLENS FALLS     NY US   GFL  4   43.35  -73.62   100 00000                    
+ITHACA          NY US   ITH  4   42.48  -76.47   335 00000                    
+JAMESTOWN       NY US   JHW  4   42.15  -79.25   525 00000                    
+SARANAC LAKE    NY US   SLK  4   44.38  -74.20   506 00000                    
+WESTHAMPTON     NY US   FOK  4   40.85  -72.63    20 00000                    
+FINDLAY         OH US   FDY  4   41.02  -83.67   244 00000                    
+MANSFIELD       OH US   MFD  4   40.82  -82.52   395 00000                    
+YOUNGSTOWN      OH US   YNG *4   41.27  -80.67   361 72525                    
+ALTUS AFB       OK US   LTS  4   34.67  -99.27   420 72352                    
+BARTLESVILLE    OK US   BVO  4   36.75  -96.00   218 00000                    
+CLINTON         OK US   CSM  4   35.35  -99.20   586 00000                    
+ENID/VANCE AFB  OK US   END  4   36.33  -97.92   398 00000                    
+FORT SILL       OK US   FSI  4   34.65  -98.40   362 72355                    
+PAGE (AMOS)     OK US   PGO  4   34.68  -94.62   883 72341                    
+CASCADE         OR US   CZK  4   45.68 -121.88    46 00000                    
+KLAMATH FALLS   OR US   LMT  4   42.15 -121.73  1248 00000                    
+LAGRANDE        OR US   LGD  4   45.30 -118.03   827 00000                    
+NEWPORT         OR US   ONP  4   44.63 -124.05    48 72695                    
+TILLAMOOK       OR US   S47  4   45.43 -123.80    11 00000                    
+ALTOONA         PA US   AOO  4   40.30  -78.32   458 00000                    
+DUBOIS-JEFFERSO PA US   DUJ  4   41.18  -78.90   554 00000                    
+LATROBE         PA US   LBE  4   40.28  -79.40   354 00000                    
+READING         PA US   RDG  4   40.38  -75.97   105 00000                    
+BLOCK ISLAND    RI US   BID  4   41.17  -71.58    36 00000                    
+GREENVILLE-SPAR SC US   GSP *4   34.90  -82.22   296 72312                    
+MYRTLE BEACH    SC US   MYR  4   33.68  -78.93     8 74791                    
+SHAW AFB        SC US   SSC  4   33.97  -80.47    74 74790                    
+BROOKINGS       SD US   BKX  4   44.30  -96.80   499 00000                    
+CHAMBERLAIN     SD US   9V9  4   43.80  -99.32   530 72653                    
+MITCHELL        SD US   MHE  4   43.77  -98.03   397 00000                    
+WATERTOWN       SD US   ATY  4   44.92  -97.15   533 00000                    
+JACKSON         TN US   MKL  4   35.60  -88.92   132 00000                    
+ALICE           TX US   ALI  4   27.73  -98.03    54 00000                    
+CHASE FIELD NAS TX US   NIR  4   28.37  -97.67    58 00000                    
+DALHART         TX US   DHT  4   36.02 -102.55  1216 00000                    
+FORT HOOD/GRAY  TX US   GRK  4   31.07  -97.83   309 00000                    
+GALVESTON       TX US   GLS  4   29.27  -94.87     2 72242                    
+MCALLEN         TX US   MFE  4   26.18  -98.23    33 00000                    
+PALACIOS        TX US   PSX  4   28.72  -96.25     5 00000                    
+STEPHENVILLE    TX US   SEP  4*  32.22  -98.18   402 72260                    
+TYLER           TX US   TYR  4   32.37  -95.40   166 00000                    
+BRYCE CANYON    UT US   BCE  4   37.70 -112.15  2312 00000                    
+BULLFROG MARINA UT US   U17  4   37.50 -110.70  1110 00000                    
+DUGWAY PRV GRND UT US   DPG  4   40.20 -112.93  1326 00000                    
+GREEN RIVER     UT US   U28  4   39.00 -110.15  1241 72477                    
+LOGAN           UT US   LGU  4   41.78 -111.85  1357 00000                    
+OGDEN           UT US   OGD  4   41.18 -112.02  1358 72575                    
+PROVO           UT US   PVU  4   40.22 -111.72  1369 00000                    
+HOT SPRINGS     VA US   HSP  4   37.95  -79.82  1155 00000                    
+LYNCHBURG       VA US   LYH *4   37.33  -79.20   286 72410                    
+STAUNTON/SHENAN VA US   SHD  4   38.27  -78.85   366 00000                    
+MONTPELIER      VT US   MPV  4   44.20  -72.57   353 00000                    
+ST JOHNSBURY    VT US   9B2  4   44.42  -72.02   217 72614                    
+EPHRATA         WA US   EPH  5   47.32 -119.52   388 00000                    
+EVERETT         WA US   PAE  4   47.92 -122.28   184 00000                    
+HANFORD         WA US   HMS  4   46.57 -119.60   223 72784                    
+KELSO           WA US   KLS  4   46.12 -122.92     8 00000                    
+STAMPEDE PASS   WA US   SMP  4   47.28 -121.33  1209 00000                    
+WALLA WALLA     WA US   ALW  4   46.10 -118.28   367 72788                    
+WHIDBEY IS NAS  WA US   NUW  4   48.35 -122.65    14 00000                    
+RATTLESNAKE MTN WA US   RSN  4   46.40 -119.87  1106 00000                    
+CAMP DOUGLAS    WI US   VOK  4   43.93  -90.27   277 00000                    
+JANESVILLE      WI US   JVL  4   42.62  -89.03   246 00000                    
+LONE ROCK       WI US   LNR  4   43.20  -90.18   219 00000                    
+OSHKOSH         WI US   OSH  4   44.00  -88.57   245 00000                    
+PARK FALLS      WI US   PKF  4   45.93  -90.45   469 72741                    
+VOLK FLD        WI US   VOK  4   43.93  -90.27   277 00000                    
+BLUEFIELD       WV US   BLF  4   37.30  -81.22   871 00000                    
+CLARKSBURG      WV US   CKB  4   39.28  -80.23   366 00000                    
+LEWISBURG       WV US   LWB  4   37.87  -80.40   701 00000                    
+PARKERSBURG     WV US   PKB  4   39.35  -81.43   263 72427                    
+WHEELING        WV US   HLG  4   40.18  -80.65   364 00000                    
+DOUGLAS         WY US   4DG  4   42.75 -105.38  1477 72568                    
+EVANSTON        WY US   EVW  4   41.33 -111.00  2012 00000                    
+LARAMIE         WY US   LAR  4   41.32 -105.68  2218 00000                    
+WORLAND         WY US   WRL  4   43.97 -107.97  1294 00000                    
+HIGH ISLAND     -- US   5R0  5*  28.22  -93.75    26 00000                    
+ANCHORAGE/ELMEN AK US  PAED  5   61.25 -149.80    65 70272                    
+ANCHORAGE/MERRI AK US   MRI  5   61.22 -149.85    42 00000                    
+CHULITNA        AK US   Z00  5   62.88 -149.83   381 00000                    
+FAIRBANKS/EIELS AK US  PAEI  5   64.67 -147.10   167 70265                    
+FAIRBANKS/WAINW AK US  PAFB  5   64.83 -147.62   137 00000                    
+FORT RICHARDSON AK US  PAFR  5   61.27 -149.65   115 70270                    
+HAINES HARBOR   AK US   Z26  5   59.23 -135.43    10 00000                    
+HAYES RIVER     AK US   5HR  5   61.98 -152.08   305 00000                    
+HEALY RIVER     AK US   5EA  5   63.83 -149.00   396 70264                    
+KAKE            AK US   KAE  5   56.97 -133.95     9 00000                    
+KING SALMON     AK US  PAKN  5   58.68 -156.65    17 70326                    
+LAZY MOUNTAIN   AK US   5WO  5   61.63 -149.03   236 70269                    
+NABESNA/DEVIL M AK US  AK21  5   62.97 -141.88   119 00000                    
+OLIKTOK (DEW)   AK US   OLI  5   70.50 -149.88     5 70063                    
+PALMER          AK US   PAQ  5   61.60 -149.08    71 70274                    
+PAXSON          AK US   5PX  5   63.03 -145.50   809 00000                    
+PRUDHOE BAY     AK US   PUO  5   70.25 -148.33    14 70063                    
+SNOWSHOE LAKE   AK US   5SO  5   62.03 -146.67   735 00000                    
+SUTTON          AK US  AK42  5   61.72 -148.88   168 70269                    
+TATALINA AFS    AK US  PATL  5   62.90 -155.98   294 00000                    
+TIN CITY        AK US  PATC  5   65.57 -167.92    82 70117                    
+VALDEZ          AK US   VWS  5   61.13 -146.35    10 70275                    
+WHITTIER        AK US   5WT  5   60.78 -148.72     9 00000                    
+WILLOW AIRPORT  AK US   Z22  5   61.75 -150.05    67 70372                    
+WRANGELL        AK US   WRG  5   56.48 -132.37    13 70387                    
+CAIRNS AFB      AL US   OZR  5   31.28  -85.72    91 00000                    
+FORT RUCKER     AL US   OZR  5   31.28  -85.72    91 00000                    
+MAXWELL AFB     AL US   MXF  5   32.38  -86.37    51 00000                    
+MOBILE AEROSPAC AL US   BFM  5   30.63  -88.07     8 00000                    
+TROY            AL US   TOI  5   31.87  -86.02   121 00000                    
+LITTLE ROCK AFB AR US   LRF  5   34.92  -92.15    95 00000                    
+SPRINGDALE      AR US   ASG  5   36.18  -94.13     8 00000                    
+GOODYEAR        AZ US   GYR  5   33.42 -112.38   295 00000                    
+LUKE            AZ US   LUF  5   33.53 -112.38   332 00000                    
+MESA/FALCON FLD AZ US   FFZ  5   33.47 -111.73   424 00000                    
+PHOENIX/DEER VA AZ US   DVT  5   33.68 -112.08   450 00000                    
+SCOTTSDALE      AZ US   SDL  5   33.62 -111.92   460 00000                    
+TUCSON/DAVIS    AZ US   DMA  5   32.17 -110.88   825 00000                    
+WILLIAMS AFB    AZ US   CHD  5   33.30 -111.67   422 00000                    
+YUMA PRV GD     AZ US   1Y7  5*  32.85 -114.40    98 69031                    
+ALAMEDA NAS     CA US   NGZ  5   37.78 -122.32     4 74506                    
+ALTURAS         CA US   S11  5   41.48 -120.53  1339 00000                    
+BEALE AFB       CA US   BAB  5   39.13 -121.45    34 00000                    
+BEAUMONT        CA US   BUO  5   33.93 -116.95   792 00000                    
+BLUE CANYON     CA US   BLU  5   39.28 -120.70  1611 00000                    
+CAMP PENDLETON  CA US   NFG  5   33.30 -117.35    23 00000                    
+CASTLE AFB/MERC CA US   MER  5   37.38 -120.57    57 72481                    
+CHINO           CA US   CNO  5   33.97 -117.63   211 00000                    
+CONCORD/BUCNANA CA US   CCR  5   37.98 -122.05    18 00000                    
+CRESCENT CITY   CA US   CEC  5   41.78 -124.23    17 00000                    
+CROWS LANDING   CA US   NRC  5   37.40 -121.10    50 00000                    
+EDWARDS AFB     CA US   EDW  5   34.90 -117.88   702 72381                    
+EL CENTRO       CA US   NJK  5   32.82 -115.68    13 72281                    
+EL MONTE        CA US   EMT  5   34.08 -118.03   101 74704                    
+EL TORO MCAS    CA US   NZJ  5   33.67 -117.73   117 00000                    
+FAIRFIELD/TRAVI CA US   SUU  5   38.27 -121.93    19 74516                    
+FORT HUNTER     CA US   HGT  5   36.00 -121.32   320 00000                    
+FORT ORD        CA US   OAR  5   36.68 -121.77    41 00000                    
+FULLERTON       CA US   FUL  5   33.87 -117.97    29 00000                    
+GEORGE AFB      CA US   VCV  5   34.58 -117.38   877 00000                    
+HAWTHORNE       CA US   HHR  5   33.92 -118.33    19 00000                    
+HAYWARD         CA US   HWD  5   37.65 -122.12    15 00000                    
+IMPERIAL BEACH  CA US   NRS  5   32.57 -117.12     8 00000                    
+LA VERNE        CA US   POC  5   34.10 -117.78   305 72288                    
+LANCASTER       CA US   WJF  5   34.73 -118.22   728 00000                    
+LEMOORE NAS     CA US   NLC  5   36.33 -119.95    72 74702                    
+LIVERMORE       CA US   LVK  5   37.70 -121.82   121 00000                    
+LONG BEACH ARPT CA US   LGB *5   33.82 -118.15    12 72297                    
+LOS ALAMITOS    CA US   SLI  5   33.78 -118.05    11 00000                    
+MAMMOTH LAKES   CA US   MMH  5   37.63 -118.92  2173 00000                    
+MATHER AFB      CA US   MHR  5   38.57 -121.30    29 00000                    
+MCCLELLAN AFB   CA US   MCC  5   38.67 -121.40    23 00000                    
+MERCED          CA US   MCE  5   37.28 -120.52    47 72481                    
+MIRAMAR NAS     CA US   NKX  5   32.87 -117.15   145 00000                    
+MOFFET NAS      CA US   NUQ  5   37.42 -122.05    12 74509                    
+MOJAVE          CA US   MHV  5   35.05 -118.15   849 00000                    
+MONTAGUE        CA US   1O5  5   41.73 -122.55   770 00000                    
+MONTEREY PENINS CA US   MRY  5   36.58 -121.85    67 72491                    
+MOUNT WILSON    CA US   MWS  5   34.23 -118.07  1739 72289                    
+NAPA            CA US   APC  5   38.22 -122.28    10 00000                    
+NORTH ISLAND NA CA US   NZY  5   32.70 -117.20     8 00000                    
+NORTON AFB      CA US   SBD  5   34.10 -117.23   353 00000                    
+OAKLAND         CA US   OAK  5*  37.73 -122.22     3 72493                    
+OAKLAND/MOFFETT CA US   NUQ  5   37.42 -122.05    12 74509                    
+OXNARD          CA US   OXR  5   34.20 -119.20    13 00000                    
+PALM SPRINGS    CA US   PSP  5   33.83 -116.50   146 00000                    
+PALO ALTO       CA US   PAO  5   37.47 -122.12     1 00000                    
+POINT PIEDRAS ( CA US   87Q  5   35.67 -121.28    21 72390                    
+RED BLUFF       CA US   RBL  5   40.15 -122.25   108 72591                    
+RIVERSIDE/MARCH CA US   RIV  5   33.88 -117.27   469 72286                    
+SACRAMENTO/METR CA US   SMF  5   38.70 -121.60    10 00000                    
+SAN CARLOS      CA US   SQL  5   37.52 -122.25     1 00000                    
+SAN CLEMENTE AL CA US   NUC  5   33.02 -118.58    55 00000                    
+SAN DIEGO/BROWN CA US   SDM  5   32.57 -116.98   160 00000                    
+SAN DIEGO/GILLE CA US   SEE  5   32.82 -116.97   117 00000                    
+SAN DIEGO/MONTG CA US   MYF  5*  32.82 -117.13   124 72290                    
+SAN JOSE/REI    CA US   RHV  5   37.33 -121.82    41 00000                    
+SAN LUIS OBISPO CA US   SBP  5   35.23 -120.65    63 00000                    
+SANTA ANA       CA US   SNA  5   33.67 -117.88    16 00000                    
+SANTA MONICA    CA US   SMO  5   34.02 -118.45    53 00000                    
+SHELTER COVE    CA US   O87  5   40.03 -124.07   123 00000                    
+SISKIYOU        CA US   SIY  5   41.78 -122.47   809 00000                    
+STOCKTON        CA US   SCK  5   37.90 -121.25     8 72492                    
+SUPERIOR VALLEY CA US   4SU  5*  35.33 -117.10   962 74619                    
+TORRANCE        CA US   TOA  5   33.80 -118.33    31 00000                    
+TRUCKEE-TAHOE   CA US   TRK  5   39.32 -120.13  1798 00000                    
+TUSTIN MCAS     CA US   NTK  5   33.70 -117.83    17 00000                    
+TWENTYNINE PALM CA US   NXP  5   34.28 -116.15   616 00000                    
+VAN NUYS        CA US   VNY  5   34.22 -118.48   244 00000                    
+AIR FORCE ACADE CO US   AFF  5   38.97 -104.82  1999 74531                    
+BROOMFIELD/JEFF CO US   BJC  5   39.91 -105.12  1722 00000                    
+BUCKLEY AFB     CO US   BKF  5   39.72 -104.75  1726 00000                    
+CRAIG-MOFFAT    CO US   CAG  5   40.50 -107.53  1915 72570                    
+ENGLEWOOD/ARAPA CO US   APA  5   39.57 -104.83  1790 00000                    
+GUNNISON (AWRS) CO US   2V9  5   38.55 -106.93  2349 00000                    
+STEAMBOAT SPRIN CO US   SBS  5   40.48 -106.82  2097 00000                    
+DANBURY         CT US   DXR  5   41.37  -73.48   139 00000                    
+GROTON          CT US   GON  5   41.33  -72.05     6 00000                    
+HARTFORD/BRAINA CT US   HFD  5   41.73  -72.65     6 00000                    
+NEW HAVEN/TWEED CT US   HVN  5   41.27  -72.88     4 00000                    
+WILMINGTON      DE US   ILG *5   39.67  -75.60    24 00000                    
+ASTOR NAS (PEWR FL US   90J  5   29.12  -81.57    33 00000                    
+BARTOW          FL US   BOW  5   27.95  -81.78    40 00000                    
+CECIL FIELD NAS FL US   NZC  5   30.22  -81.88    24 00000                    
+FORT LAUDERDALE FL US   FLL  5   26.07  -80.15     3 00000                    
+FORT LAUDERDALE FL US   FXE  5   26.13  -80.13     4 00000                    
+FORT MYERS/SW   FL US   RSW  5   26.65  -81.87    52 00000                    
+HOMESTEAD AFB   FL US   HST  5   25.48  -80.38     2 00000                    
+HURLBURT FIELD  FL US   HRT  5   30.43  -86.68    12 74777                    
+JACKSONVILLE NA FL US   NIP  5   30.23  -81.68     7 00000                    
+JACKSONVILLE/CR FL US   CRG  5   30.33  -81.52    12 00000                    
+KEY WEST NAS    FL US   NQX  5   24.57  -81.68     2 00000                    
+MAYPORT NAS     FL US   NRB  5   30.40  -81.42     4 00000                    
+MIAMI/NEW TAMIA FL US   TMB  5   25.65  -80.43     3 00000                    
+MIAMI/OPA LOCKA FL US   OPF  5   25.92  -80.28     3 00000                    
+NAPLES          FL US   APF  5   26.13  -81.80     3 00000                    
+NASA SHUTTLE    FL US   X68  5   28.62  -80.68     3 00000                    
+ORLANDO HERNDON FL US   ORL  5   28.55  -81.33    34 00000                    
+PATRICK AFB     FL US   COF  5   28.23  -80.60     3 74795                    
+PENSACOLA NAS   FL US   NPA  5   30.35  -87.32     9 00000                    
+SANFORD         FL US   SFB  5   28.78  -81.25     2 00000                    
+ST PETERSBURG   FL US   PIE  5   27.92  -82.68     3 00000                    
+TAMPA/MACDILL A FL US   MCF  5   27.85  -82.52     4 74788                    
+TITUSVILLE      FL US   TIX  5   28.52  -80.80    11 72204                    
+TYNDALL AFB     FL US   PAM  5   30.07  -85.58     5 74775                    
+VALPARAISO/DUKE FL US   EGI  5   30.65  -86.52    59 00000                    
+VALPARAISO/EGLI FL US   VPS  5   30.48  -86.53    26 72221                    
+WHITING FLD     FL US   NSE  5   30.72  -87.02    61 00000                    
+ATLANTA/DEKALB  GA US   PDK  5   33.88  -84.30   305 00000                    
+ATLANTA/FULTON  GA US   FTY  5   33.78  -84.52   256 00000                    
+FORT BENNING    GA US   LSF  5   32.33  -85.00    71 72225                    
+FORT STEWART    GA US   LHW  5   31.88  -81.57    14 72209                    
+FULTON          GA US   FTY  5   33.78  -84.51   257 00000                    
+HUNTER AAF      GA US   SVN  5   32.02  -81.15    13 74780                    
+MARIETTA/DOBBIN GA US   MGE  5   33.92  -84.52   326 72227                    
+VALDOSTA/MOODY  GA US   VAD  5   30.97  -83.20    71 74781                    
+KANEOHE BAY     HI US  PHNG  5   21.45 -157.77     6 91176                    
+MAUI            HI US   JHM  5   20.97 -156.83    78 00000                    
+OAHU/BARBERS PT HI US  PHNA  5   21.32 -158.07    10 91178                    
+WAIMEA-KOHALA   HI US   MUE  5   20.00 -155.67   817 00000                    
+ESTHERVILLE     IA US   EST  5   43.40  -94.75   401 00000                    
+CHALLIS (AMOS)  ID US   U15  5   44.52 -114.22  1529 00000                    
+COEUR D'ALENE   ID US   COE  4   47.77 -116.82   707 00000                    
+GRANGEVILLE     ID US   S80  3   45.92 -116.13  1023 72687                    
+MALTA           ID US   77M  5   42.30 -113.37  1435 00000                    
+MOUNTAIN HOME   ID US   MUO  5   43.05 -115.87   913 00000                    
+SODA SPRINGS    ID US   U78  5   42.65 -111.58  1780 00000                    
+ALTON           IL US   ALN  5   38.88  -90.05   166 00000                    
+AURORA          IL US   ARR  5   41.77  -88.32   215 74465                    
+BISTATE PARK    IL US   CPS  5   38.57  -90.15   126 00000                    
+CHICAGO/DU PAGE IL US   DPA  5   41.92  -88.25   231 00000                    
+CHICAGO/MEIGS   IL US   CGX  5   41.87  -87.62   181 00000                    
+CHICAGO/MIDWAY  IL US   MDW  5   41.78  -87.75   190 72534                    
+EAST ST LOUIS   IL US   CPS  5   38.56  -90.01   126 00000                    
+GALESBURG       IL US   GBG  5   40.93  -90.43   245 00000                    
+GLENVIEW NAS    IL US   NBU  5   42.08  -87.82   199 00000                    
+MARION/WILLIAMS IL US   MWA  5   37.75  -89.00   144 00000                    
+SCOTT AFB       IL US   BLV  5   38.55  -89.85   138 00000                    
+ELKHART         IN US   EKM  5   41.72  -86.00   237 00000                    
+GARY            IN US   GYY  5   41.62  -87.42   180 00000                    
+FORT LEAVENWORT KS US   FLV  5   39.37  -94.92   235 00000                    
+FORT RILEY      KS US   FRI  5   39.05  -96.77   325 72455                    
+HAYS            KS US   HYS  5   38.85  -99.27   609 00000                    
+JOHNSON COUNTY  KS US   IXD  5   38.82  -94.88   331 00000                    
+MCCONNELL AFB   KS US   IAB  5   37.62  -97.27   418 00000                    
+OLATHE          KS US   OJC  5   38.85  -94.90   334 00000                    
+TOPEKA/FORBES   KS US   FOE  5   38.95  -95.67   324 00000                    
+WICHITA/JABARA  KS US   3KM  5   37.75  -97.22   433 00000                    
+FORT KNOX       KY US   FTK  5   37.90  -85.97   230 72424                    
+JACKSON         KY US   JKL  5   37.60  -83.32   414 00000                    
+LOUISVILLE/BOWM KY US   LOU  5   38.23  -85.67   166 00000                    
+ALEXANDRIA/CLAI LA US   01R  5   31.13  -92.57    67 74755                    
+BARKSDALE AFB   LA US   BAD  5   32.50  -93.67    51 00000                    
+CAMERON HELIPOR LA US   7R5  5   29.78  -93.30     1 00000                    
+ENGLAND AFB     LA US   AEX  5   31.33  -92.55    27 74754                    
+HIGH ISLAND     LA US   01T  5   28.13  -94.40    30 00000                    
+LAKE PALOURDE   LA US   7R3  5   29.70  -91.10     1 00000                    
+MORGAN CITY     LA US   PTN  5   29.70  -91.20    12 00000                    
+NEW IBERIA      LA US   ARA  5   30.03  -91.88     7 00000                    
+NEW ORLEANS NAS LA US   NBG  5   29.83  -90.02     1 00000                    
+NEW ORLEANS/LAK LA US   NEW  5   30.03  -90.03     3 00000                    
+SHREVEPORT/DOWN LA US   DTN  5   32.52  -93.75    55 00000                    
+BEDFORD         MA US   BED  5   42.47  -71.28    41 74490                    
+BEVERLY         MA US   BVY  5   42.58  -70.92    33 00000                    
+FORT DEVENS     MA US   AYE  5   42.57  -71.60    82 00000                    
+HYANNIS         MA US   HYA  5   41.67  -70.28    16 00000                    
+LAWRENCE        MA US   LWM  5   42.72  -71.12    47 00000                    
+NORWOOD         MA US   OWD  5   42.18  -71.18    15 00000                    
+OTIS AFB        MA US   FMH  5   41.65  -70.52    40 00000                    
+SOUTH WEYMOUTH  MA US   NZW  5   42.15  -70.93    49 00000                    
+WESTFIELD       MA US   BAF  5   42.17  -72.72    82 00000                    
+WESTOVER        MA US   CEF  5   42.20  -72.53    75 74491                    
+ANDREWS AFB     MD US   ADW  5   38.82  -76.87    86 74594                    
+HAGERSTOWN      MD US   HGR  5   39.70  -77.72   214 00000                    
+MIDDLE RIVER    MD US   MTN  5   39.33  -76.42     7 00000                    
+PHILLIPS        MD US   APG  5   39.47  -76.17    18 00000                    
+SALISBURY       MD US   SBY  5   38.33  -75.50    16 00000                    
+LORING AFB      ME US   LIZ  5   46.95  -67.88   227 00000                    
+PRESQUE ISLE    ME US   PQI  5   46.68  -68.05   146 72713                    
+ANN ARBOR       MI US   ARB  5   42.22  -83.75   256 00000                    
+CHIPPEWA        MI US   CIU  5   46.25  -84.47   244 00000                    
+DETROIT CITY    MI US   DET  5   42.42  -83.02   190 00000                    
+DETROIT/WILLOW  MI US   YIP  5   42.23  -83.53   218 00000                    
+HARBOR BEACH    MI US   P58  5   43.83  -82.53   183 00000                    
+KALAMAZOO       MI US   AZO  5   42.23  -85.55   266 00000                    
+SAWYER AFB      MI US   SAW  5   46.35  -87.40   372 00000                    
+SELFRIDGE       MI US   MTC  5   42.62  -82.83   177 00000                    
+SEUL CHOIX      MI US   P75  5   45.92  -85.92   180 00000                    
+DETROIT LAKES   MN US   DTL  5   46.82  -95.88   426 00000                    
+FERGUS FALLS    MN US   FFM  5   46.30  -96.07   361 72656                    
+MARSHAL AIRPORT MN US   MML  5   44.45  -95.82   359 00000                    
+MINNEAPOLIS/CRY MN US   MIC  5   45.07  -93.38   265 00000                    
+MINNEAPOLIS/FLY MN US   FCM  5   44.83  -93.47   276 00000                    
+PARK RAPIDS     MN US   PKD  5   46.90  -95.07    37 00000                    
+PEQUOT LAKE     MN US   P39  5   46.60  -94.32   390 72750                    
+ST PAUL         MN US   STP  5   44.93  -93.05   232 00000                    
+TOFTE (RAMOS)   MN US   P61  5   47.58  -90.83   186 00000                    
+CHESTERFIELD    MO US   SUS  5   38.65  -90.63   141 00000                    
+JEFFERSON CITY  MO US   JEF  5   38.60  -92.17   167 00000                    
+KANSAS CITY MUN MO US   MKC  4   39.12  -94.60   231 00000                    
+RICHARDS-GEBAUR MO US   GVW  4   38.85  -94.55   333 00000                    
+ST LOUIS/SPIRIT MO US   SUS  5   38.65  -90.63   141 00000                    
+BILOXI/KEESLER  MS US   BIX  5   30.42  -88.92    10 00000                    
+GOLDEN TRIANGLE MS US   GTR  5   33.45  -88.58    79 00000                    
+MERIDIAN NAS    MS US   NMM  5   32.55  -88.57    97 00000                    
+PINE BELT REGIO MS US   PIB  5   31.47  -89.33    91 00000                    
+MALMSTROM AFB   MT US   GFA  5   47.50 -111.18  1075 00000                    
+MONIDA          MT US   MQM  5   44.57 -112.32  2068 00000                    
+THOMPSON FALLS  MT US   3TH  5   47.60 -115.37   725 00000                    
+CHERRY POINT MC NC US   NKT  5   34.90  -76.88     9 72309                    
+DARE CO GNRY RA NC US   2DP  5   35.67  -75.90     3 74695                    
+FORT BRAGG      NC US   FBG  5   35.13  -78.93    74 74693                    
+JACKSONVILLE/EL NC US   OAJ  5   34.82  -77.62    27 00000                    
+MACKALL AAF     NC US   HFF  5   35.03  -79.50   115 00000                    
+MANTEO AIRPORT  NC US   MQI  5   35.92  -75.68    41 00000                    
+POPE AFB        NC US   POB  5   35.17  -79.02    67 72303                    
+SEYMOUR-JOHNSON NC US   GSB  5   35.33  -77.97    33 00000                    
+WINSTON SALEM   NC US   INT  5   36.13  -80.23   298 72319                    
+DEVILS LAKE (AM ND US   P11  5   48.10  -98.87   443 72758                    
+GRAND FORKS AFB ND US   RDR  5   47.97  -97.40   278 00000                    
+MINOT AFB       ND US   MIB  5   48.42 -101.35   508 00000                    
+NORTH OMAHA     NE US   OVN  5*  41.37  -96.02   406 72553                    
+OMAHA/OFFUTT AF NE US   OFF  5   41.12  -95.92   320 72554                    
+LACONIA         NH US   LCI  5   43.57  -71.43   167 00000                    
+PEASE AFB       NH US   PSM  5   43.08  -70.82    31 00000                    
+CALDWELL/ESSEX  NJ US   CDW  5   40.87  -74.28    53 00000                    
+MCGUIRE AFB     NJ US   WRI  5   40.02  -74.60    41 00000                    
+MORRISTOWN      NJ US   MMU  5   40.80  -74.42    57 00000                    
+TETERBORO       NJ US   TEB  5   40.85  -74.05     3 00000                    
+TRENTON/MERCER  NJ US   TTN  5   40.28  -74.82    65 00000                    
+CUBA AWRS       NM US   4SL  5   36.02 -106.95  2106 00000                    
+GRANTS          NM US   GNT  5   35.17 -107.90  1987 00000                    
+LAS CRUCES      NM US   LRU  5   32.30 -106.77  1385 00000                    
+TAOS            NM US   E23  5   36.42 -105.57  2123 00000                    
+AUSTIN (AWRS)   NV US   U31  5   39.50 -117.08  2014 00000                    
+EUREKA (RAMOS)  NV US   P68  5   39.50 -115.97  2123 00000                    
+INDIAN SPRINGS  NV US   L63  5   36.53 -115.57   972 69017                    
+NELLIS AFB      NV US   LSV  5   36.23 -115.03   570 00000                    
+ELMIRA          NY US   ELM  5   42.17  -76.90   290 00000                    
+FARMINGDALE     NY US   FRG  5   40.73  -73.43    41 00000                    
+FORT DRUM       NY US   GTB  5   44.05  -75.73   207 74370                    
+ISLIP           NY US   ISP  5   40.78  -73.10    30 00000                    
+MONTICELLO      NY US   MSV  5   41.70  -74.80   428 00000                    
+NEW YORK/LAGUAR NY US   LGA *5   40.77  -73.90     9 72503                    
+NEWBURGH        NY US   SWF  5   41.50  -74.10   143 00000                    
+NIAGARA FALLS   NY US   IAG  5   43.10  -78.95   180 00000                    
+PLATTSBURGH     NY US   PBG  5   44.65  -73.47    72 00000                    
+ROME/GRIFFISS A NY US   RME  5   43.23  -75.40   154 00000                    
+SCHENECTADY     NY US   SCH  5   42.85  -73.93   115 00000                    
+WHITE PLAINS    NY US   HPN  5   41.07  -73.72   134 00000                    
+CINCINNATI/LUNK OH US   LUK  5   39.10  -84.43   149 00000                    
+CLEVELAND/CUYAH OH US   CGF  5   41.57  -81.48   266 00000                    
+CLEVELAND/LAKEF OH US   BKL  5   41.52  -81.68   178 00000                    
+COLUMBUS/OSU    OH US   OSU  5   40.08  -83.07   276 00000                    
+RICKENBACKER    OH US   LCK  5   39.82  -82.93   227 00000                    
+WILLOUGHBY      OH US   LNN  5   41.63  -81.40   191 00000                    
+WRIGHT-PATERSON OH US   FFO  5   39.83  -84.05   251 74570                    
+ENID/WOODRING   OK US   WDG  5   36.38  -97.80   354 00000                    
+LAWTON          OK US   LAW  5   34.57  -98.42    25 00000                    
+NORMAN          OK US   OUN  4   35.22  -97.45   357 72357                    
+OKLAHOMA CITY/P OK US   PWA  5   35.53  -97.65   396 00000                    
+TINKER AFB      OK US   TIK  5   35.42  -97.38   394 72354                    
+AURORA          OR US   3S2  5   45.25 -122.75    59 00000                    
+CORVALLIS       OR US   CVO  5   44.50 -123.28    75 00000                    
+HILLSBORO       OR US   HIO  5   45.53 -122.95    62 00000                    
+JOHN DAY AP     OR US   5J0  3   44.40 -118.97  1127 00000                    
+MEACHAM         OR US   MEH  5   45.51 -118.40  1135 00000                    
+ONTARIO         OR US   ONO  5   44.02 -117.02   667 00000                    
+PORTLAND/TROUTD OR US   TTD  5   45.55 -122.40    11 00000                    
+ROSEBURG        OR US   RBG  5   43.23 -123.37   160 72690                    
+SEXTON SUMMIT   OR US   SXT  5   42.62 -123.37  1171 00000                    
+BEAVER FALLS    PA US   BVI  5   40.75  -80.33   382 00000                    
+FRANKLIN        PA US   FKL  5   41.38  -79.87   469 00000                    
+HARRISBURG/CAPI PA US   CXY  5   40.22  -76.85   107 00000                    
+LANCASTER       PA US   LNS  5   40.13  -76.30   123 00000                    
+MUIR ARMY AIR   PA US   MUI  5   40.43  -76.57   149 00000                    
+NORTH PHILADELP PA US   PNE  5   40.08  -75.02    37 00000                    
+PITTSBURGH/ALLE PA US   AGC  5   40.35  -79.93   382 00000                    
+SITE R          PA US   43M  5   39.73  -77.43   275 00000                    
+WILLOW GROVE    PA US   NXX  5   40.20  -75.15   110 00000                    
+NORTH KINGSTON  RI US   OQU  5   41.60  -71.42     6 00000                    
+BEAUFORT MCAS   SC US   NBC  5   32.48  -80.72    12 00000                    
+COLUMBIA/MCENTI SC US   MMT  5   33.92  -80.80    77 00000                    
+GREENVILLE      SC US   GMU  5   34.85  -82.35   319 00000                    
+NORTH MYRTLE BE SC US   CRE  5   33.82  -78.72    10 00000                    
+CUSTER (RAMOS)  SD US   0V1  5   43.77 -103.60  1707 00000                    
+ELLSWORTH AFB   SD US   RCA  5   44.15 -103.10   999 00000                    
+PHILIP          SD US   P05  5   44.05 -101.60   674 00000                    
+COLUMBIA/MAURY  TN US   PBC  5   35.60  -87.08   203 00000                    
+MEMPHIS NAS     TN US   NQA  5   35.35  -89.87    98 00000                    
+SMYRNA          TN US   MQY  5   36.00  -86.50   166 00000                    
+ABILENE/DYESS A TX US   DYS  5   32.43  -99.85   545 00000                    
+BERGSTROM AFB   TX US   BSM  5   30.20  -97.68   165 00000                    
+CARSWELL AFB    TX US   FWH  5   32.78  -97.43   198 00000                    
+CORPUS CHRISTI  TX US   NGP  5   27.70  -97.28     6 00000                    
+DALLAS NAS      TX US   NBE  5   32.73  -96.97   151 00000                    
+DALLAS/ADDISON  TX US   ADS  5   32.97  -96.83   196 00000                    
+DALLAS/LOVE     TX US   DAL  5   32.85  -96.85   149 72258                    
+DALLAS/REDBIRD  TX US   RBD  5   32.68  -96.87   201 00000                    
+DEL RIO/LAUGHLI TX US   DLF  4   29.37 -100.78   330 00000                    
+ELLINGTON AFB   TX US   EFD  5   29.62  -95.17    11 00000                    
+FORT WORTH/MEAC TX US   FTW  5   32.82  -97.35   211 00000                    
+GREENVILLE      TX US   GVT  5   33.07  -96.07   166 00000                    
+HARLINGEN       TX US   HRL  5   26.23  -97.67    11 00000                    
+HONDO           TX US   HDO  5   29.35  -99.17   283 00000                    
+HOUSTON/HOBBY   TX US   HOU  5   29.65  -95.28    15 00000                    
+HOUSTON/HOOKS   TX US   DWH  5   30.07  -95.55    46 00000                    
+KELLY AFB       TX US   SKF  5   29.38  -98.58   210 00000                    
+KERRVILLE       TX US   ERV  5   29.98  -99.08   492 00000                    
+KILLEEN         TX US   ILE  5   31.08  -97.68   256 00000                    
+KILLEEN/FT HOOD TX US   HLR  5   31.15  -97.72   286 72257                    
+KINGSVILLE NAS  TX US   NQI  5   27.50  -97.82    15 00000                    
+LUBBOCK/REESE A TX US   REE  5   33.60 -102.05  1018 00000                    
+MINERAL WELLS   TX US   MWL  5   32.78  -98.07   294 00000                    
+RANDOLPH AFB    TX US   RND  5   29.53  -98.28   232 00000                    
+SHERMAN-DENISON TX US   F39  5   33.72  -96.67   228 00000                    
+SOUTH BRAZOS    TX US   T46  5   28.03  -95.87    31 00000                    
+STINSON MUNI    TX US   SSF  5   29.33  -98.47   176 00000                    
+WINK            TX US   INK  5   31.78 -103.20   859 00000                    
+EAGLE RANGE     UT US   U16  5   41.05 -113.07  1292 69430                    
+OGDEN/HILL AFB  UT US   HIF  5   41.12 -111.97  1460 00000                    
+FORT BELVOIR    VA US   DAA  5   38.72  -77.18    21 00000                    
+FORT EUSTIS     VA US   FAF  5   37.13  -76.62     4 00000                    
+LANGLEY AFB     VA US   LFI  5   37.08  -76.37     3 74598                    
+NEWPORT NEWS    VA US   PHF  5   37.13  -76.50    12 00000                    
+NORFOLK NAS     VA US   NGU  5   36.93  -76.28     5 00000                    
+OCEANA NAS      VA US   NTU  5   36.82  -76.03     6 00000                    
+QUANTICO MCAS   VA US   NYG  5   38.50  -77.30     4 00000                    
+WASHINGTON/NATI VA US   DCA *5   38.85  -77.03    20 72405                    
+ARLINGTON       WA US   S88  5   48.15 -122.15    42 00000                    
+BREMERTON       WA US   PWT  5   47.48 -122.77   147 00000                    
+BURLINGTON      WA US   75S  5   48.50 -122.33    20 74200                    
+FORT LEWIS      WA US   GRF  5   47.08 -122.58    92 74207                    
+FRIDAY HARBOR   WA US   FHR  5   48.53 -123.02     7 00000                    
+MC CHORD AFB    WA US   TCM  5   47.15 -122.48    98 74206                    
+MOSES LAKE      WA US   MWH  4   47.20 -119.32   362 00000                    
+OAK HARBOR      WA US   76S  5   48.25 -122.68    58 72796                    
+OLYMPIA         WA US   OLM *4   46.97 -122.90    61 72792                    
+PASCO           WA US   PSC  5   46.27 -119.12   123 00000                    
+PORT ANGELES/FA WA US   CLM  5   48.12 -123.50    88 00000                    
+PULLMAN-MOSCOW  WA US   PUW  4   46.75 -117.12   778 00000                    
+RENTON          WA US   RNT  5   47.50 -122.22     9 00000                    
+RICHLAND        WA US   RLD  5   46.30 -119.30   119 00000                    
+SEATTLE/BOEING  WA US   BFI  5   47.53 -122.30     5 00000                    
+SHELTON         WA US   SHN  4   47.25 -123.15    85 00000                    
+SPOKANE/FAIRCHI WA US   SKA  5   47.62 -117.65   751 00000                    
+SPOKANE/FELTS   WA US   SFF  5   47.67 -117.33   595 00000                    
+TACOMA/INDUSTRI WA US   TIW  5   47.27 -122.58    89 00000                    
+VANCOUVER       WA US   60S  5   45.62 -122.63     9 00000                    
+APPLETON        WI US   ATW  5   44.25  -88.52   280 00000                    
+MILWAUKEE/TIMME WI US   MWC  5   43.12  -88.05   227 00000                    
+RICE LAKE       WI US   RIE  5   45.48  -91.72   347 00000                    
+WAUSAU          WI US   AUW  5   44.92  -89.62   367 72646                    
+RIVERTON        WY US   RIW  5   43.05 -108.45  1679 00000                    
+YELLOWSTONE     WY US   P60  5   44.55 -110.42  2438 00000                    
+PLATFORM UNION  -- US   ---  6   28.13  -93.67     1 00000                    
+AMCHITKA        AK US   AHT  6   51.38  179.27    69 00000                    
+ANAKTUVUK PS (A AK US   AKP  6   68.13 -151.73   640 00000                    
+ANDREAFSKY/ST M AK US   SMA  6   62.07 -163.30    95 00000                    
+ANGOON          AK US   AGN  6   57.50 -134.58    11 70383                    
+ATTU            AK US   ATU  6   52.83  173.18    21 70409                    
+BLAIR LAKES GNR AK US   5BR  6   64.38 -147.68   223 70268                    
+CAPE DECISION   AK US   CDE  6   56.00 -134.13    12 70388                    
+CAPE HINCHINBRO AK US   5HN  6   60.23 -146.65    56 70279                    
+CAPE SPENCER    AK US   CSP  6   58.20 -136.63    25 70365                    
+CAPE ST ELIAS   AK US   5CE  6   59.80 -144.60    18 70360                    
+CRAIG           AK US   CGA  6   55.80 -133.25     4 70392                    
+ELDRED ROCK     AK US   ERO  6   58.97 -135.22    17 70364                    
+EMMONAK         AK US   2Z0  6   62.77 -164.52     3 00000                    
+FAREWELL        AK US   FWL  6   62.52 -153.88   458 70248                    
+FAREWELL LAKE   AK US   Z42  6   62.53 -153.62   351 00000                    
+FIVE FINGER LIG AK US   FIV  6   57.27 -133.62    21 70385                    
+FIVE MILE CAMP  AK US   FVM  6   65.93 -149.83   155 70179                    
+FT GREELY/ALLEN AK US  PABG  6*  63.97 -145.70   398 70266                    
+FUNTER BAY      AK US   FNR  6   58.25 -134.90     0 00000                    
+GUSTAVUS        AK US   GST  6   58.42 -135.73     9 70367                    
+HOONAH          AK US   Z49  6   58.10 -135.45     0 00000                    
+INDIAN MOUNTAIN AK US  PAIM  6   66.00 -153.70   375 70173                    
+KLAWOCK         AK US   9Z1  6   55.58 -133.07    15 00000                    
+MANLEY HOT SPRI AK US   MLY  6   65.00 -150.65    85 70179                    
+MCCARTHY        AK US   MXY  6   61.43 -142.92   455 00000                    
+PORT CLARENCE   AK US   KPC  6   65.25 -166.87     3 70119                    
+PROSPECT CREEK  AK US   PPC  6   66.82 -150.65   337 00000                    
+PT. RETREAT (AM AK US   PRT  6   58.42 -134.95     6 00000                    
+SAVOONGA ARPT   AK US   SVA  6   63.68 -170.50    16 00000                    
+SHUNGNAK        AK US   SHG  6   66.88 -157.15    61 00000                    
+WAINWRIGHT (DEW AK US   AIN  6   70.62 -159.85    27 70030                    
+WALES           AK US   WAA  6   65.62 -168.05     5 70116                    
+CAMDEN          AR US   CDH  6   33.52  -92.40    39 00000                    
+FORT CHAFFEE    AR US  KQCU  6   35.17  -94.20   143 69050                    
+LITTLE ROCK/NOR AR US   LZK  6*  34.83  -92.27   166 72340                    
+LUKEVILLE       AZ US   P65  6   31.88 -112.82    64 00000                    
+YUMA            AZ US   YUM  6   32.65 -114.60    63 72280                    
+BICYCLE LAKE    CA US   BYS  6*  35.28 -116.62   716 74611                    
+BIG BEAR APT    CA US   L35  6   34.27 -116.68  2059 00000                    
+CONCORD         CA US   99Q  6   38.05 -122.02    12 00000                    
+DANA POINT      CA US   9L0  6   33.47 -117.70    42 00000                    
+EUREKA          CA US   EKA  6   40.80 -124.17    18 72594                    
+GOLDEN GATE BRI CA US   GGB  6   37.80 -122.38    23 00000                    
+HUNTINGTON B. O CA US   2H1  6   33.72 -118.03     2 00000                    
+LONG BEACH      CA US   L97  6   32.75 -118.42    24 00000                    
+PILLAR POINT    CA US   53Q  6   37.50 -122.50    49 74504                    
+POINT ARENA     CA US   PAA  6   38.95 -123.73    18 72499                    
+POINT ARGUELLO  CA US   PGU  6   34.95 -121.12    23 72392                    
+POINT MAGU      CA US   NTD  6*  34.12 -119.12     4 72391                    
+POINT PIEDRAS   CA US   PPD  6   36.12 -121.47    21 00000                    
+SAN CLEMENTE LF CA US   L10  6   33.42 -117.62     3 00000                    
+SAN FRANCISCO   CA US   51Q  6   37.75 -122.68     5 00000                    
+SAN MATEO POINT CA US   L98  6   33.38 -117.58     1 00000                    
+SAN MIGUEL      CA US   N5G  6   34.03 -120.40   174 00000                    
+SOLANA BEACH (M CA US   2L7  6   33.00 -117.27    16 00000                    
+DURANGO (AWRS)  CO US   4V5  6   37.28 -107.87  2012 00000                    
+FT COLLINS/LOVE CO US   FNL  6   40.45 -105.02  1520 00000                    
+GREELEY-WELD    CO US   GXY  6   40.43 -104.63  1420 00000                    
+MONTROSE        CO US   6V8  6   38.50 -107.88  1752 00000                    
+RIFLE           CO US   RIL  6   39.53 -107.72  1691 00000                    
+TELLURIDE REG.  CO US   TEX  6   37.95 -107.90  2769 00000                    
+NEW HAVEN       CT US   30N  6   41.22  -72.67    15 00000                    
+INDIAN RIVER (C DE US   61N  6   38.62  -75.07     1 00000                    
+LAKE WORTH INL( FL US   X81  6   26.77  -80.05     1 00000                    
+OCALA           FL US   OCF  6   29.18  -82.23    27 00000                    
+ST PETERSBURG   FL US   SPG  6   27.77  -82.63     2 00000                    
+BRUNSWICK GLYNC GA US   BQK  6   31.25  -81.47     8 00000                    
+MOULTRIE/THOMAS GA US   MGR  6   31.08  -83.80    88 00000                    
+TYBEE (CGS)     GA US   1J2  6   32.02  -80.85     2 00000                    
+BRADSHAW AAF    HI US  PHSF  6   19.77 -155.55  1886 00000                    
+FRENCH FRIGATE  HI US   1Z6  6   23.87 -166.28     2 91155                    
+MIDWAY ISLAND   HI US  PMDY  6*  28.22 -177.37     9 91066                    
+OAHU/BARBERS PT HI US   HNA  6   21.32 -158.07    15 91178                    
+OAHU/KANEOHE BA HI US   HNG  6   21.45 -157.77     3 91176                    
+WHEELER AFB/OAH HI US  PHHI  6   21.48 -158.03   256 91170                    
+CLINTON MUNI    IA US   CWI  6   41.83  -90.33   217 00000                    
+GOODING         ID US   GNG  6   43.00 -115.17  1118 72586                    
+SALMON          ID US   SMN  6   45.10 -113.88  1236 72686                    
+MOUNT VERNON    IL US   MVN  6   38.32  -88.87   146 00000                    
+EVANSVILLE      IN US   PDW  6   38.03  -87.52   118 00000                    
+LIBERAL         KS US   LBL  6   37.05 -100.97   878 00000                    
+BOOTHVILLE      LA US   BVE  6*  29.33  -89.40     0 72232                    
+CHENAULT AIRPAR LA US   CWF  6   30.22  -93.15     5 00000                    
+EUGENE ISLAND   LA US   41I  6   28.47  -91.78    30 00000                    
+MISSIPPI CAN    LA US   1G7  6   28.78  -89.05    60 00000                    
+SLIDELL         LA US   SIL  6*  30.25  -89.77     3 00000                    
+SOUTH MARSH ISL LA US   7R8  6   28.30  -91.98    59 00000                    
+TENNECO (AMOS)  LA US   P00  6   28.00  -93.00    15 00000                    
+VENICE, AIR L.  LA US   3V8  6   29.12  -89.20    12 00000                    
+VERMILLION AREA LA US   VRX  6   28.05  -92.45    27 00000                    
+CAPE COD CAN    MA US   30B  6   41.78  -70.50     1 00000                    
+PITTSFIELD      MA US   PSF  6   42.40  -73.30   356 00000                    
+PLYMOUTH ARPT   MA US   PYM  6   41.90  -70.73    44 00000                    
+PROVINCETOWN MU MA US   PVC  6   42.07  -70.22     2 00000                    
+FORT MEADE      MD US   FME  6   39.08  -76.77    46 00000                    
+CLAYTON LAKE    ME US   40B  6   46.62  -69.52    31 00000                    
+GOAT ISLAND (RA ME US   0B9  6   43.33  -70.40    12 00000                    
+OWLS HEAD (CGS) ME US   96B  6   44.08  -69.03    15 00000                    
+ROCKLAND/KNOX   ME US   RKD  6   44.07  -69.12    18 00000                    
+RUMFORD         ME US   RUM  6   44.53  -70.53   205 72618                    
+WATERVILLE/LAFL ME US   WVL  6   44.53  -69.67   101 00000                    
+CHARLEVOIX/LANS MI US   Y09  6   45.32  -85.25   198 00000                    
+COOPERSVILLE    MI US   C10  6   43.07  -85.95   203 00000                    
+PONTIAC         MI US   PTK  6   42.67  -83.42   299 00000                    
+SAGINAW RIVER ( MI US   30G  6   43.63  -83.85   177 00000                    
+ALBERT LEA      MN US   AEL  6   43.68  -93.37   380 00000                    
+FARIBAULT MUNI  MN US   FBL  6   44.33  -93.32   322 00000                    
+LITCHFIELD      MN US   Y69  6   45.13  -94.52   340 00000                    
+MONETT          MO US   UMN  6*  36.88  -93.90   437 72349                    
+WEST PLAINS     MO US   H63  6   36.73  -91.85   336 72348                    
+GLENDIVE        MT US   GDV  6   47.13 -104.80   749 00000                    
+SIDNEY          MT US   SDY  6   47.72 -104.18   604 00000                    
+WEST YELLOWSTON MT US   WYS  6   44.60 -111.10  2034 00000                    
+WOLF POINT      MT US   OLF  6   48.10 -105.58   605 00000                    
+BOGUE INLET (MA NC US   3W4  6   34.65  -77.10     2 00000                    
+DIAMOND SHORES  NC US   44W  6   35.15  -75.30     5 74696                    
+HOT SPRINGS     NC US   HSS  6   35.90  -82.82   451 00000                    
+BURWELL         NE US   BUB  6   41.78  -99.15   664 72555                    
+NORTH OMAHA     NE US   3NO  6*  41.37  -96.02   406 72553                    
+JAFFREY         NH US   AFN  6   43.37  -72.00   317 72616                    
+KEENE           NH US   EEN  6   42.90  -72.27   148 00000                    
+ATLANTIC CITY ( NJ US   55N  6   39.38  -74.42     4 00000                    
+CAPE MAY        NJ US   N91  6   38.95  -74.90     2 00000                    
+VINELAND-DOWNST NJ US   28N  6   39.53  -74.97    37 00000                    
+ALAMOGORDO-WHIT NM US   ALM  6   32.83 -105.98  1279 00000                    
+CHAMA           NM US   E33  6   36.90 -106.57    34 00000                    
+CLINES CORNER   NM US   P70  6   34.92 -105.58  2096 00000                    
+CLOVIS          NM US   CVN  6   34.42 -103.08  1284 00000                    
+CORONA          NM US   4CR  6   34.10 -105.68  1981 00000                    
+MORIARITY       NM US   4MY  6   34.98 -106.05  1896 00000                    
+SILVER CITY     NM US   SVC  6   32.63 -108.17  1659 72272                    
+INDIAN SPRINGS  NV US   L76  6   36.57 -115.67   945 69018                    
+OWYHEE          NV US   OWY  6   42.97 -116.28  1646 72587                    
+AMBROSE         NY US   N28  6   40.45  -73.82    26 74499                    
+DANSVILLE       NY US   DSV  6   42.57  -77.72   209 72523                    
+FIRE ISLAND (CG NY US   45N  6   40.63  -73.27     5 00000                    
+MONTAUK POINT ( NY US   48N  6   41.07  -71.93     1 00000                    
+MORICHES (CGS)  NY US   49N  6   40.78  -72.75     1 00000                    
+OGDENSBURG      NY US   OGS  6   44.68  -75.40    63 00000                    
+OLEAN MUNI      NY US   OLE  6   42.23  -78.37   651 00000                    
+ROCKAWAY/FT TIL NY US   50N  6   40.57  -73.88     3 00000                    
+SHPRT BEACH (CG NY US   51N  6   40.58  -73.55     1 00000                    
+LORAIN (CGS)    OH US   27G  6   41.47  -82.18   176 00000                    
+SMITHVILLE      OH US   SLW  6   40.87  -81.83   357 00000                    
+SPRINGFIELD     OH US   SGH  6   39.83  -83.83   321 00000                    
+HARRISBURG      PA US   HAR *6   40.22  -76.85   106 72511                    
+PHILIPSBURG     PA US   PSB  6   40.88  -78.08   583 72512                    
+SAINT MARY      PA US   8G5  6   41.43  -78.58    35 00000                    
+WEST GROVE      PA US   78N  6   39.77  -75.83   105 00000                    
+POINSETT RANGE  SC US   2PJ  6   33.85  -80.48    62 74792                    
+PHILIP          SD US   PHP  6   44.10 -101.50   674 00000                    
+REDIG (AMOS)    SD US   REJ  6   45.27 -103.53   925 72661                    
+YANKTON         SD US   YKN  6   42.92  -97.38   397 00000                    
+NORTH CHATTANOO TN US   CQN  6   35.17  -85.15     9 00000                    
+BIG SPRING      TX US   HCA  6   32.30 -101.45   781 00000                    
+PARIS/COX       TX US   PRX  6   33.63  -95.45   167 00000                    
+ROCKPORT        TX US   RKP  6   28.08  -97.03     8 00000                    
+MILFORD         UT US   MLF  6   38.42 -113.02  1533 72475                    
+MOAB            UT US   CNY  6   38.77 -109.75  1394 00000                    
+ROOSEVELT       UT US   U67  6   40.30 -109.98  1556 74420                    
+TOOELE          UT US   T62  6   40.17 -112.20  1538 00000                    
+CAPE CHARLES    VA US   W51  6   37.27  -76.02     2 00000                    
+WEIRWOOD        VA US   W08  6   37.45  -75.88    12 00000                    
+NEWPORT         VT US   EFK  6   45.93  -72.33   233 72612                    
+WILMINGTON      VT US   MNW  6   42.88  -72.88   482 74483                    
+COLEVILLE       WA US   63S  6   48.53 -117.88   571 72787                    
+ELLNSBURG-BOWER WA US   ELN  6   47.03 -120.53   538 00000                    
+FRIDAY HARBOR A WA US   S19  6   48.50 -123.00    37 00000                    
+PACIFIC BEACH   WA US   NIX  6   47.22 -124.20    18 00000                    
+PORT ANGELES CG WA US   NOW  6   48.13 -123.40     9 74201                    
+YAKIMA FIRING C WA US  KQIN  6*  46.70 -120.40    24 00000                    
+MANITOWOC       WI US   MTW  6   44.13  -87.67   198 00000                    
+MCCOY (USA-AF)  WI US   CMY  6   43.97  -90.73   256 00000                    
+PHILLIPS-PRICE  WI US   PBH  6   45.70  -90.40   451 00000                    
+STURGEON BAY    WI US   0Y2  6   44.78  -87.32   176 00000                    
+WAUKESHA        WI US   SKC  6   43.03  -88.23   284 00000                    
+WARREN AFB/CHEY WY US   FEW  6   41.15 -104.80  1876 00000                    
+WAKE ISLAND     -- WK  PWAK  6*  19.28  166.65     4 91245                    
+BRADFORD        IL US   BDF  6   41.07  -89.68   202 00000                    
+WALNUT RIDGE    AR US   ARG  6   36.03  -90.85    84 00000                    
+MUSKOGEE        OK US   MKO  6   35.73  -95.45    84 00000                    
+WEST CAMERON B5 LA US   37C  6    0.00    0.00     0 00000                    
+GREEN CANYON B1 LA US   81A  6    0.00    0.00     0 00000                    
+CRANE LAKE (AWO MN US   8Y8  6   46.27  -92.57   350 00000                    
+WASHINGTON (AWO PA US   AFJ  6   40.13  -80.28   361 00000                    
+KAISER MEM (AWO MO US   AIZ  6   38.10  -92.55   265 00000                    
+BATTLE MOUNTAIN NV US   B23  6   40.60 -116.87  1381 00000                    
+EMMONAK         AK US   ENM  6   62.77 -164.50     3 00000                    
+FT PIERCE/ST LU FL US   FPR  6   27.50  -80.37     7 00000                    
+HIGH ISLAND A57 LA US   H39  6   27.95  -93.98    30 00000                    
+WILLMAR/RICE (A MN US   ILL  6   45.12  -95.08   344 00000                    
+HIGH ISLAND A48 LA US   L40  6   28.20  -94.20     0 00000                    
+AUBURN-LEWISTON ME US   LEW  6   44.05  -70.28    88 00000                    
+ROSEAU MUNI (AW MN US   ROX  6   48.85  -95.70   323 00000                    
+SABRINE PASS    TX US   RPE  6   29.70  -93.95     3 00000                    
+RUTLAND STATE(A VT US   RUT  6   43.53  -72.95   240 00000                    
+SANFORD MUNI (A ME US   SFM  6   43.40  -70.72    74 00000                    
+TAOS MUNI APT(A NM US   SKX  6   36.45 -105.67  2161 00000                    
+STURGEON BAY    WI US   SUE  6   44.85  -87.42   221 00000                    
+SOLDOTNA        AK US   SXQ  6   60.48 -151.03    33 00000                    
+TOGIAC VILLAGE  AK US   TOG  6   59.05 -160.40     6 00000                    
+ANGLETON/LAKE J TX US   LBX  6   29.12  -95.47     8 00000                    
+BOGUE FIELD MCA NC US   NJM  6   34.68  -77.03     7 00000                    
+BUFFALO (AMOS)  SD US   2WX  6   45.57 -103.52   881 00000                    
+FOURCHON (SAWRS LA US   9F2  6   29.10  -90.20     2 00000                    
+GARRISON (AMOS) ND US   N60  6   47.65 -101.43   587 00000                    
+GOLDEN TRI (AWO LA US   7R1  6   29.30  -89.40     2 00000                    
+MINNEAPOLIS/BLA MN US   ANE  6   45.15  -93.22   278 00000                    
+SHIP SHOAL 198G LA US   S65  6   28.50  -91.20     2 00000                    
+SOUTH TIMBALIER LA US   S58  6   28.53  -90.58     1 00000                    
+ST. JOHNS AIR P AZ US   SJN  6   34.52 -109.38  1747 00000                    
+TONOPAH TEST RA NV US   TNX  6   37.80 -116.78  1691 00000                    
+WILLIAMS AFB/CH AZ US   IWA  6   33.32 -111.65   422 00000                    
+NEWPORT         OR US   JNW  6   44.58 -124.05    48 00000                    
+AUBURN UNIV. (A AL US   AUB  6   32.60  -85.50   198 00000                    
+NORTHRUP LNDG S NM US   E28  6   32.90 -106.40  1193 74733                    
+SHIP SHOAL B224 LA US   S02  6   28.50  -91.30    32 00000                    
+SHIP SHOAL B113 LA US   30S  6    0.00    0.00     0 00000                    
+COLVILLE MUNICI WA US   CQV  6   48.55 -117.88   572 00000                    
+HOOPER BAY (AWO AK US   HPB  6   61.53 -166.15     5 00000                    
+PACIFIC CITY ST OR US   PFC  6   45.20 -123.97     2 00000                    
+PORTERVILLE (AW CA US   PTV  6   36.03 -119.07   135 00000                    
+KUPARUK AIRPORT AK US   UBW  6   70.32 -149.58    20 00000                    
+BELMAR/FARMINGD NJ US   BLM  6   40.18  -74.11    47 00000                    
+MARATHON AP     FL US   MTH  6   24.73  -81.05     2 00000                    
+HAMILTON        MT US   HMM  5   46.25 -114.15  1110 00000                    
+MILLINOCKET MUN ME US   MLT  6   45.65  -68.68   124 00000                    
+STUTTGART       AR US   SGT  5   34.60  -91.57    68 00000                    
+SPEARFISH       SD US   SPF  5   44.48 -103.78  1188 00000                    
+FRENCHVILLE     ME US   FVE  5   47.28  -68.32   301 00000                    
+ELKHART         KS US   EHA  4   37.02 -101.53  1105 00000                    
+MCGREGOR        TX US   F60  5   31.48  -97.32   180 00000                    
+MANASSAS        VA US   HEF  5   38.73  -77.50    59 00000                    
+SANDUSKY        OH US   SKY  5   41.43  -82.65   177 00000                    
+CALDWELL        ID US   U35  5   43.63 -116.63   740 00000                    
+FOWEY ROCKS     FL US   X86  5   25.58  -80.10     1 00000                    
+MOLASSES REEF   FL US MLRF1  5   25.02  -80.38     0 00000                    
+AUBURN          AL US   AUO  4   32.61  -85.43   235 00000                    
+ANDERSON        IN US   AID  4   40.10  -85.61   280 00000                    
+S. VANDENBERG   CA US 74606  1*  34.65 -120.57   112 74606                    
+ST. JOHNSBURY   VT US   1V4  5   44.42  -72.02   217 72614                    
+CAPE KENNEDY    FL US   XMR  4   28.47  -80.55     3 74794                    
+GALENA          AK US   GAL  4   64.73 -156.93    46 70222                    
+CHARLESTON AFB  SC US   IGC  5   32.90  -80.03    14 00000                    
+KIRTLAND AFB    NM US   IKR  4   35.05 -106.60  1631 72364                    
+WILLIAMS AFB    AZ US   IWA  4   33.32 -111.65   422 00000                    
+PETERSON AFB    CO US   PEF  4   38.78 -104.72  1881 00000                    
+SHEPPARD AFB    TX US   W12  4   33.97  -98.48   314 00000                    
+CASA GRANDA     AZ US   CGZ  5   32.95 -111.77   446 00000                    
+SALIDA          CO US   0V2  4   38.53 -106.05  2283 00000                    
+POINT HOPE      AK US   PHO  4   68.35 -166.80     4 00000                    
+FORT WORTH/ALLI TX US   AFW  5   32.98  -97.32   220 00000                    
+PAWTUCKET       RI US   SFZ  5   41.92  -71.50   134 00000                    
+WILDWOOD        NJ US   WWD  5   39.02  -74.92     7 00000                    
+CAMARILLO       CA US   CMA  4   34.22 -119.10    23 00000                    
+BULLHEAD CITY   AZ US   P06  5   35.17 -114.57   167 00000                    
+CANADIAN/HEMPHI TX US   HHF  4   35.90 -100.40   730 00000                    
+FREEPORT        TX US   FOQ  5   29.00  -95.19     2 00000                    
+NEWTON          KS US   EWK  4   38.05  -97.28   467 00000                    
+GREAT BEND      KS US   GBD  5   38.35  -98.87   575 00000                    
+STERLING ROCKFA IL US   SQI  4   41.75  -89.67   197 00000                    
+EASTSOUND       WA US   ORS  5   48.70 -122.93     8 00000                    
+WOODRUFF LEE M  WI US   ARV  3   45.93  -89.73   496 00000                    
+WAUKESHA CO AP  WI US   UES  5   43.05  -88.23   278 00000                    
+EGEGIK          AK US   Z03  3   58.22 -157.37    31 00000                    
+ANCHORAGE/ELMEN AK US   EDF      61.25 -149.80    59 70272
+DEERING         AK US   DRG       0.00    0.00     0 00000
+FAIRBANKS/EIELS AK US   EIL      64.65 -147.07   167 70265
+FAIRBANKS/WAINW AK US   FBK      64.83 -147.62   137 00000
+FORT RICHARDSON AK US   FRN      61.27 -149.65   115 00000
+KIANA           AK US   IAN       0.00    0.00     0 00000
+KONGIGANAK      AK US   DUY       0.00    0.00     0 00000
+MILNE POINT     AK US   MPN       0.00    0.00     0 00000
+NIGHTMUTE       AK US   IGT       0.00    0.00     0 00000
+PLATINUM        AK US   PTU       0.00    0.00     0 00000
+QUINHAGAK       AK US   KWN       0.00    0.00     0 00000
+SUMMIT          AK US   UMM      63.33 -149.13   735 70264
+TOK             AK US   Z12       0.00    0.00     0 00000
+YAKATAGA        AK US   CYT      60.08 -142.50     4 70298
+SHOW LOW        AZ US   E03      34.25 -110.03  1943 00000
+AUGUSTA         AR US   M47      35.30  -91.37    66 00000
+BATESVILLE      AR US   BVX      35.82  -91.78   174 00000
+AVALON          CA US   AVX      33.40 -118.42     7 00000
+BURNEY          CA US   BNY      40.88 -121.67   957 00000
+FALLS VILLAGE   CT US   5B4      41.95  -73.37   177 00000
+MANSFIELD       CT US   5B0      41.75  -72.18    76 00000
+MIDDLETOWN      CT US   4B4      41.55  -72.72   113 00000
+PUTNAM          CT US   5B3      41.08  -73.63    91 00000
+TORRINGTON      CT US   4B9      41.80  -73.12   177 00000
+WATERBURY       CT US   OXC      41.48  -73.13   222 00000
+CLEWISTON       FL US   X53      26.73  -30.95     9 00000
+NAPLES          FL US   16X      26.17  -81.78     1 00000
+TAMPA BAY       FL US   TBW      27.70  -82.38    12 72210
+TAVERNIER       FL US   72X      25.02  -80.52     2 00000
+BARBERS POINT   HI US   NAX      21.32 -158.07    15 91178
+BRADSHAW AFB    HI US   BSF      19.77 -155.55  1890 00000
+HAINA           HI US   HNM      20.80 -156.02    26 91199
+KAANAPALI       HI US   HKP      20.93 -156.70     3 91189
+STREVELL        ID US   4SV      42.02 -113.25  1612 00000
+CAIRO           IL US   CIR      37.00  -89.17    96 00000
+MATTOON         IL US   MTO      39.48  -88.28   220 00000
+SALEM           IL US   SLO      38.65  -88.97   171 72433
+MARION          IN US   MZZ       0.00    0.00     0 00000
+AMES            IA US   AMW      42.03  -93.80   335 00000
+STORM LAKE      IA US   SLB      42.63  -95.18   434 00000
+GULF OF MEXICO  LA US   M46       0.00    0.00     0 00000
+GULF OF MEXICO  LA US   T81       0.00    0.00     0 00000
+GULF OF MEXICO  LA US   19R      28.68  -91.22     1 00000
+GULF OF MEXICO  LA US   2C0       0.00    0.00     0 00000
+GULF OF MEXICO  LA US   5L0       0.00    0.00     0 00000
+GULF OF MEXICO  LA US   87G       0.00    0.00     0 00000
+LEEVILLE        LA US   7R2      29.22  -90.23     1 00000
+EASTPORT        ME US   47B      44.92  -67.00    24 72608
+FORT KENT       ME US   7B5      47.25  -68.60   159 00000
+GUILFORD        ME US   1B0      45.20  -69.38     0 00000
+HARMONY         ME US   2B7      44.93  -69.62     0 00000
+RANGELEY        ME US   8B0      44.98  -70.70     0 00000
+WEST PARIS/TURI ME US   3B5      44.27  -70.78     0 00000
+CUMBERLAND      MD US   CBE      39.63  -78.75   213 00000
+OAKLAND         MD US   2G4      39.40  -79.40   738 00000
+ASHBURNHAM      MA US   9B4      42.65  -71.88   363 00000
+ASHFIELD        MA US   2B5      42.53  -72.83     0 00000
+BARRE FALLS     MA US   8B5      42.43  -72.07     0 00000
+BLUE HILL OBS   MA US   BHV      41.22  -71.12   192 74995
+FOXBOROUGH      MA US   1B9      42.05  -71.25     0 00000
+GARDNER/BIRCH   MA US   GDM      42.58  -71.98     0 00000
+GREAT BARRINGTO MA US   GBR      42.20  -73.35     0 00000
+GREENFIELD      MA US   0B5      42.57  -72.63     0 00000
+KNIGHTVILLE     MA US   7B2      42.28  -72.87   192 00000
+NEWBURYPORT     MA US   2B2      42.83  -70.92     6 00000
+NORTH ADAMS     MA US   2B6      42.73  -73.13     0 00000
+PLYMOUTH        MA US   PLY      41.95  -70.67    27 00000
+SOUTHBRIDGE     MA US   3B0      42.05  -72.08   220 00000
+TAUNTON         MA US   9B0      41.90  -71.07     6 00000
+VICKSBURG       MS US   VKS      32.23  -90.93    32 00000
+YAZOO CITY      MS US   YZO      32.90  -90.38    36 00000
+WEST PLAINS     MO US   PWN      36.73  -91.85   336 72348
+BURWELL         NE US   K20      41.78  -99.15     0 00000
+IMPERIAL        NE US   6V1      40.53 -101.63  1003 00000
+BERLIN          NH US   BML      44.58  -71.18   353 00000
+DIAMOND LAKE    NH US   8B2       0.00    0.00     0 00000
+NEWPORT-SMT     NH US   2B3      43.38  -72.18   240 00000
+NORTH CONWAY    NH US   CWN      44.03  -71.17     0 00000
+PETERBORO       NH US   8B1      42.85  -71.95   311 00000
+SUSSEX          NJ US   N63      41.20  -74.60   119 00000
+ZUNI PUEBLO     NM US   ZUN      35.07 -108.83  1972 00000
+BOONVILLE       NY US   1B8      43.45  -75.35     0 00000
+HUNTER/SLIDE    NY US   0B4      41.98  -74.35     0 00000
+NYC/CENTRAL PAR NY US   NYC      40.85  -73.97    27 00000
+OLD FORGE       NY US   OLD      44.95  -68.67    38 00000
+ONEONTA         NY US   OZX      42.38  -75.15     0 00000
+OSWEGO          NY US   OSW      43.47  -76.50   107 00000
+CARMEN          OK US   CRM      36.60  -98.63     0 00000
+DOVER           OK US   DVR      36.00  -98.00     0 00000
+GUYMON          OK US   GUY      36.68 -101.45   939 00000
+STILLWATER      OK US   SWO      36.17  -97.08   300 00000
+TOBYHANNA       PA US   7TB      41.18  -75.42   585 00000
+NEWPORT         RI US   6B7      41.47  -71.37     1 00000
+WOONSOCKET      RI US   1B6      41.92  -71.52     0 00000
+LEMMON          SD US   LEM       0.00    0.00     0 00000
+PICKSTOWN       SD US   PKW      43.07  -98.53   453 72652
+KNOXVILLE/DWNTW TN US   DKX      35.97  -83.87   254 00000
+FT WORTH/CARSWE TX US   TCB       0.00    0.00     0 00000
+HOUS./LAKESIDE  TX US   IWS      29.83  -95.67     0 00000
+PAMPA           TX US   PPA      35.53 -100.98   991 00000
+PERRYTON        TX US   PYX      36.47 -100.78   893 00000
+PLAINVIEW       TX US   PVW      34.17 -101.72     0 00000
+SHAMROCK        TX US   2F1      35.20 -100.25   707 00000
+BALL MOUNTAIN   VT US   8B3       0.00    0.00     0 00000
+CANAAN          VT US   VT1      44.98  -71.50     0 00000
+ENOSBURG FALLS  VT US   3B8      44.92  -72.82   129 00000
+NEWPORT         VT US   NPV      44.93  -72.20   233 72612
+POWNAL          VT US   5B5      42.88  -73.25   250 00000
+SPRINGFIELD     VT US   VSF      43.33  -72.52   175 00000
+WATERBURY       VT US   5B1      44.23  -72.78     0 00000
+WEST BURKE      VT US   VT2      44.65  -71.98   274 00000
+WILMINGTON      VT US   0B0      42.92  -72.90     0 74483
+WHITE SULFUR SP WV US   SSU      37.77  -80.33   549 00000
+SUPERIOR        WI US   SUW      46.70  -92.02   192 00000
+SAN JUAN INTL   -- PU  TJSJ  1*  18.43  -66.00    19 78526                    
+PONCE/MERCEDITA -- PU  TJPS  3   18.02  -66.57     9 00000                    
+AQUADILLA/BORIN -- PU  TJBQ  5   18.50  -67.13    69 78514                    
+MAYAGUEZ        -- PU  TJMZ  5   18.25  -67.15     9 00000                    
+CALGARY INTL    AB CN   YYC  1   51.10 -114.02  1084 71877                    
+EDMONTON MUNICI AB CN   YXD  1*  53.57 -113.52   671 71879                    
+GRANDE PRAIRIE  AB CN   YQU  1   55.18 -118.88   668 71940                    
+CLINTON (MARS)  BC CN   WCL  1   51.15 -121.50  1057 71474                    
+DEASE LAKE      BC CN   WDL  1   58.42 -130.00   816 71958                    
+FORT NELSON     BC CN   YYE  1*  58.83 -122.60   382 71945                    
+PORT HARDY      BC CN   YZT  1*  50.68 -127.37    22 71109                    
+PRINCE GEORGE   BC CN   YXS  1*  53.88 -122.68   691 71896                    
+PRINCE RUPERT   BC CN   YPR  1*  54.30 -130.45    34 71898                    
+GILLAM          MN CN   YGX  1   56.37  -94.70   145 71912                    
+GRAND RAPIDS (M MN CN   WJD  1   53.18  -99.27   226 71858                    
+LYNN LAKE       MN CN   YYL  1   56.87 -101.08   354 71078                    
+WINNIPEG INTL   MN CN   YWG  1   49.92  -97.23   240 71852                    
+GANDER INTL     NF CN   YQX  1   48.95  -54.57   147 71803                    
+GOOSE BAY       NF CN   YYR  1*  53.32  -60.42    44 71816                    
+HALIFAX INTL    NS CN   YHZ  1   44.88  -63.52   145 71395                    
+ALERT           NT CN   YLT  1*  82.50  -62.33    66 00000                    
+BAKER LAKE      NT CN   YBK  1   64.30  -96.00    18 71926                    
+CAMBRIDGE BAY   NT CN   YCB  1*  69.10 -105.12    27 71925                    
+CAPE DYER       NT CN   YVN  1   66.58  -61.62   393 71094                    
+CAPE YOUNG      NT CN   YUI  1   68.93 -116.92    16 71939                    
+CORAL HARBOUR   NT CN   YZS  1*  64.20  -83.37    64 71915                    
+ENNADAI LAKE    NT CN   WJC  1   61.13 -100.90   353 71923                    
+FORT GOOD HOPE  NT CN   YGH  1   66.27 -128.62    66 00000                    
+FORT RELIANCE   NT CN   WFL  1   62.72 -109.17   164 71073                    
+FORT SMITH      NT CN   YSM  1*  60.03 -111.93   203 71934                    
+FROBISHER BAY   NT CN   YFB  1*  63.75  -68.55    34 71909                    
+HALL BEACH      NT CN   YUX  1*  68.78  -81.25     8 71081                    
+INUVIK          NT CN   YEV  1*  68.30 -133.48    68 71957                    
+LUPIN (MAN)     NT CN   YWO  1   65.77 -111.23   494 00000                    
+MOULD BAY       NT CN   YMD  1*  76.23 -119.32    12 71072                    
+NANISIVIK       NT CN   YSR  1   72.98  -84.63   640 71914                    
+REPULSE BAY     NT CN   YUT  1   66.53  -86.25    24 00000                    
+RESOLUTE        NT CN   YRB  1*  74.72  -94.98    67 71924                    
+ROBERTSON LAKE  NT CN   WTD  1   65.10 -102.43   244 71490                    
+SACHS HARBOUR   NT CN   YSY  1   72.00 -125.27    86 71051                    
+SPENCE BAY      NT CN   YYH  1   69.55  -93.52    26 00000                    
+WRIGLEY         NT CN   YWY  1   63.22 -123.43   150 00000                    
+MOOSONEE        ON CN   YMO  1*  51.28  -80.60     9 71836                    
+OTTAWA INTL     ON CN   YOW  1   45.32  -75.67   114 71628                    
+PICKLE LAKE     ON CN   WPL  1   51.47  -90.20   373 71845                    
+WINISK (MAPS)   ON CN   WWN  1   55.23  -85.12    10 71434                    
+CHIBOUGAMAU     QB CN   YMT  1   49.77  -74.53   387 71822                    
+GASPE           QB CN   YGP  1   48.77  -64.48    33 71188                    
+ILES DE LA MADE QB CN   YGR  1   47.42  -61.78    10 71709                    
+KUUJJUAQ        QB CN   YVP  1*  58.10  -68.42    37 71906                    
+KUUJJUARAPIK    QB CN   YGW  1   55.28  -77.77    18 71905                    
+SCHEFFERVILLE   QB CN   YKL  1   54.80  -66.80   512 71828                    
+CREE LAKE       SA CN   WFN  1   57.35 -107.13   499 71920                    
+PRINCE ALBERT   SA CN   YPA  1   53.22 -105.68   431 71869                    
+REGINA          SA CN   YQR  1   50.43 -104.67   574 71863                    
+DAWSON          YK CN   YDA  1   64.05 -139.13   369 71966                    
+OLD CROW        YK CN   YOC  1   67.58 -139.83   251 00000                    
+WHITEHORSE      YK CN   YXY  1*  60.72 -135.07   703 71964                    
+CORONATION (MAN AB CN   YCT  2   52.07 -111.45   791 71873                    
+CORONATION (MAR AB CN   WCT  2   52.07 -111.45   791 71873                    
+FORT MCMURRAY   AB CN   YMM  2   56.65 -111.22   371 71932                    
+HIGH LEVEL      AB CN   YOJ  2   58.62 -117.17   338 71066                    
+JASPER          AB CN   WJA  2   52.88 -118.07  1061 71888                    
+LETHBRIDGE      AB CN   YQL  2   49.63 -112.80   929 71874                    
+SLAVE LAKE      AB CN   YZH  2   55.30 -114.28   581 71069                    
+CAPE ST JAMES   BC CN   WZV  2   51.93 -131.02    89 71107                    
+FORT ST JOHN    BC CN   YXJ  2   56.23 -120.73   695 71943                    
+SMITHERS        BC CN   YYD  2   54.82 -127.18   524 71950                    
+VANCOUVER INTL  BC CN   YVR  2   49.18 -123.18     0 71892                    
+VERNON          BC CN   YXO  2*  50.23 -119.28   555 71115                    
+CHURCHILL       MN CN   YYQ  2*  58.75  -94.07    29 71913                    
+DAUPHIN         MN CN   WDN  2   51.10 -100.05   305 71855                    
+DAUPHIN         MN CN   YDN  2   51.10 -100.05   305 71855                    
+ISLAND LAKE (MA MN CN   YIV  2   53.87  -94.67   239 71145                    
+THE PAS         MN CN   YQD  2*  53.97 -101.10   271 71867                    
+THOMPSON        MN CN   YTH  2   55.80  -97.87   218 71079                    
+CHATHAM         NB CN   YCH  2   47.02  -65.45    34 71717                    
+ST JOHN         NB CN   YSJ  2   45.32  -65.88   107 71609                    
+CARTWRIGHT      NF CN   WCA  2   53.70  -57.03    14 71818                    
+CHURCHILL FALLS NF CN   ZUM  2   53.55  -64.10   435 71182                    
+KILLINEK (AUTO) NF CN   WWV  2   60.42  -64.85    31 71902                    
+NAIN (MAN)      NF CN   YDP  2   56.55  -61.68     6 71902                    
+SAGONA (MAPS)   NF CN   WZN  2   47.37  -55.80    35 71408                    
+ST ANTHONY      NF CN   YAY  2   51.48  -55.82     5 71819                    
+STEPHENVILLE    NF CN   YJT  2*  48.53  -58.55    26 71815                    
+SABLE ISLAND    NS CN   WSA  2*  43.93  -60.02     4 71600                    
+YARMOUTH        NS CN   YQI  2   43.83  -66.08    41 71603                    
+CAMSELL RIVER   NT CN   WOA  2   65.62 -118.12   230 71060                    
+CAPE DORSET     NT CN   YTE  2   64.23  -76.53    47 71910                    
+CAPE PARRY      NT CN   ZUE  2   70.17 -124.70    16 71948                    
+CHESTERFIELD    NT CN   YCS  2   63.33  -90.72    11 71916                    
+ESKIMO POINT    NT CN   YEK  2   61.10  -94.07    10 00000                    
+FORT SIMPSON    NT CN   YFS  2   61.75 -121.23   169 71946                    
+GRISE FIORD     NT CN   WGZ  2   76.42  -82.92    10 00000                    
+HAY RIVER       NT CN   YHY  2   60.83 -115.78   166 71935                    
+HERSCHEL ISLAND NT CN   WJN  2   69.57 -138.92     3 71501                    
+HOLMAN ISLAND   NT CN   YHI  2   70.77 -117.80    36 71949                    
+LONGSTAFF       NT CN   YUV  2   68.93  -75.28    15 00000                    
+PANGNIRTUNG     NT CN   YXP  2   66.13  -65.73    25 00000                    
+PELLY BAY       NT CN   YBB  2   68.53  -89.82    15 00000                    
+YELLOWKNIFE     NT CN   YZF  2   62.47 -114.43   205 71936                    
+BIG TROUT LAKE  ON CN   WTL  2*  53.83  -89.87   222 71848                    
+KAPUSKASING     ON CN   YYU  2   49.42  -82.47   229 71831                    
+MUSKOKA         ON CN   YQA  2   44.97  -79.30   282 71630                    
+RED LAKE        ON CN   YRL  2   51.07  -93.80   383 71854                    
+SUDBURY         ON CN   YSB  2   46.63  -80.80   348 71730                    
+THUNDER BAY     ON CN   YQT  2   48.37  -89.32   196 71749                    
+BAIE COMEAU     QB CN   YBC  2   49.13  -68.20    22 71187                    
+HEATH POINT     QB CN   WHP  2   49.08  -61.70     4 71423                    
+INUKJUAK        QB CN   YPH  2*  58.45  -78.12     3 71907                    
+LA GRANDE RIVIE QB CN   YGL  2   53.63  -77.70   191 71827                    
+PARENT (MARS)   QB CN   WPK  2   47.92  -74.62   442 71726                    
+QUEBEC          QB CN   YQB  2   46.80  -71.40    75 71714                    
+VAL D'OR        QB CN   YVO  2   48.05  -77.78   338 71725                    
+LA RONGE        SA CN   YVC  2   55.15 -105.27   378 71922                    
+MEADOW LAKE     SA CN   YLJ  2   54.13 -108.52   480 71125                    
+SWIFT CURRENT   SA CN   YYN  2   50.28 -107.68   816 71870                    
+BURWASH         YK CN   YDB  2   61.37 -139.05   801 71967                    
+MAYO            YK CN   YMA  2   63.62 -135.87   504 71965                    
+TESLIN (AUT)    YK CN   YZW  2   60.17 -132.75   705 71045                    
+TESLIN (MARS)   YK CN   WZW  2   60.17 -132.75   705 71045                    
+BANFF (AUT)     AB CN   WBA  5   51.18 -115.57  1397 71122                    
+COLD LAKE       AB CN   YOD  3   54.42 -110.28   544 71120                    
+EDSON           AB CN   YET  3   53.58 -116.45   924 71881                    
+FORT CHIPEWYAN  AB CN   YPY  3   58.77 -111.12   228 71933                    
+LAC LA BICHE    AB CN   WLB  3   54.77 -112.02   566 71931                    
+MEDICINE HAT    AB CN   YXH  3   50.02 -110.72   721 71872                    
+PEACE RIVER     AB CN   YPE  3   56.23 -117.45   569 71068                    
+ROCKY HOUSE (MA AB CN   WRM  3   52.43 -114.92   988 71928                    
+ROCKY MTN HOUSE AB CN   YRM  3   52.43 -114.92   988 71928                    
+BELLA COOLA     BC CN   YBD  3   52.38 -126.58    35 71206                    
+BURNS LAKE      BC CN   WPZ  3   54.23 -125.77   704 71952                    
+CASTLEGAR       BC CN   YCG  3   49.30 -117.63   493 71884                    
+COMOX (CAN-MIL) BC CN   YQQ  4   49.72 -124.90    23 71893                    
+CRANBROOK       BC CN   YXC  3   49.62 -115.78   939 71880                    
+HOPE (MAN)      BC CN   YHE  3   49.37 -121.48    38 71114                    
+KAMLOOPS        BC CN   YKA  3   50.70 -120.45   345 71887                    
+LIARD RIVER (MA BC CN   YZL  3   59.52 -126.37   427 00000                    
+LYTTON          BC CN   WLY  3   50.23 -121.58   258 71891                    
+MACKENZIE       BC CN   YZY  3   55.30 -123.05   701 71944                    
+PINK MOUNTAIN   BC CN   WCG  3   57.03 -122.52  1144 00000                    
+PUNTZI MT (MARS BC CN   WPU  3   52.12 -124.13   910 71050                    
+QUESNEL         BC CN   YQZ  3   53.03 -122.52   545 71103                    
+REVELSTOKE AP   BC CN   YRV  3   50.97 -118.18   443 71882                    
+REVELSTOKE      BC CN   WRV  5   50.97 -118.18   443 71882                    
+SANDSPIT        BC CN   YZP  3   53.25 -131.82     6 71101                    
+STEWART         BC CN   ZST  3   55.93 -129.98     7 71955                    
+TERRACE         BC CN   YXT  3   54.47 -128.58   219 71951                    
+TOFINO          BC CN   YAZ  3   49.08 -125.77    20 71106                    
+WILLIAMS LAKE   BC CN   YWL  3   52.18 -122.05   941 71104                    
+BERENS RIVER    MN CN   YBV  3   52.35  -97.03   222 71859                    
+BRANDON         MN CN   YBR  3   49.92  -99.95   408 71140                    
+FLIN FLON       MN CN   YFO  3   54.68 -101.68   304 00000                    
+HOLLAND ROCK CS BC CN   WHL  3   54.17 -130.37     5 00000                    
+NORWAY HOUSE    MN CN   YNE  3   53.95  -97.85   224 71141                    
+CHARLO          NB CN   YCL  3   47.98  -66.33    38 71711                    
+FREDERICTON     NB CN   YFC  3   45.87  -66.53    23 71700                    
+MISCOU ISLAND   NB CN   WMI  3   48.02  -64.50     5 71719                    
+ARGENTIA (MAPS) NF CN   WAR  3   47.30  -54.00    16 71807                    
+BADGER (MARS)   NF CN   WDI  3   48.97  -56.07   105 71400                    
+BONAVISTA       NF CN   WVA  3   48.67  -53.12    27 71196                    
+BURGEO          NF CN   WBD  3   47.62  -57.62    12 71194                    
+DANIELS HARBOUR NF CN   WDH  3   50.23  -57.58    20 71185                    
+DEER LAKE       NF CN   YDF  3   49.22  -57.40    22 71809                    
+HOPEDALE (MAPS) NF CN   WHO  3   55.45  -60.23     0 71900                    
+LA SCIE         NF CN   WAG  3   49.92  -55.67   194 71806                    
+MARYS HARBOUR   NF CN   WMH  3   52.30  -55.83     8 71817                    
+PORT AUX BASQUE NF CN   WZB  3   47.57  -59.17    40 71197                    
+PELLY IS        NT CN   WND  5   69.63 -135.43    40 71502                    
+ST JOHNS        NF CN   YYT  3*  47.62  -52.75   140 71801                    
+WABUSH LAKE     NF CN   YWK  3   52.92  -66.87   551 71825                    
+CARIBOU (MAPS)  NS CN   WBK  3*  45.77  -62.68     2 71415                    
+HART (MAPS)     NS CN   WRN  3   45.35  -60.98     4 71419                    
+INVERNESS       NS CN   WVE  3   46.23  -61.30    39 71413                    
+SHELBURNE       NS CN   WOS  3*  43.72  -65.25    30 71399                    
+SYDNEY          NS CN   YQY  3   46.17  -60.05    60 71707                    
+COPPERMINE      NT CN   YCO  3   67.82 -115.13    22 71938                    
+EUREKA          NT CN   WEU  3*  80.00  -85.93    10 71917                    
+FORT LIARD      NT CN   YJF  3   60.23 -123.47   214 71945                    
+FORT MCPHERSON  NT CN   ZFM  3   67.40 -134.85    45 71957                    
+GJOA HAVEN      NT CN   YHK  3   68.63  -95.85    46 00000                    
+LAKE HARBOUR A  NT CN   YLC  3   62.85  -69.88    61 00000                    
+NORMAN WELLS    NT CN   YVQ  3   65.28 -126.80    73 71043                    
+PAULATUK        NT CN   YPC  3   69.35 -124.08     8 00000                    
+POND INLET      NT CN   YIO  3   72.67  -78.00    57 71095                    
+RANKIN INLET    NT CN   YRT  3   62.82  -92.12    32 71083                    
+SANIKILUAQ      NT CN   YSK  3   56.53  -79.25    33 00000                    
+SHEPHERD BAY    NT CN   YUS  3   68.80  -93.42    42 71911                    
+TUKTOYAKTUK (MA NT CN   YUB  3   69.43 -133.02     5 00000                    
+ARMSTRONG       ON CN   WYW  3   50.30  -89.03   351 71841                    
+CHAPLEAU        ON CN   YLD  3   47.82  -83.35   448 00000                    
+EARLTON         ON CN   YXR  3   47.70  -79.85   243 71735                    
+GERALDTON       ON CN   YGQ  3   49.70  -86.95   351 71834                    
+GODERICH (MARS) ON CN   WGD  3   43.77  -81.72   213 71261                    
+GORE BAY        ON CN   YZE  3   45.88  -82.57   190 71733                    
+KENORA          ON CN   YQK  3   49.78  -94.37   410 71850                    
+KINGSTON (MAN)  ON CN   YGK  3   44.22  -76.60    90 71620                    
+LANSDOWNE HOUSE ON CN   WLH  3   52.23  -87.88   256 71846                    
+LONDON          ON CN   YXU  3   43.03  -81.15   278 71623                    
+NAGAGAMI (MARS) ON CN   WNZ  3   49.75  -84.17   263 71832                    
+NORTH BAY       ON CN   YYB  3   46.37  -79.42   369 71731                    
+PETERBOROUGH    ON CN   YPQ  3   44.23  -78.37   191 71629                    
+RONDEAU HARBOUR ON CN   WAJ  3   42.25  -81.90   178 71465                    
+SIOUX LOOKOUT   ON CN   YXL  3   50.12  -91.90   390 71842                    
+TERRACE BAY     ON CN   YTJ  3   48.82  -87.10   209 00000                    
+TIMMINS         ON CN   YTS  3   48.57  -81.38   294 71739                    
+TORONTO INTL    ON CN   YYZ  3   43.68  -79.63   176 71624                    
+UPSALA (MARS)   ON CN   WDV  3   49.03  -90.47   489 71435                    
+WAWA            ON CN   YXZ  3   47.97  -84.78   287 71738                    
+WIARTON         ON CN   YVV  3   44.75  -81.10   219 71633                    
+SUMMERSIDE      PE CN   YSU  3   46.43  -63.83    24 71702                    
+BAGOTVILLE      QB CN   YBG  3   48.33  -71.00   159 71727                    
+BLANC SABLON    QB CN   YBX  3   51.45  -57.18    35 71808                    
+BORDER (MAPS)   QB CN   WTB  3   55.33  -63.22   465 71901                    
+CAP CHAT        QB CN   WSG  3   49.08  -66.73    35 71428                    
+CHEVERY (MARS)  QB CN   WDM  3   50.47  -59.63     9 71814                    
+HAVRE ST PIERRE QB CN   YGV  3   50.28  -63.62    33 00000                    
+ILE ROUGE (MAPS QB CN   WAF  3   48.07  -69.55     6 71426                    
+LA GRANDE III   QB CN   YAD  3   53.57  -76.20   233 00000                    
+LA GRANDE IV    QB CN   YAH  3*  53.75  -73.67   313 71823                    
+LAC EON (MAPS)  QB CN   WEO  3   51.85  -63.28   593 71421                    
+MATAGAMI        QB CN   YNM  3   49.77  -77.80   277 71821                    
+MONTREAL/DORVAL QB CN   YUL  3   45.47  -73.75    36 71627                    
+NATASHQUAN      QB CN   YNA  3   50.18  -61.80    11 71813                    
+NEMISCAU A      QB CN   YHH  3*  51.70  -76.12   244 00000                    
+ROUYN           QB CN   YUY  3   48.20  -78.83   301 00000                    
+SEPT ILES       QB CN   YZV  3*  50.22  -66.27    55 71811                    
+SHERBROOKE      QB CN   YSC  3   45.43  -71.68   238 71610                    
+STE AGATHE DES  QB CN   WOH  3   46.05  -74.28   395 71720                    
+EASTMAIN RIVER  QU CN   ZEM  3   52.23  -78.52     7 00000                    
+BROADVIEW       SA CN   WIK  3   50.38 -102.68   602 71861                    
+BUFFALO NARROWS SA CN   WVT  3   55.83 -108.43   431 71077                    
+COLLINS BAY     SA CN   WKC  3   58.18 -103.68   492 71075                    
+EASTEND CYPRESS SA CN   WEH  3   49.43 -108.98  1080 71131                    
+ELBOW (MARS)    SA CN   WOK  3   51.13 -106.58   595 71450                    
+ESTEVAN         SA CN   YEN  3   49.07 -103.00   574 71862                    
+HUDSON BAY (MAN SA CN   YHB  3   52.87 -102.40   358 71868                    
+KINDERSLEY      SA CN   YKY  3   51.52 -109.18   694 71129                    
+LLOYDMINISTER   SA CN   YLL  3   53.32 -110.07   669 71871                    
+NIPAWIN         SA CN   YBU  3   53.33 -104.00   372 71130                    
+NORTH BATTLEFOR SA CN   YQW  3   52.77 -108.25   547 71876                    
+ROCKGLEN (MARS) SA CN   WKO  3   49.17 -105.98   917 71135                    
+SASKATOON       SA CN   YXE  3   52.17 -106.68   501 71866                    
+STONY RAPIDS    SA CN   YSF  3   59.25 -105.83   250 71132                    
+WYNYARD         SA CN   WYO  3   51.77 -104.20   561 71865                    
+YORKTON         SA CN   YQV  3   51.27 -102.47   498 71138                    
+ROSS RIVER      YK CN   YDM  3   61.97 -132.43   705 00000                    
+WATSON LAKE     YK CN   YQH  3   60.12 -128.82   685 71953                    
+PRIMROSE LAKE   AB CN   WIQ  4*  54.75 -110.05   702 71124                    
+RED DEER        AB CN   YQF  4   52.18 -113.90   904 71878                    
+WHITECOURT      AB CN   YZU  4   54.15 -115.78   782 71930                    
+BONILLA ISLAND  BC CN   WWL  4   53.50 -130.63    17 71484                    
+CATHEDRAL PT (M BC CN   WME  4   52.18 -127.47    31 71482                    
+CHETWYND ARPT   BC CN   YCQ  4   55.70 -121.63   609 00000                    
+DAWSON CREEK    BC CN   YDQ  4   55.75 -120.18   655 00000                    
+ETHELDA BAY     BC CN   WTC  4   53.05 -129.68     0 71102                    
+HOPE SLIDE      BC CN   WKV  5   49.28 -121.23   674 00000                    
+KELOWNA         BC CN   YLW  4   49.97 -119.38   430 71203                    
+NANAIMO         BC CN   YCD  4   49.05 -123.87    32 71890                    
+PORT ALBERNI    BC CN   YPB  4   49.25 -124.83     2 71205                    
+PRINCETON       BC CN   YDC  4   49.47 -120.52   700 71886                    
+VICTORIA INTL   BC CN   YYJ  4   48.65 -123.43    20 71799                    
+BISSETT         MN CN   WBJ  4   51.03  -95.67   258 71143                    
+GEORGE ISLAND   MN CN   WWS  4   52.80  -97.63   223 71445                    
+GIMLI           MN CN   WGM  4   50.62  -96.98   222 71856                    
+MELITA (MAPS)   MN CN   WEI  4   49.28 -100.98   455 71859                    
+PILOT MOUND     MN CN   WPO  4   49.20  -98.90   475 71148                    
+PORTAGE LA PRAR MN CN   YPG  4   49.90  -98.27   264 71851                    
+MONCTON         NB CN   YQM  4   46.12  -64.68    76 71705                    
+POINT ESCUMINAL NB CN   WPJ  4   47.57  -64.80    15 00000                    
+FEROLLE (MAPS)  NF CN   WXI  4   51.02  -57.10     8 00000                    
+TWILLINGATE     NF CN   WDO  4   49.68  -54.80    92 71402                    
+AMHERST         NS CN   WAH  4   45.85  -64.27    23 71410                    
+GREENWOOD       NS CN   YZX  4   44.98  -64.92    25 71397                    
+TRURO           NS CN   WUR  4   45.37  -63.27    40 71398                    
+AKLAVIK         NT CN   YKD  4   68.22 -135.00    10 71957                    
+FORT NORMAN     NT CN   ZFN  4   64.92 -125.57    98 71957                    
+IGLOOLIK        NT CN   YGT  4   69.37  -81.82    51 00000                    
+BRITT (MARS)    ON CN   WBI  4   45.80  -80.53   190 71632                    
+DRYDEN          ON CN   YHD  4   49.83  -92.75   412 00000                    
+ELLIOT LAKE     ON CN   YEL  4   46.35  -82.55   329 00000                    
+HAMILTON        ON CN   YHM  4   43.17  -79.92   237 71263                    
+PETAWAWA        ON CN   YWA  4   45.95  -77.32   130 71625                    
+SARNIA          ON CN   YZR  4   43.00  -82.32   181 71634                    
+TRENTON         ON CN   YTR  4   44.12  -77.53    86 71621                    
+CHARLOTTETOWN   PE CN   YYG  4   46.28  -63.13    57 71706                    
+MADELEINE (MAPS QB CN   WSF  4   49.25  -65.33    29 71425                    
+MONT JOLI       QB CN   YYY  4   48.62  -68.22    52 71718                    
+PORT MENIER     QB CN   WBY  4   49.83  -64.28    41 71810                    
+ROBERVAL        QB CN   YRJ  4   48.52  -72.27   180 71728                    
+MOOSE JAW       SA CN   YMJ  4   50.33 -105.55   577 71864                    
+BANFF (MARS)    AB CN   WZG  5   51.20 -115.55  1397 00000                    
+CALGARY/SPRINGB AB CN   YBW  5   51.10 -114.37  1200 00000                    
+EDMONTON INTL   AB CN   YEG  5   53.32 -113.58   719 71123                    
+EDMONTON VILLEN AB CN   ZVL  5   53.67 -113.87   686 00000                    
+EDMONTON/NAMAO  AB CN   YED  5   53.68 -113.47   688 71121                    
+PINCHER (MARS)  AB CN   WMP  4   49.52 -114.00  1190 71875                    
+PINCHER CREEK   AB CN   ZPC  5   49.52 -114.00  1190 71875                    
+ABBOTSFORD      BC CN   YXX  5   49.03 -122.37    61 71108                    
+ALERT BAY       BC CN   WAQ  5   50.58 -126.93    52 71110                    
+AMPHITRITE      BC CN   WAN  5   48.92 -125.55    27 71112                    
+BLUE RIVER (MAN BC CN   YCP  4   52.12 -119.30   683 71883                    
+BLUE RIVER (MAR BC CN   WSV  5   52.10 -119.30   683 71883                    
+BURNS LAKE AP   BC CN   YPZ  3   54.38 -125.95   713 71952                    
+CAMPBELL RIVER  BC CN   YBL  4   49.95 -125.27   105 00000                    
+ESTEVAN POINT   BC CN   WEB  4   49.38 -126.55     7 71894                    
+GOLDEN          BC CN   WGE  4   51.30 -116.98   785 00000                    
+GREY ISLET      BC CN   WEK  5   54.58 -130.70    13 71476                    
+HELMCKEN ISLAND BC CN   WXM  4   50.40 -125.87    19 71481                    
+HERBERT ISLAND  BC CN   WLP  5   50.93 -127.63    17 71485                    
+HOSKINS ISLET   BC CN   WZK  4   53.53 -131.55     8 00000                    
+KINDAKUN POINT  BC CN   WQS  5   53.32 -133.10    14 71472                    
+LUCY ISLAND LT  BC CN   WLC  4   54.30 -130.60    27 00000                    
+NAKUSP CS       BC CN   WNP  3   50.27 -117.82   512 00000                    
+NITINAT LAKE    BC CN   WAC  4   48.65 -124.83    41 71483                    
+OSOYOOS CS      BC CN   WYY  4   49.03 -119.43   283 00000                    
+PAM ROCKS       BC CN   WAS  4   49.48 -123.30     0 46182                    
+PENTICTON       BC CN   YYF  3   49.47 -119.60   342 71889                    
+PORT ALBERNI    BC CN   WQC  5   49.25 -124.83     2 71475                    
+POWELL RIVER    BC CN   YPW  5   49.83 -124.50   130 71208                    
+ROSE SPIT (MAPS BC CN   WRO  5   54.17 -131.67     7 71477                    
+SALMON ARM CS   BC CN   WSL  4   50.70 -119.28   351 00000                    
+SARTINE ISL (MA BC CN   WFG  4   50.82 -128.90   101 71478                    
+SATURNA ISL     BC CN   WEZ  5   48.78 -123.05     7 71473                    
+SCUDDER POINT   BC CN   WZD  4   52.45 -131.23     5 00000                    
+SOLANDER ISLAND BC CN   WRU  4   50.12 -127.93    88 71479                    
+SPARWOOD        BC CN   WSW  5   49.75 -114.88  1138 00000                    
+SQUAMISH APRT   BC CN   YSE  4   49.78 -123.17    52 71207                    
+VERNON BRIDGE   BC CN   WVK  5*  50.23 -119.28   555 71115                    
+VICTORIA/GONZAL BC CN   WLM  5   48.42 -123.32    70 71200                    
+VICTORIA/MARINE BC CN   WIR  5   48.37 -123.75    32 71202                    
+WHISTLER LAKE   BC CN   WAE  5   50.13 -122.95   658 71113                    
+BEAUSEJOUR      MN CN   WBS  5   50.13  -96.52   274 00000                    
+FISHER BRNCH    MN CN   WSZ  5   51.08  -97.55   253 71442                    
+GRETNA (MARS)   MN CN   WGN  5   49.03  -97.57   253 71441                    
+PINAWA (MAPS)   MN CN   WEA  5   50.18  -96.82   268 00000                    
+VICTORIA BEACH  MN CN   WII  5   50.70  -96.57   220 00000                    
+GAGETOWN        NB CN   YCX  5*  45.83  -66.43    51 71701                    
+ST LEONARD      NB CN   YSL  5   47.15  -67.83   241 71703                    
+ST STEPHEN      NB CN   WSS  5   45.20  -67.25    28 71607                    
+BEAVER ISLAND   NF CN   WBV  5   44.82  -66.33    69 71403                    
+CAPE RACE       NF CN   WRA  5   46.65  -53.07    28 71800                    
+FOURCHU HEAD    NS CN   WRW  5   45.72  -60.23    10 71416                    
+HALIFAX/SHEARWA NS CN   YAW  5   44.63  -63.50    51 71601                    
+MCNABS (MAPS)   NS CN   WDA  5   44.60  -63.52    17 71417                    
+PORT HAWKESBURY NS CN   YPD  5   45.65  -61.37   114 71605                    
+WESTERN HEAD    NS CN   WWE  5   43.98  -64.67     9 71411                    
+ALERT           NT CN   WLT  5   82.50  -62.33    63 71082                    
+BROUGHTON ISLAN NT CN   YVM  5   67.55  -63.78   573 71096                    
+CAPE HOOPER     NT CN   WUZ  5   68.43  -66.78   401 71093                    
+CLINTON POINT   NT CN   WXK  5   69.58 -120.80   101 71053                    
+JENNY LIND ISLA NT CN   YUQ  5   68.65 -101.73    18 71071                    
+LUPIN (MAPS)    NT CN   WIJ  5   65.77 -111.23   500 71496                    
+NICHOLSON PENIN NT CN   WRP  5   69.93 -128.97    89 71956                    
+SACHS HARBOUR   NT CN   WSY  5   72.00 -125.27    88 00000                    
+TUKTOYAKTUK     NT CN   WTW  5   69.45 -133.00    18 71959                    
+BARRIE (MARS)   ON CN   WCU  5   44.38  -79.78   295 71436                    
+BELLE RIVER     ON CN   WDD  5   42.30  -82.23   181 71636                    
+BURLINGTON      ON CN   WWB  5   43.30  -79.80    77 71437                    
+CARIBOU ISL (MA ON CN   WCI  5   47.33  -85.83   187 71433                    
+COBOURG (MARS)  ON CN   WNC  5   43.95  -78.17    77 71431                    
+COVE ISLAND     ON CN   WWX  5   45.33  -81.73   181 71439                    
+GREAT DUCK ISLA ON CN   WNL  5   45.63  -82.97   183 71462                    
+KILARNEY (MAPS) ON CN   WBE  5   45.97  -81.48   196 71460                    
+LONG POINT (MAP ON CN   WPS  5   42.57  -80.05   175 71464                    
+MAIN DUCK       ON CN   WDK  5   43.93  -76.65    79 00000                    
+MITCHELL,S BAY  ON CN   WDJ  5   42.47  -82.42   186 00000                    
+MOUNT FOREST    ON CN   WLS  5   43.98  -80.75   415 71631                    
+NORTH BAY NIPI  ON CN   WLQ  5   46.32  -79.48   200 00000                    
+OLIPHAT (MAPS)  ON CN   WDF  5   44.73  -81.28   181 71637                    
+POINT PETRE     ON CN   WQP  5   43.83  -77.15    78 71430                    
+PORT WELLER     ON CN   WWZ  5   43.23  -79.22    79 71432                    
+S.E. SHOAL (MAP ON CN   WNB  5   41.83  -82.47   196 71466                    
+SAULT STE MARIE ON CN   YAM  5   46.48  -84.52   192 71260                    
+SIMCOE (AUT)    ON CN   WSI  5   42.85  -80.27   241 71527                    
+ST CATHARINES   ON CN   YSN  5   43.20  -79.17    98 71262                    
+TORONTO BUTTONV ON CN   YKZ  5   43.87  -79.37   198 00000                    
+TORONTO ISLAND  ON CN   YTZ  5   43.63  -79.40    77 71265                    
+TORONTO/HEAD    ON CN   WQE  5   43.67  -79.40   111 71266                    
+TROWBRIDGE      ON CN   WAB  5   48.30  -88.87   218 71461                    
+WATERLOO-WELLIN ON CN   YKF  5   43.47  -80.38   314 71368                    
+WESTERN ISLAND  ON CN   WMZ  5   45.03  -80.37   191 71438                    
+WINDSOR         ON CN   YQG  5   42.27  -82.97   190 71538                    
+EAST POINT (MAP PE CN   WEP  5   46.45  -61.97    13 71412                    
+CAP D'ESPOIR    QB CN   WRZ  5   48.42  -64.32    15 71429                    
+CHARLEVOIX      QB CN   YML  5   47.60  -70.23   298 71713                    
+GATINEAU        QB CN   YND  5   45.52  -75.57    64 00000                    
+IL'D ORLEANS    QB CN   WER  5   47.00  -70.82     5 71424                    
+MONTREAL/MIRABE QB CN   YMX  5   45.68  -74.03    82 71626                    
+MONTREAL/ST HUB QB CN   YHU  5   45.52  -73.42    27 71371                    
+POINTE DES MONT QB CN   WTG  5   49.32  -67.38     5 71427                    
+RIVIERE DU LOOP QB CN   WNH  5   47.80  -69.55   148 71715                    
+BUFFALO NARROWS SA CN   YVT  5   55.83 -108.43   434 00000                    
+JIMMY LAKE      SA CN   WHN  5   54.92 -109.97   636 71127                    
+BEAVER CREEK    YK CN   YXQ  5   62.42 -140.87   649 00000                    
+FARO (MAN)      YK CN   ZFA  5   62.22 -133.37   717 00000                    
+FARO (MARS)     YK CN   WUM  5   62.22 -133.37   717 71949                    
+HAINES JUNCTION YK CN   WHT  5   60.77 -137.58   599 00000                    
+KOMAKUK BEACH   YK CN   YAJ  5   69.58 -140.18     8 71969                    
+SHINGLE POINT   YK CN   YUA  5   68.92 -137.27    37 71968                    
+BOW DRILL III   -- CN   WEJ  6   46.10  -48.00     0 00000                    
+GLOMAR HIGH ISL -- CN   ---  6   46.70  -62.83    50 69385                    
+LABRADOR 1      -- CN   ---  6   44.40  -58.30    40 69427                    
+ROWAN GORILLA 1 -- CN   WWC  6   44.30  -58.00    41 69428                    
+SEDCO 710       -- CN   WQJ  6   46.07  -48.08    34 00000                    
+VINLAND         -- CN   WPD  6   44.00  -59.90     0 00000                    
+EDMONTON/STONY  AB CN   WSE  6*  53.55 -114.10   766 71119                    
+HIGH PRAIRIE    AB CN   ZHP  6   55.40 -116.48   602 00000                    
+WAINWRIGHT      AB CN   YWV  6   52.83 -110.63   671 00000                    
+HOLBERG         BC CN   WHJ  6   50.65 -128.05   577 00000                    
+LAWN POINT (MAP BC CN   WPI  6   50.33 -127.97     9 71105                    
+PUNTZI MOUNTAIN BC CN   YPU  6   52.12 -124.08   909 00000                    
+VANCOUVER       BC CN   WHC  6   49.30 -123.12     0 71201                    
+VICTORIA/GONZAL BC CN   WVG  6   48.42 -123.32    69 71200                    
+GYPSUMVILLE     MN CN   WGU  6   51.67  -98.75   265 00000                    
+SHILO           MN CN   YLO  6*  49.78  -99.65   373 71853                    
+WINNEPEG        MN CN   WKT  6   49.92  -97.23   239 00000                    
+KILLIGREWS      NF CN   WJP  6   47.50  -53.20     8 00000                    
+MAKKOVIK        NF CN   YFT  6   55.08  -59.18    71 00000                    
+MAKKOVIK (MAPS) NF CN   WFT  6   55.08  -59.17    62 71405                    
+ST ANTHONY      NF CN   WAX  6   51.37  -55.63   111 71819                    
+LIVERPOOL       NS CN   YAU  6   44.23  -64.85    96 71369                    
+SABLE ISLAND    NS CN   YSA  6*  43.93  -60.02     4 00000                    
+ST PAULS ISLAND NS CN   WEF  6   47.23  -60.13    15 71416                    
+TRURO (AUT)     NS CN   WTQ  6   45.37  -63.27    40 71398                    
+BROUGHTON ISLAN NT CN   WVM  6   67.55  -64.03     5 71096                    
+BYRON BAY       NT CN   YUK  6   68.75 -109.07    92 71929                    
+CAPE BATHURST   NT CN   WCD  6   70.55 -127.95    17 71503                    
+CLYDE           NT CN   WCY  6   70.47  -68.62    25 71090                    
+DEWAR LAKES     NT CN   WUW  6   68.65  -71.23   518 71092                    
+FORT RESOLUTION NT CN   YFR  6   61.18 -113.68   164 71063                    
+GLADMAN POINT   NT CN   YUR  6   68.67  -97.80    14 71927                    
+GRANT (AUTOB)   NT CN   WWM  6   82.50  -65.08  1242 00000                    
+LADY FRANKLIN   NT CN   YUJ  6   68.48 -113.22    16 71937                    
+LONGSTAFF BLUFF NT CN   WUV  6   68.95  -75.30   162 71091                    
+MACKAR INLET    NT CN   WUU  6   68.30  -85.68   395 71080                    
+PELLY BAY       NT CN   WKE  6   68.43  -89.60   326 71919                    
+REA POINT       NT CN   YOX  6   75.35 -105.72     1 00000                    
+WHALE COVE      NT CN   WXN  6   62.15  -92.58     5 00000                    
+ATIKOKAN        ON CN   WIB  6   48.75  -91.62   395 71748                    
+GREAT BEND (MAP ON CN   WDQ  6   43.33  -81.73   190 00000                    
+KINGSTON (MARS) ON CN   WGK  6   44.22  -76.60    93 00000                    
+PORT COLBORNE(A ON CN   WPC  6   42.87  -79.25   184 71463                    
+SIMCOE (AUT)    ON CN   WMK  6   42.85  -80.27   241 71527                    
+TORONTO (MARS)  ON CN   WTZ  6   43.63  -79.40    77 00000                    
+BAIE COMEAU     QB CN   WBC  6   49.13  -68.20    22 71187                    
+MANIWAKI        QB CN   YMW  6*  46.38  -75.97   170 71722                    
+NITCHEQUON      QB CN   WNI  6*  53.20  -70.90   536 71826                    
+SUTTON JUNC (MA QB CN   WXF  6   45.15  -72.58   237 71422                    
+VALCARTIER      QB CN   YOY  6*  46.90  -71.50   168 71716                    
+ELBOW (MAN)     SA CN   WFJ  6   51.13 -106.58   595 71450                    
+HUDSON BAY (MAR SA CN   WHB  6   52.82 -102.32   358 71868                    
+KINGS POINT     YK CN   WOP  6   69.08 -137.92    61 71500                    
+SUNDRE ARPT (AU AB CN   WAV  6   51.77 -114.68  1114 00000                    
+BIG CREEK(AUTO) BC CN   WBG  6   51.25 -123.08  1670 00000                    
+BROOKS (AUTOB)  AB CN   WBO  6   50.55 -111.85   747 71457                    
+ATIKOKAN (AUT)  ON CN   WCH  6   48.75  -91.62   393 71748                    
+BURWASH (AUTOB) YK CN   WDB  6   61.37 -139.05   806 71967                    
+DRUMHELLER EAST AB CN   WDZ  6   51.43 -112.67   678 00000                    
+SWAN RIVER (MAR MN CN   WEQ  6   52.12 -101.23   335 71443                    
+MELFORT (AUTOB) SA CN   WFF  6   52.82 -104.60   490 71456                    
+ILES DE LA MADE QB CN   WGR  6   47.43  -61.77     8 00000                    
+INDIN RIVER (MA NT CN   WIE  6   64.38 -115.02   478 00000                    
+ISKUT RIVER(AUT BC CN   WIO  6   56.73 -131.67    15 00000                    
+ST. CLOTHILDE ( QB CN   WIT  6   45.17  -73.68    52 71614                    
+SOUTHEND (AUTOB SA CN   WJH  6   56.33 -103.28   344 71451                    
+ASSINIBOIA ARPT SA CN   WJI  6   49.73 -105.93   724 71487                    
+FORT LIARD      NT CN   WJL  6   60.23 -123.47   213 71497                    
+JONQUIERE(AUTO) QB CN   WJO  6   48.42  -71.22   133 71617                    
+VERNON (AUTOB)  BC CN   WJV  6   50.23 -119.28   556 00000                    
+JASPER WARDEN ( AB CN   WJW  6   52.93 -118.32  1020 71486                    
+LEADER ARPT (AU SA CN   WJX  6   50.90 -109.50   672 71459                    
+DUBAWNT LAKE (M NT CN   WJZ  6   63.23 -101.77   237 71499                    
+MALAHAT (AUTOB) BC CN   WKH  6   48.58 -123.58   275 00000                    
+LUCKY LAKE (AUT SA CN   WLE  6   50.95 -107.15   665 71455                    
+LANSDOWNE HOUSE ON CN   WLF  6   52.23  -87.88   242 71846                    
+LITTLE CHICAGO( NT CN   WLG  6   67.20 -130.22    63 00000                    
+MANIWAKI        QB CN   WMW  6   46.38  -75.97   170 71722                    
+NICOLET (AUTOB) QB CN   WNQ  6   46.22  -72.65    10 71723                    
+NAKISKA RIDGETO AB CN   WNR  6   50.95 -115.18  1914 00000                    
+ONEFOUR (AUTOB) AB CN   WOE  6   49.12 -110.47   935 71116                    
+PRIMROSE LAKE 2 AB CN   WOU  6   54.78 -110.07   606 71127                    
+WYNYARD (MARS)  SA CN   WOY  6   51.77 -104.20   561 00000                    
+POINT LEPREAU   NB CN   WPE  6   45.07  -66.47     1 00000                    
+INUKJUAK        QB CN   WPH  6   58.45  -78.12     3 71907                    
+FORT CHIPEWYAN( AB CN   WPY  6   58.77 -111.12   232 00000                    
+QUESNEL (AUTOB) BC CN   WQZ  6   53.03 -122.52   545 00000                    
+RED EARTH (AUTO AB CN   WRD  6   56.53 -115.27   546 00000                    
+ARNES (AUTOB)   MN CN   WRE  6   50.80  -96.88   221 00000                    
+ROSETOWN EAST ( SA CN   WRJ  6   51.57 -107.92   586 71510                    
+ROCK RIVER (MAP YK CN   WRR  6   66.95 -136.27   600 71506                    
+MILK RIVER (AUT AB CN   WRY  6   49.13 -112.05  1050 00000                    
+SUMMERSIDE (AUT PE CN   WSD  6   46.43  -63.83    24 00000                    
+SOUSA CREEK (MA AB CN   WSH  6   58.58 -118.50   373 00000                    
+SHERINGHAM PT ( BC CN   WSP  6   48.38 -123.92     3 00000                    
+SAGLEK (BAY)    NF CN   WST  6   58.33  -62.58   516 71804                    
+BEARTOOTH ISL(M SA CN   WTF  6   59.22 -109.70   238 00000                    
+TROIS RIVIERES  QB CN   WTY  6   46.35  -72.52     6 71724                    
+SAND HEADS (LS) BC CN   WVF  6   49.10 -123.30     1 00000                    
+VEGREVILLE (AUT AB CN   WVI  6   53.62 -112.03   639 71458                    
+VAL MARIE SE(AU SA CN   WVN  6   49.07 -107.58   785 71137                    
+GRATES COVE(AUT NF CN   WVW  6   48.17  -52.93    18 00000                    
+BREVOORT ISLAND NT CN   WVX  6   63.33  -64.15   376 71097                    
+VILLEROY RADAR  QB CN   WVY  6   46.43  -71.93   108 71616                    
+WEYBURN (AUTOB) SA CN   WWF  6   49.70 -103.80   589 71452                    
+WASAGAMING (AUT MN CN   WWP  6   50.65  -99.93   627 71444                    
+BOW VALLEY (AUT AB CN   WXA  6   51.08 -115.07  1298 00000                    
+ROWAN GORILLA I NS CN   WXO  6   43.88  -60.55    44 00000                    
+PANGIRTUNG (AUT NT CN   WXP  6   66.15  -65.72    23 00000                    
+BACK RIVER (MAP NT CN   WXV  6   66.08  -96.50    28 71498                    
+POOLS ISLAND    NF CN   WYI  6   49.12  -53.58    10 00000                    
+AGASSIZ (AUTO)  BC CN   WZA  6   49.25 -121.77    15 71113                    
+CUMSHEWA ISL (M BC CN   WZL  6   53.03 -131.60    17 00000                    
+GRAND ETANG (AU NS CN   WZQ  6   46.53  -61.08    17 00000                    
+DIGBY ARPT (AWR NS CN   YID  6   44.55  -65.78   152 00000                    
+IVUJIVIK ARPT(S QB CN   YIK  6   62.42  -77.95    42 00000                    
+KANGIQSUALUJJUA QB CN   YKB  6   58.72  -66.00    58 00000                    
+KANGIQSUJUAQ(SA QB CN   YKG  6   61.58  -71.93   151 00000                    
+AKULIVIK AIRPOR QB CN   YKO  6   60.82  -78.15     9 00000                    
+PICKLE LAKE     ON CN   YPL  6   51.47  -90.20   386 71845                    
+SUFFIELD AIRPOR AB CN   YSD  6   50.27 -111.18   770 71128                    
+FORT FRANKLIN A NT CN   YWJ  6   65.20 -123.43   176 00000                    
+WHALE COVE AIRP NT CN   YXN  6   62.23  -92.60    20 00000                    
+SALLIUT ARPT (S QB CN   YZG  6   62.18  -75.67   226 00000                    
+BATHURST ARPT(A NB CN   ZBF  6   47.63  -65.75    59 00000                    
+BIG TROUT LAKE  ON CN   ZBT  5   53.82  -89.54   224 71844                    
+EDSON (READAC)  AB CN   ZET  6   53.58 -116.47   925 00000                    
+HOPE (READAC)   BC CN   ZHE  6   49.37 -121.48    41 00000                    
+LYTTON (READAC) BC CN   ZLY  6   50.23 -121.58   257 71891                    
+MATAGAMI (READA QB CN   ZNM  6   49.77  -77.82   281 00000                    
+PINCHER CREEK ( AB CN   ZPN  6   49.52 -114.00  1190 71875                    
+ALEXIS RIVER (M NF CN   WXW  6   52.65  -56.87    43 71183                    
+FORT RELIANCE(M NT CN   WFZ  6   62.72 -109.17   168 00000                    
+KANGIRSUK (SAWR QB CN   YAS  6   60.02  -70.00   117 00000                    
+TEEPEE ISLAND ( ON CN   WTX  6    0.00    0.00     0 00000                    
+WASKESIU LAKE ( SA CN   WLV  6   53.92 -106.07   569 71454                    
+MAPLE CREEK (AU SA CN   WMQ  6   49.90 -109.47   767 71453                    
+CHATHAM (AUTOB) NB CN   WCQ  6   47.00  -65.45    34 00000                    
+ALERT (READAC)  NT CN   ZLR  6   82.50  -62.33    66 00000                    
+URANIUM CITY(MA SA CN   WDC  6   59.57 -108.48   318 71076                    
+ISACHSEN (MAPS) NT CN   WIC  6   78.78 -103.55    58 71074                    
+EGBERT (MAPS)   ON CN   WET  6   44.23  -79.78   251 00000                    
+MOOSONEE        ON CN   WZC  6   51.27  -80.65    10 72836                    
+QUAQTAQ AP      QU CN   YHA  6   61.05  -69.63    32 00000                    
+MASSET          BC CN   WMA  6   54.02 -132.12     5 00000                    
+DAWSON          YK CN   WON  5   64.05 -139.13   370 00000                    
+SPRAGUE         MN CN   WSU  5   49.02  -95.60   329 00000                    
+WATROUS EAST    SA CN   WIW  5   51.67 -105.40   526 71511                    
+CHATHAM PT      BC CN   WFM  5   50.33 -125.43    23 00000                    
+EUREKA (MAN)    NT CN   YEU  6   80.00  -85.82    78 00000                    
+DANIELS HARBOR  NF CN   WDX  6   50.23  -57.60    19 00000                    
+PORT BASQUES    NF CN   WOF  6   47.57  -59.18    40 00000                    
+BURGEO          NF CN   WBF  6   47.62  -57.63    12 00000                    
+FRELIGHSBURG    QB CN   WFQ  5   45.05  -72.83   152 71373                    
+L'ACADIE        QB CN   WIZ  5   45.30  -73.35    45 71372                    
+YATHKYED LAKE   NT CN   WJY  4   62.70  -98.30   148 71507                    
+WELCOME ISL     ON CN   WEC  5   48.37  -89.12   209 00000                    
+COP UPPER       AB CN   WDU  5   51.08 -114.22  1235 00000                    
+LITTLE MECATINA NF CN   WFU  5   52.23  -61.32   321 00000                    
+CONNE RIVER     NF CN   WFY  5   48.17  -55.48   183 00000                    
+PEMBERTON AP    BC CN   WGP  5   50.30 -122.73   204 00000                    
+STAR BROOK      NF CN   WHU  5   48.58  -57.23   290 00000                    
+SQUAMISH AP     BC CN   WSK  5   49.78 -123.17    52 71207                    
+SPIRITWOOD WEST SA CN   WSR  5   53.37 -107.55   590 71133                    
+ROUYN           QB CN   WUY  5   48.25  -79.03   318 71734                    
+BRIER           NS CN   WVU  5   44.28  -66.33    16 00000                    
+AUPALUK         QB CN   YLA  5   59.30  -69.60    35 00000                    
+TASIUJAQ        QB CN   YTQ  5   58.67  -69.95    31 00000                    
+CHIBOUGAMAU     QB CN   ZMT  5   49.77  -74.53   387 71822                    
+NANAKWA SHOALS  BC CN   WCB  5   53.82 -128.83     0 00000                    
+MCINNES ISLAND  BC CN   WMS  4   52.27 -128.72    26 71897                    
+ESTHER 1        AB CN   WGY  4   51.67 -110.20   707 00000                    
+KATATOTA IS     ON CN   WKK  4   49.72  -88.33   260 71468                    
+NECHAKO RIVER   BC CN   WNX  4   53.68 -124.83   715 00000                    
+PORT MENIER     QB CN   YPN  4   49.83  -64.28    51 00000                    
+NORTH POINT     PE CN   WNE  4   47.07  -64.00     8 00000                    
+ROQUEMAURE      QB CN   WGQ  5   48.63  -79.45   269 71736                    
+CROWSNEST       AB CN   WRT  4   49.63 -114.29  1303 00000                    
+VAUXHALL CDA CS AB CN   WVO  4   50.05 -112.13   779 00000                    
+CYPRESS HILLS   SA CN   WVP  4   49.65 -109.52  1271 71139                    
+WAWA            ON CN   WXZ  5   47.97  -84.78   287 00000                    
+BONNARD         QB CN   WKD  5   50.73  -71.05   506 00000                    
+WIARTON         ON CN   ZVV  3   44.75  -81.10   219 71633                    
+NORTH BAY       ON CN   ZNB  3   46.37  -79.42   369 71731                    
+BIG TROUT LAKE  ON CN   YTL  3   53.82  -89.90   224 00000                    
+GILLAM          MN CN   WGX  2   56.37  -94.70   145 00000                    
+WEST VANCOUVER  BC CN   WWA  4   49.33 -123.18   173 00000                    
+PUKASKWA        ON CN   WCJ  4   48.58  -86.30   206 00000                    
+BACCARO POINT   NS CN   WCP  4   43.45  -65.47    13 00000                    
+BALLENAS LS     BC CN   WGB  4   49.35 -124.17    15 00000                    
+GRENADIER IS    ON CN   WGH  4   44.42  -75.85    82 00000                    
+LAGOON CITY     ON CN   WGL  4   44.53  -79.22   221 00000                    
+SISTERS IS CS   BC CN   WGT  4   49.48 -124.43     3 00000                    
+SPARWOOD CS     BC CN   WGW  4   49.75 -114.88  1138 00000                    
+THREE HILLS     AB CN   WHI  4   51.70 -113.22   907 00000                    
+NELSON CS       BC CN   WNM  4   49.50 -117.30   535 00000                    
+PRINCETON CS    BC CN   WPR  2   49.47 -120.52   700 71032                    
+LACOMBE CDA 2   AB CN   WQQ  4   52.45 -113.75   874 00000                    
+WHITE ROCK CS   BC CN   WWK  4   49.02 -122.78    61 00000                    
+VICTORIA UNIV   BC CN   WYJ  4   48.45 -123.30    49 00000                    
+YOHO PARK CS    BC CN   WYL  4   51.45 -116.33  1615 00000                    
+GOLDEN A        BC CN   YGE  4   51.30 -116.98   785 00000                    
+MARY'S HARBOUR  NF CN   YMH  2   52.30  -55.83    11 71817                    
+UMIUJAQ         QB CN   YMU  4   56.53  -76.52    71 00000                    
+POVUNGNITUK     QB CN   YPX  4   60.05  -77.28    23 00000                    
+GIMLI INDUST PK MN CN   YGM  4   50.61  -97.03   232 71856                    
+ST SHOTTS       NF CN   WFH  4   46.72  -53.48   143 00000                    
+HANBURY RIVER   NT CN   WQY  4   63.58 -105.15   317 71963                    
+FORT PROVIDENCE NT CN   WID  4   61.32 -117.60   162 00000                    
+COLVILLE LAKE   NT CN   WFX  4   67.03 -126.08   259 00000                    
+CLUT LAKE       NT CN   WCX  4   67.60 -117.77   185 00000                    
+ELLICE RIVER    NT CN   WEV  4   67.72 -104.47    42 00000                    
+CAPE ST. JAMES  BC CN   WFV  6   51.93 -131.02    91 71107                    
+EDMONTON        AL CN   YEM      53.55 -114.10   766 71119
+VERMILLION      AL CN   YVG      53.35 -110.83    34 71871
+LANGARA         BC CN   WLA      54.25 -133.05    41 71899
+ARGENTIA        NF CN   YAR      47.28  -54.00    15 71807
+COMFORT COVE    NF CN   WHW      49.27  -54.88    96 71193
+CHESTERFIELD    NT CN   WCS      63.33  -90.72     0 71916
+CLYDE           NT CN   YCY      70.45  -68.55     2 71090
+ISACHSEN        NT CN   YIC      78.78 -103.53    27 71074
+EDDY POINT      NS CN   WOQ      45.52  -61.25    62 71604
+MT FOREST       OT CN   WMN      43.98  -80.75   412 71631
+TORONTO         OT CN   YZD      43.75  -79.48   198 00000
+CAPE HOPES ADVN QU CN   WHA      61.08  -69.55    73 71904
+GAGNON          QU CN   YGA      51.95  -68.13   566 00000
+MINGAN          QU CN   YLP      50.28  -64.15    22 00000
+URANIUM CITY    SA CN   YBE      59.57 -108.48   318 71076
+ACAPULCO        -- MX   ACA  1   16.75  -99.77     5 76805                    
+AGUASCALIENTES  -- MX   AGU  1   21.88 -102.30  1874 76571                    
+COLIMA          -- MX   COL  1   19.27 -103.58   723 76658                    
+CANCUN INTL     -- MX   CUN  1   21.03  -86.88     5 76599                    
+CHIHUAHUA INTL  -- MX   CUU  1*  28.70 -105.97  1354 76225                    
+GUAYMAS         -- MX   GYM  1*  27.98 -110.93    27 76255                    
+ISLA GUADALUPE  -- MX   GUD  1*  29.17 -118.32     6 76151                    
+ISLA SOCORRO    -- MX   SOC  1*  18.72 -110.95    38 76723                    
+LA PAZ          -- MX   LAP  1*  24.07 -110.33    14 76405                    
+MANZANILLO      -- MX   ZLO  1   19.15 -104.57     5 76654                    
+MAZATLAN        -- MX   MZT  1   23.15 -106.25     5 76458                    
+MERIDA INTL     -- MX   MID  1   20.98  -89.65     9 76644                    
+MEXICO CITY/JUA -- MX   MEX  1   19.43  -99.08  2234 76679                    
+MONTERREY INTL  -- MX   MTY  1*  25.78 -100.10   387 76393                    
+TAMPICO         -- MX   TAM  1   22.28  -97.85    24 76548                    
+TAPACHULA/AIRPO -- MX   TAP  1   14.92  -92.27   182 76904                    
+TORREON         -- MX   TRC  1   25.57 -103.42  1130 76382                    
+VERACRUZ        -- MX   VER  1   19.20  -96.13    14 76691                    
+VILLAHERMOSA    -- MX   VSA  1   18.02  -92.95    33 00000                    
+CAMPECHE AIRPOR -- MX   CPE  2   19.83  -90.52     9 00000                    
+CARMEN-IN-CAMPE -- MX   CME  2   18.65  -91.78     3 76749                    
+CIUDAD VICTORIA -- MX   CVM  2   23.72  -98.97   235 00000                    
+COATZACOALCOS   -- MX   MTT  2   18.15  -94.42    23 76741                    
+CULIACAN        -- MX   CUL  2   24.78 -107.43    33 76412                    
+DURANGO         -- MX   DGO  2   24.13 -104.53  1856 76423                    
+GUADALAJARA     -- MX   GDL  2*  20.52 -103.32  1526 76612                    
+HERMOSILLO      -- MX   HMO  2   29.10 -111.05   187 76161                    
+LORETO          -- MX   LTO  2   26.00 -111.37     6 00000                    
+LOS MOCHIS      -- MX   LMM  2   25.82 -108.98    17 76361                    
+MONCLOVA        -- MX   LOV  2   26.90 -101.42   586 76342                    
+MORELIA NEW     -- MX   MLM  2   19.73 -101.22  1899 00000                    
+OAXACA/AIRPORT  -- MX   OAX  2   17.00  -96.73  1528 00000                    
+PUERTO VALLARTA -- MX   PVR  2   20.68 -105.25     6 76601                    
+TUXTLA GUTIERRE -- MX   TGZ  2   16.75  -93.12   528 76843                    
+ZIHUATANEJO     -- MX   ZIH  2   17.65 -101.45     6 00000                    
+CHETUMAL        -- MX   CTM  3   18.50  -88.30     3 76750                    
+COZUMEL         -- MX   CZM  3   20.52  -86.93     5 76648                    
+CUIDAD OBREGON  -- MX   CEN  3   27.48 -109.93    38 76258                    
+ENSENADA        -- MX   ENS  3   31.85 -116.63    13 76050                    
+LEON/SAN CARLOS -- MX   LEN  3   21.07 -101.55  1829 00000                    
+NOGALES         -- MX   NOG  3   31.25 -110.98  1222 00000                    
+PALIZADA        -- MX   PAZ  3   18.27  -92.10    15 00000                    
+SAN JOSE DE TAP -- MX   SJD  3   22.67 -102.55    33 00000                    
+SAN LUIS POTOSI -- MX   SLP  3   22.15 -100.98  1903 76539                    
+TULANCINGO      -- MX   TCG  3   20.08  -98.37  2181 00000                    
+MEXICALI        -- MX   MXL  4   32.62 -115.27    22 00000                    
+URUAPAN/GEN RAY -- MX   UPN  4   19.40 -102.03  1593 00000                    
+JUAREZ-IN-CHIHU -- MX   CJS  5   31.63 -106.43  1167 00000                    
+MATAMOROS INTL  -- MX   MAM  5   25.77  -97.53     7 00000                    
+MONTERREY INTL  -- MX   ADN  5*  25.87 -100.23   448 76394                    
+NUEVO LAREDO    -- MX   NLD  5   27.43  -99.57   141 00000                    
+REYNOSA INTL.   -- MX   REX  5   26.02  -98.23    39 00000                    
+TIJUANA         -- MX   TIJ  5   32.53 -116.98   152 00000                    
+TOLUCA/JOSE MAR -- MX   TLC  5   19.35  -99.57  2576 00000                    
+ZACATECAS ARPT  -- MX   ZCL  5   22.90 -102.68  2140 00000                    
+LEON-IN-GUANAJU -- MX   LEO  6   21.12 -101.68  1809 76575                    
+DEL BAJIO       -- MX   BJX  3   21.00 -101.48  1819 76577                    
+BAHIAS DE HUATU -- MX   HUX  4   15.78  -96.27   143 76848                    
+PUERTO ESCONDID -- MX   PXM  3   15.87  -97.08    88 76855                    
+TEPIC           -- MX   TNY  4   21.52 -104.90   922 76556                    
+SAN JOSE        CS CA  MROC  1*   9.98  -84.22   939 78762                    
+GUANTANAMO BAY  CU CA  MUGM  1*  19.90  -75.15    23 78367                    
+NASSAU INTL     BA CA  MYNN  2*  25.05  -77.47     7 78073                    
+GRANTLEY ADAMS  BR CA  TBPB  2*  13.07  -59.48    56 78954                    
+CAMAGUEY        CU CA   CAM  2*  20.72  -78.00     2 78351                    
+CANAL ZONE/HOWD PM CA  MPHO  2*   8.97  -79.60     9 78806                    
+PORT OF SPAIN   TD CA  TTPP  2*  10.62  -61.35    15 78970                    
+CURACAO         WI CA  TNCC  2*  12.20  -68.97    17 78988                    
+ST MAARTEN/JULI WI CA  TNCM  2*  18.05  -63.12    12 78866                    
+GRAND CAYMAN/OW GC CA  MWCR  3*  19.28  -81.35     3 78384                    
+KINGSTON        JM CA  MKJP  3*  17.93  -76.78    14 78397                    
+SANTO DOMINGO   DR CA  TSDM  4*  18.43  -69.88    14 78486                    
+TEGUCIGALPA     HO CA  TRPA  4*  14.05  -87.22  1007 78720                    
+GUADELOUPE/RAIZ MF CA  TFFR  4*  16.27  -61.52     8 78897                    
+ANTIGUA/COOLIDG WI CA  MCOL  5*  17.12  -61.78    10 78861                    
+BELIZE INTL     -- BH  MZBZ  1*  17.53  -88.30     5 78583                    
+PAGO PAGO       -- ZM  NSTU  1* -14.33 -170.72     3 91765                    
+BERMUDA NAS     -- BE  TXKF  2*  32.37  -64.68     6 78016                    
+GUAM/AGANA NAS  -- MY  PGUM  3   13.48  144.80    75 91212                    
+GUAM/ANDERSEN A -- MY  PGUA  3   13.58  144.93   187 91218                    
+SAIPAN/KOBLER ( -- MY  PGSN  5   15.12  145.73    65 91232                    
+ROTA INTNL      -- MY  PGRO  6   14.17  145.23   185 00000                    
+GUAM            MY NP  PGAC  3*  13.55  144.88   111 91217                    
+TRUK/MOEN       -- KA  PTKK  5*   7.47  151.85     2 91334                    
+PONAPE          -- KA  PTPN  6*   6.97  158.22    46 91348                    
+YAP ISLAND      -- KA  PTYA  6*   9.48  138.08    17 91413                    
+ST CROIX/CHRIST -- VI  TISX  5   17.70  -64.80    17 78547                    
+ST THOMAS/AMALI -- VI  TIST  5   18.33  -64.97    67 78543                    
+ST PIERRE       -- FR   FVP  6   46.77  -56.17     5 71805                    
+GRAND CAYMAN    -- GC  MWCG  6   19.25  -81.42     6 78383                    
+KOSRAE EAST (LE -- KA  PTSA  6    5.33  163.03    18 91356                    
+KWAJALEIN/BUCHO -- MH  PKWA  6*   8.73  167.73     8 91366                    
+MAJURORO ATOLL  -- MH  PKMJ  6*   7.08  171.38     3 91376                    
+EQUALS 788010 M -- PM   ---  6    9.33  -79.98    52 00000                    
+JOHNSTON ISLAND -- PN  PJON  6   16.73 -169.52     5 91275                    
+PALAU/KOROR     -- PN  PTRO  6*   7.33  134.48    33 91408                    
+GRAND BAHAMA AF    BA  MYGM  4   26.62  -78.37     2 00000                    
+-------         -- --   9R9  5   28.58  -92.45    25 00000                    
+UNKNOWN RAOB1   XX XX 74002  1*   0.00    0.00     0 74002                    
+UNKNOWN RAOB2   XX XX 74004  1*   0.00    0.00     0 74004                    
+HENDERSON       AR US   HEN      36.38  -92.23   175 00000
+ARKANSAS CITY   AR US   AKZ      37.05  -97.10   377 00000
+BURLINGTON      CO US   ITR      39.25 -102.28  1279 00000
+SENECA          KS US   62K      39.83  -96.11   384 00000
+IOWA CITY       IA US   IOW      41.71  -91.61   241 00000
+Boulder         CO US   BOU      40.01 -105.25  1629 00000
+Ruidoso         NM US   SRR      33.36 -105.53  2076 00000
+Goshen          IN US   GSH      41.53  -85.78   252 00000
+Davenport       IA US   DVN      41.62  -90.58   228 74455
+Wilmington      OH US   ILN      39.42  -83.82   332 72426
+Gulf of Mex. pt LA US   GUL      27.20  -93.20     0 00000
+Gulf stream pt  NC US   GLF      33.50  -73.00     0 00000
+Morehead        NC US   MHX      34.78  -76.88     9 72305
+ARM Site        OK US   ARM      36.69  -97.48   304 00000     (elev est.)
+Erie Tri-County CO US   48V      40.01 -105.05  1600 00000     (elev est.)
+Boulder Muni    CO US   1V5      40.04 -105.23  1625 00000     (elev est.)
+Vance Brand MuniCO US   2V2      40.16 -105.16  1600 00000     (elev est.)
+                CO US   01V      39.73 -104.66  1600 00000     (elev est.)
+                CO US   18V      40.10 -104.70  1600 00000     (elev est.)
+Christman Field CO US   CHR      40.60 -105.14  1600 00000     (elev est.)
+Downtown FCL aptCO US   3V5      40.59 -105.04  1600 00000     (elev est.)
+Estes Park mesonCO US   EPK      40.38 -105.57  2368 00000
+Sungshan Arpt   -- TW  RCSS      25.07  121.55     7 46696
+CKS Intl Arpt   -- TW  RCTP      25.08  121.23    56 46686
+Kaohsiung Intl  -- TW  RCKH      22.57  120.35    12 46740
+Fengnien Arpt   -- TW  RCFN      22.76  121.09    57 46738
+Lanyu Arpt      -- TW  RCLY      22.03  120.53    26 46787
+Lutao Arpt      -- TW  RCGI      22.67  121.46    25 46786
+Matsu (Peikan)  -- TW  RCMT      26.23  119.99    50 46788
+Matsu (Nankan)  -- TW  RCFG      26.17  119.93    91 46689
+Taoyuan         -- TW  RCGM      25.05  121.22    48 46697
+Makung          -- TW  RCQC      23.52  119.57    22 46734
+Chinmen         -- TW  RCBS      24.42  118.33    11 46736
+Tainan          -- TW  RCNN      22.95  120.20    17 46743
+Kangshan        -- TW  RCAY      22.78  120.25    29 46745
+Chiayi          -- TW  RCKU      23.38  120.37    25 46746
+Pingtung (south)-- TW  RCDC      22.67  120.45    24 46750
+Taichung (Shuin)-- TW  RCLG      24.20  120.65   113 46751
+Hsinchu         -- TW  RCPO      24.83  120.93     8 46756
+Pingtung (north)-- TW  RCSQ      22.70  120.47    29 46758
+Taitung         -- TW  RCQS      22.77  121.10    45 46760
+Hualien         -- TW  RCYU      24.02  121.62    14 46763
+Yilan           -- TW  RCMS      24.73  121.75    10 46764
+Chingchuankang  -- TW  RCMQ      24.27  120.60   203 46770
+Tungsha         -- TW  RCLM      20.67  116.72     6 46810
+Chiashan        -- TW  RCCS      99.99  999.99  9999 00000
+Unknown (Lutao) -- TW  RCLT      22.70  121.50  9999 46742
+Lutao           -- TW   ---      22.65  121.47   281 46780
+Nansha          -- TW   ---      10.38  114.37     5 46902
+Pengchiayu      -- TW   ---      25.63  122.07   102 46695
+Anpu            -- TW   ---      25.18  121.52   827 46691
+Chutzehu        -- TW   ---      25.17  121.53   602 46693
+Tanshui         -- TW   ---      25.17  121.43    23 46690
+Keelung         -- TW   ---      25.13  121.75    32 46694
+Taipei          -- TW   ---      25.03  121.52     9 46692
+Hsinchu         -- TW   ---      24.80  120.97    34 46757
+Ilan            -- TW   ---      24.77  121.75     9 46708
+Suao            -- TW   ---      24.58  121.85     4 46706
+Taichung        -- TW   ---      24.15  120.68    85 46749
+Wuchi           -- TW   ---      24.25  120.52    14 46777
+Hualien         -- TW   ---      23.97  121.62    19 46699
+Jihyuehtan      -- TW   ---      23.88  120.85  1017 46765
+Penghu          -- TW   ---      23.53  119.55    11 46735
+Alishan         -- TW   ---      23.52  120.80  2408 46753
+Chiayi          -- TW   ---      23.50  120.42    28 46748
+Yushan          -- TW   ---      23.48  120.95  3851 46755
+Tungchitao      -- TW   ---      23.27  119.67    45 46730
+Hsinkang        -- TW   ---      23.10  121.37    37 46761
+Tainan          -- TW   ---      23.00  120.22    14 46741
+Taitung         -- TW   ---      22.75  121.15    10 46766
+Kaohsiung       -- TW   ---      22.58  120.30     4 46744
+Tawu            -- TW   ---      22.35  120.90     9 46754
+Lanyu           -- TW   ---      22.03  121.55   325 46762
+Hengchun        -- TW   ---      22.00  120.75    24 46759
+Lhasa           -- CI  ZULS      29.67   91.12  3650 55591
+Beijing         -- CI  ZBAA      39.93  116.28    55 54511
+Fuzhou          -- CI  ZSFZ      26.08  119.28    85 58847
+Calcutta        -- IN  VECC      22.65   88.45     6 42809
+Port Moresby    -- NG  AYPY      -9.43  147.22    47 94035
+Dili Airport    -- ID  WPDL      -8.57  125.57     6 97390
+New Tokyo Intl  -- JP  RJAA      35.77  140.38    44 47686
+Naha Apt Okinawa-- JP  ROAH      26.18  127.65     6 47930
+Singapore Changi-- SI  WSSS       1.37  103.98    16 48698
+Laoag           -- PH  RPLI      18.18  120.53     5 98223
+Manila Aquino Ap-- PH  RPLL      14.52  121.00    15 98429
+Hong Kong Intl  -- HK  VHHH      22.33  114.18    24 45007
+McMurdo Williams-- AN  NZCM     -77.87  166.97     8 89674
+McMurdo Ice Rwy -- AN  NZIR     -77.85  166.58     2 00000
+McMurdo Pegasus -- AN  NZPG     -77.95  166.52     5 00000
+A-S South Pole  -- AN  NZSP     -90.00    0.00  2830 89009
+McMurdo Williams-- AN  NZWD     -77.87  167.08    20 00000
+Byrd Station    -- AN   ---     -80.02 -119.53    51 89125

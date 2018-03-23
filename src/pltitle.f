@@ -6,8 +6,7 @@ c                                                                     c
      &   ismcp,toptextclg,ilev,ixavg,icomg,csout,idimn,raddf,
      &   rtjst,rtjen,rtjti,titlstr,iovly,
      &   cdiff,rdiff,ldfrl,xtime,itjns,rtim,ctim,lnttl,lnsmm,lnvlb,
-     &   ldiffsuccess,idescriptive,engplttl,maxlev,maxpl,mkzh,ipl,
-     &   noplots)
+     &   ldiffsuccess,idescriptive,engplttl,maxlev,maxpl,mkzh,ipl)
 c
       dimension rlevl(maxlev,maxpl),rlavl(maxlev,maxpl),
      &   rcrag(2,maxpl),rcrbg(2,maxpl),ismth(maxpl),iovly(maxpl),
@@ -30,11 +29,9 @@ c
 c
 c   Make set call, set color
 c
-      if (noplots.eq.0) then
-        call set(0.,1.,0.,1.,0.,1.,0.,1.,1)
-        call gsplci(icomg(ipl))
-        call gstxci(icomg(ipl))
-      endif
+      call set(0.,1.,0.,1.,0.,1.,0.,1.,1)
+      call gsplci(icomg(ipl))
+      call gstxci(icomg(ipl))
 c
       if (ctitl(ipl)(1:20).ne.'auto                ') then
          str=ctitl(ipl)
@@ -323,7 +320,7 @@ c     &        nint(rlevl(ilev,ipl)),' to ',nint(rlavl(ilev,ipl)),' K '
       if (lnvlb(ipl)) write(str(39:60),'(a21)') '                     '
       if (.not.lnttl(ipl)) then
          ploc=toptextclg-.5*chht
-         if (noplots.eq.0) call plchhq(.01,ploc,str,.011,0.,-1.)
+         call plchhq(.01,ploc,str,.011,0.,-1.)
          toptextclg=toptextclg-(chht+chgap)
       endif
 c
@@ -400,15 +397,13 @@ c
          write(iup,*)str(1:79)
          if (.not.lnttl(ipl)) then
             ploc=toptextclg-.5*chht
-            if (noplots.eq.0) call plchhq(.01,ploc,str,.011,0.,-1.)
+            call plchhq(.01,ploc,str,.011,0.,-1.)
             toptextclg=toptextclg-(chht+chgap)
          endif
       endif
 c
 c     call flush(iup)
-      if (noplots.eq.0) then
-        call gsplci(1)
-        call gstxci(1)
-      endif
+      call gsplci(1)
+      call gstxci(1)
       return
       end

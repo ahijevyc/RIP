@@ -173,12 +173,6 @@ c
          czone = 'CST'
       else if ( timezone .eq. -5. ) then
          czone = 'EST'
-      else if ( timezone .eq. -9. ) then   ! Alaska
-         czone = 'AKT'
-      else if ( timezone .eq. -10. ) then   ! Hawaii
-         czone = 'HST'
-      else if ( timezone .eq. 10. ) then    ! Guam
-         czone = 'ChT'
       else
          czone = 'LST'
       endif

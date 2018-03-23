@@ -1,0 +1,244 @@
+
+/usr/pgi/linux86/5.2/bin/pgf901 ripdp_wrf.f -opt 1 -nohpf -nostatic -x 119 0x100000 -x 15 2 -x 49 0x400004 -x 51 0x20 -x 57 0x4c -x 58 0x10000 -x 124 0x1000 -x 57 0x10000 -x 58 0x8031040 -x 48 3328 -stdinc /usr/pgi/linux86/5.2/include:/usr/local/include:/usr/lib/gcc-lib/i386-redhat-linux/3.3.3/include:/usr/lib/gcc-lib/i386-redhat-linux/3.3.3/include:/usr/include -def unix -def __unix -def __unix__ -def linux -def __linux -def __linux__ -def __inline__= -def i386 -def __i386 -def __i386__ -def __NO_MATH_INLINES -def linux86 -def __THROW= -idir /usr/local/netcdf/include -x 125 2 -vect 48 -output /tmp/pgf90aaaaacqmaz.ilm
+  0 inform,   0 warnings,   0 severes, 0 fatal for ripdp_wrf
+PGF90-I-0035-Predefined intrinsic isign loses intrinsic property (ripdp_wrf.f: 445)
+  1 inform,   0 warnings,   0 severes, 0 fatal for process
+  0 inform,   0 warnings,   0 severes, 0 fatal for fillarray
+  0 inform,   0 warnings,   0 severes, 0 fatal for mconvert
+  0 inform,   0 warnings,   0 severes, 0 fatal for writefile
+  0 inform,   0 warnings,   0 severes, 0 fatal for virtual
+  0 inform,   0 warnings,   0 severes, 0 fatal for handle_err
+  0 inform,   0 warnings,   0 severes, 0 fatal for xtodot
+  0 inform,   0 warnings,   0 severes, 0 fatal for utodot
+  0 inform,   0 warnings,   0 severes, 0 fatal for vtodot
+  0 inform,   0 warnings,   0 severes, 0 fatal for premaptform
+  0 inform,   0 warnings,   0 severes, 0 fatal for maptform
+PGF90/any Linux/x86 5.2-4: compilation completed with informational messages
+
+/usr/pgi/linux86/5.2/bin/pgf902 /tmp/pgf90aaaaacqmaz.ilm -fn ripdp_wrf.f -opt 1 -x 51 0x20 -x 119 0xa10000 -x 119 0x100000 -x 122 0x40 -x 123 0x1000 -x 127 4 -x 119 0x40000000 -x 80 0x300 -y 80 0x1000 -x 80 0x40000000 -x 124 0x1400 -y 15 2 -x 80 0x300 -y 80 0x1000 -x 80 0x40000000 -x 57 0x10000 -x 58 0x8000000 -astype 0 -stdinc /usr/pgi/linux86/5.2/include:/usr/local/include:/usr/lib/gcc-lib/i386-redhat-linux/3.3.3/include:/usr/lib/gcc-lib/i386-redhat-linux/3.3.3/include:/usr/include -def unix -def __unix -def __unix__ -def linux -def __linux -def __linux__ -def __inline__= -def i386 -def __i386 -def __i386__ -def __NO_MATH_INLINES -def linux86 -def __THROW= -idir /usr/local/netcdf/include -x 124 1 -cmdline '+pgf90 /tmp/pgf90aaaaacqmaz.ilm -v -byteswapio -o ripdp_wrf -L/usr/local/netcdf/lib -I/usr/local/netcdf/include -lnetcdf' -asm /tmp/pgf90baaaacqmaz.s
+  0 inform,   0 warnings,   0 severes, 0 fatal for ripdp_wrf
+  0 inform,   0 warnings,   0 severes, 0 fatal for process
+  0 inform,   0 warnings,   0 severes, 0 fatal for fillarray
+  0 inform,   0 warnings,   0 severes, 0 fatal for mconvert
+  0 inform,   0 warnings,   0 severes, 0 fatal for writefile
+  0 inform,   0 warnings,   0 severes, 0 fatal for virtual
+  0 inform,   0 warnings,   0 severes, 0 fatal for handle_err
+  0 inform,   0 warnings,   0 severes, 0 fatal for xtodot
+  0 inform,   0 warnings,   0 severes, 0 fatal for utodot
+  0 inform,   0 warnings,   0 severes, 0 fatal for vtodot
+  0 inform,   0 warnings,   0 severes, 0 fatal for premaptform
+  0 inform,   0 warnings,   0 severes, 0 fatal for maptform
+PGF90/x86 Linux/x86 5.2-4: compilation successful
+
+/usr/bin/as /tmp/pgf90baaaacqmaz.s -I/usr/local/netcdf/include -o /tmp/pgf90caaaacqmaz.o
+
+/usr/bin/ld /usr/lib/crt1.o /usr/lib/crti.o /usr/lib/gcc-lib/i386-redhat-linux/3.3.3/crtbegin.o /usr/pgi/linux86/5.2/lib/f90main.o -m elf_i386 -dynamic-linker /lib/ld-linux.so.2 /tmp/pgf90caaaacqmaz.o -o ripdp_wrf -L/usr/local/netcdf/lib -L/usr/pgi/linux86/5.2/lib -L/usr/lib -L/usr/lib/gcc-lib/i386-redhat-linux/3.3.3 -rpath /usr/pgi/linux86/5.2/lib -lnetcdf -lpgf90 -lpgf90_rpm1 -lpgf902 -lpgf90rtl -lpgftnrtl -lc -lnspgc -lpgc -lm -lgcc -lc -lgcc /usr/lib/gcc-lib/i386-redhat-linux/3.3.3/crtend.o /usr/lib/crtn.o
+/tmp/pgf90caaaacqmaz.o(.text+0x6ea): In function `MAIN_':
+: undefined reference to `nf_open_'
+/tmp/pgf90caaaacqmaz.o(.text+0x76b): In function `MAIN_':
+: undefined reference to `nf_get_att_text_'
+/tmp/pgf90caaaacqmaz.o(.text+0x8b2): In function `MAIN_':
+: undefined reference to `nf_inq_dimid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x8ec): In function `MAIN_':
+: undefined reference to `nf_inq_dimlen_'
+/tmp/pgf90caaaacqmaz.o(.text+0x92c): In function `MAIN_':
+: undefined reference to `nf_inq_dimid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x963): In function `MAIN_':
+: undefined reference to `nf_inq_dimlen_'
+/tmp/pgf90caaaacqmaz.o(.text+0x9a3): In function `MAIN_':
+: undefined reference to `nf_inq_dimid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x9da): In function `MAIN_':
+: undefined reference to `nf_inq_dimlen_'
+/tmp/pgf90caaaacqmaz.o(.text+0x9ff): In function `MAIN_':
+: undefined reference to `nf_close_'
+/tmp/pgf90caaaacqmaz.o(.text+0xa76): In function `MAIN_':
+: undefined reference to `nf_open_'
+/tmp/pgf90caaaacqmaz.o(.text+0xab9): In function `MAIN_':
+: undefined reference to `nf_inq_dimid_'
+/tmp/pgf90caaaacqmaz.o(.text+0xaf0): In function `MAIN_':
+: undefined reference to `nf_inq_dimlen_'
+/tmp/pgf90caaaacqmaz.o(.text+0xb32): In function `MAIN_':
+: undefined reference to `nf_close_'
+/tmp/pgf90caaaacqmaz.o(.text+0x325a): In function `process_':
+: undefined reference to `nf_open_'
+/tmp/pgf90caaaacqmaz.o(.text+0x329d): In function `process_':
+: undefined reference to `nf_inq_dimid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x32d4): In function `process_':
+: undefined reference to `nf_inq_dimlen_'
+/tmp/pgf90caaaacqmaz.o(.text+0x331d): In function `process_':
+: undefined reference to `nf_inq_'
+/tmp/pgf90caaaacqmaz.o(.text+0x338c): In function `process_':
+: undefined reference to `nf_inq_dimid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x33cf): In function `process_':
+: undefined reference to `nf_inq_dimid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x340f): In function `process_':
+: undefined reference to `nf_inq_dimid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x344f): In function `process_':
+: undefined reference to `nf_inq_dimid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x348f): In function `process_':
+: undefined reference to `nf_inq_dimid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x34cf): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x351e): In function `process_':
+: undefined reference to `nf_get_var_text_'
+/tmp/pgf90caaaacqmaz.o(.text+0x356b): In function `process_':
+: undefined reference to `nf_get_att_text_'
+/tmp/pgf90caaaacqmaz.o(.text+0x37b3): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x37f4): In function `process_':
+: undefined reference to `nf_get_var_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x38ac): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x38f5): In function `process_':
+: undefined reference to `nf_get_var_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x3b13): In function `process_':
+: undefined reference to `nf_inq_dimid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x3b48): In function `process_':
+: undefined reference to `nf_inq_dimlen_'
+/tmp/pgf90caaaacqmaz.o(.text+0x3bbb): In function `process_':
+: undefined reference to `nf_get_att_int_'
+/tmp/pgf90caaaacqmaz.o(.text+0x3c06): In function `process_':
+: undefined reference to `nf_get_att_int_'
+/tmp/pgf90caaaacqmaz.o(.text+0x3c56): In function `process_':
+: undefined reference to `nf_get_att_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x3ca8): In function `process_':
+: undefined reference to `nf_get_att_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x3cf3): In function `process_':
+: undefined reference to `nf_get_att_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x3d43): In function `process_':
+: undefined reference to `nf_get_att_int_'
+/tmp/pgf90caaaacqmaz.o(.text+0x3ea6): In function `process_':
+: undefined reference to `nf_get_att_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x3ef5): In function `process_':
+: undefined reference to `nf_get_att_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x41c1): In function `process_':
+: undefined reference to `nf_get_att_text_'
+/tmp/pgf90caaaacqmaz.o(.text+0x4310): In function `process_':
+: undefined reference to `nf_inq_varname_'
+/tmp/pgf90caaaacqmaz.o(.text+0x44f7): In function `process_':
+: undefined reference to `nf_get_att_text_'
+/tmp/pgf90caaaacqmaz.o(.text+0x45fb): In function `process_':
+: undefined reference to `nf_get_att_int_'
+/tmp/pgf90caaaacqmaz.o(.text+0x4724): In function `process_':
+: undefined reference to `nf_get_att_int_'
+/tmp/pgf90caaaacqmaz.o(.text+0x481f): In function `process_':
+: undefined reference to `nf_get_att_int_'
+/tmp/pgf90caaaacqmaz.o(.text+0x4e6c): In function `process_':
+: undefined reference to `nf_get_att_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x5949): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x599f): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x5a6f): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x5aca): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x6545): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x659b): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x6846): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x68a1): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x6b4c): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x6ba7): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x6cea): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x6d45): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x6fc8): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x70d9): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x7359): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x73b4): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x76b5): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x7710): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x7859): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x78b4): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x7ca6): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x7d01): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x80c1): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x811c): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x85d6): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x8631): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x89f3): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x8a49): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x8e94): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x8eea): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x90f1): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x914c): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x9358): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x93b3): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x95ba): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x9615): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x98ab): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x9985): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x9c05): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0x9ce4): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0x9f64): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0xa043): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0xa2c3): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0xa3a2): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0xa622): In function `process_':
+: undefined reference to `nf_inq_varid_'
+/tmp/pgf90caaaacqmaz.o(.text+0xa701): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0xaa6d): In function `process_':
+: undefined reference to `nf_inq_varname_'
+/tmp/pgf90caaaacqmaz.o(.text+0xabcd): In function `process_':
+: undefined reference to `nf_inq_varndims_'
+/tmp/pgf90caaaacqmaz.o(.text+0xac02): In function `process_':
+: undefined reference to `nf_inq_vardimid_'
+/tmp/pgf90caaaacqmaz.o(.text+0xae2d): In function `process_':
+: undefined reference to `nf_get_att_text_'
+/tmp/pgf90caaaacqmaz.o(.text+0xaed0): In function `process_':
+: undefined reference to `nf_get_att_text_'
+/tmp/pgf90caaaacqmaz.o(.text+0xaf14): In function `process_':
+: undefined reference to `nf_inq_attlen_'
+/tmp/pgf90caaaacqmaz.o(.text+0xafc7): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0xb1f5): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0xb3be): In function `process_':
+: undefined reference to `nf_get_vara_real_'
+/tmp/pgf90caaaacqmaz.o(.text+0xcdae): In function `handle_err_':
+: undefined reference to `nf_strerror_'
+pgf90-Fatal-linker completed with exit code 1
+
+Unlinking /tmp/pgf90aaaaacqmaz.ilm
+Unlinking /tmp/pgf90baaaacqmaz.s
+Unlinking /tmp/pgf90caaaacqmaz.o
