@@ -427,7 +427,7 @@ c
       lvl=kk
  10   lvl=lvl+1
       dp=p(lvl)-p(kk)
-      if (lvl.gt.mzkh.or.dp.gt.pavd2) then
+      if (lvl.gt.mkzh.or.dp.gt.pavd2) then
         lvlbot=lvl-1
         pbot=p(lvlbot)
         tbot=t(lvlbot)
