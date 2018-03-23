@@ -13,12 +13,10 @@ This is the main directory of RIP program for visualizing mesoscale model
 output.  Everything a user needs to run the RIP program, except for NCAR
 Graphics and NetCDF libraries, is contained in this directory.
 
-RIP requires NCAR Graphics to run. NCAR Graphics is
-a licensed software, but part of it has become free. RIP only
-requires this part of the NCAR Graphics to run.  For information
-on NCAR Graphics, please visit
+RIP requires NCAR Graphics to run. NCAR Graphics is free and part of the
+NCAR Command Language (NCL).  For information on NCAR Graphics, please visit
 
-    http://ngwww.ucar.edu/info/pricing.html
+    http://ngwww.ucar.edu
 
 Part of RIP (the WRF-model version of the preprocessing program RIPDP) requires
 NetCDF libraries to run.  NetCDF is free software available from
@@ -33,7 +31,7 @@ All fortran source code is located in directory src/.
 For bug fixes, please read file CHANGES.  For actual diff files,
 please see directory Diff.
 
-For questions, please send emails to mesouser@ucar.edu
+For questions, please send emails to wrfhelp@ucar.edu
 
 -----------------------------------------------------
 
