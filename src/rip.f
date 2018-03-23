@@ -12,6 +12,7 @@ c   converted to the appropriate format expected by this              c
 c   program, using the program RIPDP, which stands for RIP data       c
 c   preparation.                                                      c
 c                                                                     c
+c   RIP Version 4.6 released March 2010.                              c
 c   RIP Version 4.5 released March 2009.                              c
 c   RIP Version 4.4 released May 2008.                                c
 c   RIP Version 4.3 released June 2007.                               c
@@ -45,7 +46,7 @@ c         calculated in trajectory calculation mode
 c      maxtavl: the maximum number of available times that can be
 c         stored in the available times arrays (xtimeavl and cxtimeavl)
 c
-      parameter (maxtraj=2000,maxtavl=400)
+      parameter (maxtraj=7000,maxtavl=200)
 c
       dimension xtimeavl(maxtavl)
 c
@@ -60,9 +61,9 @@ c
      &   ptimeunits*1, ncarg_type*10
       namelist/userin/ title,rip_root,rootname,flmin,frmax,fbmin,
      &   ftmax,ptimes,iptimes,ptimeunits,tacc,mdatebf,
-     &   ntextq,ntextcd,idotser,idotitle,timezone,iusdaylightrule,
-     &   inearesth,iinittime,ifcsttime,ivalidtime,
-     &   itrajcalc,fcoffset,titlecolor,idescriptive,
+     &   ntextq,ntextcd,ntextfn,idotser,idotitle,timezone,
+     &   iusdaylightrule,inearesth,iinittime,ifcsttime,ivalidtime,
+     &   noplots,itrajcalc,fcoffset,titlecolor,idescriptive,
      &   icgmsplit,maxfld,imakev5d,inewdom, istopmiss, ncarg_type
       dimension xjtraj(maxtraj),yitraj(maxtraj),zktraj(maxtraj),
      &   diag(maxtraj)
@@ -225,7 +226,9 @@ c
       tacc=1.
       ntextq=0
       ntextcd=0
+      ntextfn=0
       idotser=0
+      noplots=0
       idotitle=1
       timezone=-7.
       iusdaylightrule=1
@@ -365,8 +368,8 @@ c
       call driver(miy,mjx,mkzh,mabpl,morpl,xtimeavl,
      &     cxtimeavl,ncxc,maxtavl,nxtavl,casename,iendc,
      &     title,rip_root,rootname,iendcr,ptimes,iptimes,
-     &     ptuse,maxptimes,ptimeunits,tacc,ntextq,ntextcd,
-     &     idotser,idotitle,timezone,iusdaylightrule,
+     &     ptuse,maxptimes,ptimeunits,tacc,ntextq,ntextcd,ntextfn,
+     &     idotser,noplots,idotitle,timezone,iusdaylightrule,
      &     inearesth,iinittime,ifcsttime,ivalidtime,fcoffset,
      &     titlecolor,idescriptive,icgmsplit,maxfld,
      &     itrajcalc,rtim,ctim,dtfile,dttraj,

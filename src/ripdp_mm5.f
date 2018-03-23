@@ -405,7 +405,7 @@ c
      &   iexpandedout,ipv,npvsets,iskpd1,iskppvd1,iobsprc,
      &   iobscnv,iftcnv
 c
-      print*,'Welcome to your friendly RIPDP (V4.6.2) output file !'    ! April 2011
+      print*,'Welcome to your friendly RIPDP (V4.6.5) output file !'    ! October 2013
 c
 c   Define some constants
 c

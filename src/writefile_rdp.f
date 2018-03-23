@@ -50,9 +50,23 @@ c              E-grid mass data goes to j=mjx-1 for even-numbered rows
       enddo
 c
       iendv=index(varname,' ')-1
-      if (iendv.eq.-1) iendc=10
+      if (iendv.eq.-1) iendc=LEN(varname)
+      if (iendf1+iendv .gt. LEN(fname)) then
+         print*, 'increase length of fname greater than ',iendf1+iendv
+         STOP 'writefile_rdp: insufficient space for character var'
+      endif
       fname(iendf1+1:)=varname
-      open(unit=65,file=fname,form='unformatted',status='unknown')
+      iendt = LEN(fname)
+      do n = iendt, 1, -1
+         ich = ichar(fname(n:n))
+         if (.not. ( (ich.ge.65 .and. ich.le.90) .or.     ! Letters A-Z
+     &               (ich.ge.97 .and. ich.le.122) .or.    ! Letters a-z
+     &               (ich.ge.45 .and. ich.le.58) .or.     ! digits 0-9, also [-./]
+     &               (ich.eq.95) .or. ich.eq.0 ) ) then   ! underscore, null
+            iendt = n
+         endif
+      enddo
+      open(unit=65,file=fname(1:iendt),form='unformatted')
       ihrip(6)=ndim ! number of dimensions of this variable (2 or 3)
       ihrip(7)=icd  ! grid of this var. (1: cross point, 0: dot point)
       write(65) vardesc,plchun,ihrip,rhrip,chrip

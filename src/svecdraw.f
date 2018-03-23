@@ -144,7 +144,7 @@ c
       dprs=0.
       do 75 k=mkzh-1,1,-1
          dprs=dprs+pavprof(k+1)-pavprof(k)
-         if (dprs.gt.dprsmin) then
+         if (dprs.gt.dprsmin .and. prssou(k) .ge. toppress) then
             yval=132.182-44.061*alog10(prssou(k))
             call barb(xm,yval,veleast(k),velnorth(k),.02,ins)
             dprs=0.

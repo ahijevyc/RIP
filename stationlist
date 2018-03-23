@@ -9416,7 +9416,8 @@
 80478 SVTR Temblador                            -- VEN   9.01.00  -62.37.00   30
 80479 ---- Palmichal                            -- VEN  10.18.00  -68.14.00 1000
 81001 SYGT Georgetown                           -- GUY   6.48.00  -58.09.00    1
-81002 SYTM Timehri Airport                      -- GUY   6.30.00  -58.15.00   28
+81002 SYCJ Georgetown / Cheddi Jagan Intl       -- GUY   6.50.00  -58.25.00   30
+99999 SYTM Timehri Airport                      -- GUY   6.30.00  -58.15.00   28
 81005 ---- Kamarang                             -- GUY   5.53.00  -60.30.00  494
 81006 ---- Lethem                               -- GUY   3.22.00  -59.48.00   82
 81010 ---- Ebini                                -- GUY   5.34.00  -57.47.00   28
@@ -9432,6 +9433,7 @@
 81253 ---- Coeroeni                             -- SUR   3.22.00  -57.20.00 9999
 81260 ---- Kabalebo                             -- SUR   4.24.00  -57.13.00 9999
 81401 SOOM Saint-Laurent-Du-Maroni              -- FGU   5.30.00  -54.02.00    4
+99999 SOOS Saul Airport                         -- FGU   3.36.00  -53.12.00  200
 81403 ---- Kourou                               -- FGU   5.12.00  -52.45.00    8
 81405 SOCA Cayenne / Rochambeau                 -- FGU   4.50.00  -52.22.00  105
 81408 ---- Saint Georges De L'Oyapock           -- FGU   3.53.00  -51.48.00    6
@@ -9440,7 +9442,7 @@
 82017 SBOI Oiapoque                             -- BRA   3.50.00  -51.50.00   39
 82022 SBBV Boa Vista Aeropor-To                 -- BRA   2.50.00  -60.42.00  140
 82024 ---- Boa Vista                            -- BRA   2.49.00  -60.39.00   90
-82026 ---- Tirios                               -- BRA   2.29.00  -55.59.00  325
+82026 SBTS Tirios                               -- BRA   2.29.00  -55.59.00  325
 82030 ---- Amapa                                -- BRA   2.04.00  -50.51.00 9999
 82042 ---- Caracarai                            -- BRA   1.50.00  -61.08.00   95
 82067 SBYA Iauarete                             -- BRA   0.37.00  -69.12.00  120
@@ -10168,7 +10170,7 @@
 89053 ---- Base Jubany                          -- AAR -62.14.00  -58.38.00    4
 89054 ---- Dinamet-Uruguay                      -- AAR -62.11.00  -58.51.00   10
 89055 ---- Base Marambio Centro Met. Antartico  -- AAR -64.14.00  -56.43.00  198
-89056 ---- Centro Met. Antartico " Pdte. Eduard -- AAR -62.25.00  -58.53.00   10
+89056 SCRM Centro Met. Antartico " Pdte. Eduard -- AAR -62.25.00  -58.53.00   10
 89057 ---- Base Arturo Prat                     -- AAR -62.30.00  -59.41.00    5
 89058 ---- Great Wall                           -- AAR -62.13.00  -58.58.00   10
 89059 ---- Base Bernardo O'Higgins              -- AAR -63.19.00  -56.41.00   10
@@ -10313,6 +10315,7 @@
 91339 ---- Lukunor Atoll                        -- FSM   5.30.00  153.49.00    3
 91343 ---- Oroluk Island                        -- FSM   7.38.00  155.10.00    3
 91347 ---- Pohnpei                              -- FSM   6.58.00  158.14.00   37
+99999 PTTP Pohnpei WFO                          -- FSM   6.57.55  158.12.44   39
 91348 PTPN Ponape Island                        -- FSM   6.58.00  158.13.00   46
 91352 ---- Pingelap Atoll Automated Reporting S -- FSM   6.13.00  160.43.00    4
 91353 ---- Pingelap Atoll                       -- FSM   6.13.00  160.42.00    4
@@ -10605,7 +10608,7 @@
 94035 AYPY Moresby                              -- PNG  -9.26.00  147.13.00   38
 94040 ---- Bipi                                 -- PNG  -2.01.00  146.59.00    4
 94042 ---- Lemakot                              -- PNG  -3.01.00  151.49.00    6
-94044 ---- Momote                               -- PNG  -2.04.00  147.26.00    4
+94044 AYMO Momote / Manus Island                -- PNG  -2.03.43  147.25.27    4
 94047 ---- Nadzab                               -- PNG  -5.34.00  146.44.00   70
 94051 ---- Erave                                -- PNG  -6.39.00  143.53.00 1036
 94057 ---- Safia                                -- PNG  -9.35.00  148.38.00   45
@@ -12161,6 +12164,7 @@
 99999 KANB Anniston, Anniston Metropolitan Airp AL USA  33.35.26  -85.50.51  186
 99999 KAND Anderson, Anderson County Airport    SC USA  34.29.52  -82.42.35  238
 99999 KANE Minneapolis / Blaine                 MN USA  45.09.00  -93.13.00  278
+99999 KANK Salida                               CO USA  38.31.00 -106.01.00 2186
 99999 KANN Annette, Annette Island Airport      AK USA  55.01.49 -131.34.34   36
 99999 KANW Ainsworth Municipal                  NE USA  42.35.00 -100.00.00  789
 99999 KAOH Lima, Lima Allen County Airport      OH USA  40.42.29  -84.01.17  297
@@ -12222,6 +12226,7 @@
 99999 KBCT Boca Raton, Boca Raton Airport       FL USA  26.22.43  -80.06.28    4
 99999 KBDE Baudette, Baudette International Air MN USA  48.43.36  -94.36.44  330
 99999 KBDF Bradford / Rinkenberg                IL USA  41.14.00  -89.37.00  247
+99999 KBDU Boulder Muni                         CO USA  40.00.16 -105.13.38 1612
 99999 KBEH Benton Harbor, Southwest Michigan Re MI USA  42.07.43  -86.25.42  196
 99999 KBET Bethel, Bethel Airport               AK USA  60.47.09 -161.49.35   39
 99999 KBFD Bradford, Bradford Regional Airport  PA USA  41.47.55  -78.38.09  653
@@ -13329,6 +13334,7 @@
 99999 KSSI Brunswick, Malcolm McKinnon Airport  GA USA  31.09.06  -81.23.29    6
 99999 KSSU White Sulphur Sprng                  WV USA  37.46.00  -80.20.00  549
 99999 KSTE Stevens Point, Stevens Point Municip WI USA  44.32.42  -89.31.49  338
+99999 KSTK Sterling                             CO USA  40.36.55 -103.15.53  338
 99999 KSTP St. Paul, St. Paul Downtown Holman F MN USA  44.55.49  -93.02.53  214
 99999 KSTS Santa Rosa, Santa Rosa Sonoma County CA USA  38.30.00 -122.49.00   38
 99999 KSTT Charlotte Amalie, King Airport       VI USA  18.20.18  -64.58.44    4

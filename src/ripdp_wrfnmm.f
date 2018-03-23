@@ -44,7 +44,7 @@ c
 c   netcdf variables
 c
       integer ncid, dimid, nf_status
-      character nf_att_text*64, start_date*19
+      character nf_att_text*256, start_date*19
 c
       character argum(256)*256,rip_root*256,fname*256
 c
@@ -74,7 +74,7 @@ c
 c   Fix for machines (such as HP) that return the command name itself
 c   as the first element of argum, rather than the first argument.
 c
-      if (argum(1)(1:13).eq.'ripdp_wrfnmm_') then
+      if (argum(1)(1:12).eq.'ripdp_wrfnmm') then
          do i=1,nargum-1
             argum(i)=argum(i+1)
          enddo
@@ -109,6 +109,7 @@ c
          nsets=nargum-2
          nsetsbeg=3
       endif
+      iup = 6
 c
 c   Get rip_root from environment variable RIP_ROOT
 c   if rip_root='/dev/null '
@@ -365,6 +366,7 @@ c
      &   qvp(miyec,mjxec,mkzh),scr3wlev(miyec,mjxec,mkzh+1),
      &   qcw(miyec,mjxec,mkzh),qra(miyec,mjxec,mkzh),
      &   qci(miyec,mjxec,mkzh),
+     &   qnr(miyec,mjxec,mkzh),qni(miyec,mjxec,mkzh),
      &   qsn(miyec,mjxec,mkzh),alph(miyec,mjxec,mkzh+1),
      &   scr3(miyec,mjxec,mkzh),scr2(miyec,mjxec),
      &   xsrcc(miyib_dim,mjxib_dim),ysrcc(miyib_dim,mjxib_dim),
@@ -381,6 +383,8 @@ c
      &   cxtimeavl(256)*10
 c
       real nlice,n0r,nlimin,nlimax
+
+      real xlatc_mid, xlonc_mid
 c
 c   RIP header variables
 c
@@ -399,7 +403,7 @@ c
       integer nf_ucount3(4),nf_tcount3(4),nf_wcount3(4),
      &   nf_tcount2(3),nf_tcount3s(4)
       real nf_att_real
-      character nf_att_text*64, nf_varname*16,
+      character nf_att_text*256, nf_varname*16,
      &   wrftimes(nwrftimes)*19
       integer dimid_tm, dimid_we, dimid_sn, dimid_bt, dimid_sls
       integer vardimids(20), nf_att_len
@@ -422,7 +426,7 @@ c
      &   xlatcib,xloncib,truelat1ib,truelat2ib,miyib,mjxib,yicornib,
      &   xjcornib,dskmib
 c
-      print*,'Welcome to your friendly RIPDP (V4.6.2) output file !'    ! April 2011
+      print*,'Welcome to your friendly RIPDP (V4.7) output file !'    ! January 2017
 c
 c   Set size of full E-grid domain (H + V points).
 c
@@ -468,7 +472,7 @@ c
 c
 c   Set a constant limit on small microphysical values
 c
-      qdelta = 1.e-15
+      qdelta = 1.e-9
 c
 c   Define unit numbers
 c
@@ -837,6 +841,25 @@ c
          xlon(i,j)=nf_tarr2(j,i)/rpd   ! radians to degrees
       enddo
       enddo
+
+c
+c..Check here if the grid center point is actually nearby the
+c.. (CEN_LAT,CEN_LON) position.  For a NMM grid1, they should be,
+c.. but if the model ran with a nest and we are processing this grid,
+c.. then we could be far from center and things needs adjusting.
+c
+
+      xlatc_mid = xlat(nint(miyec*.5),nint(mjxec*.5))
+      xlonc_mid = xlon(nint(miyec*.5),nint(mjxec*.5))
+      if (ABS(xlatc_mid-xlatc).gt.0.075 .or.
+     &    ABS(xlonc_mid-xlonc).gt.0.075) then
+c     print*, ' DEBUG-GT, midpt not co-located: ',
+c    &     xlatc, xlonc, xlatc_mid, xlonc_mid
+      xlatc = xlatc_mid
+      xlonc = xlonc_mid
+      call premaptform(dskmc,miycors,mjxcors,nproj,
+     &   xlatc,xlonc,truelat1,truelat2,6)
+      endif
 c
 c   Now figure out dx/dy consistent with lat/lon arrays
 c
@@ -858,10 +881,10 @@ c
       print*,'dx,dy in global attributes =',dxdeg,dydeg
       print*,'dx,dy consistent with lat/lon arrays =',
      &   dxdegnew,dydegnew
-      if (dxfac.lt.0.999.or.dxfac.gt.1.001.or.
-     &    dyfac.lt.0.999.or.dyfac.gt.1.001) then
+      if (ABS(dxfac-1.0).gt.1.E-8.or.ABS(dyfac-1.0).gt.1.E-8) then
          print*,'These are not consistent, so RIP will assume the'
          print*,'value consistent with the lat/lon arrays is correct.'
+         print*,' computed dxfac,dyfac = ',dxfac,dyfac
          dxdeg=dxdegnew
          dydeg=dydegnew
 c
@@ -881,6 +904,7 @@ c
      &      xlatc,xlonc,truelat1,truelat2,6)
       else
          print*,'Close enough.  No adjustment performed.'
+         print*, ' dxfac,dyfac = ', dxfac,dyfac
       endif
 c
 c   Land use data set:
@@ -922,7 +946,7 @@ c     If QSNOW was not found, also check if Ferrier micro arrays are
 c     there (e.g., CWM, the condensate water mass) in which case iice
 c     would also be 1.
 c
-cjkw      iferrier=0
+          iferrier=0
 cjkw      if (iice.eq.0) then
 cjkw         nf_status = nf_inq_varid (ncid, 'CWM', varid)
 cjkw         if (nf_status .eq. nf_noerr) then
@@ -1401,21 +1425,21 @@ c
 c
 c         print*,'Corners:'
 c         print*,'xsrcc(1,1),ysrcc(1,1)=',
-c     &      '   ',xsrcc(1,1),ysrcc(1,1)
+c    &       '   ',xsrcc(1,1),ysrcc(1,1)
 c         print*,'xsrcc(1,mjxib-1),ysrcc(1,mjxib-1)=',
-c     &      '   ',xsrcc(1,mjxib-1),ysrcc(1,mjxib-1)
+c    &       '   ',xsrcc(1,mjxib-1),ysrcc(1,mjxib-1)
 c         print*,'xsrcc(miyib-1,1),ysrcc(miyib-1,1)=',
-c     &      '   ',xsrcc(miyib-1,1),ysrcc(miyib-1,1)
+c    &       '   ',xsrcc(miyib-1,1),ysrcc(miyib-1,1)
 c         print*,'xsrcc(miyib-1,mjxib-1),ysrcc(miyib-1,mjxib-1)=',
-c     &      '   ',xsrcc(miyib-1,mjxib-1),ysrcc(miyib-1,mjxib-1)
+c    &       '   ',xsrcc(miyib-1,mjxib-1),ysrcc(miyib-1,mjxib-1)
 c         print*,'xsrcd(1,1),ysrcd(1,1)=',
-c     &      '   ',xsrcd(1,1),ysrcd(1,1)
+c    &       '   ',xsrcd(1,1),ysrcd(1,1)
 c         print*,'xsrcd(1,mjxib),ysrcd(1,mjxib)=',
-c     &      '   ',xsrcd(1,mjxib),ysrcd(1,mjxib)
+c    &       '   ',xsrcd(1,mjxib),ysrcd(1,mjxib)
 c         print*,'xsrcd(miyib,1),ysrcd(miyib,1)=',
-c     &      '   ',xsrcd(miyib,1),ysrcd(miyib,1)
+c    &       '   ',xsrcd(miyib,1),ysrcd(miyib,1)
 c         print*,'xsrcd(miyib,mjxib),ysrcd(miyib,mjxib)=',
-c     &      '   ',xsrcd(miyib,mjxib),ysrcd(miyib,mjxib)
+c    &       '   ',xsrcd(miyib,mjxib),ysrcd(miyib,mjxib)
 c
 c      Change rip header values that need to be changed for the
 c      interpolation domain
@@ -2589,6 +2613,42 @@ c
          endif
       endif
 c
+c   If available, get rain water number conc. (QNRAIN), do not convert
+c   and write out.
+c
+      nf_status = nf_inq_varid (ncid, 'QNRAIN', varid)
+      if (nf_status .ne. nf_noerr) then
+         print*,'   Did not find QNRAIN.'
+      else
+         iprocvarid(varid)=1
+         nf_status = nf_get_vara_real (ncid, varid, nf_tstart3,
+     &      nf_tcount3, nf_tarr3)
+         call handle_err(087.,nf_status)
+         do k=1,mkzh
+         do j=1,mjxec
+         do i=1,miyec
+            qnr(i,j,k)=nf_tarr3(j,i,mkzh-k+1)
+            if (qnr(i,j,k).lt.qdelta) qnr(i,j,k)=0.
+         enddo
+         enddo
+         enddo
+         vardesc='Rain water number concentration, /kg'
+         plchun='kg~S~-1~N~'
+         icd=3
+         ndim=3
+         if (iinterp.eq.0) then
+            call writefile_rdp(qnr,'qnr       ',ndim,icd,vardesc,
+     &         plchun,fname,iendf1,ihrip,rhrip,chrip,iexpanded,
+     &         iexpandedout,ioffexp,joffexp,miyec,mjxec,mkzh)
+         else
+            call hinterp(qra,miyec,mjxec,arref,miyef,mjxef,
+     &         xsrcc,ysrcc,arrib,miyib,mjxib,mkzh,icd,ndim,rmsg)
+            call writefile_rdp(arrib,'qnr       ',ndim,icd,vardesc,
+     &         plchun,fname,iendf1,ihrip,rhrip,chrip,iexpanded,
+     &         iexpandedout,ioffexp,joffexp,miyib,mjxib,mkzh)
+         endif
+      endif
+c
 c   If available, get cloud ice mixing ratio (QICE), convert it to g/kg,
 c   and write out.
 c
@@ -2620,6 +2680,42 @@ c
             call hinterp(qci,miyec,mjxec,arref,miyef,mjxef,
      &         xsrcc,ysrcc,arrib,miyib,mjxib,mkzh,icd,ndim,rmsg)
             call writefile_rdp(arrib,'qci       ',ndim,icd,vardesc,
+     &         plchun,fname,iendf1,ihrip,rhrip,chrip,iexpanded,
+     &         iexpandedout,ioffexp,joffexp,miyib,mjxib,mkzh)
+         endif
+      endif
+c
+c   If available, get cloud ice number conc. (QNICE), do not convert,
+c   and write out.
+c
+      nf_status = nf_inq_varid (ncid, 'QNICE', varid)
+      if (nf_status .ne. nf_noerr) then
+         print*,'   Did not find QNICE.'
+      else
+         iprocvarid(varid)=1
+         nf_status = nf_get_vara_real (ncid, varid, nf_tstart3,
+     &      nf_tcount3, nf_tarr3)
+         call handle_err(088.,nf_status)
+         do k=1,mkzh
+         do j=1,mjxec
+         do i=1,miyec
+            qni(i,j,k)=nf_tarr3(j,i,mkzh-k+1)
+            if (qni(i,j,k).lt.qdelta) qni(i,j,k)=0.
+         enddo
+         enddo
+         enddo
+         vardesc='Cloud ice number concentration, /kg'
+         plchun='kg~S~-1~N~'
+         icd=3
+         ndim=3
+         if (iinterp.eq.0) then
+            call writefile_rdp(qni,'qni       ',ndim,icd,vardesc,
+     &         plchun,fname,iendf1,ihrip,rhrip,chrip,iexpanded,
+     &         iexpandedout,ioffexp,joffexp,miyec,mjxec,mkzh)
+         else
+            call hinterp(qci,miyec,mjxec,arref,miyef,mjxef,
+     &         xsrcc,ysrcc,arrib,miyib,mjxib,mkzh,icd,ndim,rmsg)
+            call writefile_rdp(arrib,'qni       ',ndim,icd,vardesc,
      &         plchun,fname,iendf1,ihrip,rhrip,chrip,iexpanded,
      &         iexpandedout,ioffexp,joffexp,miyib,mjxib,mkzh)
          endif
@@ -2790,7 +2886,62 @@ c
       nf_status = nf_inq_attlen (ncid, ivar,
      &   'description', nf_att_len)
       call handle_err(096.,nf_status)
-      vardesc=nf_att_text(1:nf_att_len)//', '//plchun
+      if (nf_att_len .GT. LEN(nf_att_text)) then
+         print*, 'NOT POSSIBLE TO CONTINUE'
+         print*, ' MEMORY OVERWITE WILL RESULT BECAUSE'
+         print*, ' nf_att_len is greater than declared'
+         print*, ' size of nf_att_text.  Increase to a'
+         print*, ' minimum value of ', nf_att_len
+         STOP 'ABORT, UNABLE TO CONTINUE'
+      endif
+
+C..Added by G. Thompson to work around problem of potentially
+C.. exceeding declared length of vardesc due to a very long
+C.. description in the wrfout file, variable description.
+      n1 = LEN(plchun)
+      do n = n1, 1, -1
+         ich = ichar(plchun(n:n))
+         if (.not. ( (ich.ge.65 .and. ich.le.90) .or.     ! Letters A-Z
+     &               (ich.ge.97 .and. ich.le.122) .or.    ! Letters a-z
+     &               (ich.ge.45 .and. ich.le.58) .or.     ! digits 0-9, also [-./]
+     &               (ich.eq.95) .or. ich.eq.32) ) then   ! underscore, blank
+            iendn1 = n
+            goto 44
+         endif
+      enddo
+ 44   continue
+      if (iendn1.le.0) then
+         iendn1 = n1
+      endif
+      n2 = LEN(nf_att_text)
+      do n = n2, 1, -1
+         ich = ichar(nf_att_text(n:n))
+         if (.not. ( (ich.ge.65 .and. ich.le.90) .or.     ! Letters A-Z
+     &               (ich.ge.97 .and. ich.le.122) .or.    ! Letters a-z
+     &               (ich.ge.45 .and. ich.le.58) .or.     ! digits 0-9, also [-./]
+     &               (ich.eq.95) .or. ich.eq.32) ) then   ! underscore, blank
+            iendn2 = n
+            goto 45
+         endif
+      enddo
+ 45   continue
+      if (iendn2.le.0) then
+         iendn2 = n2
+      endif
+
+C..If we may exceed 64 chars of vardesc, then leave units intact
+C.. and shorten text description by amount needed to keep from
+C.. memory overwrite.
+      if (iendn1+iendn2 .lt. LEN(vardesc)) then
+         iendn3 = nf_att_len
+         iendt = iendn1+iendn2
+      else
+         iendn3 = MAX(0, nf_att_len - iendn1)
+         iendt = LEN(vardesc)
+      endif
+
+      vardesc(1:iendt)=nf_att_text(1:iendn3)//', '//plchun(1:iendn1)
+
       if (itype.eq.1) then
          nf_status = nf_get_vara_real (ncid, ivar, nf_tstart3,
      &      nf_tcount3, nf_tarr3)
@@ -2902,8 +3053,8 @@ c
 c
       print*
       print*,'===================================='
-      print*,' We''re outta here like Vladimir !! '
-      print*,'===================================='
+c     print*,' We''re outta here like Vladimir !! '
+c     print*,'===================================='
       return
       end
 c                                                                     c
