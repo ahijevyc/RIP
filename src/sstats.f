@@ -571,41 +571,54 @@ c     srn = cufx(-4.5)
       call set(flminsou,frmaxsou,fbminsou,ftmaxsou,
      &   -19.0-space,27.1+space,-.9346217-.2*space,44.061+space,1)
 c     CALL SET(.05,.95,.05,.95,-19.0,27.1,-.9346217,44.061,1)
-c     call plchmq(-18.5,fyjb(plcl*0.01),'LCL->',10.,0.,-1.)
+c     call plchhq(-18.5,fyjb(plcl*0.01),'LCL->',10.,0.,-1.)
       fyy = fyjb(plcl*0.01)
-      fxx = t(klcl)+3.-273.15
+      fxx = t(klcl)+.5-273.15
 c     write(6,*) 't(klcl) = ',t(klcl)-273.15,' zero = ',zero
-      call plchmq(fxjb(fxx,fyy),fyy,'<-LCL',10.,0.,-1.)
+      call plchhq(fxjb(fxx,fyy),fyy,'--LCL',10.,0.,-1.)
+      fxx = t(klcl)+1.-273.15
+      call plchhq(fxjb(fxx,fyy),fyy,'-',10.,0.,-1.)
       fyy = fyjb(pccl*0.01)
       if ( abs(plcl-pccl) .lt. 2500. ) then
-        fxx = tlcl-7.-273.15
-        call plchmq(fxjb(fxx,fyy),fyy,'CCL->',10.,0.,-1.)
+        fxx = tlcl-1.-273.15
+        call plchhq(fxjb(fxx,fyy),fyy,'CCL--',10.,0.,1.)
+        fxx = tlcl-1.5-273.15
+        call plchhq(fxjb(fxx,fyy),fyy,'-',10.,0.,1.)
       else
-        fxx = tlcl+3.-273.15
-        call plchmq(fxjb(fxx,fyy),fyy,'<-CCL',10.,0.,-1.)
+        fxx = tlcl+.5-273.15
+        call plchhq(fxjb(fxx,fyy),fyy,'--CCL',10.,0.,-1.)
+        fxx = tlcl+1.-273.15
+	call plchhq(fxjb(fxx,fyy),fyy,'-',10.,0.,-1.)
       endif
       if (plfc.gt.10000. .and. plfc.lt.100000.) then
 	fyy = fyjb(plfc*0.01)
 	if ( abs(plcl-plfc) .lt. 2000. ) then
-	  fxx = tlfc+8.-273.15
+	  fxx = tlfc+4.5-273.15
+	  call plchhq(fxjb(fxx,fyy),fyy,'--LFC',10.,0.,-1.)
+	  fxx = tlfc+5.-273.15
+	  call plchhq(fxjb(fxx,fyy),fyy,'-',10.,0.,-1.)
 	else
-	  fxx = tlfc+3.-273.15
+	  fxx = tlfc+.5-273.15
+	  call plchhq(fxjb(fxx,fyy),fyy,'--LFC',10.,0.,-1.)
+	  fxx = tlfc+1.-273.15
+	  call plchhq(fxjb(fxx,fyy),fyy,'-',10.,0.,-1.)
 	endif
-	call plchmq(fxjb(fxx,fyy),fyy,'<-LFC',10.,0.,-1.)
 	fyy = fyjb(pel*0.01)
-	fxx = tel+3.-273.15
-	call plchmq(fxjb(fxx,fyy),fyy,'<-EL',10.,0.,-1.)
+	fxx = tel+.5-273.15
+	call plchhq(fxjb(fxx,fyy),fyy,'--EL',10.,0.,-1.)
+	fxx = tel+1.-273.15
+	call plchhq(fxjb(fxx,fyy),fyy,'-',10.,0.,-1.)
       endif
       te_500 = compT_fr_The(thelcl,50000.,iup) - 273.15
       fy_500 = fyjb(500.)
-      call plchmq(fxjb(te_500,fy_500),fy_500,'M',10.,0.,0.)
+      call plchhq(fxjb(te_500,fy_500),fy_500,'M',10.,0.,0.)
 
 c     call set(0.01, 0.99, 0.01, 0.99, -21.0, 29.198, -3.0, 47.0, 1)
 c     write(label,'(a,2x,a,4x,a,2x,a,3x,a,2x,a,2x,a,2x,a,3x,a,3x,a
 c    +,2x,a,3x,a)') 
 c    +'T(F)','Td','LI','SWT','K','TT','Pw(cm)','CAPE','Tc','CELL'
 c    +,'SREH','VGP'
-c     call plchmq(-19.0, 46.6, label, 9., 0., -1.)
+c     call plchhq(-19.0, 46.6, label, 9., 0., -1.)
 
 c     write(label,'(i3,2x,i3,1x,f5.1,2x,i3,1x,i3,1x,i3,3x,f4.2
 c    +              ,3x,i4,2x,i3,2x,i3.3,a1,i2.2,2x,i3,2x,f4.2)')
@@ -621,85 +634,86 @@ c    + ,nint((conv_temp-zero)*9./5. + 32.)
 c    + ,int(m_storm/100),'/',m_storm-(int(m_storm/100))*100
 c    + ,nint(sreh)
 c    + ,vgpi
-c     call plchmq(-19.0, 45.4, label, 9., 0., -1.)
+c     call plchhq(-19.0, 45.4, label, 9., 0., -1.)
 
       call set(0.,1.,0.,1.,0.,1.,0.,1.,1)
 c     chsize=.008
       chsize=12.
       call pcgeti ('QU',ntextqq)
-      call pcseti ('QU',0)
+      call pcseti ('QU',1)     ! 1=medium quality equiv to plchmq
+      call gsplci(1)
       xpos=.12
       ypos=.26
       write(label,'(a)') 'Parcel Info'
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       chsize=10.
       xpos=.07
       ypos=.23
       write(label,'(a,f7.1)') 'T  = ',(t(1)-zero)
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       ypos=ypos-.02
       write(label,'(a,f7.1)') 'LI = ',alifted
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       ypos=ypos-.02
       write(label,'(a,i7)') 'K  = ',nint(akindex)
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       ypos=ypos-.02
       write(label,'(a,i7)') 'TT = ',nint(totals)
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       ypos=ypos-.02
       write(label,'(a,f6.1)') 'SWI = ',swi 
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       ypos=ypos-.02
       write(label,'(a,f7.2)') 'PW = ',prec_w*100.
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       ypos=ypos-.02
       write(label,'(a,i5)') 'CAPE = ',nint(cape)
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       ypos=ypos-.02
       write(label,'(a,i6)') 'CIN = ',nint(area_neg2)
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       ypos=ypos-.02
       write(label,'(a,f7.1)') 'Tc = ',conv_temp-zero
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       ypos=ypos-.02
       write(label,'(a,i5)') 'SREH = ',nint(sreh)
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       ypos=ypos-.02
       write(label,'(a,i3.3,a1,i2.2)') 'CELL = ',
      &   int(m_storm/100),'/',m_storm-(int(m_storm/100))*100
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
 
       xpos=.20
       ypos=.23
       write(label,'(a,f5.1)') 'Td = ',(t_dew(p(1),r(1))-zero)
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       ypos=ypos-.02
       write(label,'(a,f5.0)') 'LCL = ',plcl*.01
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       ypos=ypos-.02
       write(label,'(a,f5.0)') 'LFC = ',plfc*.01
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       ypos=ypos-.02
       write(label,'(a,f5.0)') 'EL  = ',pel*.01
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       ypos=ypos-.02
       write(label,'(a,f5.0)') 'CCL = ',pccl*.01
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       ypos=ypos-.02
       write(label,'(a,f5.1)') 'VGP = ',vgpi
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       ypos=ypos-.02
       write(label,'(a,i4)') 'SWEAT= ',nint(Sweat)
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       ypos=ypos-.02
       write(label,'(a,f5.0)') 'HWBZ= ',hwbz
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       ypos=ypos-.02
       write(label,'(a,f4.0)') 'SHEAR= ',shear
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
       ypos=ypos-.02
       write(label,'(a,f4.1)') 'LAPSE= ',xlaps
-      call plchmq(xpos,ypos,label,chsize,0.,-1.)
+      call plchhq(xpos,ypos,label,chsize,0.,-1.)
 
       call pcseti ('QU',ntextqq)
       call setusv('LW',1000)
