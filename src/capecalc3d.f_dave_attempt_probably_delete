@@ -2,7 +2,6 @@ c                                                                     c
 c*********************************************************************c
 c                                                                     c
       subroutine capecalc3d(prs,tmk,qvp,ght,ter,prsf,cape,cin,
-     &   bmin3, 
      &   miy,mjx,mkzh,i3dflag)
 c
 c   If i3dflag=1, this routine calculates CAPE and CIN (in m**2/s**2,
@@ -13,118 +12,32 @@ c   the column, (i.e. something akin to Colman's MCAPE).  By "parcel",
 c   we mean a 500-m deep parcel, with actual temperature and moisture
 c   averaged over that depth.
 c
-c   20130118 - skip 3d calculations for parcels above 400mb.
-c
 c   In the case of i3dflag=0,
 c   CAPE and CIN are 2D fields that are placed in the k=mkzh slabs of
 c   the cape and cin arrays.  Also, if i3dflag=0, LCL and LFC heights
 c   are put in the k=mkzh-1 and k=mkzh-2 slabs of the cin array.
 c
-c   If i3dflag=2,
-c   Read a file that contains the parcel origin levels (kpar) for each
-c   horizontal grid point.
-c
-c   If i3dflag=3, for bmin_max
-c   Caculate bmin3 as if it was i3dflag=1, but then return in 2D array as if
-c   i3dflag = 0.  The 2D array is not bmin, per se, but bmin_max, the maximum
-c   bmin in each column. 
-c   bmin_max is returned in bmin, 
-c   kbmin_max is returned in kbmin, and zbmin_max is returned in zbmin.
-c
-c
-      implicit none
-! When declaring variables, declaring intent is optional. But it helps prevent bugs.
-! intent(in) means the variable can enter, but can't be changed.
-! intent(out) means the variable is set inside the procedure and sent 
-!             back to the main program with any initial values ignored.
-! intent(inout) is the default. It means the variable comes in with
-!               a value and leaves with a value.
-      real, intent(in) :: prs, tmk, qvp, ght, ter, prsf
-      real, intent(out) :: cape, cin, bmin3
-      integer, intent(in) :: miy, mjx, mkzh, i3dflag
-
-      real, bmin_max, zpar_orig, bmin, zbmin, bmax, tv_bmin, tlc, 
-     &   zpar_orig_bmin_max, zbmin_max, tv_bmin_max, tlc_bmin_max
       dimension prs(miy,mjx,mkzh),tmk(miy,mjx,mkzh),qvp(miy,mjx,mkzh),
      &   ght(miy,mjx,mkzh),ter(miy,mjx),cape(miy,mjx,mkzh),
      &   cin(miy,mjx,mkzh),prsf(miy,mjx,mkzh),
-     &   zpar_orig(miy,mjx),bmin(miy,mjx),zbmin(miy,mjx),
-     &   bmin3(miy,mjx,mkzh),bmin_max(miy,mjx),
-     &   tv_bmin(miy,mjx),tlc(miy,mjx),bmax(miy,mjx),
-     &   zpar_orig_bmin_max(miy,mjx), zbmin_max(miy,mjx), 
-     &   tv_bmin_max(miy,mjx), tlc_bmin_max(miy,mjx)
-      real, theta(miy,mjx,mkzh)
-      real, t_tlift(mkzh),p_tlift(mkzh),q_tlift(mkzh)
+     &   zpar(miy,mjx),bmin(miy,mjx),zbmin(miy,mjx),
+     &   tve(miy,mjx),tv_par(miy,mjx),tlc(miy,mjx),bmax(miy,mjx)
       integer kbmin(miy,mjx),kpar_orig(miy,mjx), idebug, jdebug, ilfc
-      integer kbmin_max(miy,mjx), kpar_orig_bmin_max(miy,mjx)
-      integer i,j,k,kpar1,kpar2,klev,kpar,kk,first_klev_abv_3000m
-      integer ilcl, klcl, kmax, kel, klfc
-      real ethmax, q, t, p, e, tlcl, eth, davg, pavg, virtual
-      real p1, p2, totthe, totqvp, totprs, pup, pdn, th, pp1, pp2
-      real deltap, qvppari, tmkpari, prspari, ghtpari, gammam, cpm
-      real ethpari, zlcl, qvplift, tmklift, tvenv, tvlift
-      real ghtlift, facden, fac1, fac2, tmkenv, qvpenv, tonpsadiabat
-      real eslift, benamin, dz, tl, tm, dummy
 c
-      real buoy(150),zrel(150),benaccum(150)
+      dimension buoy(150),zrel(150),benaccum(150)
 c
       include 'comconst'
-
 c
-      jdebug = 500
-      idebug = 350
-      first_klev_abv_3000m = -1 
- 
-c     had to add this because that's what happens in the original pvocalc routine.
-c     it converts tmk to theta with thecalc.f and converts back with a different formula .
-      call thecalc(prs,tmk,qvp,theta,miy,mjx,mkzh)
-
-      do j=1,mjx-1 ! why -1? Because sometimes prs(miy,j,:) is zero
-      do i=1,miy-1 ! why -1? ahijevych 2013 Jan 22 
-         !cape(i,j,1)=0. ! don't see the point of this if you only initialize level 1
-         !cin(i,j,1)=0.
-         ! maximum bmin when lifted parcel has some cape (>100 J/kg)
-         ! initialize to a really negative number
-         ! only valid when i3dflag=1 (bmin3 is calculated). 
-         bmin_max(i,j)=-99.  ! initialize with low value
-         zpar_orig(i,j) = -99.
-         bmin(i,j) = -99.
-         zbmin(i,j) = -99.
-         tv_bmin(i,j) = -99.
-         tlc(i,j) = -99.
-         bmax(i,j) = -99.
-         zpar_orig_bmin_max(i,j) = -99.
-         zbmin_max(i,j) = -99.
-         tv_bmin_max(i,j) = -99.
-         tlc_bmin_max(i,j) = -99.
-         kbmin(i,j) = -99
-         kpar_orig(i,j) = -99
-         kbmin_max(i,j) = -99
-         kpar_orig_bmin_max(i,j) = -99
+      jdebug = 576
+      idebug = 340
+      do j=1,mjx-1
+      do i=1,miy-1
+         cape(i,j,1)=0.
+         cin(i,j,1)=0.
 c
-
-      do k=mkzh,1,-1
-c converted from temperature to theta with thecalc routine above and back to temperature with
-c this formula. This follows the old pvocalc routine exactly. - Ahijevych
-            t_tlift(k)=theta(i,j,k)*(prs(i,j,k)/1000.)**(287./1004.)
-            q_tlift(k)=qvp(i,j,k)
-            p_tlift(k)=prs(i,j,k)
-            if ((ght(i,j,k)-ter(i,j)).gt.3000 .and.
-     &         first_klev_abv_3000m.eq.-1) then
-               first_klev_abv_3000m = k
-            endif
-            bmin3(i,j,k)=-99.
-      enddo
-
-
-
-      if (i3dflag.eq.1.or.i3dflag.eq.3) then
-c        kpar1 used to be 2
-         kpar1=first_klev_abv_3000m
+      if (i3dflag.eq.1) then
+         kpar1=2
          kpar2=mkzh
-      else if (i3dflag.eq.2) then
-c        read kpar1 from file
-c        set kpar2=kpar1
       else
 c
 c      Find parcel with max theta-e in lowest 3 km AGL.
@@ -155,10 +68,8 @@ c
          enddo
          kpar1=klev
          kpar2=klev
-      endif
-      do kpar=kpar1,kpar2
-         kpar_orig(i,j)=kpar
-         zpar_orig(i,j)=ght(i,j,kpar)!-ter(i,j)
+         kpar_orig(i,j)=klev
+         zpar(i,j)=ght(i,j,klev)!-ter(i,j)
 c
 c      Establish average properties of that parcel
 c         (over depth of approximately davg meters)
@@ -166,13 +77,9 @@ c
 c      The RIP User's Guide says nothing about averaging, so consider using 0.
 c         davg=.1
          davg=500.
-c        On Jan 27 2013 Ahijevych
-c        replaced kpar1 with kpar for pavg, p2, and tmkpari
-c        Why should you use static kpar1? You should recalculate
-c        these variables with each new parcel origin (kpar). 
-         pavg=davg*prs(i,j,kpar)*grav/
-     &      (rgas*virtual(tmk(i,j,kpar),qvp(i,j,kpar)))
-         p2=min(prs(i,j,kpar)+.5*pavg,prsf(i,j,mkzh))
+         pavg=davg*prs(i,j,kpar1)*grav/
+     &      (rgas*virtual(tmk(i,j,kpar1),qvp(i,j,kpar1)))
+         p2=min(prs(i,j,kpar1)+.5*pavg,prsf(i,j,mkzh))
          p1=p2-pavg
          totthe=0.
          totqvp=0.
@@ -197,10 +104,19 @@ c        these variables with each new parcel origin (kpar).
          enddo
  35      continue
          qvppari=totqvp/totprs
-         tmkpari=(totthe/totprs)*(prs(i,j,kpar)/1000.)**
-     &      (gamma*(1.+gammamd*qvp(i,j,kpar)))
+         tmkpari=(totthe/totprs)*(prs(i,j,kpar1)/1000.)**
+     &      (gamma*(1.+gammamd*qvp(i,j,kpar1)))
+      endif
 c
-
+      do kpar=kpar1,kpar2
+c
+c   Calculate temperature and moisture properties of parcel
+c     (Note, qvppari and tmkpari already calculated above for 2D case.)
+c
+      if (i3dflag.eq.1) then
+         qvppari=qvp(i,j,kpar)
+         tmkpari=tmk(i,j,kpar)
+      endif
       prspari=prs(i,j,kpar)
       ghtpari=ght(i,j,kpar)
       gammam=gamma*(1.+gammamd*qvppari)
@@ -220,6 +136,7 @@ c
       kk=0 ! for arrays that go bottom to top
       ilcl=0
       ilfc=0          ! LFC flag
+      bmin(i,j)=100.  ! initialize with high value
       bmax(i,j)=-100. ! must initialize with low value
       if (ghtpari.ge.zlcl) then
 c
@@ -281,7 +198,7 @@ c   the buoyancy never passes from negative to positive territory, ilfc
 c   never changes from zero to 1.           
             bmin(i,j)=tvlift-tvenv
             zbmin(i,j)=ght(i,j,k)-ter(i,j)
-            tv_bmin(i,j)=tvlift
+            tv_par(i,j)=tvlift
             kbmin(i,j)=k
          endif
          if (tvlift-tvenv.gt.bmax(i,j)) bmax(i,j)=tvlift-tvenv
@@ -388,103 +305,25 @@ c
       if ( cape(i,j,kpar) .lt. 100. ) cin(i,j,kpar) = -0.1
  102  continue
 c
-      call tlift(t_tlift,0.,zpar_orig(i,j),p_tlift,q_tlift,0.,tl,tm,
-     & i,j,kpar_orig(i,j),mkzh, dummy)
-      bmin(i,j) = tl
-      bmax(i,j) = tm
-      bmin3(i,j,kpar)=bmin(i,j)
-      ! if there is some cape and this is the max value of bmin seen
-      ! in the column so far then assign bmin to bmin_max.
-      if (
-c  Uncomment to require bmin_max parcels to have some CAPE.
-c     &   cape(i,j,kpar) .gt. 100 .and. 
-     &   bmin_max(i,j) .lt. bmin(i,j)) then
-
-         bmin_max(i,j) = bmin(i,j)
-         kbmin_max(i,j) = kbmin(i,j)
-         zbmin_max(i,j) = zbmin(i,j)
-         tlc_bmin_max(i,j) = tlc(i,j)
-         tv_bmin_max(i,j) = tv_bmin(i,j)
-         zpar_orig_bmin_max(i,j) = ght(i,j,kpar)-ter(i,j)
-         kpar_orig_bmin_max(i,j) = kpar
-      endif
+      enddo
 c
-      enddo ! kpar (vertical loop)
-
       if (i3dflag.eq.0) then
          cape(i,j,mkzh)=cape(i,j,kpar1)
-         cin(i,j,mkzh)=cin(i,j,kpar1)! kpar increments in the do loop.
-                                    ! i.e. kpar=kpar1,kpar2  Confusing to be kpar1.
-                                    ! But in 2D case this doesn't matter, but it is
-                                    ! confusing and sometimes wrong to use kpar1 
-                                    ! instead of kpar
+         cin(i,j,mkzh)=cin(i,j,kpar1)
          cin(i,j,mkzh-1)=zrel(klcl)+ghtpari-ter(i,j)   ! meters AGL
          cin(i,j,mkzh-2)=zrel(klfc)+ghtpari-ter(i,j)   ! meters AGL
          cin(i,j,mkzh-3)=kbmin(i,j) ! model level of min buoyancy
          cin(i,j,mkzh-4)=bmin(i,j)  ! min buoyancy
          cin(i,j,mkzh-5)=zbmin(i,j) ! height of min buoyancy (meters AGL)
          cin(i,j,mkzh-6)=tlc(i,j)   ! LCL temperature
-         cin(i,j,mkzh-7)=tv_bmin(i,j) ! virtual temperature of lifted parcel
-         cin(i,j,mkzh-8)=zpar_orig(i,j)-ter(i,j)
+         cin(i,j,mkzh-7)=tv_par(i,j) ! virtual temperature of lifted parcel
+         cin(i,j,mkzh-8)=zpar(i,j)-ter(i,j)
          cin(i,j,mkzh-9)=kpar_orig(i,j)
          cin(i,j,mkzh-10)=bmax(i,j)
-      endif
-      if (i3dflag.eq.3) then 
-         cin(i,j,mkzh-3)=kbmin_max(i,j)
-         cin(i,j,mkzh-4)=bmin_max(i,j)
-         cin(i,j,mkzh-5)=zbmin_max(i,j)
-         cin(i,j,mkzh-6)=tlc_bmin_max(i,j)   ! LCL temperature
-         cin(i,j,mkzh-7)=tv_bmin_max(i,j) ! virtual temperature of lifted parcel
-         cin(i,j,mkzh-8)=zpar_orig_bmin_max(i,j)-ter(i,j)
-         cin(i,j,mkzh-9)=kpar_orig_bmin_max(i,j)
       endif
 c
       enddo
       enddo
-
-
-      ! Write some fort files to pvocalc can use them
-      ! They contain unformatted data and are called fort.16 and fort.17.
-
-      if (i3dflag.eq.3) then
-        ! If i3dflag=3 bmin_max is returned in bmin, kbmin_max is returned
-        ! in kbmin, and zbmin_max is returned in zbmin
-        ! Output some debugging info about bmin_max.
-        open(unit=25,file='bmin_max.debug',form='formatted',
-     &    access='sequential', status='unknown')
-        write(25,'(2I5,I4)') miy,mjx,mkzh
-        do i=1,miy-1
-          do j=1,mjx-1 ! minus 1 because that is what the loop above does
-            if(bmin_max(i,j).ne.-99.)
-     &        write(25,'(2I5,F10.2,I14,2F10.2)')
-     &        i,j, cape(i,j,kpar_orig_bmin_max(i,j)),
-     &        kpar_orig_bmin_max(i,j), bmin_max(i,j), 
-     &        zpar_orig_bmin_max(i,j)
-          enddo
-        enddo
-        close(25)
-
-        write(16)kbmin_max
-        write(16)bmin_max
-        write(16)zbmin_max
-        write(16)tlc_bmin_max
-        write(16)tv_bmin_max
-        write(17)zpar_orig_bmin_max
-        write(17)kpar_orig_bmin_max
-      else
-        ! Otherwise, i3dflag.ne.3 so write regular kbmin, bmin, zbmin, etc.
-        write(16)kbmin
-        write(16)bmin
-        write(16)zbmin
-        write(16)tlc
-        write(16)tv_bmin
-        write(17)zpar_orig
-        write(17)kpar_orig
-      endif
-  
-      write(17)ter
-      close(16)
-      close(17)
-
+c
       return
       end

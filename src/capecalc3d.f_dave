@@ -57,7 +57,7 @@ c
       real, t_tlift(mkzh),p_tlift(mkzh),q_tlift(mkzh)
       integer kbmin(miy,mjx),kpar_orig(miy,mjx), idebug, jdebug, ilfc
       integer kbmin_max(miy,mjx), kpar_orig_bmin_max(miy,mjx)
-      integer i,j,k,kpar1,kpar2,klev,kpar,kk,first_klev_abv_3000m
+      integer i,j,k,kpar1,kpar2,klev,kpar,kk,first_klev_abv_450mb
       integer ilcl, klcl, kmax, kel, klfc
       real ethmax, q, t, p, e, tlcl, eth, davg, pavg, virtual
       real p1, p2, totthe, totqvp, totprs, pup, pdn, th, pp1, pp2
@@ -71,9 +71,9 @@ c
       include 'comconst'
 
 c
-      jdebug = 500
-      idebug = 350
-      first_klev_abv_3000m = -1 
+      jdebug = -576
+      idebug = -340
+      first_klev_abv_450mb = -1 
  
 c     had to add this because that's what happens in the original pvocalc routine.
 c     it converts tmk to theta with thecalc.f and converts back with a different formula .
@@ -109,9 +109,8 @@ c this formula. This follows the old pvocalc routine exactly. - Ahijevych
             t_tlift(k)=theta(i,j,k)*(prs(i,j,k)/1000.)**(287./1004.)
             q_tlift(k)=qvp(i,j,k)
             p_tlift(k)=prs(i,j,k)
-            if ((ght(i,j,k)-ter(i,j)).gt.3000 .and.
-     &         first_klev_abv_3000m.eq.-1) then
-               first_klev_abv_3000m = k
+            if (prs(i,j,k).lt.450 .and. first_klev_abv_450mb.eq.-1) then
+               first_klev_abv_450mb = k
             endif
             bmin3(i,j,k)=-99.
       enddo
@@ -120,7 +119,7 @@ c this formula. This follows the old pvocalc routine exactly. - Ahijevych
 
       if (i3dflag.eq.1.or.i3dflag.eq.3) then
 c        kpar1 used to be 2
-         kpar1=first_klev_abv_3000m
+         kpar1=first_klev_abv_450mb
          kpar2=mkzh
       else if (i3dflag.eq.2) then
 c        read kpar1 from file
@@ -456,7 +455,7 @@ c
         do i=1,miy-1
           do j=1,mjx-1 ! minus 1 because that is what the loop above does
             if(bmin_max(i,j).ne.-99.)
-     &        write(25,'(2I5,F10.2,I14,2F10.2)')
+     &        write(25,'(2I5,F10.2,I4,2F10.2)')
      &        i,j, cape(i,j,kpar_orig_bmin_max(i,j)),
      &        kpar_orig_bmin_max(i,j), bmin_max(i,j), 
      &        zpar_orig_bmin_max(i,j)

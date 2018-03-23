@@ -1,8 +1,7 @@
 c                                                                     c
 c*********************************************************************c
 c                                                                     c
-      subroutine sticdraw(icolr,igray,tcolor,mcolor,
-     &   ilinw,ngfbuf,icolrgf,ilinwgf,
+      subroutine sticdraw(icolr,igray,ilinw,ngfbuf,icolrgf,ilinwgf,
      &   lhodo,lmand,lsndg,lhodogf,lmandgf,lsndggf,iwhatgf,maxbuf,
      &   flminsou,frmaxsou,fbminsou,ftmaxsou,maxpl,ipl)
 c
@@ -12,7 +11,6 @@ c
      &   ilinwgf(maxbuf),iwhatgf(maxbuf)
       logical lhodo(maxpl),lsndg(maxpl),lmand(maxpl)
       logical lhodogf(maxbuf), lsndggf(maxbuf), lmandgf(maxbuf)
-      integer tcolor, mcolor
 c
       include 'comconst'
 c
@@ -35,8 +33,8 @@ c
 c
 c  Mixing ratio specs
 c
-      real rat(10)
-      character*2 lrat(10)
+      real rat(8)
+      character*2 lrat(8)
 c
 c  Dry/saturated adiabat buffers
 c
@@ -53,8 +51,8 @@ c
       data pln /11*-19.,4*18.6,22.83,26.306,5*27.1/
       data tp /8*1050.,855.,625.,459.,337.,247.,181.,132.,730.,
      &   580.,500.,430.,342.,251.,185.,135.,7*100./
-      data rat /24.,20.,16.,12.,8.,5.,3.,2.,1.,0.4/
-      data lrat /'24','20','16','12',' 8',' 5',' 3',' 2',' 1','.4'/
+      data rat /20.,12.,8.,5.,3.,2.,1.,0.4/
+      data lrat /'20','12',' 8',' 5',' 3',' 2',' 1','.4'/
 c
 c  Check if skewt background already saved,in a gflash buffers, and,
 c      if so, flush that buffer to this frame.
@@ -153,7 +151,6 @@ c  400  -625 500
 c
 c  Draw temperature lines
 c
-      call gsplci(tcolor)   
       if (lsndg(ipl)) then
         ntemps = 5
       else if (lhodo(ipl)) then
@@ -286,7 +283,6 @@ c          x2=0.54*float(its)+0.90692*y2 + .4
           call setusv('LW',lwidth)
   223   continue
       endif
-      call gsplci(iplcisv)
 c
 c  Tick marks at 500 mb
 c
@@ -303,22 +299,19 @@ c
 c
 c  Draw mixing ratio lines
 c
-      pmin = 550.
-      call gsplci(mcolor) 
-      call dashdb (13107)     ! pattern = 0011001100110011
-c     call dashdb (3855)      ! pattern = 0000111100001111
+      call dashdb (3855)      ! pattern = 0000111100001111
       y1=132.182-44.061*alog10(1050.)
-      y2=132.182-44.061*alog10(pmin)
+      y2=132.182-44.061*alog10(700.)
       if (lsndg(ipl)) then
-	ist = 8
+	ist = 6
       else
-	ist = 10
+	ist = 8
       endif
       do 30 i = 1,ist
          es1=.001*rat(i)*1050./(eps+.001*rat(i))
          elog1=alog(es1/ezero)
          tmr1=(eslcon2*elog1-eslcon1*celkel)/(elog1-eslcon1)
-         es2=.001*rat(i)* pmin/(eps+.001*rat(i))
+         es2=.001*rat(i)* 700./(eps+.001*rat(i))
          elog2=alog(es2/ezero)
          tmr2=(eslcon2*elog2-eslcon1*celkel)/(elog2-eslcon1)
          x1=0.54*(tmr1-celkel)+0.90692*y1
@@ -328,13 +321,10 @@ c     call dashdb (3855)      ! pattern = 0000111100001111
          call plchhq (x2,y2+0.6,lrat(i),.010,0.,0.)
          call setusv('LW',lwidth)
    30 continue
-      call gsplci(iplcisv)
 c
 c  Draw saturated adiabats
 c
-      call gsplci(mcolor)  
-c     call dashdb (31710)     ! pattern = 0111101111011110
-      call dashdb (65535)     ! pattern = 1111111111111111
+      call dashdb (31710)     ! pattern = 0111101111011110
       ts=32.
       do 40 i=1,14
          tk=ts+celkel
@@ -375,14 +365,11 @@ c        call plchhq (sx(86),sy(86)+0.6,ititl(1:iend),.008,0.,0.)
          ts=ts-4.0
    40 continue
   102 format(i2)
-      call gsplci(iplcisv)
 c
 c  Draw dry adiabat lines
 c
-      call gsplci(tcolor) 
-      call dashdb (65535)     ! pattern = 1111111111111111
-c     call dashdb (21845)     ! pattern = 0101010101010101
-cc    call dashd(4444b)
+      call dashdb (21845)     ! pattern = 0101010101010101
+c     call dashd(4444b)
       t=51.
       do 45 i=1,162
          y45(i)=66.67*(5.7625544-alog(t+celkel))
@@ -410,7 +397,7 @@ c           if (lsndg(ipl).and. nint(t) .eq. 270 ) then
 c           write(6,*) 't = ',nint(t),' xpd = ',xpd,' ypd = ',ypd
 c           endif
 c For dry adiabats behind the parcel box, we need to split them into
-c two pieces for drawing.
+c two pieces for drwaing.
 c
             if (lsndg(ipl) .and. xpd .le. -5.75 .and.
      &         ypd .lt. 13.26) then
@@ -454,7 +441,6 @@ c
          call setusv('LW',lwidth)
    55 continue
   103 format(i3)
-      call gsplci(iplcisv)
 c
       call gflas2
       call gflas3(ngfbuf)

@@ -48,7 +48,7 @@ c
 c   netcdf variables
 c
       integer ncid, dimid, nf_status
-      character nf_att_text*128, start_date*19
+      character nf_att_text*64, start_date*19
 c
       character argum(256)*256
 c
@@ -258,7 +258,7 @@ c
       real mu0(miy,mjx)
 c
       character varname*10,fname*256,cxtime*10,
-     &   cxtimeavl(256)*10, tmpc*20
+     &   cxtimeavl(256)*10
 c
 c   RIP header variables
 c
@@ -267,18 +267,17 @@ c
 c
 c   netcdf variables
 c
-      parameter (max_wrf_vars=300)
       real nf_uarr3(mjx,miy-1,mkzh),  nf_varr3(mjx-1,miy,mkzh),
      &     nf_tarr3(mjx-1,miy-1,mkzh),nf_warr3(mjx-1,miy-1,mkzh+1),
      &     nf_tarr2(mjx-1,miy-1), nf_sarr3(mjx-1,miy-1,24)
       integer ncid, ndims, nvars, ngatts, unlimdimid, dimid,
-     &   nf_status, varid, nf_att_int, iprocvarid(max_wrf_vars)
+     &   nf_status, varid, nf_att_int, iprocvarid(200)
       integer nf_ustart3(4),nf_vstart3(4),nf_tstart3(4),nf_wstart3(4),
      &   nf_tstart2(3)
       integer nf_ucount3(4),nf_vcount3(4),nf_tcount3(4),nf_wcount3(4),
      &   nf_tcount2(3),nf_tcount3s(4), nf_tmp_count(4)
       real nf_att_real
-      character nf_att_text*128, nf_varname*16,
+      character nf_att_text*64, nf_varname*16,
      &   wrftimes(nwrftimes)*19
       real nf_znu(mkzh,nwrftimes),nf_znw(mkzh+1,nwrftimes)
       real znu(mkzh),znw(mkzh+1),znfac(mkzh),rdnw(mkzh),rdn(mkzh)
@@ -287,7 +286,7 @@ c
 c
 c minfo string
 c
-      character minfostring*128
+      character minfostring*88
 c
       logical needvapor
 c
@@ -299,7 +298,7 @@ c
       namelist/userin/ ptimes,iptimes,ptimeunits,tacc,discard,retain,
      &   iexpandedout,iskpd1
 c
-      print*,'Welcome to your friendly RIPDP (V4.7) output file !'    ! January 2017
+      print*,'Welcome to your friendly RIPDP (V4.6.2) output file !'    ! April 2011
 
 c   IF we have pressure level data (metgrid) all 3D fields also contain SFC data
       mkzh_out = mkzh
@@ -344,7 +343,7 @@ c
 c
 c   Set a constant limit on small microphysical values
 c
-      qdelta = 1.e-9
+      qdelta = 1.e-15
 c
 c   Define unit numbers
 c
@@ -382,19 +381,7 @@ c
       tacch=tacc/3600.
 c
       ibasic=0
-      if (argum(ndd)(1:5).eq.'basic') then
-        ibasic=1
-      else if (argum(ndd)(1:3).eq.'all') then
-        ibasic=0
-      else
-	print*,' '
-        print*,'You must specify "basic" or "all" variables to process:'
-        print*,'  ripdp_wrfarw [-n namelist_file] casename basic|all',
-     &          ' data_file_1 data_file_2 data_file_3 ...'
-	print*,' '
-        print*,'I think you said ',argum(ndd)
-	stop
-      endif
+      if (argum(ndd)(1:5).eq.'basic') ibasic=1
       if ( iprog .eq. 1 ) ibasic=0  ! for geogrid files we always want to process everything
 c
 c   Determine number of names in "discard" array.
@@ -558,7 +545,7 @@ c     variable that gets processed, set that element of iprocvarid to 1.
 c     This will allow ripdp to check all unprocessed variables to see if
 c     a data file can be created.
 c
-      do i=1,max_wrf_vars
+      do i=1,200
          iprocvarid(i)=0
       enddo
 c
@@ -966,205 +953,135 @@ c        Now prepare minfo line 2
           istart=index(nf_att_text,'WRF V')+4
           iend=index(nf_att_text(istart:),' ')-1+istart
           minfostring='Model Info: '//nf_att_text(istart:iend)  ! First 20 chars.
-	  tmpc = nf_att_text(istart:iend)
-	  read(tmpc,'(1x,f3.1)') versn
-      ia = 21
-      ib = 24
-       minfostring(ia:ib)=' CU:'
-      ia = 25
-      ib = 32
       nf_status = nf_get_att_int (ncid, nf_global,
      &   'CU_PHYSICS', nf_att_int)
          call handle_err(043.,nf_status)
       if (nf_att_int.eq.0) then
-         minfostring(ia:ib)=' No Cu'
+         minfostring(21:28)=' No Cu'
       elseif (nf_att_int.eq.1) then
-         minfostring(ia:ib)=' KF'
+         minfostring(21:28)=' KF'
       elseif (nf_att_int.eq.2) then
-         minfostring(ia:ib)=' BMJ'
+         minfostring(21:28)=' BMJ'
       elseif (nf_att_int.eq.3) then
-         if ( versn .gt. 3.4 ) then
-           minfostring(ia:ib)=' G-F Ens'
-         else
-           minfostring(ia:ib)=' G-D Ens'
-         endif
+         minfostring(21:28)=' G-D Ens'
       elseif (nf_att_int.eq.4) then
-         minfostring(ia:ib)=' SAS Scheme'
+         minfostring(21:28)=' SAS Scheme'
       elseif (nf_att_int.eq.5) then
-         minfostring(ia:ib)=' G3'
+         minfostring(21:28)=' G3'
       elseif (nf_att_int.eq.6) then
-         minfostring(ia:ib)=' Tiedtke'
+         minfostring(21:28)=' Tiedtke'
       elseif (nf_att_int.eq.7) then
-         minfostring(ia:ib)=' Zhang-McFarlane'
-      elseif (nf_att_int.eq.10) then
-         minfostring(ia:ib)=' CuPo KF'
-      elseif (nf_att_int.eq.11) then
-         minfostring(ia:ib)=' M-S KF'
+         minfostring(21:28)=' Zhang-McFarlane'
       elseif (nf_att_int.eq.14) then
-         minfostring(ia:ib)=' NSAS'
-      elseif (nf_att_int.eq.16) then
-         minfostring(ia:ib)=' N_Tiedtke'
-      elseif (nf_att_int.eq.93) then
-         minfostring(ia:ib)=' G-D Ens'
+         minfostring(21:28)=' NSAS'
       elseif (nf_att_int.eq.99) then
-         minfostring(ia:ib)=' KF-old'
+         minfostring(21:28)=' KF-old'
       endif
 c
-      ia = 49
-      ib = 53
-       minfostring(ia:ib)=' PBL:'
-      ia = 54
-      ib = 62
       nf_status = nf_get_att_int (ncid, nf_global,
      &   'BL_PBL_PHYSICS', nf_att_int)
       call handle_err(044.,nf_status)
       if (nf_att_int.eq.0) then
-         minfostring(ia:ib)=' None '
+         minfostring(29:37)=' No PBL'
       elseif (nf_att_int.eq.1) then
-         minfostring(ia:ib)=' YSU '
+         minfostring(29:37)=' YSU PBL'
       elseif (nf_att_int.eq.2) then
-         minfostring(ia:ib)=' MYJ '
+         minfostring(29:37)=' MYJ PBL'
       elseif (nf_att_int.eq.3) then
-         minfostring(ia:ib)=' GFS '
+         minfostring(29:37)=' GFS PBL'
       elseif (nf_att_int.eq.4) then
-         minfostring(ia:ib)=' QNSE '
+         minfostring(29:37)=' QNSE PBL'
       elseif (nf_att_int.eq.5) then
-         minfostring(ia:ib)=' MYNN2 '
+         minfostring(29:37)=' MYNN2 PBL'
       elseif (nf_att_int.eq.6) then
-         minfostring(ia:ib)=' MYNN3 '
+         minfostring(29:37)=' MYNN3 PBL'
       elseif (nf_att_int.eq.7) then
-         minfostring(ia:ib)=' ACM '
+         minfostring(29:37)=' ACM PBL'
       elseif (nf_att_int.eq.8) then
-         minfostring(ia:ib)=' BOULAC '
+         minfostring(29:37)=' BOULAC PBL'
       elseif (nf_att_int.eq.9) then
-         minfostring(ia:ib)=' UW '
+         minfostring(29:37)=' UW PBL'
       elseif (nf_att_int.eq.10) then
-         minfostring(ia:ib)=' TEMF '
-      elseif (nf_att_int.eq.11) then
-         minfostring(ia:ib)=' SHPBL '
-      elseif (nf_att_int.eq.12) then
-         minfostring(ia:ib)=' GBM '
+         minfostring(29:37)=' TEMF PBL'
       elseif (nf_att_int.eq.99) then
-         minfostring(ia:ib)=' MRF '
+         minfostring(29:37)=' MRF PBL'
       endif
 c
-      ia = 33
-      ib = 36
-       minfostring(ia:ib)=' MP:'
-      ia = 37
-      ib = 48
       nf_status = nf_get_att_int (ncid, nf_global,
      &   'MP_PHYSICS', nf_att_int)
       call handle_err(045.,nf_status)
       if (nf_att_int.eq.0) then
-         minfostring(ia:ib)=' No microph'
+         minfostring(38:49)=' No microph'
       elseif (nf_att_int.eq.1) then
-         minfostring(ia:ib)=' Kessler'
+         minfostring(38:49)=' Kessler'
       elseif (nf_att_int.eq.2) then
-         minfostring(ia:ib)=' Lin et al'
+         minfostring(38:49)=' Lin et al'
       elseif (nf_att_int.eq.3) then
-         minfostring(ia:ib)=' WSM 3class'
+         minfostring(38:49)=' WSM 3class'
       elseif (nf_att_int.eq.4) then
-         minfostring(ia:ib)=' WSM 5class'
+         minfostring(38:49)=' WSM 5class'
       elseif (nf_att_int.eq.5) then
-         minfostring(ia:ib)=' Ferrier'
+         minfostring(38:49)=' Ferrier'
       elseif (nf_att_int.eq.6) then
-         minfostring(ia:ib)=' WSM 6class'
+         minfostring(38:49)=' WSM 6class'
       elseif (nf_att_int.eq.7) then
-         minfostring(ia:ib)=' Goddard  '
+         minfostring(38:49)=' Goddard  '
       elseif (nf_att_int.eq.8) then
-         minfostring(ia:ib)=' Thompson '
+         minfostring(38:49)=' Thompson '
       elseif (nf_att_int.eq.10) then
-         minfostring(ia:ib)=' Morrison '
-      elseif (nf_att_int.eq.11) then
-         minfostring(ia:ib)=' CAM5.1   '
+         minfostring(38:49)=' Morrison '
       elseif (nf_att_int.eq.13) then
-         minfostring(ia:ib)=' SBU-LIN '
+         minfostring(38:49)=' SBU-LIN '
       elseif (nf_att_int.eq.14) then
-         minfostring(ia:ib)=' WDM 5class '
+         minfostring(38:49)=' WDM 5class '
       elseif (nf_att_int.eq.16) then
-         minfostring(ia:ib)=' WDM 6class '
-      elseif (nf_att_int.eq.17) then
-         minfostring(ia:ib)=' NSSL       '
-      elseif (nf_att_int.eq.18) then
-         minfostring(ia:ib)=' NSSL + CCN '
-      elseif (nf_att_int.eq.19) then
-         minfostring(ia:ib)=' NSSL 1-mom '
-      elseif (nf_att_int.eq.21) then
-         minfostring(ia:ib)=' NSSL LFO   '
-      elseif (nf_att_int.eq.28) then
-         minfostring(ia:ib)=' Thomp C/A  '
-      elseif (nf_att_int.eq.30) then
-         minfostring(ia:ib)=' HUJI fast  '
-      elseif (nf_att_int.eq.32) then
-         minfostring(ia:ib)=' HUJI full  '
+         minfostring(38:49)=' WDM 6class '
       elseif (nf_att_int.eq.98) then
-         minfostring(ia:ib)=' Thompson '
-      elseif (nf_att_int.eq.50) then
-         minfostring(ia:ib)=' P3         '
-      elseif (nf_att_int.eq.51) then
-         minfostring(ia:ib)=' P3-nc      '
+         minfostring(38:49)=' Thompson '
 c     elseif (nf_att_int.eq.99) then
-c        minfostring(ia:ib)=' Zhao-Carr'
+c        minfostring(38:49)=' Zhao-Carr'
       endif
 c
-      ia = 63
-      ib = 66
-       minfostring(ia:ib)=' SF:'
-      ia = 67
-      ib = 77
       nf_status = nf_get_att_int (ncid, nf_global,
      &   'SF_SURFACE_PHYSICS', nf_att_int)
       call handle_err(046.,nf_status)
       if (nf_att_int.eq.0) then
-         minfostring(ia:ib)=' No SFC'
+         minfostring(50:60)=' No SFC'
       elseif (nf_att_int.eq.1) then
-         minfostring(ia:ib)=' Ther-Diff'
+         minfostring(50:60)=' Ther-Diff'
       elseif (nf_att_int.eq.2) then
-         minfostring(ia:ib)=' Noah LSM'
+         minfostring(50:60)=' Noah LSM'
       elseif (nf_att_int.eq.3) then
-         minfostring(ia:ib)=' RUC LSM'
-      elseif (nf_att_int.eq.4) then
-         minfostring(ia:ib)=' NoahMP '
-      elseif (nf_att_int.eq.5) then
-         minfostring(ia:ib)=' CLM4   '
+         minfostring(50:60)=' RUC LSM'
       elseif (nf_att_int.eq.7) then
-         minfostring(ia:ib)=' PX LSM'
-      elseif (nf_att_int.eq.8) then
-         minfostring(ia:ib)=' SSiB  '
+         minfostring(50:60)=' PX LSM'
       endif
 
-      ia = 80
-      ib = 86
       if (ds.ge.100000.) then
-         write(minfostring(ia:ib),'(i3,'' km '')') nint(.001*ds)
+         write(minfostring(61:68),'(i3,'' km, '')') nint(.001*ds)
       elseif (ds.ge.10000.) then
-         write(minfostring(ia:ib),'(i2,'' km '')') nint(.001*ds)
+         write(minfostring(61:68),'(i2,'' km, '')') nint(.001*ds)
       elseif (ds.ge.1000.) then
-         write(minfostring(ia:ib),'(f3.1,'' km '')') .001*ds
+         write(minfostring(61:68),'(f3.1,'' km, '')') .001*ds
       else
-         write(minfostring(ia:ib),'(i3,'' m '')') nint(ds)
+         write(minfostring(61:68),'(i3,'' m, '')') nint(ds)
       endif
 c
-      ia = 87
-      ib = 98
-      write(minfostring(ia:ib),'(i3,'' levels '')') mkzh
+      write(minfostring(69:81),'(i3,'' levels, '')') mkzh
 c
       nf_status = nf_get_att_real (ncid, nf_global,
      &   'DT', nf_att_real)
       call handle_err(047.,nf_status)
-      ia = 99
-      ib = 105
-      write(minfostring(ia:ib),'(i3,'' sec'')') nint(nf_att_real)
-      write(58,'(a)') minfostring(1:128)
+      write(minfostring(82:88),'(i3,'' sec'')') nint(nf_att_real)
+      write(58,'(a)') minfostring(1:88)
 c
 c   Second line of minfo file
 c
-      do i = 1, 128
+      do i = 1, 88
 	minfostring(i:i) = ' '
       enddo
       ia = 22
-      ib = 32
+      ib = 29
       nf_status = nf_get_att_int (ncid, nf_global,
      &   'RA_LW_PHYSICS', nf_att_int)
       call handle_err(048.,nf_status)
@@ -1178,15 +1095,11 @@ c
          minfostring(ia:ib)='LW: RRTMG'
       elseif (nf_att_int.eq.5) then
          minfostring(ia:ib)='LW: Goddard'
-      elseif (nf_att_int.eq.7) then
-         minfostring(ia:ib)='LW: FLG    '
-      elseif (nf_att_int.eq.24) then
-         minfostring(ia:ib)='LW: RRTMF  '
       elseif (nf_att_int.eq.99) then
          minfostring(ia:ib)='LW: GFDL'
       endif
-      ia = 33
-      ib = 43
+      ia = 30
+      ib = 41
       nf_status = nf_get_att_int (ncid, nf_global,
      &   'RA_SW_PHYSICS', nf_att_int)
       call handle_err(049.,nf_status)
@@ -1202,15 +1115,11 @@ c
          minfostring(ia:ib)=' SW: RRTMG '
       elseif (nf_att_int.eq.5) then
          minfostring(ia:ib)=' SW: Goddard '
-      elseif (nf_att_int.eq.7) then
-         minfostring(ia:ib)=' SW: FLG     '
-      elseif (nf_att_int.eq.24) then
-         minfostring(ia:ib)='SW: RRTMF  '
       elseif (nf_att_int.eq.99) then
          minfostring(ia:ib)=' SW: GFDL'
       endif
-      ia = 44
-      ib = 56
+      ia = 42
+      ib = 54
       nf_status = nf_get_att_int (ncid, nf_global,
      &   'DIFF_OPT', nf_att_int)
       call handle_err(050.,nf_status)
@@ -1221,8 +1130,8 @@ c
       elseif (nf_att_int.eq.2) then
          minfostring(ia:ib)=' DIFF: full'
       endif
-      ia = 57
-      ib = 70
+      ia = 55
+      ib = 68
       if ( nf_att_int.eq.0 ) then
          minfostring(ia:ib)='                '
       else
@@ -1241,46 +1150,7 @@ c
 	   minfostring(ia:ib)=' KM: 2D Smagor'
 	endif
       endif
-      ia = 71
-      ib = 87
-      nf_status = nf_get_att_int (ncid, nf_global,
-     &   'DAMP_OPT', nf_att_int)
-      if (nf_att_int.eq.0) then
-         minfostring(ia:ib)=' DAMP: none'
-      elseif (nf_att_int.eq.1) then
-         minfostring(ia:ib)=' DAMP: diffusive'
-      elseif (nf_att_int.eq.2) then
-         minfostring(ia:ib)=' DAMP: Rayleigh2'
-      elseif (nf_att_int.eq.3) then
-         minfostring(ia:ib)=' DAMP: Rayleigh3'
-      endif
-      ia = 88
-      ib = 112
-      nf_status = nf_get_att_int (ncid, nf_global,
-     &   'SF_SFCLAY_PHYSICS', nf_att_int)
-      if (nf_att_int.eq.0) then
-         minfostring(ia:ib)=' SFLAY: none'
-      elseif (nf_att_int.eq.1) then
-         minfostring(ia:ib)=' SFLAY: Rev MM5'
-      elseif (nf_att_int.eq.2) then
-         minfostring(ia:ib)=' SFLAY: Eta '
-      elseif (nf_att_int.eq.3) then
-         minfostring(ia:ib)=' SFLAY: GFS'
-      elseif (nf_att_int.eq.4) then
-         minfostring(ia:ib)=' SFLAY: QNSE'
-      elseif (nf_att_int.eq.5) then
-         minfostring(ia:ib)=' SFLAY: MYNN'
-      elseif (nf_att_int.eq.7) then
-         minfostring(ia:ib)=' SFLAY: P-X '
-      elseif (nf_att_int.eq.10) then
-         minfostring(ia:ib)=' SFLAY: TEMF'
-      elseif (nf_att_int.eq.11) then
-         minfostring(ia:ib)=' SFLAY: Rev MM5'
-      elseif (nf_att_int.eq.91) then
-         minfostring(ia:ib)=' SFLAY: MM5 '
-      endif
-
-      write(58,'(a)') minfostring(1:128)
+      write(58,'(a)') minfostring(1:88)
       endif  ! end of real/wrf/wrfvar block
       endif  ! end of iprog block
  514  continue
@@ -1652,8 +1522,7 @@ c
       plchun='m s~S~-1~N~'
       if ( iprog .eq. 2 ) then
         scr2 = uuu(:,:,mkzh)
-c       vardesc='Hor. wind (sfc,x-comp.), m/s'
-        vardesc='Hor. sfc wind (x-comp.), m/s'
+        vardesc='Hor. wind (sfc,x-comp.), m/s'
         call writefile_rdp(scr2,'U10       ',2,0,vardesc,plchun,
      &     fname,iendf1,ihrip,rhrip,chrip,iexpanded,
      &     iexpandedout,ioffexp,joffexp,miy,mjx,mkzh_out)
@@ -1690,8 +1559,7 @@ c
       plchun='m s~S~-1~N~'
       if ( iprog .eq. 2 ) then
         scr2 = vvv(:,:,mkzh)
-c       vardesc='Hor. wind (sfc,y-comp.), m/s'
-        vardesc='Hor. sfc wind (y-comp.), m/s'
+        vardesc='Hor. wind (sfc,y-comp.), m/s'
         call writefile_rdp(scr2,'V10       ',2,0,vardesc,plchun,
      &     fname,iendf1,ihrip,rhrip,chrip,iexpanded,
      &     iexpandedout,ioffexp,joffexp,miy,mjx,mkzh_out)
@@ -1746,11 +1614,11 @@ c      nf_status = 333
            enddo
          elseif ( iprog .eq. 2 ) then
            nf_status = nf_inq_varid (ncid, 'PRES', varid)
-           call handle_err(063.,nf_status)
+           call handle_err(102.,nf_status)
            iprocvarid(varid)=1
            nf_status = nf_get_vara_real (ncid, varid, nf_tstart3,
      &        nf_tcount3, nf_tarr3)
-           call handle_err(064.,nf_status)
+           call handle_err(103.,nf_status)
            do k=1,mkzh
            do j=1,mjx-1
            do i=1,miy-1
@@ -1784,7 +1652,7 @@ c
 	     iprocvarid(varid)=1
              nf_status = nf_get_vara_real (ncid, varid, nf_tstart3,
      &         nf_tcount3, nf_tarr3)
-             call handle_err(065.,nf_status)
+             call handle_err(113.,nf_status)
 	     do k=1,mkzh
 	     do j=1,mjx-1     ! for metgrid, store rh in qvp array, convert it later
 	     do i=1,miy-1
@@ -1805,7 +1673,7 @@ c
          iprocvarid(varid)=1
          nf_status = nf_get_vara_real (ncid, varid, nf_tstart3,
      &      nf_tcount3, nf_tarr3)
-         call handle_err(066.,nf_status)
+         call handle_err(063.,nf_status)
          do k=1,mkzh
          do j=1,mjx-1
          do i=1,miy-1
@@ -1837,11 +1705,11 @@ c   for "w-level" variables, and transfer to RIP scratch array for
 c   "w-level" variables.
 c
       nf_status = nf_inq_varid (ncid, 'PHB', varid)
-      call handle_err(067.,nf_status)
+      call handle_err(064.,nf_status)
       iprocvarid(varid)=1
       nf_status = nf_get_vara_real (ncid, varid, nf_wstart3,
      &   nf_wcount3, nf_warr3)
-      call handle_err(068.,nf_status)
+      call handle_err(065.,nf_status)
       do k=1,mkzh+1
       do j=1,mjx-1
       do i=1,miy-1
@@ -1859,11 +1727,11 @@ c   The scale height interpolation for wrf output is incorrect. It has
 c   been replaced with a staight interpolation of ght.
 c
       nf_status = nf_inq_varid (ncid, 'PH', varid)
-      call handle_err(069.,nf_status)
+      call handle_err(066.,nf_status)
       iprocvarid(varid)=1
       nf_status = nf_get_vara_real (ncid, varid, nf_wstart3,
      &   nf_wcount3, nf_warr3)
-      call handle_err(070.,nf_status)
+      call handle_err(067.,nf_status)
       do k=1,mkzh+1
       do j=1,mjx-1
       do i=1,miy-1
@@ -1890,11 +1758,11 @@ c        ght(i,j,k)=-sclht*log(ght(i,j,k))
  515  continue
       if ( iprog .eq. 2 ) then
         nf_status = nf_inq_varid (ncid, 'GHT', varid)
-        call handle_err(071.,nf_status)
+        call handle_err(104.,nf_status)
         iprocvarid(varid)=1
         nf_status = nf_get_vara_real (ncid, varid, nf_tstart3,
      &     nf_tcount3, nf_tarr3)
-        call handle_err(072.,nf_status)
+        call handle_err(105.,nf_status)
         do k=1,mkzh
         do j=1,mjx-1
         do i=1,miy-1
@@ -1917,11 +1785,11 @@ c   Now get vertical velocity (convert from m/s to cm/s)
 c
       if ( iprog .gt. 2 ) then
         nf_status = nf_inq_varid (ncid, 'W', varid)
-        call handle_err(073.,nf_status)
+        call handle_err(068.,nf_status)
         iprocvarid(varid)=1
         nf_status = nf_get_vara_real (ncid, varid, nf_wstart3,
      &     nf_wcount3, nf_warr3)
-        call handle_err(074.,nf_status)
+        call handle_err(069.,nf_status)
         do k=1,mkzh+1
         do j=1,mjx-1
         do i=1,miy-1
@@ -1947,91 +1815,17 @@ c
      &     iexpandedout,ioffexp,joffexp,miy,mjx,mkzh_out)
       endif
 c
-c   Now get TKE (also on full levels) if available
-c
-      if ( iprog .gt. 2 ) then
-        nf_status = nf_inq_varid (ncid, 'TKE_PBL', varid)
-        if (nf_status .ne. nf_noerr) then
-c          print*,'   Did not find TKE_PBL.'
-        else
-          iprocvarid(varid)=1
-          nf_status = nf_get_vara_real (ncid, varid, nf_wstart3,
-     &       nf_wcount3, nf_warr3)
-          call handle_err(075.,nf_status)
-          do k=1,mkzh+1
-          do j=1,mjx-1
-          do i=1,miy-1
-             scr3wlev(i,j,k)=nf_warr3(j,i,mkzh+1-k+1)
-          enddo
-          enddo
-          enddo
-c
-c   Interpolate field to "mass levels" and write out
-c
-          do j=1,mjx-1
-          do i=1,miy-1
-          do k=1,mkzh
-             www(i,j,k)=znfac(k)*scr3wlev(i,j,k+1)+
-     &                  (1.-znfac(k))*scr3wlev(i,j,k)
-          enddo
-          enddo
-          enddo
-          vardesc='Turbulent kinetic energy from PBL, m^2/s^2'
-          plchun='m~S~2~N~ s~S~2~N~'
-          call writefile_rdp(www,'tke_pbl   ',3,1,vardesc,plchun,
-     &     fname,iendf1,ihrip,rhrip,chrip,iexpanded,
-     &     iexpandedout,ioffexp,joffexp,miy,mjx,mkzh_out)
-        endif
-      endif
-c
-c   Now get EL (also on full levels) if available
-c
-      if ( iprog .gt. 2 ) then
-        nf_status = nf_inq_varid (ncid, 'EL_PBL', varid)
-        if (nf_status .ne. nf_noerr) then
-c          print*,'   Did not find EL_PBL.'
-        else
-          iprocvarid(varid)=1
-          nf_status = nf_get_vara_real (ncid, varid, nf_wstart3,
-     &         nf_wcount3, nf_warr3)
-            call handle_err(076.,nf_status)
-          do k=1,mkzh+1
-          do j=1,mjx-1
-          do i=1,miy-1
-             scr3wlev(i,j,k)=nf_warr3(j,i,mkzh+1-k+1)
-          enddo
-          enddo
-          enddo
-c
-c   Interpolate field to "mass levels" and write out
-c
-          do j=1,mjx-1
-          do i=1,miy-1
-          do k=1,mkzh
-             www(i,j,k)=znfac(k)*scr3wlev(i,j,k+1)+
-     &                  (1.-znfac(k))*scr3wlev(i,j,k)
-          enddo
-          enddo
-          enddo
-          vardesc='Mixing length from PBL scheme, m'
-          plchun='m'
-          call writefile_rdp(www,'el_pbl   ',3,1,vardesc,plchun,
-     &       fname,iendf1,ihrip,rhrip,chrip,iexpanded,
-     &       iexpandedout,ioffexp,joffexp,miy,mjx,mkzh_out)
-        endif
-      endif
-c
 c   Get terrain height (HGT), and write out.
 c
       nf_status = nf_inq_varid (ncid, 'HGT', varid)
       if ( nf_status .ne. 0 ) then   ! maybe we have HGT_M
         nf_status = nf_inq_varid (ncid, 'HGT_M', varid)
       endif
-      call handle_err(077.,nf_status)
+      call handle_err(070.,nf_status)
       iprocvarid(varid)=1
       nf_status = nf_get_vara_real (ncid, varid, nf_tstart2,
      &   nf_tcount2, nf_tarr2)
-      call handle_err(078.,nf_status)
+      call handle_err(071.,nf_status)
       do j=1,mjx-1
       do i=1,miy-1
          ter(i,j)=nf_tarr2(j,i)
@@ -2057,11 +1851,11 @@ c
 	 if (nf_status .ne. nf_noerr) then
 c  Old SI files only have MU0
            nf_status = nf_inq_varid (ncid, 'MU0', varid)
-           call handle_err(079.,nf_status)
+           call handle_err(072.,nf_status)
 	   iprocvarid(varid)=1
 	   nf_status = nf_get_vara_real (ncid, varid, nf_tstart2,
      &        nf_tcount2, nf_tarr2)
-	   call handle_err(080.,nf_status)
+	   call handle_err(073.,nf_status)
 	   do j=1,mjx-1
 	   do i=1,miy-1
 	      mu0(i,j)=nf_tarr2(j,i)
@@ -2073,18 +1867,18 @@ c  (in wrf3dvar_input files, mu0 is .ne. mub+mu, so recompute it here).
            iprocvarid(varid)=1
            nf_status = nf_get_vara_real (ncid, varid, nf_tstart2,
      &        nf_tcount2, nf_tarr2)
-           call handle_err(081.,nf_status)
+           call handle_err(173.,nf_status)
            do j=1,mjx-1
            do i=1,miy-1
               mu0(i,j)=nf_tarr2(j,i)
            enddo
            enddo
            nf_status = nf_inq_varid (ncid, 'MU', varid)
-           call handle_err(082.,nf_status)
+           call handle_err(272.,nf_status)
            iprocvarid(varid)=1
            nf_status = nf_get_vara_real (ncid, varid, nf_tstart2,
      &        nf_tcount2, nf_tarr2)
-           call handle_err(083.,nf_status)
+           call handle_err(273.,nf_status)
            do j=1,mjx-1
            do i=1,miy-1
               mu0(i,j)=mu0(i,j) + nf_tarr2(j,i)
@@ -2182,11 +1976,11 @@ c   Get theta (T), convert it to temperature, and write out.
 c
       if ( iprog .gt. 2 ) then
         nf_status = nf_inq_varid (ncid, 'T', varid)
-        call handle_err(084.,nf_status)
+        call handle_err(074.,nf_status)
         iprocvarid(varid)=1
         nf_status = nf_get_vara_real (ncid, varid, nf_tstart3,
      &     nf_tcount3, nf_tarr3)
-        call handle_err(085.,nf_status)
+        call handle_err(075.,nf_status)
         do k=1,mkzh
         do j=1,mjx-1
         do i=1,miy-1
@@ -2197,11 +1991,11 @@ c
         enddo
       elseif ( iprog .eq. 2 ) then
         nf_status = nf_inq_varid (ncid, 'TT', varid)
-        call handle_err(086.,nf_status)
+        call handle_err(106.,nf_status)
         iprocvarid(varid)=1
         nf_status = nf_get_vara_real (ncid, varid, nf_tstart3,
      &     nf_tcount3, nf_tarr3)
-        call handle_err(087.,nf_status)
+        call handle_err(107.,nf_status)
         do k=1,mkzh
         do j=1,mjx-1
         do i=1,miy-1
@@ -2263,21 +2057,21 @@ c
           nf_status = nf_inq_varid (ncid, 'ST000010', varid)
           if ( nf_status .ne. 0 ) then   ! Maybe we have ST000007
             nf_status = nf_inq_varid (ncid, 'ST000007', varid)
-            call handle_err(088.,nf_status)
+            call handle_err(108.,nf_status)
           endif
           nf_status = nf_get_vara_real (ncid, varid, nf_tstart2,
      &       nf_tcount2, nf_tarr2)
-          call handle_err(089.,nf_status)
+          call handle_err(110.,nf_status)
           do j=1,mjx-1
           do i=1,miy-1
             scr2(i,j)=nf_tarr2(j,i)
           enddo
           enddo
           nf_status = nf_inq_varid (ncid, 'PMSL', varid)
-          call handle_err(090.,nf_status)
+          call handle_err(109.,nf_status)
           nf_status = nf_get_vara_real (ncid, varid, nf_tstart2,
      &       nf_tcount2, nf_tarr2)
-          call handle_err(091.,nf_status)
+          call handle_err(111.,nf_status)
           do j=1,mjx-1
           do i=1,miy-1
              sfp(i,j)=(nf_tarr2(j,i)*0.01) * 
@@ -2290,7 +2084,7 @@ c
 
           nf_status = nf_get_vara_real (ncid, varid, nf_tstart2,
      &       nf_tcount2, nf_tarr2)
-          call handle_err(092.,nf_status)
+          call handle_err(112.,nf_status)
           do j=1,mjx-1
           do i=1,miy-1
              sfp(i,j) = nf_tarr2(j,i)*0.01
@@ -2313,12 +2107,12 @@ c
       nf_status = nf_inq_varid (ncid, 'MAPFAC_M', varid)
       if ( nf_status .ne. 0 ) then   ! We probably have V3 data - lets look
             nf_status = nf_inq_varid (ncid, 'MAPFAC_MX', varid)
-            call handle_err(093.,nf_status)
+            call handle_err(076.,nf_status)
           endif
       iprocvarid(varid)=1
       nf_status = nf_get_vara_real (ncid, varid, nf_tstart2,
      &   nf_tcount2, nf_tarr2)
-      call handle_err(094.,nf_status)
+      call handle_err(077.,nf_status)
       do j=1,mjx-1
       do i=1,miy-1
          xmap(i,j)=nf_tarr2(j,i)
@@ -2347,11 +2141,11 @@ c
 c   Get coriolis parameter on cross points (F), and write out.
 c
       nf_status = nf_inq_varid (ncid, 'F', varid)
-      call handle_err(095.,nf_status)
+      call handle_err(078.,nf_status)
       iprocvarid(varid)=1
       nf_status = nf_get_vara_real (ncid, varid, nf_tstart2,
      &   nf_tcount2, nf_tarr2)
-      call handle_err(096.,nf_status)
+      call handle_err(079.,nf_status)
       do j=1,mjx-1
       do i=1,miy-1
          cor(i,j)=nf_tarr2(j,i)
@@ -2385,7 +2179,7 @@ c
          iprocvarid(varid)=1
          nf_status = nf_get_vara_real (ncid, varid, nf_tstart2,
      &      nf_tcount2, nf_tarr2)
-         call handle_err(097.,nf_status)
+         call handle_err(080.,nf_status)
          do j=1,mjx-1
          do i=1,miy-1
             rtc(i,j)=nf_tarr2(j,i)
@@ -2408,7 +2202,7 @@ c
          iprocvarid(varid)=1
          nf_status = nf_get_vara_real (ncid, varid, nf_tstart2,
      &      nf_tcount2, nf_tarr2)
-         call handle_err(098.,nf_status)
+         call handle_err(081.,nf_status)
          do j=1,mjx-1
          do i=1,miy-1
             rte(i,j)=nf_tarr2(j,i)
@@ -2426,11 +2220,11 @@ c      and write out.
 c
       if ( iprog .gt. 2 ) then
         nf_status = nf_inq_varid (ncid, 'TSK', varid)
-        call handle_err(099.,nf_status)
+        call handle_err(082.,nf_status)
         iprocvarid(varid)=1
         nf_status = nf_get_vara_real (ncid, varid, nf_tstart2,
      &     nf_tcount2, nf_tarr2)
-        call handle_err(100.,nf_status)
+        call handle_err(083.,nf_status)
         do j=1,mjx-1
         do i=1,miy-1
            tgk(i,j)=nf_tarr2(j,i)
@@ -2446,11 +2240,11 @@ c
 c   Get land use (LU_INDEX), and write out.
 c
       nf_status = nf_inq_varid (ncid, 'LU_INDEX', varid)
-      call handle_err(101.,nf_status)
+      call handle_err(084.,nf_status)
       iprocvarid(varid)=1
       nf_status = nf_get_vara_real (ncid, varid, nf_tstart2,
      &   nf_tcount2, nf_tarr2)
-      call handle_err(102.,nf_status)
+      call handle_err(085.,nf_status)
       do j=1,mjx-1
       do i=1,miy-1
          xlus(i,j)=nf_tarr2(j,i)
@@ -2474,7 +2268,7 @@ c
          iprocvarid(varid)=1
          nf_status = nf_get_vara_real (ncid, varid, nf_tstart3,
      &      nf_tcount3, nf_tarr3)
-         call handle_err(103.,nf_status)
+         call handle_err(086.,nf_status)
          do k=1,mkzh
          do j=1,mjx-1
          do i=1,miy-1
@@ -2490,32 +2284,6 @@ c
      &      iexpandedout,ioffexp,joffexp,miy,mjx,mkzh_out)
       endif
 c
-c   If available, get cloud water number conc. (QNCLOUD), do not convert,
-c   and write out.
-c
-      nf_status = nf_inq_varid (ncid, 'QNCLOUD', varid)
-      if (nf_status .ne. nf_noerr) then
-         print*,'   Did not find QNCLOUD.'
-      else
-         iprocvarid(varid)=1
-         nf_status = nf_get_vara_real (ncid, varid, nf_tstart3,
-     &      nf_tcount3, nf_tarr3)
-         call handle_err(104.,nf_status)
-         do k=1,mkzh
-         do j=1,mjx-1
-         do i=1,miy-1
-            scr3(i,j,k)=nf_tarr3(j,i,mkzh-k+1)
-            if (scr3(i,j,k).lt.qdelta) scr3(i,j,k)=0.
-         enddo
-         enddo
-         enddo
-         vardesc='Cloud water number concentration, /kg'
-         plchun='kg~S~-1~N~'
-         call writefile_rdp(scr3,'qnc       ',3,1,vardesc,plchun,
-     &      fname,iendf1,ihrip,rhrip,chrip,iexpanded,
-     &      iexpandedout,ioffexp,joffexp,miy,mjx,mkzh_out)
-      endif
-c
 c   If available, get rain water mixing ratio (QRAIN), convert it to g/kg,
 c   and write out.
 c
@@ -2526,7 +2294,7 @@ c
          iprocvarid(varid)=1
          nf_status = nf_get_vara_real (ncid, varid, nf_tstart3,
      &      nf_tcount3, nf_tarr3)
-         call handle_err(105.,nf_status)
+         call handle_err(087.,nf_status)
          do k=1,mkzh
          do j=1,mjx-1
          do i=1,miy-1
@@ -2542,32 +2310,6 @@ c
      &      iexpandedout,ioffexp,joffexp,miy,mjx,mkzh_out)
       endif
 c
-c   If available, get rain water number conc. (QNRAIN), do not convert,
-c   and write out.
-c
-      nf_status = nf_inq_varid (ncid, 'QNRAIN', varid)
-      if (nf_status .ne. nf_noerr) then
-         print*,'   Did not find QNRAIN.'
-      else
-         iprocvarid(varid)=1
-         nf_status = nf_get_vara_real (ncid, varid, nf_tstart3,
-     &      nf_tcount3, nf_tarr3)
-         call handle_err(106.,nf_status)
-         do k=1,mkzh
-         do j=1,mjx-1
-         do i=1,miy-1
-            scr3(i,j,k)=nf_tarr3(j,i,mkzh-k+1)
-            if (scr3(i,j,k).lt.qdelta) scr3(i,j,k)=0.
-         enddo
-         enddo
-         enddo
-         vardesc='Rain water number concentration, /kg'
-         plchun='kg~S~-1~N~'
-         call writefile_rdp(scr3,'qnr       ',3,1,vardesc,plchun,
-     &      fname,iendf1,ihrip,rhrip,chrip,iexpanded,
-     &      iexpandedout,ioffexp,joffexp,miy,mjx,mkzh_out)
-      endif
-c
 c   If available, get cloud ice mixing ratio (QICE), convert it to g/kg,
 c   and write out.
 c
@@ -2578,7 +2320,7 @@ c
          iprocvarid(varid)=1
          nf_status = nf_get_vara_real (ncid, varid, nf_tstart3,
      &      nf_tcount3, nf_tarr3)
-         call handle_err(107.,nf_status)
+         call handle_err(088.,nf_status)
          do k=1,mkzh
          do j=1,mjx-1
          do i=1,miy-1
@@ -2594,32 +2336,6 @@ c
      &      iexpandedout,ioffexp,joffexp,miy,mjx,mkzh_out)
       endif
 c
-c   If available, get cloud ice mixing ratio (QNICE), do not convert,
-c   and write out.
-c
-      nf_status = nf_inq_varid (ncid, 'QNICE', varid)
-      if (nf_status .ne. nf_noerr) then
-         print*,'   Did not find QNICE.'
-      else
-         iprocvarid(varid)=1
-         nf_status = nf_get_vara_real (ncid, varid, nf_tstart3,
-     &      nf_tcount3, nf_tarr3)
-         call handle_err(108.,nf_status)
-         do k=1,mkzh
-         do j=1,mjx-1
-         do i=1,miy-1
-            scr3(i,j,k)=nf_tarr3(j,i,mkzh-k+1)
-            if (scr3(i,j,k).lt.qdelta) scr3(i,j,k)=0.
-         enddo
-         enddo
-         enddo
-         vardesc='Cloud ice number concentration, /kg'
-         plchun='kg~S~-1~N~'
-         call writefile_rdp(scr3,'qni       ',3,1,vardesc,plchun,
-     &      fname,iendf1,ihrip,rhrip,chrip,iexpanded,
-     &      iexpandedout,ioffexp,joffexp,miy,mjx,mkzh_out)
-      endif
-c
 c   If available, get snow mixing ratio (QSNOW), convert it to g/kg,
 c   and write out.
 c
@@ -2630,7 +2346,7 @@ c
          iprocvarid(varid)=1
          nf_status = nf_get_vara_real (ncid, varid, nf_tstart3,
      &      nf_tcount3, nf_tarr3)
-         call handle_err(109.,nf_status)
+         call handle_err(089.,nf_status)
          do k=1,mkzh
          do j=1,mjx-1
          do i=1,miy-1
@@ -2656,7 +2372,7 @@ c
          iprocvarid(varid)=1
          nf_status = nf_get_vara_real (ncid, varid, nf_tstart3,
      &      nf_tcount3, nf_tarr3)
-         call handle_err(110.,nf_status)
+         call handle_err(090.,nf_status)
          do k=1,mkzh
          do j=1,mjx-1
          do i=1,miy-1
@@ -2672,58 +2388,6 @@ c
      &      iexpandedout,ioffexp,joffexp,miy,mjx,mkzh_out)
       endif
 c
-c   If available, get water-friendly aerosol number conc. (QNWFA),
-c   and write out.
-c
-      nf_status = nf_inq_varid (ncid, 'QNWFA', varid)
-      if (nf_status .ne. nf_noerr) then
-         print*,'   Did not find QNWFA.'
-      else
-         iprocvarid(varid)=1
-         nf_status = nf_get_vara_real (ncid, varid, nf_tstart3,
-     &      nf_tcount3, nf_tarr3)
-         call handle_err(111.,nf_status)
-         do k=1,mkzh
-         do j=1,mjx-1
-         do i=1,miy-1
-            scr3(i,j,k)=nf_tarr3(j,i,mkzh-k+1)
-            if (scr3(i,j,k).lt.qdelta) scr3(i,j,k)=0.
-         enddo
-         enddo
-         enddo
-         vardesc='Water-friendly aerosol number concentration, /kg'
-         plchun='kg~S~-1~N~'
-         call writefile_rdp(scr3,'qnwfa     ',3,1,vardesc,plchun,
-     &      fname,iendf1,ihrip,rhrip,chrip,iexpanded,
-     &      iexpandedout,ioffexp,joffexp,miy,mjx,mkzh_out)
-      endif
-c
-c   If available, get ice-friendly aerosol number conc. (QNIFA),
-c   and write out.
-c
-      nf_status = nf_inq_varid (ncid, 'QNIFA', varid)
-      if (nf_status .ne. nf_noerr) then
-         print*,'   Did not find QNIFA.'
-      else
-         iprocvarid(varid)=1
-         nf_status = nf_get_vara_real (ncid, varid, nf_tstart3,
-     &      nf_tcount3, nf_tarr3)
-         call handle_err(112.,nf_status)
-         do k=1,mkzh
-         do j=1,mjx-1
-         do i=1,miy-1
-            scr3(i,j,k)=nf_tarr3(j,i,mkzh-k+1)
-            if (scr3(i,j,k).lt.qdelta) scr3(i,j,k)=0.
-         enddo
-         enddo
-         enddo
-         vardesc='Ice-friendly aerosol number concentration, /kg'
-         plchun='kg~S~-1~N~'
-         call writefile_rdp(scr3,'qnifa     ',3,1,vardesc,plchun,
-     &      fname,iendf1,ihrip,rhrip,chrip,iexpanded,
-     &      iexpandedout,ioffexp,joffexp,miy,mjx,mkzh_out)
-      endif
-c
 c     Loop through other variables not specifically sought by RIPDP.
 c
       if (ibasic.eq.1.and.nretain.eq.0) goto 230
@@ -2734,14 +2398,13 @@ c
 c
       nf_varname=' '
       nf_status = nf_inq_varname (ncid, ivar, nf_varname)
-      call handle_err(113.,nf_status)
+      call handle_err(091.,nf_status)
 c
 c     First, jump to end of loop if variable was already processed in some
 c     way shape or form.
 c
       if (iprocvarid(ivar).eq.1) then
-c       write(6,*) 'var = ',nf_varname,'Basic var already processed'
-        goto 229
+         goto 229
       endif
 c
 c     Next, jump to end of loop if "all" was specified on the command line
@@ -2771,32 +2434,28 @@ c     that RIP can make use of (i.e., 3D cross point array, 2D cross
 c     point array, or soil-layer cross point array).
 c
       nf_status = nf_inq_varndims (ncid, ivar, ndims)
-      call handle_err(114.,nf_status)
+      call handle_err(092.,nf_status)
       nf_status = nf_inq_vardimid (ncid, ivar, vardimids)
-      call handle_err(115.,nf_status)
+      call handle_err(093.,nf_status)
 c
       if (ndims.eq.4.and.vardimids(4).eq.dimid_tm.and.
      &    vardimids(3).eq.dimid_bt.and.vardimids(2).eq.dimid_sn.and.
      &    vardimids(1).eq.dimid_we) then
          itype=1  ! 3D cross point array
-c        write(6,*) 'var = ',nf_varname,' 3D cross point array'
       elseif (ndims.eq.3.and.vardimids(3).eq.dimid_tm.and.
      &    vardimids(2).eq.dimid_sn.and.vardimids(1).eq.dimid_we) then
          itype=2  ! 2D cross point array
-c        write(6,*) 'var = ',nf_varname,' 2D cross point array'
       elseif (ndims.eq.4.and.vardimids(4).eq.dimid_tm.and.
      &    vardimids(3).eq.dimid_sls.and.vardimids(2).eq.dimid_sn.and.
      &    vardimids(1).eq.dimid_we) then
          itype=3  ! soil-layer cross point array
-c        write(6,*) 'var = ',nf_varname,' soil-layer cross point array'
       else
          itype=0  ! none of the above
          if (iprog .eq. 1 .and. nf_varname == 'LANDUSEF' ) itype = 4 ! 24-category USGS landuse
          if (iprog .eq. 1 .and. nf_varname == 'ALBEDO12M') itype = 4 ! Monthly surface albedo  
          if (iprog .eq. 1 .and. nf_varname == 'GREENFRAC') itype = 4 ! Monthly green fraction  
          if (iprog .eq. 1 .and. nf_varname == 'SOILCTOP') itype = 4 ! Top layer soil type     
-         if (iprog .eq. 1 .and. nf_varname == 'SOILCBOT') itype = 4 ! Bottom layer soil type    
-c        write(6,*) 'var = ',nf_varname,' unknown, skipping'
+         if (iprog .eq. 1 .and. nf_varname == 'SOILCBOT') itype = 4 ! Bottom layer soil type     
       endif
 c
 c     If variable does not have a combination of dimensions
@@ -2816,91 +2475,21 @@ c
       nf_att_text=' '
       nf_status = nf_get_att_text (ncid, ivar,
      &   'units', nf_att_text)
-      call handle_err(116.,nf_status)
+      call handle_err(094.,nf_status)
       plchun=nf_att_text
       nf_att_text=' '
       nf_status = nf_get_att_text (ncid, ivar,
      &   'description', nf_att_text)
-      call handle_err(117.,nf_status)
+      call handle_err(095.,nf_status)
       nf_status = nf_inq_attlen (ncid, ivar,
      &   'description', nf_att_len)
-      call handle_err(118.,nf_status)
-      if (nf_att_len .GT. LEN(nf_att_text)) then
-         print*, 'NOT POSSIBLE TO CONTINUE'
-         print*, ' MEMORY OVERWITE WILL RESULT BECAUSE'
-         print*, ' nf_att_len is greater than declared'
-         print*, ' size of nf_att_text.  Increase to a'
-         print*, ' minimum value of ', nf_att_len
-         STOP 'ABORT, UNABLE TO CONTINUE'
-      endif
-
-C..Added by G. Thompson to work around problem of potentially
-C.. exceeding declared length of vardesc due to a very long
-C.. description in the wrfout file, variable description.
-      n1 = LEN(plchun)
-      iendn1 = 1
-      do n = n1, 1, -1
-         ich = ichar(plchun(n:n))
-	 if ( ich .ne. 32 ) then
-            iendn1 = n
-	    if ( iendn1 .eq. 1 ) then
-         if (.not. ( (ich.ge.65 .and. ich.le.90) .or.     ! Letters A-Z
-     &               (ich.ge.97 .and. ich.le.122) .or.    ! Letters a-z
-     &               (ich.ge.45 .and. ich.le.58) .or.     ! digits 0-9, also [-./]
-     &               (ich.eq.95) .or. ich.eq.32) ) then   ! underscore, blank
-c  flag fields have a single character garbage unit - set to blank.
-	      plchun = ' ' 
-	    endif
-	    endif
-            goto 44
-         endif
-      enddo
- 44   continue
-      if (iendn1.le.0) then
-         iendn1 = n1
-      endif
-      n2 = LEN(nf_att_text)
-      iendn2 = 1
-      do n = n2, 1, -1
-         ich = ichar(nf_att_text(n:n))
-	 if ( ich .ne. 32 ) then
-c        if (      ( (ich.ge.65 .and. ich.le.90) .or.     ! Letters A-Z
-c    &               (ich.ge.97 .and. ich.le.122) .or.    ! Letters a-z
-c    &               (ich.ge.45 .and. ich.le.58) .or.     ! digits 0-9, also [-./]
-c    &               (ich.eq.95) .or. ich.eq.32) ) then   ! underscore, blank
-            iendn2 = n
-            goto 45
-         endif
-      enddo
- 45   continue
-      if (iendn2.le.0) then
-         iendn2 = n2
-      endif
-
-C..If we may exceed 64 chars of vardesc, then leave units intact
-C.. and shorten text description by amount needed to keep from
-C.. memory overwrite.
-      vardesc = ' '
-      if (iendn1+iendn2 .lt. LEN(vardesc)) then
-         iendn3 = nf_att_len
-         iendt = iendn1+iendn2 + 2
-      else
-         iendn3 = MAX(0, nf_att_len - iendn1)
-         iendt = LEN(vardesc)
-      endif
-
-      if ( iendn1 .eq. 1 .and. plchun(1:1) .eq. ' ' ) then
-        vardesc(1:iendt)=nf_att_text(1:iendn3)
-      else
-        vardesc(1:iendt)=nf_att_text(1:iendn3)//', '//plchun(1:iendn1)
-      endif
-
-
+      call handle_err(096.,nf_status)
+      vardesc=nf_att_text(1:nf_att_len)//', '//plchun
       icd=1
       if (itype.eq.1) then
          nf_status = nf_get_vara_real (ncid, ivar, nf_tstart3,
      &      nf_tcount3, nf_tarr3)
-         call handle_err(119.,nf_status)
+         call handle_err(097.,nf_status)
          do k=1,mkzh
          do j=1,mjx-1
          do i=1,miy-1
@@ -2921,7 +2510,7 @@ C.. memory overwrite.
       elseif (itype.eq.2) then
          nf_status = nf_get_vara_real (ncid, ivar, nf_tstart2,
      &      nf_tcount2, nf_tarr2)
-         call handle_err(120.,nf_status)
+         call handle_err(098.,nf_status)
          do j=1,mjx-1
          do i=1,miy-1
             scr2(i,j)=nf_tarr2(j,i)
@@ -2933,7 +2522,7 @@ C.. memory overwrite.
       elseif (itype.eq.3) then
          nf_status = nf_get_vara_real (ncid, ivar, nf_tstart3,
      &      nf_tcount3s, nf_tarr3)
-         call handle_err(121.,nf_status)
+         call handle_err(099.,nf_status)
          isp=index(varname,' ')
          if (isp.eq.0.or.isp.eq.10) isp=9
          do k=1,nsoil
@@ -2966,7 +2555,7 @@ C.. memory overwrite.
 
          nf_status = nf_get_vara_real (ncid, ivar, nf_tstart3,
      &      nf_tmp_count, nf_sarr3)
-         call handle_err(122.,nf_status)
+         call handle_err(101.,nf_status)
          isp=index(varname,' ')
          if (isp.eq.0.or.isp.eq.10) isp=9
          do k=1,nf_tmp_count(3)
@@ -3018,8 +2607,8 @@ c
 c
       print*
       print*,'===================================='
-c     print*,' We''re outta here like Vladimir !! '
-c     print*,'===================================='
+      print*,' We''re outta here like Vladimir !! '
+      print*,'===================================='
       return
       end
 c                                                                     c

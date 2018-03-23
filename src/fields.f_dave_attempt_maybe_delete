@@ -4,9 +4,6 @@ c  As with LCL and LFC heights, these new 2-D fields are stored in the lower sla
 c
 c  field name | model_level | description
 c  ----------   -----------   -----------
-c  mcin       | mkzh        | CIN
-c  lcl        | mkzh-1      | LCL m AGL
-c  lfc        | mkzh-2      | LFC m AGL
 c  kbmin      | mkzh-3      | model level of minimum buoyancy
 c  bmin       | mkzh-4      | mininum buoyancy (Tv,lift - Tv,env)
 c  zbmin      | mkzh-5      | height of minimum buoyancy (AGL)
@@ -139,7 +136,7 @@ c                                                                     c
      &   xdist,xseclen,nscrs,raddf,csave,lredo,ihrip,rhrip,rsepa,
      &   chrip,vardesc,lgrad,llapl,lhadv,
      &   igdir,iqgsm,plchun,casename,iendc,engplttl,ctjfl,rtjst,
-     &   rtjen,cdiff,rdiff,iovly,ldfrl,xtime,tacch,ccalb,
+     &   rtjen,cdiff,rdiff,ldfrl,xtime,tacch,ccalb,
      &   xtimeavl,cxtimeavl,ncxc,maxtavl,nxtavl,nxt,ldiffsuccess,
      &   rip_root,maxslab,maxlev,maxpl,miy,mjx,mkzh,mabpl,morpl,
      &   istopmiss)
@@ -161,7 +158,7 @@ c
      &   idimn(maxpl),igdir(maxpl),rsepa(32,maxpl),
      &   rlevl(maxlev,maxpl),rlavl(maxlev,maxpl),rrfst(4,maxpl),
      &   raddf(maxpl),ismcp(maxpl),iqgsm(maxpl),
-     &   rtjst(maxpl),rtjen(maxpl),rdiff(maxpl),iovly(maxpl),
+     &   rtjst(maxpl),rtjen(maxpl),rdiff(maxpl),
      &   xtimeavl(maxtavl),xtimeavl_sv(maxtavl)
 c
       character cfeld(3,maxpl)*10,cptyp(maxpl)*2,
@@ -980,13 +977,11 @@ c
             in0s=0
             in0g=0
             iliqskin=0
-            engplttl(ipl)='Max Reflectivity'
          else
             read(cfeld(ifld,ipl)(7:7),'(i1)') in0r
             read(cfeld(ifld,ipl)(8:8),'(i1)') in0s
             read(cfeld(ifld,ipl)(9:9),'(i1)') in0g
             read(cfeld(ifld,ipl)(10:10),'(i1)') iliqskin
-          engplttl(ipl)='Max Reflectivity ('//cfeld(ifld,ipl)(7:10)//')'
          endif
          call dbzcalc(qvp,scr3a,scr3b,scr3c,tmk,prs,scr3d,miy,mjx,mkzh,
      &      in0r,in0s,in0g,iliqskin)
@@ -1005,6 +1000,7 @@ c
          idimn(ipl)=2
          indwk(ifld,ipl)=incwk
          icdwk(ipl)=1
+         engplttl(ipl)='Max Reflectivity ('//cfeld(ifld,ipl)(7:10)//')'
          unwk(ipl)='dBZ'
 c
 c    compute max ferrier reflectivity in a column
@@ -1075,18 +1071,17 @@ c
             in0s=0
             in0g=0
             iliqskin=0
-            engplttl(ipl)='Reflectivity'
          else
             read(cfeld(ifld,ipl)(4:4),'(i1)') in0r
             read(cfeld(ifld,ipl)(5:5),'(i1)') in0s
             read(cfeld(ifld,ipl)(6:6),'(i1)') in0g
             read(cfeld(ifld,ipl)(7:7),'(i1)') iliqskin
-          engplttl(ipl)='Reflectivity ('//cfeld(ifld,ipl)(4:7)//')'
          endif
          call dbzcalc(qvp,scr3a,scr3b,scr3c,tmk,prs,pl3,miy,mjx,mkzh,
      &      in0r,in0s,in0g,iliqskin)
          indwk(ifld,ipl)=incwk
          icdwk(ipl)=1
+         engplttl(ipl)='Reflectivity ('//cfeld(ifld,ipl)(4:7)//')'
          unwk(ipl)='dBZ'
       elseif (cfeld(ifld,ipl)(1:5).eq.'pcpwv'.or.  ! precip'bl water (vapor), mm
      &        cfeld(ifld,ipl)(1:5).eq.'pcptw'.or. ! precip'bl water (vap+hydrometeors), mm
@@ -3044,19 +3039,14 @@ c         icdwk(ipl)=1
 c         engplttl(ipl)='Radar elevation angle'
 c         unwk(ipl)='degrees'
       elseif (cfeld(ifld,ipl)(1:5).eq.'cap3 '.or.   ! 3D CAPE, J/kg
-     &        cfeld(ifld,ipl)(1:5).eq.'cin3 '.or.
-     &        cfeld(ifld,ipl)(1:5).eq.'bmin3') then ! 3D conv. inhib., J/kg
+     &        cfeld(ifld,ipl)(1:5).eq.'cin3 ') then ! 3D conv. inhib., J/kg
          call getpt(miy,mjx,mkzh,ifree,3,i_pl3,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3c,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3d,wk,maxslab)
          call pfcalc(prs,sfp,scr3c,miy,mjx,mkzh)
-       write(iup,*)cfeld(ifld,ipl)//'before capecalc3d'      
          call capecalc3d(prs,tmk,qvp,ght,ter,scr3c,scr3a,scr3b,
-     &      scr3d,
-     &      miy,mjx,mkzh,3)
-       write(iup,*)cfeld(ifld,ipl)//'after capecalc3'      
+     &      miy,mjx,mkzh,1)
          if (cfeld(ifld,ipl)(1:4).eq.'cap3') then
             do k=1,mkzh
             do j=1,mjx-1
@@ -3066,7 +3056,6 @@ c         unwk(ipl)='degrees'
             enddo
             enddo
             engplttl(ipl)='CAPE'
-            unwk(ipl)='J kg~S~-1~N~'
          elseif (cfeld(ifld,ipl)(1:4).eq.'cin3') then
             do k=1,mkzh
             do j=1,mjx-1
@@ -3076,20 +3065,10 @@ c         unwk(ipl)='degrees'
             enddo
             enddo
             engplttl(ipl)='Convective inhibition'
-            unwk(ipl)='J kg~S~-1~N~'
-         elseif (cfeld(ifld,ipl)(1:5).eq.'bmin3') then
-            do k=1,mkzh
-            do j=1,mjx-1
-            do i=1,miy-1
-               pl3(i,j,k)=scr3d(i,j,k)
-            enddo
-            enddo
-            enddo
-            engplttl(ipl)='minimum buoyancy (Tv,lift-Tv,env)'
-           	unwk(ipl)='~S~o~N~C'
          endif
          indwk(ifld,ipl)=incwk
          icdwk(ipl)=1
+         unwk(ipl)='J kg~S~-1~N~'
 c
 c      In the following: if "save" was requested, it will be done at the end
 c      of this routine, but we might as well also save the other field
@@ -3123,10 +3102,8 @@ c
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3c,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3d,wk,maxslab)
          call pfcalc(prs,sfp,scr3c,miy,mjx,mkzh)
          call capecalc3d(prs,tmk,qvp,ght,ter,scr3c,scr3a,scr3b,
-     &      scr3d,
      &      miy,mjx,mkzh,0)
          if (cfeld(ifld,ipl)(1:4).eq.'mcap') then
             do j=1,mjx-1
@@ -3155,16 +3132,12 @@ c
      &        cfeld(ifld,ipl)(1:6).eq.'tlift '.or.
      &        cfeld(ifld,ipl)(1:6).eq.'zpar  '.or.
      &        cfeld(ifld,ipl)(1:6).eq.'kpar  '.or.
-     &        cfeld(ifld,ipl)(1:6).eq.'bmax  '.or.
-     &        cfeld(ifld,ipl)     .eq.'kpar_bmin_'.or.
-     &        cfeld(ifld,ipl)     .eq.'zpar_bmin_'.or.
-     &        cfeld(ifld,ipl)(1:8).eq.'bmin_max' ) then
+     &        cfeld(ifld,ipl)(1:6).eq.'bmax  ') then
 
          call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3c,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3d,wk,maxslab)
 c
 c      Put LCL (LFC) in the mkzh-1 (mkzh-2) slab of scr3b
 c
@@ -3174,9 +3147,6 @@ c  As with LCL and LFC heights, these new 2-D fields are stored in the lower sla
 c
 c  field name | model_level | description
 c  ----------   -----------   -----------
-c  mcin       | mkzh        | CIN
-c  lcl        | mkzh-1      | LCL m AGL
-c  lfc        | mkzh-2      | LFC m AGL
 c  kbmin      | mkzh-3      | model level of minimum buoyancy
 c  bmin       | mkzh-4      | mininum buoyancy (Tv,lift - Tv,env)
 c  zbmin      | mkzh-5      | height of minimum buoyancy (AGL)
@@ -3187,19 +3157,8 @@ c  kpar       | mkzh-9      | model level of most unstable parcel
 c  bmax       | mkzh-10     | max positive buoyancy for most unstable parcel
 c
          call pfcalc(prs,sfp,scr3c,miy,mjx,mkzh)
-
-         ! Decide between 3D bmin_max or regular 1D version
-         if ( cfeld(ifld,ipl).eq.'kpar_bmin_'.or.
-     &        cfeld(ifld,ipl).eq.'zpar_bmin_'.or.
-     &        cfeld(ifld,ipl)(1:8).eq.'bmin_max' ) then
-           call capecalc3d(prs,tmk,qvp,ght,ter,scr3c,scr3a,scr3b,
-     &        scr3d,
-     &        miy,mjx,mkzh,3)
-         else
-           call capecalc3d(prs,tmk,qvp,ght,ter,scr3c,scr3a,scr3b,
-     &        scr3d,
-     &        miy,mjx,mkzh,0)
-         endif
+         call capecalc3d(prs,tmk,qvp,ght,ter,scr3c,scr3a,scr3b,
+     &      miy,mjx,mkzh,0)
 
 c for debugging. - Ahijevych
        jdebug = 576 
@@ -3228,10 +3187,6 @@ c
             kget=mkzh-4
             engplttl(ipl)='minimum buoyancy (Tv,lift-Tv,env)'
            	unwk(ipl)='~S~o~N~C'
-         elseif (cfeld(ifld,ipl)(1:8).eq.'bmin_max') then
-            kget=mkzh-4
-            engplttl(ipl)='maximum bmin in column           '
-           	unwk(ipl)='~S~o~N~C'
          elseif (cfeld(ifld,ipl)(1:6).eq.'zbmin ') then
             kget=mkzh-5
             engplttl(ipl)='height of min buoyancy (AGL)     '
@@ -3242,23 +3197,15 @@ c
            	unwk(ipl)='K'
          elseif (cfeld(ifld,ipl)(1:6).eq.'tlift ') then
             kget=mkzh-7
-            engplttl(ipl)='Tv of parcel at max neg buoyncy  '
+            engplttl(ipl)='Tv of parcel with max neg buoyncy'
            	unwk(ipl)='K'
          elseif (cfeld(ifld,ipl)(1:6).eq.'zpar  ') then
             kget=mkzh-8
             engplttl(ipl)='original height (AGL) of parcel  '
             unwk(ipl)='m (AGL)'
-         elseif (cfeld(ifld,ipl).eq.'zpar_bmin_') then
-            kget=mkzh-8
-            engplttl(ipl)='orig height (AGL) of bmin_max par'
-            unwk(ipl)='m (AGL)'
          elseif (cfeld(ifld,ipl)(1:6).eq.'kpar  ') then
             kget=mkzh-9
             engplttl(ipl)='original model level of parcel   '
-            unwk(ipl)='k-index'
-         elseif (cfeld(ifld,ipl).eq.'kpar_bmin_') then
-            kget=mkzh-9
-            engplttl(ipl)='orig model level of bmin_max par '
             unwk(ipl)='k-index'
          elseif (cfeld(ifld,ipl)(1:6).eq.'bmax  ') then
             kget=mkzh-10
@@ -3267,7 +3214,7 @@ c
          endif
          if (kget.lt.1) then 
             write(iup,*) 'Not enough vertical levels to store'
-     &     //' required 2-D fields in CIN array'
+     &     //' required 2-D fields in capecalc3d subroutine'
             write(iup,*) 'You need at least 10.'
             write(iup,*) 'You have ', mkzh
             STOP
@@ -3885,7 +3832,7 @@ c           the 1.e5 scales the result by the commonly used 10^5 factor.
      &             (ght(i,j,kp1)-ght(i,j,km1))
             xvor=(scr3c(i,j,k)-dvdz)
             yvor=(dudz-scr3b(i,j,k))
-            pl3(i,j,k)=sqrt(vvor*vvor+xvor*xvor+yvor*yvor)*1.e5  ! scale by 1.e5
+            pl3(i,j,k)=(vvor+xvor+yvor)*1.e5  ! scale by 1.e5
          enddo
          enddo
          enddo
@@ -4518,42 +4465,6 @@ c        print *, 'U10,V10,wsp ',scr2a(60,80),scr2b(60,80),pl2(60,80)
          icdwk(ipl)=0
          engplttl(ipl)='Surface wind speed'
          if (cfeld(ifld,ipl)(1:5).eq.'wspsf') then
-           unwk(ipl)='m s~S~-1~N~'
-         else
-           unwk(ipl)='kt'
-           call addorfill(pl2,pl2,miy,mjx,1,3,0,1.94,0.)
-         endif
-      elseif (cfeld(ifld,ipl)(1:6).eq.'wsptr ' .or.
-     &        cfeld(ifld,ipl)(1:7).eq.'wspktr '.or.     ! trop wind speed, m/s or kt
-     &        cfeld(ifld,ipl)(1:6).eq.'wspmw ' .or.     
-     &        cfeld(ifld,ipl)(1:7).eq.'wspkmw ' ) then ! max wind speed, m/s or kt
-         idimn(ipl)=2
-         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,2,i_scr2a,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,2,i_scr2b,wk,maxslab)
-         if ( index(cfeld(ifld,ipl)(1:7),'tr') .gt. 0 ) then
-           call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'UUT       ',miy,mjx,mkzh,maxtavl,2,0,
-     &        scr2a,istat2)
-           call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'VVT       ',miy,mjx,mkzh,maxtavl,2,0,
-     &        scr2b,istat2)
-           engplttl(ipl)='Tropopause wind speed'
-         else
-           call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'UUW       ',miy,mjx,mkzh,maxtavl,2,0,
-     &        scr2a,istat2)
-           call getvar(casename,iendc,cxtimeavl,xtimeavl,nxt,ncxc,
-     &        'VVW       ',miy,mjx,mkzh,maxtavl,2,0,
-     &        scr2b,istat2)
-           engplttl(ipl)='Maximum wind speed'
-         endif
-         call wspcalc(scr2a,scr2b,0.,0.,rstmv(1,ipl),pl2,
-     &      miy,mjx,1)
-         indwk(ifld,ipl)=incwk
-         icdwk(ipl)=0
-         if (cfeld(ifld,ipl)(1:5).eq.'wsptr' .or.
-     &       cfeld(ifld,ipl)(1:5).eq.'wspmw' ) then
            unwk(ipl)='m s~S~-1~N~'
          else
            unwk(ipl)='kt'
@@ -5339,7 +5250,6 @@ c                                                   ! hydroms., K (or deg C)
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3c,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3d,wk,maxslab)
 c
 c      Attempt to read cape from a file, into scr2a.
 c      If it's not there, then calculate it.
@@ -5352,7 +5262,6 @@ c
          else
             call pfcalc(prs,sfp,scr3c,miy,mjx,mkzh)
             call capecalc3d(prs,tmk,qvp,ght,ter,scr3c,scr3a,scr3b,
-     &         scr3d,
      &         miy,mjx,mkzh,0)
             do j = 1, mjx-1
             do i = 1, miy-1
@@ -5385,7 +5294,6 @@ c
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3b,wk,maxslab)
          call getpt(miy,mjx,mkzh,ifree,3,i_scr3c,wk,maxslab)
-         call getpt(miy,mjx,mkzh,ifree,3,i_scr3d,wk,maxslab)
 c
 c      Attempt to read cape from a file, into scr2a.
 c      If it's not there, then calculate it.
@@ -5398,7 +5306,6 @@ c
          else
             call pfcalc(prs,sfp,scr3c,miy,mjx,mkzh)
             call capecalc3d(prs,tmk,qvp,ght,ter,scr3c,scr3a,scr3b,
-     &         scr3d,
      &         miy,mjx,mkzh,0)
             do j = 1, mjx-1
             do i = 1, miy-1
@@ -5883,7 +5790,6 @@ c
 c
 c      Put subtracted field in scr3a
 c
-         if (iovly(ipl) .eq. 0) then   ! difference field (default)
          do k=1,mkzh
          do j=1,mjx-icdwk(ipl)
          do i=1,miy-icdwk(ipl)
@@ -5891,15 +5797,6 @@ c
          enddo
          enddo
          enddo
-         else                          ! overlay field
-         do k=1,mkzh
-         do j=1,mjx-icdwk(ipl)
-         do i=1,miy-icdwk(ipl)
-            scr3a(i,j,k)=pl3(i,j,k)
-         enddo
-         enddo
-         enddo
-         endif
 c
 c      Adjust slab markers
 c
@@ -5919,19 +5816,11 @@ c
 c
 c      Put subtracted field in scr2a
 c
-         if (iovly(ipl) .eq. 0) then   ! difference field (default)
-           do j=1,mjx-icdwk(ipl)
-           do i=1,miy-icdwk(ipl)
-              scr2a(i,j)=scr2a(i,j)-pl2(i,j)
-           enddo
-           enddo
-         else                          ! overlay field
-           do j=1,mjx-icdwk(ipl)
-           do i=1,miy-icdwk(ipl)
-              scr2a(i,j)=pl2(i,j)
-           enddo
-           enddo
-         endif
+         do j=1,mjx-icdwk(ipl)
+         do i=1,miy-icdwk(ipl)
+            scr2a(i,j)=scr2a(i,j)-pl2(i,j)
+         enddo
+         enddo
 c
 c      Adjust slab markers
 c

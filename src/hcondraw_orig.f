@@ -221,10 +221,6 @@ c
          enddo
       endif
 c
-c---write out x-averaged fields bmin3, cap3, ghtagl for sector of domain 
-c
-            
-c
 c   Calculate time series data if called for.
 c
       do 300 istn=1,idotser*ntsers

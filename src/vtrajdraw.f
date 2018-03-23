@@ -18,7 +18,7 @@ c
       logical lnolb(maxpl)
       character cvcor(maxpl)*1,cfeld(3,maxpl)*10,cnohl(maxpl)*1
 c
-      parameter (maxtraj=7000,maxtrajtime=2800)
+      parameter (maxtraj=200,maxtrajtime=2800)
 c
       dimension stortr(maxtrajtime,maxtraj,3),stormpx(maxtrajtime),
      &   stormpy(maxtrajtime),tmd(maxtrajtime),
@@ -374,60 +374,13 @@ c
             call curved(tld(ifirst),tlv(ifirst),ilast-ifirst+1)
             call curved(trd(ifirst),trv(ifirst),ilast-ifirst+1)
          elseif (cfeld(1,ipl).eq.'arrow     ') then
-c           call curved(tmd(ifirst),tmv(ifirst),ilast-ifirst+1)
-c            write(0,*) 'ifirst = ',ifirst,' ilast = ',ilast
-c            write(0,*) 'loop end = ',ilast-ifirst+1
-c            write(0,*) 'xtime = ',xtime,' inow = ',inow
-c            write(0,*) 'trbegtime = ',trbegtime,' dttraj = ',dttraj
-             call frstd(tmd(ifirst),tmv(ifirst))
-             do n = ifirst, ilast
-               call sflush
-	       if (icolr(ipl) .eq. 103) then   !if it is set wheat4, then color by time
-               if (float(n) / float(ntrajtime) .lt. .2) then
-                 call gsplci(37)   ! tail of the back trajectory
-                 call gstxci(37)
-               else if (float(n) / float(ntrajtime) .lt. .4) then
-                 call gsplci(24)
-                 call gstxci(24)
-               else if (float(n) / float(ntrajtime) .lt. .6) then
-                 call gsplci(30)
-                 call gstxci(30)
-               else if (float(n) / float(ntrajtime) .lt. .8) then
-                 call gsplci(13)
-                 call gstxci(13)
-               else   ! head of the back trajectory
-                 call gsplci(1)
-                 call gstxci(1)
-               endif
-               endif
-               CALL VECTD (tmd(n),tmv(n))
-             enddo
-             CALL LASTD
+            call curved(tmd(ifirst),tmv(ifirst),ilast-ifirst+1)
          endif
 c
 c      Plot the arrow heads.
 c
          if (rtjti(ipl).ge.0.) then
             do itm=ifirst,ilast
-	     call sflush
-	     if (icolr(ipl) .eq. 103) then
-             if (float(itm) / float(ntrajtime) .lt. .2) then
-               call gsplci(37)   ! tail of the back trajectory
-               call gstxci(37)
-             else if (float(itm) / float(ntrajtime) .lt. .4) then
-               call gsplci(24)
-               call gstxci(24)
-             else if (float(itm) / float(ntrajtime) .lt. .6) then
-               call gsplci(30)
-               call gstxci(30)
-             else if (float(itm) / float(ntrajtime) .lt. .8) then
-               call gsplci(13)
-               call gstxci(13)
-             else   ! head of the back trajectory
-               call gsplci(1)
-               call gstxci(1)
-             endif
-	     endif
                if (itm.eq.inow) then
                   call line(tmd(itm),tmv(itm),tld(itm),tlv(itm))
                   call line(tmd(itm),tmv(itm),trd(itm),trv(itm))

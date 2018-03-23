@@ -29,7 +29,7 @@ c
       dimension xtimeavl(maxtavl)
       character cxtimeavl(maxtavl)*10, casename*(*)
 c
-      parameter (maxtraj=7000,maxtrajtime=200)
+      parameter (maxtraj=2000,maxtrajtime=200)
       dimension prs1(miy,mjx,mkzh),prs2(miy,mjx,mkzh),
      &   eh1(miy,mjx,mkzh),eh2(miy,mjx,mkzh),
      &   asc(miy,mjx,mkzh)

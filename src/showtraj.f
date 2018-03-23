@@ -1,6 +1,6 @@
       program showtraj
 c
-      parameter (maxtraj=7000,maxtrajtime=200)
+      parameter (maxtraj=2000,maxtrajtime=200)
 c
       dimension stortr(maxtrajtime,maxtraj,3)
       character fname*256
@@ -22,7 +22,7 @@ c
 c      open (unit=11,file='trajprint',form='formatted',status='unknown')
       read(10) vardesc,plchun,ihrip,rhrip,chrip
       read (10) rtim,ctim,dttraj,ntraj
-c     print*,'rtim,ctim,dttraj,ntraj=',rtim,ctim,dttraj,ntraj
+      print*,'rtim,ctim,dttraj,ntraj=',rtim,ctim,dttraj,ntraj
       ntrajtime=nint(abs(rtim-ctim)/dttraj*3600) + 1
       if (rtim.lt.ctim) then
          trendtime=ctim
