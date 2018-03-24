@@ -33,7 +33,7 @@ OBJS= \
 	velbrb.o velvctmts.o vgp.o vinterp.o \
 	virtual.o virtualhyd.o viscalc.o vticdraw.o vtrajdraw.o \
 	vvecdraw.o vwinddraw.o wdircalc.o wetbulbcalc.o \
-	writefile.o wshear.o wspcalc.o xmapcalc.o xtodot.o binio.o v5d.o
+	writefile.o wshear.o wspcalc.o xmapcalc.o xtodot.o binio.o v5d.o rotate_earth2comp.o
 
 # Lines from here on down should not need to be changed.  They are the
 # actual rules which make uses to build a.out.
