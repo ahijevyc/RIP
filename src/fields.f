@@ -1,3 +1,108 @@
+c  Added wind shear to RIP4 source code.  Only wshear.f_dave, fields.f_dave and Makefile_dave were needed. 
+c
+c  For RIP 4, I removed sigma level option for wind shear because I forgot how to deal with sigh variable.
+c  Stan only needed height coordinates anyway.
+c
+c  Actually, Stan's version of RIP4, was different (not sure if it's more recent or not, but i suspect it is)
+c  than mine, so I had to redo the Makefile and fields.f files to make it work on his computer.
+c
+c
+c
+c
+c
+c
+c
+c
+c
+c	Added variations to the feld name for vertical 
+c	wind shear.
+c
+c	ushxMMMNNN and vshxMMMNNN
+c
+c	The 4th character indicates the vertical 
+c	coordinate system used in the 
+c	6-digit level specification MMMNNN.
+c	The character in the 'x' position   
+c	follows the naming convention of
+c	vcor, with an additional option 
+c	'a' representing height 
+c	above ground level (AGL). 
+c
+c	For the u-component of the vertical shear, 
+c	the first 3 characters of feld are 'ush'.
+c	Similarly, for the v-component of shear, 
+c	the first 3 characters of feld are 'vsh'.
+c
+c
+c	Examples:
+c	
+c	usha005030 = u-component of wind shear
+c			from 0.5 to 3 km AGL 
+c	ushz010060 = u-component of wind shear
+c			from 1 to 6 km MSL
+c  mshz010060 = magnitude of wind shear
+c        from 1 to 6 km MSL
+c	vshp085070 = v-component of wind shear
+c			from 850 to 700mb
+c
+c	As seen in the examples, 
+c	heights (AGL and MSL) are specified
+c	in hectometers, pressures in kPa,  
+c	and vertical model (k) levels in index values.
+c
+c
+c
+c
+c
+c	Added to argument list for subroutine wshear.
+c
+c	cvcorunits	: CHARACTER*16
+c			string (16 char max) holding
+c			units of the
+c			vertical coordinate system used 
+c			in the wind shear
+c			layer specification.
+c
+c	Added variable cvcorunits to the character
+c	declaration section.
+c
+c	Changed the vertical coordinate argument to
+c	subroutine wshear from a 4-character
+c	to 1-character variable.
+c
+c 
+c	20011211
+c
+c	I allowed different vertical
+c	coordinates for the vertical wind shear calculation.
+c	Therefore I added another argument to the end of the
+c	argument list for subroutine wshear.
+c	This is a character indicating the
+c	vertical coordinate system used to request
+c	the wind shear layer.
+c
+c	Current choices:
+c		'a' = height (m AGL)
+c		'z' = geopotential height (m MSL)
+c		'p' = pressure (mb or hPa)
+c
+c	Changed z1 and z2 to vlev_bot vlev_top so they
+c	are more generic names (z usually implies
+c	geopotential height).
+c
+c
+c
+c	Added to large ELSE-IF block to accommodate
+c	requests for wind shear stuff.
+c	Allowed the bottom and top levels to be requested the
+c	same way as for thickness calculations.
+c
+c	One difference, however, is that the levels may be 
+c	requested in different units.
+c
+c
+c      
+c
 c                                                                     c
 c*********************************************************************c
 c                                                                     c
@@ -39,6 +144,7 @@ c
      &   cdiff(maxpl)*256,unwk(maxpl)*24,varname*10,
      &   casename*256,cxtimeavl(maxtavl)*10,ccalb(maxpl)*256,
      &   casename_sv*256,cxtimeavl_sv(maxtavl)*10,rip_root*256
+     &   ,cvcorunits*16
       logical lredo(maxpl),lgrad(maxpl),
      &   llapl(maxpl),lhadv(maxpl),ldfrl(maxpl),ldiffsuccess
       dimension uscratch(1000),vscratch(1000)
@@ -4585,6 +4691,277 @@ c        Bulk Richardson Number Shear (a la Stensrud et al. 1997), m**2/s**2
          indwk(ifld,ipl)=incwk
          icdwk(ipl)=0
          unwk(ipl)='m~S~2~N~ s~S~-2~N~'
+
+c
+c	The following are new fields added by Dave Ahijevych Dec 2001.
+c
+c	beta thresholding added Feb 2002.
+c
+
+      elseif (cfeld(ifld,ipl)(1:3).eq.'ush') then!  shear, m/s
+c	ushxMMMNNN: u-component of vertical wind shear, m/s. (2D)
+c	 
+c
+c	MMM and NNN are the lower and upper levels, respectively,
+c	expressed with leading zeros included,
+c	so that the total number of digits is always 6.
+c	Vertical coordinate system is indicated by the character
+c	in the 'x' position.
+c
+c	With height coordinates (both MSL and AGL)
+c	MMM and NNN are in hectometers (hm).
+c	With pressure coordinates, MMM and NNN are in
+c	kPa.	
+c	In vertical model coordinates, MMM and NNN are merely
+c	indices.
+c	Right now, only model level indices may be used
+c	in ushsMMMNNN and usfsMMMNNN.
+c	In the future, I might add 'from the bottom'
+c	notation 'b' and allow the user to specify the 
+c	second from the bottom model level as 'b02'.
+c
+c
+
+         idimn(ipl)=2
+         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
+         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
+c
+c	Read the bottom and top of the layer for which
+c	to calculate the wind shear.
+c
+
+         read(cfeld(ifld,ipl)(5:10),'(2f3.0)') vlev_bot,vlev_top
+
+c
+c	Calculate the vertical wind shear between 
+c	vlev_bot and vlev_top,
+c	storing it in 2-dimensional variable pl2.
+c	Remember to convert vlev_bot, vlev_top
+c	to the units that wshear expects.
+c
+c	
+c
+c	Set the value for the string holding the 
+c	vertical coordinate units, cvcorunits,
+c	and create the string holding the plot title,
+c	engplttl(ipl).
+c
+c	Use '-comp.' in the English plot title string,
+c	engplttl(ipl).	Note the period.
+c	This character pattern, which indicates
+c	a "component" field, triggers 
+c	pltitle.f to change the plot labels. 
+c	This is desired when plotting dual-component
+c	fields such as wind barbs or vectors. 
+c
+
+         IF (cfeld(ifld,ipl)(4:4) .eq. 'a') THEN
+            engplttl(ipl)=cfeld(ifld,ipl)(5:7)//''//' to '//
+     &      cfeld(ifld,ipl)(8:10)//' hm AGL wind shr (u-comp.)'
+            cvcorunits = 'm AGL'
+c		hm to m
+            vlev_bot = vlev_bot * 100.
+            vlev_top = vlev_top * 100.
+         ELSE IF (cfeld(ifld,ipl)(4:4).eq.'z') THEN
+            engplttl(ipl)=cfeld(ifld,ipl)(5:7)//''//' to '//
+     &      cfeld(ifld,ipl)(8:10)//' hm MSL wind shr (u-comp.)'
+            cvcorunits = 'm'
+c		hm to m
+            vlev_bot = vlev_bot * 100.
+            vlev_top = vlev_top * 100.
+         ELSE IF (cfeld(ifld,ipl)(4:4).eq.'p') THEN
+            engplttl(ipl)=cfeld(ifld,ipl)(5:7)//'0'//' to '//
+     &      cfeld(ifld,ipl)(8:10)//'0 hPa wind shear (u-comp.)'
+            cvcorunits = 'hPa'
+c		kPa to hPa
+            vlev_bot = vlev_bot * 10.
+            vlev_top = vlev_top * 10.
+         ELSE IF (cfeld(ifld,ipl)(4:4).eq.'s') THEN
+            engplttl(ipl)='k-index '//cfeld(ifld,ipl)(5:7)//' to '//
+     &      cfeld(ifld,ipl)(8:10)//' wind shr (u-comp.)'
+            cvcorunits = ''
+c		hm to m
+         ELSE
+            WRITE(iup,*)"In subroutine field.f"
+            WRITE(iup,*)"Unrecognized vertical coordinate "//
+     +      "for u-comp. wind shear layer:"//cfeld(ifld,ipl)(4:4)
+            WRITE(iup,*)"Stopping."
+            STOP
+         ENDIF
+
+c
+c
+c	Subroutine wshear now calculates
+c	wind shear using one of several  
+c	vertical coordinate systems.
+c
+c	I appended arguments to the end of the
+c	argument list for subroutine wshear.
+c	One is a character indicating the
+c	vertical coordinate system used in the 
+c	wind shear layer specification.
+c	It uses the same naming convention as does vcor,
+c	with the additional option of 'a' for
+c	height above ground level.
+c
+c	Current choices:
+c		'a' = height (m AGL)
+c		'z' = geopotential height (m MSL)
+c		'p' = pressure (mb or hPa)
+c		's' = vertical model level (k) index
+c
+c	Future choices:
+c		't' = potential temp surface (index)
+c
+c
+c	Another appended argument is a character string
+c	holding the units of the vertical coordinate
+c	system used for the wind shear layer specification:
+c	cvcorunits.
+c	Right now, this variable is only used to produce 
+c	nice-looking warning messages in wshear.
+c
+c
+c	Similar to the call to bshear, the first argument
+c	to wshear is an integer that specifies
+c	whether the u or v component of the wind shear
+c	is returned in pl2.
+c		1	=> u-comp.
+c		not 1	=> v-comp.
+c 
+
+
+c        The call to pfcalc was added on 20100424 - It seems to fill in scr3a with the pressure array.
+c        Prior to doing this, scr3a seemed to hold the height array, which is not what
+c        the wshear subroutine needs. Ahijevych        
+         call pfcalc(prs,sfp,scr3a,miy,mjx,mkzh)
+         call wshear (1,
+     &                     uuu,vvv,ght,scr3a,ter,pl2,miy,mjx,mkzh,
+     &                     vlev_bot,vlev_top,
+     &                     cfeld(ifld,ipl)(4:4), cvcorunits )
+
+
+c
+c	According to Jim Bresch (MMM/NCAR)...
+c
+c	MM5 uses a staggered Arakawa-B grid.
+c	Winds are defined on the so-called
+c	"cross points" and the mass variables 
+c	on the "dot points".
+c	So, icdwk is the integer, cross-dot, work-array.
+c	As you concluded, icdwk = 0 for wind computations.
+c
+c	indwk is the index into the correct 
+c	position of the work array.
+c	Following the pattern should be all right.
+c
+
+         indwk(ifld,ipl)=incwk
+         icdwk(ipl)=0
+
+         unwk(ipl)='m s~S~-1~N~'
+
+      elseif (cfeld(ifld,ipl)(1:3).eq.'vsh') then!  shear, m/s
+         idimn(ipl)=2
+         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
+         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
+
+         read(cfeld(ifld,ipl)(5:10),'(2f3.0)') vlev_bot,vlev_top
+
+         IF (cfeld(ifld,ipl)(4:4) .eq. 'a') THEN
+            engplttl(ipl)=cfeld(ifld,ipl)(5:7)//''//' to '//
+     &      cfeld(ifld,ipl)(8:10)//' hm AGL wind shr (v-comp.)'
+            cvcorunits = 'm AGL'
+            vlev_bot = vlev_bot * 100.
+            vlev_top = vlev_top * 100.
+         ELSE IF (cfeld(ifld,ipl)(4:4).eq.'z') THEN
+            engplttl(ipl)=cfeld(ifld,ipl)(5:7)//''//' to '//
+     &      cfeld(ifld,ipl)(8:10)//' hm MSL wind shr (v-comp.)'
+            cvcorunits = 'm'
+            vlev_bot = vlev_bot * 100.
+            vlev_top = vlev_top * 100.
+         ELSE IF (cfeld(ifld,ipl)(4:4).eq.'p') THEN
+            engplttl(ipl)=cfeld(ifld,ipl)(5:7)//'0'//' to '//
+     &      cfeld(ifld,ipl)(8:10)//'0 hPa wind shear (v-comp.)'
+            cvcorunits = 'hPa'
+            vlev_bot = vlev_bot * 10.
+            vlev_top = vlev_top * 10.
+         ELSE IF (cfeld(ifld,ipl)(4:4).eq.'s') THEN
+            engplttl(ipl)='k-index '//cfeld(ifld,ipl)(5:7)//' to '//
+     &      cfeld(ifld,ipl)(8:10)//' wind shr (v-comp.)'
+            cvcorunits = ''
+         ELSE
+            WRITE(iup,*)"In subroutine field.f"
+            WRITE(iup,*)"Unrecognized vertical coordinate "//
+     +      "for v-comp. wind shear layer:"//cfeld(ifld,ipl)(4:4)
+            WRITE(iup,*)"Stopping."
+            STOP
+         ENDIF
+
+
+c        The call to pfcalc was added on 20100424 - It seems to fill in scr3a with the pressure array.
+c        Prior to doing this, scr3a seemed to hold the height array, which is not what
+c        the wshear subroutine needs. Ahijevych        
+         call pfcalc(prs,sfp,scr3a,miy,mjx,mkzh)
+         call wshear (2,
+     &                        uuu,vvv,ght,scr3a,ter,pl2,miy,mjx,mkzh,
+     &                        vlev_bot,vlev_top,
+     &                        cfeld(ifld,ipl)(4:4), cvcorunits )
+         indwk(ifld,ipl)=incwk
+         icdwk(ipl)=0
+
+         unwk(ipl)='m s~S~-1~N~'
+
+
+      elseif (cfeld(ifld,ipl)(1:3).eq.'msh') then!  magnitude shear, m/s
+         idimn(ipl)=2
+         call getpt(miy,mjx,mkzh,ifree,2,i_pl2,wk,maxslab)
+         call getpt(miy,mjx,mkzh,ifree,3,i_scr3a,wk,maxslab)
+
+         read(cfeld(ifld,ipl)(5:10),'(2f3.0)') vlev_bot,vlev_top
+
+         IF (cfeld(ifld,ipl)(4:4) .eq. 'a') THEN
+            engplttl(ipl)=cfeld(ifld,ipl)(5:7)//''//' to '//
+     &      cfeld(ifld,ipl)(8:10)//' hm AGL wind shr (magnit.)'
+            cvcorunits = 'm AGL'
+            vlev_bot = vlev_bot * 100.
+            vlev_top = vlev_top * 100.
+         ELSE IF (cfeld(ifld,ipl)(4:4).eq.'z') THEN
+            engplttl(ipl)=cfeld(ifld,ipl)(5:7)//''//' to '//
+     &      cfeld(ifld,ipl)(8:10)//' hm MSL wind shr (magnit.)'
+            cvcorunits = 'm'
+            vlev_bot = vlev_bot * 100.
+            vlev_top = vlev_top * 100.
+         ELSE IF (cfeld(ifld,ipl)(4:4).eq.'p') THEN
+            engplttl(ipl)=cfeld(ifld,ipl)(5:7)//'0'//' to '//
+     &      cfeld(ifld,ipl)(8:10)//'0 hPa wind shear (magnit.)'
+            cvcorunits = 'hPa'
+            vlev_bot = vlev_bot * 10.
+            vlev_top = vlev_top * 10.
+         ELSE
+            WRITE(iup,*)"In subroutine field.f"
+            WRITE(iup,*)"Unrecognized vertical coordinate "//
+     +      "for v-comp. wind shear layer:"//cfeld(ifld,ipl)(4:4)
+            WRITE(iup,*)"Stopping."
+            STOP
+         ENDIF
+
+
+
+         call wshear (3,
+     &                        uuu,vvv,ght,scr3a,ter,pl2,miy,mjx,mkzh,
+     &                        vlev_bot,vlev_top,
+     &                        cfeld(ifld,ipl)(4:4), cvcorunits )
+         indwk(ifld,ipl)=incwk
+         icdwk(ipl)=0
+
+         unwk(ipl)='m s~S~-1~N~'
+
+
+c
+c	End of new fields added by Dave Ahijevych Dec 2001
+c
+
 c
 c   Following are new fields added by J.F. Bresch between Dec/97 and Mar/00
 c
